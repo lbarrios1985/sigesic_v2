@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% load i18n %}
+<html lang="es">
+	{% include 'base.head.template.html' %}
+	<body>
+		{% include 'base.footer.template.html' %}
+		{% block extra_footer %}{% endblock %}
+	</body>
+</html>
