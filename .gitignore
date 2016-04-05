@@ -1,0 +1,13 @@
+*.pyc
+.idea
+..gitignore
+static/tmp
+*.db
+*.dot
+*.svg
+*.xml
+tmp/*.png
+database_config.py
+migrations
+fixtures
+*.sql
