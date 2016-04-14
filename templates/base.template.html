@@ -3,7 +3,16 @@
 {% load i18n %}
 <html lang="es">
 	{% include 'base.head.template.html' %}
-	<body>
+	<body class="hold-transition skin-blue-dark sidebar-mini">
+		<div class="wrapper">
+			{% include 'base.navbar.template.html' %}
+			{% if request.user.is_authenticated %}
+				{% include 'base.menu.left.side.html' %}
+			{% endif %}
+			<!-- Content Wrapper. Contains page content -->
+      		<div class="content-wrapper" {% if not request.user.is_authenticated %}style="margin-left: 0;"{% endif %}></div>
+		</div>
+		{% include 'base.footer.info.template.html' %}
 		{% include 'base.footer.template.html' %}
 		{% block extra_footer %}{% endblock %}
 	</body>

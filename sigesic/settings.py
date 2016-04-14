@@ -20,7 +20,7 @@ Copyleft (@) 2015 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 
 import os
 
-from database_config import DATABASES_CONFIG
+from .database_config import DATABASES_CONFIG
 
 ## Directorio base desde donde se encuentra ejecutando la aplicación
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,8 +40,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
-## Listado de aplicaciones cargadas por el sistema
-INSTALLED_APPS = [
+## Listado de aplicaciones base del sistema
+PREREQ_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,6 +49,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+## Listado de aplicaciones del projecto
+PROJECT_APPS = [
+    'base'
+]
+
+## Listado de aplicaciones cargadas por el sistema
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -186,7 +194,7 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
 }, handlers={
     'null': {
         'level': 'DEBUG',
-        'class': 'django.utils.log.NullHandler'
+        'class': 'logging.NullHandler'
     },
     'base': {
         'class': 'logging.handlers.TimedRotatingFileHandler',

@@ -1,0 +1,33 @@
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.separador-vertical {
+  padding: 10px;
+}
+
+.btn:not(:last-child) {
+  margin-right: 10px;
+}
+
+footer.info-develop {
+  background-color: #343536 !important;
+    /*font-weight: bold;*/
+    padding: 5px 0;
+    color: #fff;
+}
+footer.footer-info {
+    background-color: #214478 !important;
+    color: #fff;
+    border-top: #ecf0f5 !important;
+}
+footer.footer-info .container {
+  padding-top: 10px;
+}
+ul.footer-descripcion li {
+    list-style: none;
+}
+.menu-anonimo {
+  border-right: solid 1px #e7e7e7;
+}
