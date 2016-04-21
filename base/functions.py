@@ -24,8 +24,8 @@ def verificar_rif(nrorif):
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 21-04-2016
-    @param nrorif Cadena de texto que contiene el numero de R.I.F. a verificar
-    @return Devuelve Falso si el numero de R.I.F. es incorrecto, en caso contrario devuelve Verdadero
+    @param nrorif Cadena de texto que contiene el número de R.I.F. a verificar
+    @return Devuelve Falso si el número de R.I.F. es incorrecto, en caso contrario devuelve Verdadero
     """
 
     if not nrorif or nrorif.__len__()<10:
