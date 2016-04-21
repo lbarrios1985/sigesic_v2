@@ -52,7 +52,8 @@ PREREQ_APPS = [
 
 ## Listado de aplicaciones del projecto
 PROJECT_APPS = [
-    'base'
+    'base',
+    'usuario'
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
@@ -74,13 +75,19 @@ MIDDLEWARE_CLASSES = [
 ## Configuración de las URL del sistema
 ROOT_URLCONF = 'sigesic.urls'
 
-## Directorio en donde se encuentran las plantillas base
-BASE_TEMPLATES = os.path.join(BASE_DIR, "templates")
+## Directorio en donde se encuentran las plantillas en el root de la aplicación
+ROOT_TEMPLATES = os.path.join(BASE_DIR, "templates")
+
+## Directorio en donde se encuentran las plantillas del módulo base
+BASE_TEMPLATES = os.path.join(BASE_DIR, "base/templates")
+
+## Directorio en donde se encuentran las plantillas del módulo de usuarios
+USERS_TEMPLATES = os.path.join(BASE_DIR, "usuario/templates")
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_TEMPLATES],
+        'DIRS': [ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
