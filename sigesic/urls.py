@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 
@@ -21,3 +22,9 @@ urlpatterns = [
     #url(r'^', include('base.urls')),
     url(r'^$', 'base.views.inicio', name='inicio'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )

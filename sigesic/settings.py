@@ -48,7 +48,18 @@ PREREQ_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
 ]
+
+if DEBUG:
+    ## Aplicaciones requeridas para entornos de desarrollo
+    PREREQ_APPS += [
+        'django_extensions',
+        'debug_toolbar',
+    ]
+
+    ## Configuracion de parametros de django-debug-toolbar
+    JQUERY_URL = ''
 
 ## Listado de aplicaciones del projecto
 PROJECT_APPS = [
@@ -69,8 +80,13 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE_CLASSES += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
 
 ## Configuración de las URL del sistema
 ROOT_URLCONF = 'sigesic.urls'
@@ -165,7 +181,7 @@ STATIC_URL = '/static/'
 ## Configuración de los directorios en donde se encuentran los archivos estáticos
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
-    os.path.join(BASE_DIR, 'tmp/'),
+    #os.path.join(BASE_DIR, 'tmp/'),
 )
 
 ## URL de acceso al sistema
