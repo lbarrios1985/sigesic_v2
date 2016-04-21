@@ -3,3 +3,5 @@ ipython
 django-extensions
 isort
 Sphinx
+django-debug-toolbar
+pygraphviz
