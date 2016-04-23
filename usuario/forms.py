@@ -23,7 +23,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import (
-    NACIONALIDAD, TIPO_PERSONA
+    NACIONALIDAD, TIPO_PERSONA, SHORT_TIPO_PERSONA
 )
 from .models import UserProfile
 
@@ -38,6 +38,72 @@ logger = logging.getLogger("usuario")
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
+
+
+@python_2_unicode_compatible
+class AutenticarForm(forms.Form):
+    """!
+    Clase que muestra el formulario de registro de usuarios
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-04-2016
+    @version 2.0.0
+    """
+
+    ## Tipo de persona que identifica al número del R.I.F.
+    tipo_rif = ChoiceField(
+        label=_("R.I.F. de la Unidad Economica"),
+        choices=SHORT_TIPO_PERSONA,
+        widget=Select(
+            attrs={
+                'class': 'select2 select2-offscreen form-control', 'data-toggle': 'tooltip',
+                'title': _("Seleccione el tipo de R.I.F.")
+            }
+        )
+    )
+
+    ## Número de R.I.F. de 8 dígitos
+    numero_rif = CharField(
+        label='',
+        max_length=8,
+        widget=TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'placeholder': _("Nro. de R.I.F."), 'data-rule-required': 'true',
+                'data-toggle': 'tooltip',
+                'title': _("Indique el número de R.I.F., si es menor a 8 dígitos complete con ceros a la izquierda")
+            }
+        )
+    )
+
+    ## Dígito validador del R.I.F.
+    digito_validador_rif = CharField(
+        label='',
+        max_length=1,
+        widget=TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Indique el último dígito del R.I.F.")
+            }
+        )
+    )
+
+    ## Contraseña del usuario
+    clave = CharField(
+        label=_("Contraseña"), max_length=30, widget=PasswordInput(attrs={
+            'class': 'form-control input-sm', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
+            'title': _("Indique la contraseña de acceso al sistema")
+        })
+    )
+
+    ## Campo de validación de captcha
+    captcha = CaptchaField(
+        label=_("Captcha"), widget=CaptchaTextInput(attrs={
+            'class': 'form-control input-sm', 'placeholder': _("texto de la imagen"),
+            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
+            'title': _("Indique el texto de la imagen")
+        })
+    )
 
 
 @python_2_unicode_compatible
