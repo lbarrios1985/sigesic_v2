@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^', include('base.urls')),
     url(r'^$', 'base.views.inicio', name='inicio'),
+    url(r'^', include('usuario.urls')),
 ]
 
 if settings.DEBUG:
