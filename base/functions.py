@@ -28,15 +28,14 @@ def verificar_rif(nrorif):
     @return Devuelve Falso si el número de R.I.F. es incorrecto, en caso contrario devuelve Verdadero
     """
 
-    if not nrorif or nrorif.__len__()<10:
-        return False
-    elif nrorif.__len__() == 10:
-        suma = 0
-        divisor = 11
-        resto = 0
-        digito = 0
-        tiporif = 0
-        digitoValidado = 0
+    suma = 0
+    divisor = 11
+    resto = 0
+    digito = 0
+    tiporif = 0
+    digitoValidado = 0
+
+    if nrorif.__len__() == 10:
 
         if nrorif[0:1]=="V" or nrorif[0:1]=="E" or nrorif[0:1]=="J" or nrorif[0:1]=="P" or nrorif[0:1]=="G":
             if nrorif[0:1]=="V":
@@ -63,5 +62,5 @@ def verificar_rif(nrorif):
 
         if int(nrorif[9:10])==int(digitoValidado):
             return True
-        else:
-            return False
+
+    return False
