@@ -31,3 +31,22 @@ ul.footer-descripcion li {
 .menu-anonimo {
   border-right: solid 1px #e7e7e7;
 }
+
+.js-captcha-refresh, .btn_accion {cursor: pointer}
+.msg-error {
+    color:#F56954 !important;
+    font-weight: 700;
+}
+/* Fuentes */
+.fuente-7 {font-size: 7px !important;}
+.fuente-8 {font-size: 8px !important;}
+.fuente-9 {font-size: 9px !important;}
+.fuente-10 {font-size: 10px !important;}
+.fuente-11 {font-size: 11px !important;}
+.fuente-12 {font-size: 12px !important;}
+
+.form-control {-webkit-border-radius: 5px !important;-moz-border-radius: 5px !important;border-radius: 5px !important;}
+
+.has-feedback .form-control {
+    padding-right: 10px;
+}
