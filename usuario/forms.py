@@ -57,7 +57,7 @@ class AutenticarForm(forms.Form):
         choices=SHORT_TIPO_PERSONA,
         widget=Select(
             attrs={
-                'class': 'select2 select2-offscreen form-control', 'data-toggle': 'tooltip',
+                'class': 'select2 form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el tipo de R.I.F.")
             }
         )
@@ -83,7 +83,7 @@ class AutenticarForm(forms.Form):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Indique el último dígito del R.I.F.")
+                'title': _("Indique el último dígito del R.I.F."), 'placeholder': 'X'
             }
         )
     )

@@ -46,7 +46,7 @@ def acceso(request):
 
         if form.is_valid():
             username = "%s%s%s" % (
-                request.POST['tipo-rif'], request.POST['numero-rif'], request.POST['digito_validador_rif']
+                request.POST['tipo_rif'], request.POST['numero_rif'], request.POST['digito_validador_rif']
             )
             usuario = authenticate(username=username, password=str(request.POST['clave']))
             login(request, usuario)
