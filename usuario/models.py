@@ -97,7 +97,7 @@ class UserProfile(models.Model):
         @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
         @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
         @date 20-04-2016
-        @param self Objeto que instancia la clase
+        @param self <b>{object}</b> Objeto que instancia la clase
         @return Devuelve los datos del perfil del usuario
         """
         return "%s, %s" % (six.text_type(self.user.first_name), six.text_type(self.user.last_name))
