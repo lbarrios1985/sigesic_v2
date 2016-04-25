@@ -1,0 +1,52 @@
+{% extends 'base.template.html' %}
+{% load i18n %}
+{% block contenido %}
+    <form action="{% block form_action %}{% endblock %}" role="form" class="form validate-form"
+          method="{% block form_method %}post{% endblock %}" autocomplete="off" enctype="multipart/form-data"
+          onsubmit="{% block form_onsubmit %}{% endblock %}">
+        {% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-edit"></i> {% block titulo_registro %}{% endblock %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                {% block form_inputs %}
+                    {% for field in form.visible_fields %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}has-feedback{% endif %}">
+                            <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                            {% if field.errors %}
+                                <div class="control-label" for="inputError">
+                                    <i class="fa fa-times-circle-o"></i> {{ field.errors.as_text|cut:"* " }}
+                                </div>
+                            {% endif %}
+                            {{ field }}
+                            {% if field.field.required %}
+                                <span class="ion ion-ios-medical text-red fuente-10 form-control-feedback"
+                                      aria-hidden="true"></span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% for field in form.hidden_fields %}{{field}}{% endfor %}
+                {% endblock %}
+                {% block form_extra_data %}{% endblock %}
+            </div>
+            <div class="panel-footer text-right">
+                {% block form_buttons %}
+                    <input type="submit" data-toggle="tooltip"
+                           value="{% if not form.instance.pk %}{% trans 'Registrar' %}{% else %}{% trans 'Actualizar' %}{% endif %}"
+                           title="{% trans 'Presione para registrar los datos' %}"
+                           class="btn btn-primary btn-sm">&#160;
+                    <input type="reset" value="{% trans 'Limpiar' %}" data-toggle="tooltip"
+                           title="{% trans 'Presione para reiniciar los campos del formulario' %}"
+                           class="btn btn-primary btn-sm"/>&#160;
+                    <input type="button" value="{% trans 'Cancelar' %}" data-toggle="tooltip"
+                           title="{% trans 'Presione para regresar a la consulta' %}"
+                           onclick="location='{% block cancelar_registro %}{% endblock %}'"
+                           class="btn btn-primary btn-sm"/>
+                {% endblock %}
+            </div>
+        </div>
+    </form>
+{% endblock %}
