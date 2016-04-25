@@ -2,8 +2,10 @@
 {% load i18n %}
 <!-- jQuery 2.2.2 (requerido) -->
 <script src="{% static 'tools/jquery-2.2.2/jquery-2.2.2.min.js' %}" type="text/javascript"></script>
-<!-- Mensajes de validaciones -->
+<!-- Variables javascript generales -->
 {% include 'vars.javascript.html' %}
+<!-- Mensajes de validaciones -->
+{% include 'alert.messages.html' %}
 <!-- Bootstrap (requerido) -->
 <script src="{% static 'tools/bootstrap-3.3.6/js/bootstrap.min.js' %}" type="text/javascript"></script>
 <!-- Select2 (requerido) -->
