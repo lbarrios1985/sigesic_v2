@@ -31,14 +31,26 @@
     <div class="col-md-6">
         {% csrf_token %}
         <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">{% trans 'Acceso al Sistema' %}</h3>
-            </div>
-            <div class="box-body">
-                <form action="" method="post" role="form">
+            <form action="" method="post" role="form">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{% trans 'Acceso al Sistema' %}</h3>
+                </div>
+                <div class="box-body">
+                    {% csrf_token %}
                     <div class="form-group {% if form.usuario.errors %}has-error{% endif %} has-feedback">
+                        <div>{{ form.tipo_rif.label_tag }}</div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3 col-xs-3">{{ form.tipo_rif }}</div>
+                            <div class="col-md-3 col-sm-4 col-xs-4">{{ form.numero_rif }}</div>
+                            <div class="col-md-1 col-sm-3 col-xs-3">{{ form.digito_validador_rif }}</div>
+                            <div class="col-md-1">
+                                <span class="ion ion-ios-medical text-red fuente-10 form-control-feedback"
+                                      aria-hidden="true" style="padding-top: 10px"></span>
+                            </div>
+                            <div class="com-md-3"></div>
+                        </div>
                         {% if form.tipo_rif.errors or form.numero_rif.errors or form.digito_validador_rif.errors %}
-                            <div class="control-label" for="inputError">
+                            <div class="control-label msg-error" for="inputError">
                                 <i class="fa fa-times-circle-o"></i>
                                 {% if form.tipo_rif.errors %}
                                     {{ form.tipo_rif.errors.as_text|cut:"* " }}
@@ -51,24 +63,43 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                        <div>{{ form.tipo_rif.label_tag }}</div>
+                    </div>
+                    <div class="form-group {% if form.clave.errors %}has-error{% endif %}">
+                        <div>{{ form.clave.label_tag }}</div>
                         <div class="row">
-                            <div class="col-md-2">{{ form.tipo_rif }}</div>
-                            <div class="col-md-6">{{ form.numero_rif }}</div>
-                            <div class="col-md-1">{{ form.digito_validador_rif }}</div>
-                            <div class="col-md-1">
-                                <span class="ion ion-ios-medical text-red fuente-10 form-control-feedback"
-                                      aria-hidden="true" style="padding-top: 10px"></span>
+                            <div class="col-md-10">
+                                {{ form.clave }}
+                            </div>
+                            <div class="col-md-2">
+                                <i class="ion ion-ios-medical text-red fuente-10"></i>
                             </div>
                         </div>
+                        {% if form.clave.errors %}
+                            <div class="control-label msg-error" for="inputError">
+                                <i class="fa fa-times-circle-o"></i> {{ form.clave.errors.as_text|cut:"* " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group {% if form.captcha.errors %}has-error{% endif %}">
+                        <div>{{ form.captcha.label_tag }}</div>
+                        {{ form.captcha }}
+                        <i class="ion ion-ios-medical text-red fuente-10"></i>
+                        <i class="glyphicon glyphicon-refresh js-captcha-refresh"></i>
+                        {% if form.captcha.errors %}
+                            <div class="control-label msg-error" for="inputError">
+                                <i class="fa fa-times-circle-o"></i> {{ form.captcha.errors.as_text|cut:"* " }}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="exampleInputPassword1">Password</label>
-                        <input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">
+                        <a href="#">{% trans '¿Olvidó su contraseña?' %}</a>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+                </div>
+                <div class="box-footer text-right">
+                    <button type="submit" class="btn btn-primary btn-sm">Ingresar</button>
+                        <button type="reset" class="btn btn-primary btn-sm">Limpiar</button>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
