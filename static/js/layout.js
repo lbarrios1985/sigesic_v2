@@ -8,7 +8,14 @@
 $(document).ready(function() {
     /** Declaración de variables */
     var select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
+        input_captcha = $('input[name="captcha_1"]'),
         tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
+
+    if (input_captcha.length) {
+        input_captcha.addClass("form-control input-sm");
+        input_captcha.attr("placeholder", "texto de la imagen");
+        input_captcha.wrap("<div class='col-md-3 col-sm-3 col-xs-6' style='padding-left: 0'></div>");
+    }
 
     if (refresh_captcha.length) {
         /** Actualiza la imagen captcha del formulario */
