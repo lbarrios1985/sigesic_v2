@@ -1,0 +1,20 @@
+{% load i18n %}
+{% for message in messages %}
+    {% if message %}
+        <script type="text/javascript">
+            bootbox.dialog({
+                message: "{{ message }}",
+                title: "{% trans 'Aviso' %}",
+                buttons: {
+                    success: {
+                        label: "{% trans 'Cerrar' %}",
+                        className: "btn-success",
+                        callback: function() {
+
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+{% endfor %}
