@@ -17,7 +17,7 @@ import logging
 from django.forms import MultiValueField, ChoiceField, CharField
 from django.utils.translation import ugettext_lazy as _
 
-from .constant import SHORT_TIPO_PERSONA
+from .constant import SHORT_TIPO_PERSONA, SHORT_NACIONALIDAD
 from .widgets import RifWidget, CedulaWidget
 
 """!
@@ -55,9 +55,9 @@ class RifField(MultiValueField):
         }
 
         fields = (
-            ChoiceField(),
-            CharField(max_length=8),
-            CharField(max_length=1)
+            ChoiceField(choices=SHORT_TIPO_PERSONA),
+            CharField(max_length=8, min_length=8),
+            CharField(max_length=1, min_length=1)
         )
 
         label = _("R.I.F.:")
@@ -96,7 +96,7 @@ class CedulaField(MultiValueField):
         }
 
         fields = (
-            ChoiceField(),
+            ChoiceField(choices=SHORT_NACIONALIDAD),
             CharField(max_length=8)
         )
 
