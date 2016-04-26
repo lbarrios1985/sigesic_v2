@@ -25,6 +25,8 @@ from django.utils.translation import ugettext_lazy as _
 from base.constant import (
     NACIONALIDAD, TIPO_PERSONA, SHORT_TIPO_PERSONA
 )
+
+from base.fields import RifField, CedulaField
 from .models import UserProfile
 
 import logging
@@ -118,9 +120,9 @@ class RegistroForm(ModelForm):
     """
 
     ## Tipo de persona que identifica al número del R.I.F.
-    tipo_rif = ChoiceField(
+    """tipo_rif = ChoiceField(
         label=_("R.I.F. de la Unidad Economica"),
-        choices=TIPO_PERSONA,
+        choices=SHORT_TIPO_PERSONA,
         widget=Select(
             attrs={
                 'class': 'select2 select2-offscreen form-control', 'data-toggle': 'tooltip',
@@ -152,35 +154,26 @@ class RegistroForm(ModelForm):
                 'title': _("Indique el último dígito del R.I.F.")
             }
         )
-    )
+    )"""
+    rif = RifField()
 
-    ## Nacionalidad del usuario a registrar
-    nacionalidad = ChoiceField(
-        label=_("Nacionalidad"),
-        choices=NACIONALIDAD,
-        widget=Select(
+    ## Nombre de la Unidad Economica
+    nombre_ue = CharField(
+        label=_("Nombre de la Unidad Económica: "),
+        widget=TextInput(
             attrs={
-                'class': 'select2 select2-offscreen form-control', 'data-toggle': 'tooltip',
-                'title': _("Seleccione la nacionalidad del usuario a registrar")
+                'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Nombre de la Unidad Económica a registrar"), 'readonly': 'readonly'
             }
         )
     )
 
     ## Cédula de Identidad del usuario
-    cedula = CharField(
-        label=_("Cédula"),
-        max_length=8,
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'placeholder': _("Cédula de Identidad"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique la cédula de identidad del usuario")
-            }
-        )
-    )
+    cedula = CedulaField()
 
     ## Cargo del usuario dentro de la Unidad Económica
     cargo = CharField(
-        label=_("Cargo"),
+        label=_("Cargo que ocupa en la U.E.:"),
         max_length=175,
         widget=TextInput(
             attrs={
@@ -279,14 +272,6 @@ class RegistroForm(ModelForm):
         model = UserProfile
         exclude = ['fecha_modpass',]
 
-    def clean_tipo_rif(self):
-        pass
-
-    def clean_numero_rif(self):
-        pass
-
-    def clean_digito_validador_rif(self):
-        pass
 
     def clean_nacionalidad(self):
         pass
