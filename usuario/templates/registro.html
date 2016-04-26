@@ -1,0 +1,180 @@
+{% extends 'base.template.html' %}
+{% load i18n %}
+{% block contenido %}
+    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="box box-primary" style="padding:20px">
+            <div class="box-header with-border">
+                <h3 class="box-title">{% trans 'Registro de usuarios' %}</h3>
+            </div>
+            <div class="box-body">
+                <h5 class="titulo">{% trans 'Datos de la Unidad Económica' %}</h5>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">{{ form.rif.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.rif }}</div>
+                            {% if form.rif.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_ue.auto_id }}">{{ form.nombre_ue.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.nombre_ue }}</div>
+                            {% if form.nombre_ue.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre_ue.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="box-body datos-usuario">
+                <h5 class="titulo">
+                    {% trans 'Datos de la Persona encargada de realizar el registro de la Unidad Economica' %}
+                </h5>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula.auto_id }}">{{ form.cedula.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.cedula }}</div>
+                            {% if form.cedula.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.cedula.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cargo.auto_id }}">{{ form.cargo.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.cargo }}</div>
+                            {% if form.cargo.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.cargo.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre.auto_id }}">{{ form.nombre.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.nombre }}</div>
+                            {% if form.nombre.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido.auto_id }}">{{ form.apellido.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.apellido }}</div>
+                            {% if form.apellido.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.apellido.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">{{ form.telefono.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.telefono }}</div>
+                            {% if form.telefono.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo.auto_id }}">{{ form.correo.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.correo }}</div>
+                            {% if form.correo.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.correo.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.contrasenha.auto_id }}">{{ form.contrasenha.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.contrasenha }}</div>
+                            <label for="passwordStrength">Fortaleza de contraseña</label>
+                            <div id="passwordDescription">Contraseña no introducida</div>
+                            <div id="passwordStrength" class="strength0"></div>
+                            <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;">
+                            {% if form.contrasenha.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.contrasenha.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.verificar_contrasenha.auto_id }}">{{ form.verificar_contrasenha.label }}</label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">{{ form.verificar_contrasenha }}</div>
+                            {% if form.verificar_contrasenha.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.verificar_contrasenha.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.captcha.auto_id }}">{{ form.captcha.label_tag }}</div>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            {{ form.captcha }} <i class="glyphicon glyphicon-refresh js-captcha-refresh"></i>
+                            {% if form.captcha.errors %}
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.captcha.errors.as_text|cut:'* ' }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer text-right">
+                <div class="col-md-6 text-justify">
+                    <label class="tips" for="tipContrasenha">
+                        * {% trans 'La contraseña debe poseer entre 8 y 10 carácteres' %}.<br>
+                        {% trans 'Contener al menos un número y una letra mayúscula' %}
+                    </label>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="submit" class="btn btn-primary btn-sm">{% trans 'Ingresar' %}</button>
+                    <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
