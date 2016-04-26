@@ -163,9 +163,9 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Nombre de la Unidad Económica a registrar"), 'readonly': 'readonly'
+                'title': _("Nombre de la Unidad Económica a registrar"), 'readonly': 'readonly', 'size': '60'
             }
-        )
+        ), required=False
     )
 
     ## Cédula de Identidad del usuario
@@ -178,7 +178,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Cargo en la Empresa"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el cargo del usuario en la empresa")
+                'data-toggle': 'tooltip', 'title': _("Indique el cargo del usuario en la empresa"), 'size': '60'
             }
         )
     )
@@ -190,7 +190,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Nombres del usuario"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el Nombre")
+                'data-toggle': 'tooltip', 'title': _("Indique el Nombre"), 'size': '60'
             }
         )
     )
@@ -202,7 +202,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Apellidos del usuario"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el Apellido")
+                'data-toggle': 'tooltip', 'title': _("Indique el Apellido"), 'size': '60'
             }
         )
     )
@@ -214,7 +214,8 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Número telefónico"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el número telefónico de contacto con el usuario")
+                'data-toggle': 'tooltip', 'title': _("Indique el número telefónico de contacto con el usuario"),
+                'size': '12'
             }
         )
     )
@@ -226,7 +227,7 @@ class RegistroForm(ModelForm):
         widget=EmailInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip',
+                'data-toggle': 'tooltip', 'size': '60',
                 'title': _("Indique el correo electrónico de contacto con el usuario. "
                            "No se permiten correos de hotmail")
             }
@@ -240,7 +241,7 @@ class RegistroForm(ModelForm):
         widget=PasswordInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
-                'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '60',
                 'title': _("Indique una contraseña de aceso al sistema")
             }
         )
@@ -253,7 +254,7 @@ class RegistroForm(ModelForm):
         widget=PasswordInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
-                'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '60',
                 'title': _("Indique nuevamente la contraseña de aceso al sistema")
             }
         )
