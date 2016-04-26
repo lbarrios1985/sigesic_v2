@@ -50,3 +50,18 @@ ul.footer-descripcion li {
 .has-feedback .form-control {
     padding-right: 10px;
 }
+
+h4.titulo, h5.titulo {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.control-label {
+    padding-right: 20px;
+    text-align: left !important;
+}
+
+.tips {
+    color:#3175AF;
+    font-weight: normal;
+}
