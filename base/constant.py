@@ -36,6 +36,11 @@ SHORT_TIPO_PERSONA = (
     ("V", "V"), ("J", "J"), ("E", "E"), ("P", "P")
 )
 
+## Nacionalidades (ABREVIADO)
+SHORT_NACIONALIDAD = (
+    ("V", "V"), ("E", "E")
+)
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 
