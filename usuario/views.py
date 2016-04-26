@@ -101,8 +101,8 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
     """
     model = UserProfile
     form_class = RegistroForm
-    template_name = 'base.registro.template.html'
-    success_url = reverse_lazy('')
+    template_name = 'registro.html'
+    success_url = reverse_lazy('acceso')
     success_message = CREATE_MESSAGE
 
     def form_valid(self, form):

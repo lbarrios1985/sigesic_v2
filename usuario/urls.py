@@ -13,6 +13,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 
+from .views import RegistroCreate
+
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
@@ -21,4 +23,5 @@ __docstring__ = "DoxyGen"
 urlpatterns = patterns('',
     url(r'^login/?$', 'usuario.views.acceso', name='acceso'),
     url(r'^logout/?$', 'usuario.views.salir', name='salir'),
+    url(r'^registro/$', RegistroCreate.as_view(), name='registro'),
 )
