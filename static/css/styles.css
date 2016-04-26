@@ -35,7 +35,10 @@ ul.footer-descripcion li {
 .js-captcha-refresh, .btn_accion {cursor: pointer}
 .msg-error {
     color:#F56954 !important;
-    font-weight: 700;
+    padding-left: 10px;
+    padding-right: 10px;
+    /*color: #3175AF !important;*/
+    /*font-weight: 700;*/
 }
 /* Fuentes */
 .fuente-7 {font-size: 7px !important;}
@@ -64,4 +67,16 @@ h4.titulo, h5.titulo {
 .tips {
     color:#3175AF;
     font-weight: normal;
+}
+
+.box-registro {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+.item-requerido {
+    margin-left: 20px;
+    font-size: 10px !important;
+    color: #F56954;
 }
