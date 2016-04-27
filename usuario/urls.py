@@ -20,8 +20,8 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^login/?$', 'usuario.views.acceso', name='acceso'),
     url(r'^logout/?$', 'usuario.views.salir', name='salir'),
     url(r'^registro/$', RegistroCreate.as_view(), name='registro'),
-)
+]
