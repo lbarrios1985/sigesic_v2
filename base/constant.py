@@ -36,6 +36,9 @@ SHORT_TIPO_PERSONA = (
     ("V", "V"), ("J", "J"), ("E", "E"), ("P", "P")
 )
 
+## Lista de tipos de persona
+TIPO_PERSONA_LIST = [tp[0] for tp in SHORT_TIPO_PERSONA]
+
 ## Nacionalidades (ABREVIADO)
 SHORT_NACIONALIDAD = (
     ("V", "V"), ("E", "E")
