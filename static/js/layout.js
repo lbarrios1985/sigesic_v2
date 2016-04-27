@@ -14,7 +14,6 @@ $(document).ready(function() {
     if (input_captcha.length) {
         input_captcha.addClass("form-control input-sm");
         input_captcha.attr("placeholder", "texto de la imagen");
-        input_captcha.wrap("<div class='col-md-3 col-sm-3 col-xs-6' style='padding-left: 0'></div>");
     }
 
     if (refresh_captcha.length) {
