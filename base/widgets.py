@@ -98,7 +98,7 @@ class CedulaWidget(MultiWidget):
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'placeholder': _("Nro. de Cédula"),
+                    'class': 'form-control input-sm text-center', 'placeholder': _("Cédula"),
                     'data-toggle': 'tooltip', 'maxlength': '8', 'size':'7', 'data-rule-required': 'true',
                     'title': _("Indique el número de Cédula de Identidad")
                 }
