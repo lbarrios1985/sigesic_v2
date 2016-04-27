@@ -202,8 +202,12 @@
                         <div class="form-group">
                             <div class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.captcha.auto_id }}">{{ form.captcha.label_tag }}</div>
                             <div class="col-md-9 col-xs-9 col-sm-9">
-                                {{ form.captcha }} <i class="glyphicon glyphicon-refresh js-captcha-refresh"></i>
-                                <i class="ion ion-ios-medical item-requerido"></i>
+                                <div class="form-inline">
+                                    {{ form.captcha }}
+                                    <i class="glyphicon glyphicon-refresh js-captcha-refresh" data-toggle="tooltip"
+                                       title="{% trans 'Presione para recargar la imagen del captcha' %}"></i>
+                                    <i class="ion ion-ios-medical item-requerido"></i>
+                                </div>
                                 {% if form.captcha.errors %}
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">

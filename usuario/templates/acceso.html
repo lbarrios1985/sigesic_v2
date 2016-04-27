@@ -30,69 +30,60 @@
     </div>
     <div class="col-md-6">
         {% csrf_token %}
-        <div class="box box-primary">
+        <div class="box box-primary text-center">
             <form action="" method="post" role="form">
                 <div class="box-header with-border">
                     <h3 class="box-title">{% trans 'Acceso al Sistema' %}</h3>
                 </div>
                 <div class="box-body">
                     {% csrf_token %}
-                    <div class="form-group {% if form.usuario.errors %}has-error{% endif %} has-feedback">
-                        <div>{{ form.tipo_rif.label_tag }}</div>
-                        <div class="row">
-                            <div class="col-md-2 col-sm-3 col-xs-3">{{ form.tipo_rif }}</div>
-                            <div class="col-md-3 col-sm-4 col-xs-4">{{ form.numero_rif }}</div>
-                            <div class="col-md-1 col-sm-3 col-xs-3">{{ form.digito_validador_rif }}</div>
-                            <div class="col-md-1">
-                                <span class="ion ion-ios-medical text-red fuente-10 form-control-feedback"
-                                      aria-hidden="true" style="padding-top: 10px"></span>
-                            </div>
-                            <div class="com-md-3"></div>
+                    <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                        <div>{{ form.rif.label_tag }}</div>
+                        <div class="form-inline">
+                            {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
                         </div>
-                        {% if form.tipo_rif.errors or form.numero_rif.errors or form.digito_validador_rif.errors %}
-                            <div class="control-label msg-error" for="inputError">
-                                <i class="fa fa-times-circle-o"></i>
-                                {% if form.tipo_rif.errors %}
-                                    {{ form.tipo_rif.errors.as_text|cut:"* " }}
-                                {% else %}
-                                    {% if form.numero_rif.errors %}
-                                        {{ form.numero_rif.errors.as_text|cut:"* " }}
-                                    {% else %}
-                                        {{ form.digito_validador_rif.errors.as_text|cut:"* " }}
-                                    {% endif %}
-                                {% endif %}
-                            </div>
+                        {% if form.rif.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
                         {% endif %}
                     </div>
                     <div class="form-group {% if form.clave.errors %}has-error{% endif %}">
                         <div>{{ form.clave.label_tag }}</div>
-                        <div class="row">
-                            <div class="col-md-10">
-                                {{ form.clave }}
-                            </div>
-                            <div class="col-md-2">
-                                <i class="ion ion-ios-medical text-red fuente-10"></i>
-                            </div>
+                        <div class="form-inline">
+                            {{ form.clave }}<i class="ion ion-ios-medical item-requerido"></i>
                         </div>
                         {% if form.clave.errors %}
-                            <div class="control-label msg-error" for="inputError">
-                                <i class="fa fa-times-circle-o"></i> {{ form.clave.errors.as_text|cut:"* " }}
-                            </div>
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.clave.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
                         {% endif %}
                     </div>
                     <div class="form-group {% if form.captcha.errors %}has-error{% endif %}">
                         <div>{{ form.captcha.label_tag }}</div>
-                        {{ form.captcha }}
-                        <i class="ion ion-ios-medical text-red fuente-10"></i>
-                        <i class="glyphicon glyphicon-refresh js-captcha-refresh"></i>
+                        <div class="form-inline">
+                            {{ form.captcha }}
+                            <i class="glyphicon glyphicon-refresh js-captcha-refresh" data-toggle="tooltip"
+                               title="{% trans 'Presione para recargar la imagen del captcha' %}"></i>
+                            <i class="ion ion-ios-medical item-requerido"></i>
+                        </div>
                         {% if form.captcha.errors %}
-                            <div class="control-label msg-error" for="inputError">
-                                <i class="fa fa-times-circle-o"></i> {{ form.captcha.errors.as_text|cut:"* " }}
-                            </div>
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.captcha.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        <a href="#">{% trans '¿Olvidó su contraseña?' %}</a>
+                        <a href="#" data-toggle="tooltip"
+                           title="{% trans 'Presione para generar una nueva contraseña de acceso' %}">
+                            {% trans '¿Olvidó su contraseña?' %}
+                        </a>
                     </div>
                 </div>
                 <div class="box-footer text-right">
