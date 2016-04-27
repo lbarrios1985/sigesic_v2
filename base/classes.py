@@ -17,6 +17,10 @@ import logging
 from urllib.request import urlopen
 from xml.dom.minidom import parseString
 
+"""!
+Contiene el objeto que registra la vitacora de eventos del módulo usuario.
+(configuración en el settings de la aplicación)
+"""
 logger = logging.getLogger('base')
 
 __licence__ = "GNU Public License v2"
