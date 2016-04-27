@@ -10,26 +10,26 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 # @author <a href='http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
 # (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-from __future__ import unicode_literals
-from django import forms
-from django.forms import (
-    ModelForm, ChoiceField, TextInput, EmailInput, CharField, Select, EmailField, ModelChoiceField, PasswordInput,
-    HiddenInput
+from __future__ import unicode_literals, absolute_import
+
+import logging
+
+from base.constant import (
+    TIPO_PERSONA_LIST
 )
-from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from base.fields import RifField, CedulaField
+from base.functions import verificar_rif
+from base.classes import Seniat
 from captcha.fields import CaptchaField, CaptchaTextInput
+from django import forms
+from django.contrib.auth.models import User
+from django.forms import (
+    ModelForm, TextInput, EmailInput, CharField, EmailField, PasswordInput
+)
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from base.constant import (
-    NACIONALIDAD, TIPO_PERSONA, SHORT_TIPO_PERSONA
-)
-
-from base.fields import RifField, CedulaField
 from .models import UserProfile
-
-import logging
 
 """!
 Contiene el objeto que registra la vitacora de eventos del módulo usuario.
@@ -53,48 +53,14 @@ class AutenticarForm(forms.Form):
     @version 2.0.0
     """
 
-    ## Tipo de persona que identifica al número del R.I.F.
-    tipo_rif = ChoiceField(
-        label=_("R.I.F. de la Unidad Economica"),
-        choices=SHORT_TIPO_PERSONA,
-        widget=Select(
-            attrs={
-                'class': 'select2 form-control', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el tipo de R.I.F.")
-            }
-        )
-    )
-
-    ## Número de R.I.F. de 8 dígitos
-    numero_rif = CharField(
-        label='',
-        max_length=8,
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'placeholder': _("Nro. de R.I.F."), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip',
-                'title': _("Indique el número de R.I.F., si es menor a 8 dígitos complete con ceros a la izquierda")
-            }
-        )
-    )
-
-    ## Dígito validador del R.I.F.
-    digito_validador_rif = CharField(
-        label='',
-        max_length=1,
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Indique el último dígito del R.I.F."), 'placeholder': 'X'
-            }
-        )
-    )
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
+    rif = RifField()
 
     ## Contraseña del usuario
     clave = CharField(
         label=_("Contraseña"), max_length=30, widget=PasswordInput(attrs={
             'class': 'form-control input-sm', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
-            'title': _("Indique la contraseña de acceso al sistema")
+            'title': _("Indique la contraseña de acceso al sistema"), 'size': '28'
         })
     )
 
@@ -106,6 +72,45 @@ class AutenticarForm(forms.Form):
             'title': _("Indique el texto de la imagen")
         })
     )
+
+    def clean_rif(self):
+        """!
+        Método que permite validar el campo de rif
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 27-04-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que el rif no sea válido o no se encuentre registrado en el
+                sistema, en caso contrario devuelve el valor actual del campo
+        """
+        rif = self.cleaned_data['rif']
+
+        if not verificar_rif(rif):
+            raise forms.ValidationError(_("El RIF es inválido"))
+        elif not User.objects.filter(username=rif):
+            raise forms.ValidationError(_("Usuario no registrado"))
+
+        return
+
+    def clean_clave(self):
+        """!
+        Método que permite validar el campo de contraseña
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 27-04-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la contraseña sea incorrecta, en caso contrario devuelve
+                el valor actual del campo
+        """
+        clave = self.cleaned_data['clave']
+        rif = "%s%s%s" % (self.data['rif_0'], self.data['rif_1'], self.data['rif_2'])
+
+        if User.objects.filter(username=rif) and User.objects.get(username=rif).check_password(clave):
+            raise forms.ValidationError(_("Contraseña incorrecta"))
+
+        return clave
 
 
 @python_2_unicode_compatible
@@ -119,42 +124,7 @@ class RegistroForm(ModelForm):
     @version 2.0.0
     """
 
-    ## Tipo de persona que identifica al número del R.I.F.
-    """tipo_rif = ChoiceField(
-        label=_("R.I.F. de la Unidad Economica"),
-        choices=SHORT_TIPO_PERSONA,
-        widget=Select(
-            attrs={
-                'class': 'select2 select2-offscreen form-control', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el tipo de R.I.F.")
-            }
-        )
-    )
-
-    ## Número de R.I.F. de 8 dígitos
-    numero_rif = CharField(
-        label='',
-        max_length=8,
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'placeholder': _("Nro. de R.I.F."), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip',
-                'title': _("Indique el número de R.I.F., si es menor a 8 dígitos complete con ceros a la izquierda")
-            }
-        )
-    )
-
-    ## Dígito validador del R.I.F.
-    digito_validador_rif = CharField(
-        label='',
-        max_length=1,
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Indique el último dígito del R.I.F.")
-            }
-        )
-    )"""
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
 
     ## Nombre de la Unidad Economica
@@ -163,7 +133,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Nombre de la Unidad Económica a registrar"), 'readonly': 'readonly', 'size': '60'
+                'title': _("Nombre de la Unidad Económica a registrar"), 'readonly': 'readonly', 'size': '50'
             }
         ), required=False
     )
@@ -178,7 +148,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Cargo en la Empresa"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el cargo del usuario en la empresa"), 'size': '60'
+                'data-toggle': 'tooltip', 'title': _("Indique el cargo del usuario en la empresa"), 'size': '50'
             }
         )
     )
@@ -190,7 +160,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Nombres del usuario"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el Nombre"), 'size': '60'
+                'data-toggle': 'tooltip', 'title': _("Indique el Nombre"), 'size': '50'
             }
         )
     )
@@ -202,7 +172,7 @@ class RegistroForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Apellidos del usuario"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el Apellido"), 'size': '60'
+                'data-toggle': 'tooltip', 'title': _("Indique el Apellido"), 'size': '50'
             }
         )
     )
@@ -227,7 +197,7 @@ class RegistroForm(ModelForm):
         widget=EmailInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'size': '60',
+                'data-toggle': 'tooltip', 'size': '50',
                 'title': _("Indique el correo electrónico de contacto con el usuario. "
                            "No se permiten correos de hotmail")
             }
@@ -241,7 +211,7 @@ class RegistroForm(ModelForm):
         widget=PasswordInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
-                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '60',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '50',
                 'title': _("Indique una contraseña de aceso al sistema")
             }
         )
@@ -254,7 +224,7 @@ class RegistroForm(ModelForm):
         widget=PasswordInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
-                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '60',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '50',
                 'title': _("Indique nuevamente la contraseña de aceso al sistema")
             }
         )
@@ -273,9 +243,35 @@ class RegistroForm(ModelForm):
         model = UserProfile
         exclude = ['fecha_modpass',]
 
+    def clean_rif(self):
+        """!
+        Método que permite validar el campo de rif
 
-    def clean_nacionalidad(self):
-        pass
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 27-04-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que el rif no sea válido o no se encuentre registrado en el
+                SENIAT, en caso contrario devuelve el valor actual del campo
+        """
+        rif = self.cleaned_data['rif']
+        print(self.data)
+
+        if rif[0] not in TIPO_PERSONA_LIST:
+            raise forms.ValidationError(_("Tipo de RIF incorrecto"))
+        elif not verificar_rif(rif):
+            raise forms.ValidationError(_("El RIF es inválido"))
+        elif User.objects.filter(username=rif):
+            raise forms.ValidationError(_("El RIF ya se encuentra registrado"))
+        elif not rif[1:].isdigit():
+            raise  forms.ValidationError(_("El RIF no es correcto"))
+        else:
+            validar_rif = Seniat()
+            rif_valido = validar_rif.buscar_rif(rif)
+            if not rif_valido:
+                raise forms.ValidationError(_("El RIF no existe"))
+
+        return rif
 
     def clean_cedula(self):
         pass
@@ -299,7 +295,4 @@ class RegistroForm(ModelForm):
         pass
 
     def clean_verificar_contrasenha(self):
-        pass
-
-    def clean_captcha(self):
         pass
