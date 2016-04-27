@@ -13,11 +13,20 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 
+from .ajax import get_data_rif, validar_rif_seniat
+
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
 
-urlpatterns = patterns(
+urlpatterns = [
     url(r'^inicio/$', 'base.views.inicio', name='inicio'),
-)
+]
+
+
+## URLs de peticiones AJAX
+urlpatterns += [
+    url(r'^ajax/get_data_rif/?$', get_data_rif, name='get_data_rif'),
+    url(r'^ajax/validar_rif_seniat/?$', validar_rif_seniat, name='validar_rif_seniat'),
+]
