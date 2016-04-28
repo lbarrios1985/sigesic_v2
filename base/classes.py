@@ -14,7 +14,9 @@ from __future__ import unicode_literals
 
 import logging
 
-from urllib.request import urlopen
+from django.utils.translation import ugettext_lazy as _
+
+from urllib.request import urlopen, HTTPError
 from xml.dom.minidom import parseString
 
 """!
@@ -86,8 +88,14 @@ class Seniat:
         @return Devuelve Verdadero en caso de encontrar datos registrados en el SENIAT con el número de RIF solicitado,
                 en caso contrario o al encontrar algún error de conexión, devuelve Falso
         """
+        self.rif = ''
+        self.nombre = ''
+        self.agente_retencion_iva = ''
+        self.contribuyente_iva = ''
+        self.error = None
+
         try:
-            s = urlopen("http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=%s" % rif, timeout=80)
+            s = urlopen("http://contribuyente.seniat.gob.ve/getContribuyente/getrif?rif=%s" % rif, timeout=60)
             xml_data = s.read()
             dom = parseString(xml_data)
             self.rif = rif
@@ -95,12 +103,15 @@ class Seniat:
             self.agente_retencion_iva = dom.childNodes[0].childNodes[1].firstChild.data
             self.contribuyente_iva = dom.childNodes[0].childNodes[2].firstChild.data
             return True
+        except HTTPError as http_error:
+            # Gestión de códigos de error en las peticiones para obtener los datos del rif consultado
+            if http_error.code == 452:
+                self.error = _("El número de RIF no esta registrado en el SENIAT")
+
+            return True
         except Exception as e:
-            self.rif = ''
-            self.nombre = ''
-            self.agente_retencion_iva = ''
-            self.contribuyente_iva = ''
 
             logger.warning("Error al obtener información del RIF [%s]. Detalles: %s" % (rif, e))
+            print(e)
 
             return False
