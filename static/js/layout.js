@@ -33,21 +33,27 @@ $(document).ready(function() {
 
     /** Agrega el estilo para los tooltiptext de los elementos del formulario */
     if (!tip_top.length && !tip_bottom.length && !tip_left.length && !tip_right.length) {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip({
+            delay: {show: 200, hide:1500}
+        });
     }
     else {
 
         tip_top.tooltip({
-            placement: 'top'
+            placement: 'top',
+            delay: {show: 200, hide:1500}
         });
         tip_bottom.tooltip({
-            placement: 'bottom'
+            placement: 'bottom',
+            delay: {show: 200, hide:1500}
         });
         tip_left.tooltip({
-            placement: 'left'
+            placement: 'left',
+            delay: {show: 200, hide:1500}
         });
         tip_right.tooltip({
-            placement: 'right'
+            placement: 'right',
+            delay: {show: 200, hide:1500}
         });
     }
 
