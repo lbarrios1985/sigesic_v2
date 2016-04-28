@@ -40,7 +40,9 @@ class RifWidget(MultiWidget):
     @version 2.0.0
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, attrs=None, *args, **kwargs):
+
+        self.attrs = attrs or {}
 
         widgets = (
             Select(
@@ -65,13 +67,13 @@ class RifWidget(MultiWidget):
             )
         )
 
-        super(RifWidget, self).__init__(widgets, *args, **kwargs)
+        super(RifWidget, self).__init__(widgets, attrs, *args, **kwargs)
 
     def format_output(self, rendered_widgets):
         return ' - '.join(rendered_widgets)
 
     def decompress(self, value):
-        print("value = ", value)
+
         if value:
             return [value[0], value[1], value[2]]
         return [None, None, None]
