@@ -15,8 +15,8 @@ from __future__ import unicode_literals, absolute_import
 import logging
 
 from base.constant import (
-    TIPO_PERSONA_LIST
-)
+    TIPO_PERSONA_LIST,
+    SHORT_TIPO_PERSONA)
 from base.fields import RifField, CedulaField
 from base.functions import verificar_rif
 from base.classes import Seniat
@@ -24,8 +24,8 @@ from captcha.fields import CaptchaField, CaptchaTextInput
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import (
-    ModelForm, TextInput, EmailInput, CharField, EmailField, PasswordInput
-)
+    ModelForm, TextInput, EmailInput, CharField, EmailField, PasswordInput,
+    Select)
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -212,7 +212,7 @@ class RegistroForm(ModelForm):
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
                 'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '50',
-                'title': _("Indique una contraseña de aceso al sistema")
+                'title': _("Indique una contraseña de aceso al sistema"), 'onkeyup': 'passwordStrength(this.value)'
             }
         )
     )
@@ -243,6 +243,7 @@ class RegistroForm(ModelForm):
         model = UserProfile
         exclude = ['fecha_modpass',]
 
+
     def clean_rif(self):
         """!
         Método que permite validar el campo de rif
@@ -255,7 +256,6 @@ class RegistroForm(ModelForm):
                 SENIAT, en caso contrario devuelve el valor actual del campo
         """
         rif = self.cleaned_data['rif']
-        print(self.data)
 
         if rif[0] not in TIPO_PERSONA_LIST:
             raise forms.ValidationError(_("Tipo de RIF incorrecto"))
