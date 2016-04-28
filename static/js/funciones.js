@@ -1,12 +1,12 @@
 function passwordStrength(password)
 {
     var desc = new Array();
-    desc[0] = "Muy Débil";
-    desc[1] = "Débil";
-    desc[2] = "Mejor";
-    desc[3] = "Buena";
-    desc[4] = "Fuerte";
-    desc[5] = "Muy Fuerte";
+    desc[0] = MSG_PASSWD_MUY_DEBIL;
+    desc[1] = MSG_PASSWD_DEBIL;
+    desc[2] = MSG_PASSWD_REGULAR;
+    desc[3] = MSG_PASSWD_BUENA;
+    desc[4] = MSG_PASSWD_FUERTE;
+    desc[5] = MSG_PASSWD_MUY_FUERTE;
 
     var score   = 0;
 
