@@ -99,7 +99,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
     @date 25-04-2016
     @version 2.0.0
     """
-    model = UserProfile
+    model = User
     form_class = RegistroForm
     template_name = 'registro.html'
     success_url = reverse_lazy('acceso')
@@ -118,7 +118,20 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
         """
 
         self.object = form.save(commit=False)
+        self.object.username = form.cleaned_data['rif']
+        self.object.first_name = form.cleaned_data['nombre']
+        self.object.last_name = form.cleaned_data['apellido']
+        self.object.set_password(form.cleaned_data['contrasenha'])
+        self.object.email = form.cleaned_data['correo']
+        self.object.save()
 
-        # Instrucciones a ejecutar previas al registro de datos
+        ## Crea el perfil del usuario
+        UserProfile.objects.create(
+            nacionalidad=form.cleaned_data['cedula'][0],
+            cedula=form.cleaned_data['cedula'][1:],
+            cargo=form.cleaned_data['cargo'],
+            telefono=form.cleaned_data['telefono'],
+            user=self.object
+        )
 
         return super(RegistroCreate, self).form_valid(form)
