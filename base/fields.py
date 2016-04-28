@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 
 import logging
 
-from django.forms import MultiValueField, ChoiceField, CharField
+from django.forms import MultiValueField, ChoiceField, CharField, TextInput
 from django.utils.translation import ugettext_lazy as _
 
 from .constant import SHORT_TIPO_PERSONA, SHORT_NACIONALIDAD
@@ -67,7 +67,7 @@ class RifField(MultiValueField):
         )
 
     def compress(self, data_list):
-        print("data_list = ", data_list)
+
         if data_list:
             return ''.join(data_list)
         return ''
