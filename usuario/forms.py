@@ -193,7 +193,7 @@ class RegistroForm(ModelForm):
     ## Correo electrónico de contacto con el usuario
     correo = EmailField(
         label=_("Correo Electrónico"),
-        max_length=15,
+        max_length=75,
         widget=EmailInput(
             attrs={
                 'class': 'form-control input-sm', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
