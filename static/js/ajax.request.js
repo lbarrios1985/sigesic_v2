@@ -2,14 +2,16 @@
  * @brief Función que obtiene datos de la persona asociada al número de rif a consultar
  * @param campo_rif Nombre del campo del RIF a consultar
  * @param campo_nombre Nombre del campo en donde se mostrará el nombre de la persona del rif consultado
+ * @param registro Indica si la validación realizada es en el formulario de registro
  * @param agente_retencion Indica si se mostrarán datos sobre si es o no agente de retención de IVA
  * @param contribuyente Indica si se mostrarán datos sobre si es o no contribuyente de IVA
  */
-function get_data_rif(campo_rif, campo_nombre, agente_retencion, contribuyente) {
+function get_data_rif(campo_rif, campo_nombre, registro, agente_retencion, contribuyente) {
     agente_retencion = typeof agente_retencion !== 'undefined' ? agente_retencion : '';
     contribuyente = typeof contribuyente !== 'undefined' ? contribuyente : '';
+    registro = typeof registro !== 'undefined' ? registro : false;
 
-    var rif = '';
+    var rif = '', datos_usuario = $(".datos-usuario");
 
     for (i=0; i<=2; i++) {
         sufix = i;
@@ -20,13 +22,18 @@ function get_data_rif(campo_rif, campo_nombre, agente_retencion, contribuyente) 
         $.getJSON(URL_GET_DATA_RIF, {
             rif: rif, agente_retencion: agente_retencion, contribuyente: contribuyente
         }, function(datos) {
+
             if (datos.result) {
                 if (typeof datos.error_message !== 'undefined') {
                     bootbox.alert(datos.error_message);
                 }
                 $("#"+campo_nombre).val(datos.nombre);
+                if (registro) {
+                    datos_usuario.show();
+                }
             }
             else {
+                datos_usuario.hide();
                 bootbox.alert(datos.message);
             }
         }).fail(function(jqxhr, textStatus, error) {
@@ -40,12 +47,14 @@ function get_data_rif(campo_rif, campo_nombre, agente_retencion, contribuyente) 
  * @brief Función que valida un número de rif con los registros del SENIAT
  * @param campo_rif Nombre del campo del RIF a consultar
  * @param campo_nombre Nombre del campo en donde se mostrará el nombre de la persona del rif consultado
+ * @param registro Indica si la validación realizada es en el formulario de registro
  * @param agente_retencion Indica si se mostrarán datos sobre si es o no agente de retención de IVA
  * @param contribuyente Indica si se mostrarán datos sobre si es o no contribuyente de IVA
  */
-function validar_rif_seniat(campo_rif, campo_nombre, agente_retencion, contribuyente) {
+function validar_rif_seniat(campo_rif, campo_nombre, registro, agente_retencion, contribuyente) {
     agente_retencion = typeof agente_retencion !== 'undefined' ? agente_retencion : '';
     contribuyente = typeof contribuyente !== 'undefined' ? contribuyente : '';
+    registro = typeof registro !== 'undefined' ? registro : false;
 
     var rif = '', tipo_rif_list = ["V", "E", "J", "P"], tipo_rif = $("#" + campo_rif + "_0").val(),
         numero_rif = $("#" + campo_rif + "_1").val(), digito_rif = $("#" + campo_rif + "_2").val();
@@ -68,7 +77,7 @@ function validar_rif_seniat(campo_rif, campo_nombre, agente_retencion, contribuy
         else {
             $.getJSON(URL_VALIDAR_RIF_SENIAT, {rif: rif}, function(datos) {
                 if (datos.result) {
-                    get_data_rif(campo_rif, campo_nombre, agente_retencion, contribuyente);
+                    get_data_rif(campo_rif, campo_nombre, registro, agente_retencion, contribuyente);
                 }
                 else {
                     bootbox.alert(datos.message);
