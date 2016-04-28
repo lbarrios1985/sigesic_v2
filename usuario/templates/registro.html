@@ -236,3 +236,13 @@
         </div>
     </form>
 {% endblock %}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_ue.auto_id }}')";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
+            }
+        });
+    </script>
+{% endblock %}
