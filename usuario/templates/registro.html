@@ -45,7 +45,7 @@
                 </div>
             </div>
             <hr>
-            <div class="box-body datos-usuario">
+            <div class="box-body datos-usuario" ><!--style="display: none" -->
                 <h5 class="titulo">
                     {% trans 'Datos de la Persona encargada de realizar el registro de la Unidad Economica' %}
                 </h5>
@@ -239,7 +239,7 @@
 {% block extra_footer %}
     <script type="text/javascript">
         $(document).ready(function() {
-            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_ue.auto_id }}')";
+            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_ue.auto_id }}', true)";
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
             }
