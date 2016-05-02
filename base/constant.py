@@ -11,6 +11,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 # (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 from __future__ import unicode_literals
+
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 __licence__ = "GNU Public License v2"
@@ -50,6 +52,30 @@ NACIONALIDAD_LIST = [nac[0] for nac in SHORT_NACIONALIDAD]
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 
+## Nombre del Sitio
+APP_NAME = "SIGESIC"
+
+## Asunto del mensaje de bienvenida
+EMAIL_SUBJECT_REGISTRO = "Bienvenido a %s" % APP_NAME
+
+admin_email = ''
+if settings.ADMINS:
+    ## Contiene el correo electrónico del administrador del sistema
+    admin_email = settings.ADMINS[0][1]
+
+## Mensaje de bienvenida utilizado en el registro de usuarios
+REGISTRO_MESSAGE = '<p>%s</p><p>%s</p><p>%s <b style="color:red">(spam)</b> %s<br>%s</p>' % \
+                   (str(_("Hemos enviado un mensaje de bienvenida con un enlace de activación a la dirección de correo "
+                          "suministrada.")),
+                    str(_("Por favor confirme el registro haciendo click en el enlace enviado por correo (si lo "
+                          "prefiere también puede copiar y pegar el enlace en su navegador).")),
+                    str(_("En caso de no recibir el correo enviado por el sistema en su bandeja de entrada, "
+                          "se le recomienda revisar la carpeta de correos no deseados")),
+                    str(_("y verificar si existe, en caso afirmativo le recomendamos agregar la dirección de correo de "
+                          "la aplicación en la libreta de direcciones de su cuenta de correo para que en futuras "
+                          "ocasiones no sea filtrado. En caso contrario contacte al administrador del sistema ")),
+                    str(admin_email))
+
 ## Mensaje a mostrar al usuario cuando el registro de datos haya sido ejecutado correctamente
 CREATE_MESSAGE = _("Los datos fueron registrados correctamente")
 
@@ -71,3 +97,6 @@ MSG_NOT_AJAX = _("No se puede procesar la petición. "
 
 ## Determina el nivel mínimo de validación para la fortaleza de la contraseña. Los valores permitidos son del 0 al 5
 FORTALEZA_CONTRASENHA = 3
+
+## Días de caducidad para el enlace de registro de usuarios
+CADUCIDAD_LINK_REGISTRO = 1
