@@ -44,6 +44,9 @@ SHORT_NACIONALIDAD = (
     ("V", "V"), ("E", "E")
 )
 
+## Lista de nacionalidades
+NACIONALIDAD_LIST = [nac[0] for nac in SHORT_NACIONALIDAD]
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 
@@ -65,3 +68,6 @@ LOGOUT_SECURITY_MESSAGE = _("Por su seguridad usted a sido desautenticado del si
 ## Mensaje de error para peticiones AJAX
 MSG_NOT_AJAX = _("No se puede procesar la petición. "
                  "Verifique que posea las opciones javascript habilitadas e intente nuevamente.")
+
+## Determina el nivel mínimo de validación para la fortaleza de la contraseña. Los valores permitidos son del 0 al 5
+FORTALEZA_CONTRASENHA = 3
