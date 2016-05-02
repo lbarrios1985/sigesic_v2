@@ -38,7 +38,11 @@ SECRET_KEY = '_9jt8ll@#+3&#u$w^&c%_e^wp1^t$r21)1706fvow-k(c)=2id'
 ## Identifica si el sistema se encuentra en modo de desarrollo (True) o en modo producción (False)
 DEBUG = True
 
+## Identifica a los servidores permitidos que atienden las peticiones del sistema
 ALLOWED_HOSTS = ['localhost']
+
+## Identifica a los administradores del sistema
+ADMINS = []
 
 ## Listado de aplicaciones base del sistema
 PREREQ_APPS = [
