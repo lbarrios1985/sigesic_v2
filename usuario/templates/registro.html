@@ -11,8 +11,10 @@
                 <h5 class="titulo">{% trans 'Datos de la Unidad Económica' %}</h5>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">{{ form.rif.label }}</label>
+                        <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                                {{ form.rif.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -29,7 +31,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_ue.auto_id }}">{{ form.nombre_ue.label }}</label>
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_ue.auto_id }}">
+                                {{ form.nombre_ue.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">{{ form.nombre_ue }}</div>
                                 {% if form.nombre_ue.errors %}
@@ -51,8 +55,10 @@
                 </h5>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula.auto_id }}">{{ form.cedula.label }}</label>
+                        <div class="form-group {% if form.cedula.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula.auto_id }}">
+                                {{ form.cedula.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.cedula }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -68,8 +74,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cargo.auto_id }}">{{ form.cargo.label }}</label>
+                        <div class="form-group {% if form.cargo.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cargo.auto_id }}">
+                                {{ form.cargo.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.cargo }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -87,8 +95,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre.auto_id }}">{{ form.nombre.label }}</label>
+                        <div class="form-group {% if form.nombre.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre.auto_id }}">
+                                {{ form.nombre.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.nombre }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -104,8 +114,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido.auto_id }}">{{ form.apellido.label }}</label>
+                        <div class="form-group {% if form.apellido.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido.auto_id }}">
+                                {{ form.apellido.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.apellido }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -123,8 +135,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">{{ form.telefono.label }}</label>
+                        <div class="form-group {% if form.telefono.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">
+                                {{ form.telefono.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -140,8 +154,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo.auto_id }}">{{ form.correo.label }}</label>
+                        <div class="form-group {% if form.correo.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo.auto_id }}">
+                                {{ form.correo.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.correo }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -159,20 +175,22 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.contrasenha.auto_id }}">{{ form.contrasenha.label }}</label>
+                        <div class="form-group {% if form.password.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.password.auto_id }}">
+                                {{ form.password.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.contrasenha }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {{ form.password }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                                 <label for="passwordStrength">Fortaleza de contraseña</label>
                                 <div id="passwordDescription">Contraseña no introducida</div>
                                 <div id="passwordStrength" class="strength0"></div>
                                 <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;">
-                                {% if form.contrasenha.errors %}
+                                {% if form.password.errors %}
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.contrasenha.errors.as_text|cut:'* ' }}
+                                            <i class="fa fa-times-circle-o"></i> {{ form.password.errors.as_text|cut:'* ' }}
                                         </span>
                                     </p>
                                 {% endif %}
@@ -180,8 +198,11 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.verificar_contrasenha.auto_id }}">{{ form.verificar_contrasenha.label }}</label>
+                        <div class="form-group {% if form.verificar_contrasenha.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                   for="{{ form.verificar_contrasenha.auto_id }}">
+                                {{ form.verificar_contrasenha.label }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.verificar_contrasenha }}<i class="ion ion-ios-medical item-requerido"></i>
@@ -199,8 +220,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.captcha.auto_id }}">{{ form.captcha.label_tag }}</div>
+                        <div class="form-group {% if form.captcha.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                 for="{{ form.captcha.auto_id }}">
+                                {{ form.captcha.label_tag }}
+                            </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.captcha }}
@@ -239,6 +263,7 @@
 {% block extra_footer %}
     <script type="text/javascript">
         $(document).ready(function() {
+            /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
             var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_ue.auto_id }}', true)";
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
