@@ -16,7 +16,10 @@ import logging
 
 from base.constant import (
     TIPO_PERSONA_LIST,
-    SHORT_TIPO_PERSONA)
+    SHORT_TIPO_PERSONA,
+    NACIONALIDAD_LIST,
+    FORTALEZA_CONTRASENHA
+)
 from base.fields import RifField, CedulaField
 from base.functions import verificar_rif
 from base.classes import Seniat
@@ -205,7 +208,7 @@ class RegistroForm(ModelForm):
     )
 
     ## Contraseña del usuario
-    contrasenha = CharField(
+    password = CharField(
         label=_("Contraseña"),
         max_length=128,
         widget=PasswordInput(
@@ -240,7 +243,7 @@ class RegistroForm(ModelForm):
     )
 
     class Meta:
-        model = UserProfile
+        model = User
         exclude = ['fecha_modpass',]
 
 
@@ -259,40 +262,33 @@ class RegistroForm(ModelForm):
 
         if rif[0] not in TIPO_PERSONA_LIST:
             raise forms.ValidationError(_("Tipo de RIF incorrecto"))
-        elif not verificar_rif(rif):
-            raise forms.ValidationError(_("El RIF es inválido"))
         elif User.objects.filter(username=rif):
             raise forms.ValidationError(_("El RIF ya se encuentra registrado"))
         elif not rif[1:].isdigit():
             raise  forms.ValidationError(_("El RIF no es correcto"))
-        else:
-            validar_rif = Seniat()
-            rif_valido = validar_rif.buscar_rif(rif)
-            if not rif_valido:
-                raise forms.ValidationError(_("El RIF no existe"))
 
         return rif
 
     def clean_cedula(self):
-        pass
+        cedula = self.cleaned_data['cedula']
 
-    def clean_cargo(self):
-        pass
+        if cedula[0] not in NACIONALIDAD_LIST:
+            raise forms.ValidationError(_("La nacionalidad no es correcta"))
+        elif not cedula[1:].isdigit():
+            raise forms.ValidationError(_("El número de cédula no es correcto"))
 
-    def clean_nombre(self):
-        pass
+        return cedula
 
-    def clean_apellido(self):
-        pass
-
-    def clean_correo(self):
-        pass
-
-    def clean_telefono(self):
-        pass
-
-    def clean_contrasenha(self):
-        pass
+    def clean_password(self):
+        password_meter = self.data['passwordMeterId']
+        if int(password_meter) < FORTALEZA_CONTRASENHA:
+            raise forms.ValidationError(_("La contraseña es débil"))
+        return self.cleaned_data['password']
 
     def clean_verificar_contrasenha(self):
-        pass
+        verificar_contrasenha = self.cleaned_data['verificar_contrasenha']
+        contrasenha = self.data['password']
+        if contrasenha != verificar_contrasenha:
+            raise forms.ValidationError(_("La contraseña no es la misma"))
+
+        return verificar_contrasenha
