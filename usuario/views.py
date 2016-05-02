@@ -121,7 +121,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
         self.object.username = form.cleaned_data['rif']
         self.object.first_name = form.cleaned_data['nombre']
         self.object.last_name = form.cleaned_data['apellido']
-        self.object.set_password(form.cleaned_data['contrasenha'])
+        self.object.set_password(form.cleaned_data['password'])
         self.object.email = form.cleaned_data['correo']
         self.object.save()
 

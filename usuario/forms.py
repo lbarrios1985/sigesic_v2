@@ -244,7 +244,7 @@ class RegistroForm(ModelForm):
 
     class Meta:
         model = User
-        exclude = ['fecha_modpass',]
+        exclude = ['fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined']
 
 
     def clean_rif(self):
@@ -270,6 +270,15 @@ class RegistroForm(ModelForm):
         return rif
 
     def clean_cedula(self):
+        """!
+        Método que permite validar la cedula de identidad del usuario a registrar
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de la cedula de identidad sea incorrecta
+        """
         cedula = self.cleaned_data['cedula']
 
         if cedula[0] not in NACIONALIDAD_LIST:
@@ -279,13 +288,49 @@ class RegistroForm(ModelForm):
 
         return cedula
 
+    def clean_correo(self):
+        """!
+        Método que permite validar el campo de correo electronico
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que el correo electronico ya se encuentre registrado
+        """
+        correo = self.cleaned_data['correo']
+
+        if User.objects.filter(email=correo):
+            raise forms.ValidationError(_("El correo ya esta registrado"))
+
+        return correo
+
     def clean_password(self):
+        """!
+        Método que permite validar el campo de password
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la fortaleza de la contraseña sea inferior al minimo
+                establecido
+        """
         password_meter = self.data['passwordMeterId']
         if int(password_meter) < FORTALEZA_CONTRASENHA:
             raise forms.ValidationError(_("La contraseña es débil"))
         return self.cleaned_data['password']
 
     def clean_verificar_contrasenha(self):
+        """!
+        Método que permite validar el campo de verificar_contrasenha
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la contrasenha no pueda ser verificada
+        """
         verificar_contrasenha = self.cleaned_data['verificar_contrasenha']
         contrasenha = self.data['password']
         if contrasenha != verificar_contrasenha:
