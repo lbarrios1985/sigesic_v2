@@ -26,6 +26,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import CreateView
+from django.utils.translation import ugettext_lazy as _
 
 from base.constant import CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO
 from base.functions import calcular_diferencia_fechas, enviar_correo
@@ -59,10 +60,13 @@ def hash_user(user, is_new_user=False, is_reset=False):
     else:
         date_to_hash = user.last_login.isoformat()
 
-    hash = hashlib.sha1("%s|%s|%s" % (
-        user.username, user.password, date_to_hash + ("", "|reset")[is_reset]
-    )).hexdigest()
-    return base64.urlsafe_b64encode(hash)
+    username = user.username
+    password = user.password
+    date_to_hash = date_to_hash + ("", "|reset")[is_reset]
+    cadena = username+"|"+password+"|"+date_to_hash
+
+    hash = hashlib.sha1(cadena.encode("utf-8")).hexdigest()
+    return base64.urlsafe_b64encode(bytes(hash, "utf-8"))
 
 
 def confirmar_registro(request):
@@ -75,7 +79,7 @@ def confirmar_registro(request):
     if userid and key and User.objects.filter(username=userid):
         user = User.objects.get(username=userid)
         if calcular_diferencia_fechas(user.date_joined) <= CADUCIDAD_LINK_REGISTRO:
-            if key.strip() == hash_user(user, is_new_user=True):
+            if key.strip() == hash_user(user, is_new_user=True).decode():
                 user.is_active = True
                 user.save()
                 login_url = "%s?userid=%s&key=%s" % (
@@ -109,13 +113,16 @@ def acceso(request):
 
         if form.is_valid():
             username = "%s%s%s" % (
-                request.POST['tipo_rif'], request.POST['numero_rif'], request.POST['digito_validador_rif']
+                request.POST['rif_0'], request.POST['rif_1'], request.POST['rif_2']
             )
+
             usuario = authenticate(username=username, password=str(request.POST['clave']))
             login(request, usuario)
+
             usr = User.objects.get(username=username)
             usr.last_login = datetime.now()
             usr.save()
+
             if UserProfile.objects.filter(user=usr):
                 # Registra información de conexión del usuario
                 profile = UserProfile.objects.get(user=usr)
@@ -194,8 +201,8 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
         )
 
         link = self.request.build_absolute_uri("%s?userid=%s&key=%s" % (
-            urlresolvers.reverse('autenticar.views.confirm'),
-            self.object.username, hash_user(self.object, is_new_user=True)
+            urlresolvers.reverse('usuario.views.confirmar_registro'),
+            self.object.username, hash_user(self.object, is_new_user=True).decode()
         ))
 
         administrador, admin_email = '', ''
@@ -203,9 +210,14 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             administrador = settings.ADMINS[0][0]
             admin_email = settings.ADMINS[0][1]
 
-
         enviado = enviar_correo(self.object.email, 'bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
             'link': link, 'emailapp': settings.EMAIL_FROM, 'administrador': administrador, 'admin_email': admin_email
         })
+
+        if not enviado:
+            logger.warning(
+                str(_("Ocurrió un inconveniente al enviar el correo de registro al usuario [%s]")
+                    % self.object.username)
+            )
 
         return super(RegistroCreate, self).form_valid(form)
