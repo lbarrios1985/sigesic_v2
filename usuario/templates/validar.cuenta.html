@@ -1,7 +1,5 @@
 {% extends 'base.template.html' %}
-{% block extra_head %}
-    {% if verificado %}<meta http-equiv="REFRESH" content="3;url={{ login_url }}">{% endif %}
-{% endblock %}
+{% load  i18n %}
 {% block extra_footer %}
     <script type="text/javascript">
         function countdown(sec) {
@@ -10,6 +8,11 @@
             if (sec > -1) {
                 $('#countdown').text(sec);
                 setTimeout("countdown(" + sec + ")", 1000);
+            }
+            else {
+                {% if login_url %}
+                    window.location.href = '{{ login_url }}';
+                {% endif %}
             }
         }
 
@@ -32,7 +35,7 @@
                 <p>
                     {% trans 'Usted será redireccionado a la página de autenticación del sistema' %}
                     {% trans 'en' %}
-                    <span id="countdown">3</span>
+                    <span id="countdown">10</span>
                     {% trans 'segundo(s)' %}.
                     {% trans 'Por favor espere...' %}
                 </p>
