@@ -200,8 +200,8 @@ class RegistroForm(ModelForm):
         max_length=75,
         widget=EmailInput(
             attrs={
-                'class': 'form-control input-sm email', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'size': '50',
+                'class': 'form-control input-sm email-mask', 'placeholder': _("Correo de contacto"),
+                'data-toggle': 'tooltip', 'size': '50', 'data-rule-required': 'true',
                 'title': _("Indique el correo electrónico de contacto con el usuario. "
                            "No se permiten correos de hotmail")
             }
