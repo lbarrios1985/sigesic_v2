@@ -2,8 +2,9 @@
 {% for message in messages %}
     {% if message %}
         <script type="text/javascript">
-            bootbox.dialog({
-                message: "{{ message }}",
+            var msg = "{{ message }}";
+            var modal = bootbox.dialog({
+                message: msg,
                 title: "{% trans 'Aviso' %}",
                 buttons: {
                     success: {
@@ -15,6 +16,7 @@
                     }
                 }
             });
+            $(modal).find(".bootbox-body").addClass('text-justify');
         </script>
     {% endif %}
 {% endfor %}
