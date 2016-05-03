@@ -42,7 +42,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost']
 
 ## Identifica a los administradores del sistema
-ADMINS = []
+ADMINS = [
+    ('Ing. Roldan Vargas', 'rvargas@cenditel.gob.ve'),
+]
 
 ## Listado de aplicaciones base del sistema
 PREREQ_APPS = [
