@@ -8,7 +8,7 @@
 $(document).ready(function() {
     /** Declaración de variables */
     var select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
-        input_captcha = $('input[name="captcha_1"]'),
+        input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'),
         tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
 
     if (input_captcha.length) {
@@ -73,5 +73,11 @@ $(document).ready(function() {
             "bPaginate": true,
             "bInfo": true
         });
+    }
+    if (email_mask.length) {
+        /** Crea la respectiva maskara a implementar en los campos de correo electrónico */
+        email_mask.mask('A', {translation: {
+            "A": {pattern: /[\w@\-.+]/, recursive: true}
+        }});
     }
 });
