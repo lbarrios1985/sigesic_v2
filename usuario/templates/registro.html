@@ -143,6 +143,7 @@
                                 <div class="form-inline">
                                     {{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
+                                <span class="help-block">{{ form.telefono.help_text }}</span>
                                 {% if form.telefono.errors %}
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
