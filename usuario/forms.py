@@ -183,14 +183,15 @@ class RegistroForm(ModelForm):
     ## Número telefónico de contacto con el usuario
     telefono = CharField(
         label=_("Teléfono"),
-        max_length=15,
+        max_length=20,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'placeholder': _("Número telefónico"), 'data-rule-required': 'true',
-                'data-toggle': 'tooltip', 'title': _("Indique el número telefónico de contacto con el usuario"),
-                'size': '12'
+                'class': 'form-control input-sm', 'placeholder': '(058)-___-_______',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '12',
+                'title': _("Indique el número telefónico de contacto con el usuario"), 'data-mask': '(000)-000-0000000'
             }
-        )
+        ),
+        help_text=_("(país)-área-número")
     )
 
     ## Correo electrónico de contacto con el usuario
@@ -199,7 +200,7 @@ class RegistroForm(ModelForm):
         max_length=75,
         widget=EmailInput(
             attrs={
-                'class': 'form-control input-sm', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
+                'class': 'form-control input-sm email', 'placeholder': _("Correo de contacto"), 'data-rule-required': 'true',
                 'data-toggle': 'tooltip', 'size': '50',
                 'title': _("Indique el correo electrónico de contacto con el usuario. "
                            "No se permiten correos de hotmail")

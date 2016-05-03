@@ -59,7 +59,7 @@ class UserProfile(models.Model):
 
     ## Establece el teléfono de contacto del usuario
     telefono = models.CharField(
-        max_length=15, help_text=_("Número telefónico de contacto con el usuario"),
+        max_length=20, help_text=_("Número telefónico de contacto con el usuario"),
         validators=[
             validators.RegexValidator(
                 r'^[\d+-]+$',
