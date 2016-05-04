@@ -10,7 +10,7 @@
 				<img src="{% static 'img/factory.svg' %}" class="img-circle img-responsive" alt="User Image">
 			</div>
 			<div class="pull-left info">
-				<p>{% trans 'Industria' %}</p>
+				<p>{{ request.user }}</p>
 				<a href="#"><i class="fa fa-circle text-success"></i> {% trans 'en línea' %}</a>
 			</div>
 		</div>

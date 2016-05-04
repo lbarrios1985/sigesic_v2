@@ -1,5 +1,6 @@
 {% load static from staticfiles %}
 {% load i18n %}
+{% load l10n %}
 <header class="main-header">
     <!-- Logo -->
     <a href="{% url 'inicio' %}" class="logo">
@@ -24,21 +25,23 @@
     	<div class="navbar-custom-menu">
     		<ul class="nav navbar-nav">
                 <!-- Opciones generales para usuarios no autenticados -->
-                <li class="menu-anonimo">
-                    <a href="{% url 'registro' %}">
-                        <span class="hidden-xs">{% trans 'Registro' %}</span>
-                    </a>
-                </li>
-                <li class="menu-anonimo">
-                    <a href="#">
-                        <span class="hidden-xs">{% trans 'Manual' %}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="hidden-xs">{% trans 'Acerca de' %}</span>
-                    </a>
-                </li>
+                {% if not request.user.is_authenticated %}
+                    <li class="menu-anonimo">
+                        <a href="{% url 'registro' %}">
+                            <span class="hidden-xs">{% trans 'Registro' %}</span>
+                        </a>
+                    </li>
+                    <li class="menu-anonimo">
+                        <a href="#">
+                            <span class="hidden-xs">{% trans 'Manual' %}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="hidden-xs">{% trans 'Acerca de' %}</span>
+                        </a>
+                    </li>
+                {% endif %}
 
 
                 {% if request.user.is_authenticated %}
@@ -46,42 +49,41 @@
         			<!-- Notifications -->
         			<li class="dropdown notifications-menu">
         				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        					<i class="fa fa-bell-o"></i>
-        					<span class="label label-warning">10</span>
+        					<i class="fa fa-bell-o tip-bottom" data-toggle="tooltip"
+                               title="{% trans 'Notificaciones del Sistema' %}"></i>
+        					<span class="label {% if notificaciones %}label-warning{% else %}label-primary{% endif %}">
+                                {% if notificaciones %}
+                                    {{ notificaciones }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
         				</a>
         				<ul class="dropdown-menu">
-        					<li class="header">You have 10 notifications</li>
-        					<li>
-        						<!-- inner menu: contains the actual data -->
-        						<ul class="menu">
-        							<li>
-        								<a href="#">
-        									<i class="fa fa-users text-aqua"></i> 5 new members joined today
-        								</a>
-        							</li>
-        							<li>
-        								<a href="#">
-        									<i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems
-        								</a>
-        							</li>
-        							<li>
-        								<a href="#">
-        									<i class="fa fa-users text-red"></i> 5 new members joined
-        								</a>
-        							</li>
-        							<li>
-        								<a href="#">
-        									<i class="fa fa-shopping-cart text-green"></i> 25 sales made
-        								</a>
-        							</li>
-        							<li>
-        								<a href="#">
-        									<i class="fa fa-user text-red"></i> You changed your username
-        								</a>
-        							</li>
-        						</ul>
-        					</li>
-        					<li class="footer"><a href="#">View all</a></li>
+                            {# Menu de notificaciones del sistema #}
+                            {% if not notificaciones %}
+                                <li class="header">{% trans 'No tiene notificaciones' %}</li>
+                                <li class="footer"><a href="#">&#160;</a></li>
+                            {% else %}
+                                <li class="header">
+                                    {% trans 'Tiene' %} {{ notificaciones }} {% trans 'notificaciones' %}
+                                </li>
+                                <li>
+                                    <ul class="menu">
+                                        {% for notificacion in notificaciones %}
+                                            <li>
+                                                <a href="{{ notificacion.url }}">
+                                                    <i class="{% if notificacion.icon_class %}mensaje_notificacion.icon_class {% else %}text-red{% endif %}"></i>
+                                                    &#160;
+                                                    {{ notificacion.mensaje }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">{% trans 'Ver todas' %}</a></li>
+                            {% endif %}
+
         				</ul>
         			</li>
 
@@ -89,36 +91,30 @@
         			<li class="dropdown user user-menu">
         				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
         					<img src="{% static 'img/factory.svg' %}" class="user-image" alt="User Image">
-        					<span class="hidden-xs">{% trans 'Industria' %}</span>
+        					<span class="hidden-xs">{{ request.user }}</span>
         				</a>
         				<ul class="dropdown-menu">
         					<!-- User image -->
         					<li class="user-header">
         						<img src="{% static 'img/factory.svg' %}" class="img-circle" alt="User Image">
         						<p>
-        							{% trans 'Industria' %}
-        							<small>{% trans 'Registrado desde' %}</small>
+        							{{ request.user }}
+        							<small>{% trans 'Registrado desde' %} {{ request.user.date_joined|date }}</small>
         						</p>
         					</li>
-        					<!-- Menu Body -->
-        					<!--<li class="user-body">
-        						<div class="col-xs-4 text-center">
-        							<a href="#">Followers</a>
-        						</div>
-        						<div class="col-xs-4 text-center">
-        							<a href="#">Sales</a>
-        						</div>
-        						<div class="col-xs-4 text-center">
-        							<a href="#">Friends</a>
-        						</div>
-        					</li>-->
         					<!-- Menu Footer-->
         					<li class="user-footer">
         						<div class="pull-left">
-        							<a href="#" class="btn btn-default btn-flat">{% trans 'Perfil' %}</a>
+        							<a href="#" class="btn btn-default btn-flat" data-toggle="tooltip"
+                                       title="{% trans 'Presione para modificar datos del usuario' %}">
+                                        {% trans 'Perfil' %}
+                                    </a>
         						</div>
         						<div class="pull-right">
-        							<a href="{% url 'salir' %}" class="btn btn-default btn-flat">{% trans 'Salir' %}</a>
+        							<a href="{% url 'salir' %}" class="btn btn-default btn-flat"
+                                       data-toggle="tooltip" title="{% trans 'Presione para salir del sistema' %}">
+                                        {% trans 'Salir' %}
+                                    </a>
         						</div>
         					</li>
         				</ul>
