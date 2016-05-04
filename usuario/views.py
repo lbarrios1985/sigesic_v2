@@ -108,6 +108,8 @@ def acceso(request):
     @param request <b>{object}</b> Objeto que obtiene la petición
     @return Redirecciona al usuario a la pagina correspondiente en caso de que se haya autenticado o no
     """
+    form = AutenticarForm()
+
     if request.method == "POST":
         form = AutenticarForm(data=request.POST)
 
@@ -117,24 +119,19 @@ def acceso(request):
             )
 
             usuario = authenticate(username=username, password=str(request.POST['clave']))
-            login(request, usuario)
 
-            usr = User.objects.get(username=username)
-            usr.last_login = datetime.now()
-            usr.save()
+            if usuario is not None:
+                login(request, usuario)
+                usr = User.objects.get(username=username)
+                usr.last_login = datetime.now()
+                usr.save()
+            else:
+                logger.error(str(_("Error al autenticar el usuario [%s]") % username))
 
-            if UserProfile.objects.filter(user=usr):
-                # Registra información de conexión del usuario
-                profile = UserProfile.objects.get(user=usr)
-                profile.conectado = True
-                profile.ip = request.META.get('REMOTE_ADDR')
-                profile.save()
-            logger.info("Acceso al sistema por el usuario [%s]" % username)
+            logger.info(str(_("Acceso al sistema por el usuario [%s]") % username))
             return HttpResponseRedirect(urlresolvers.reverse("inicio"))
-        else:
-            return render_to_response('acceso.html', {'form': form}, context_instance=RequestContext(request))
 
-    return render_to_response("acceso.html", {'form': AutenticarForm()}, context_instance=RequestContext(request))
+    return render_to_response('acceso.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def salir(request):
