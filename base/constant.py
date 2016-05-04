@@ -49,6 +49,12 @@ SHORT_NACIONALIDAD = (
 ## Lista de nacionalidades
 NACIONALIDAD_LIST = [nac[0] for nac in SHORT_NACIONALIDAD]
 
+## Turno de atención al público
+TURNO = (
+    ("M", _("Mañana")),
+    ("T", _("Tarde"))
+)
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 
