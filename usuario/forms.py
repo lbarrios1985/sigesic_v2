@@ -110,7 +110,7 @@ class AutenticarForm(forms.Form):
         clave = self.cleaned_data['clave']
         rif = "%s%s%s" % (self.data['rif_0'], self.data['rif_1'], self.data['rif_2'])
 
-        if User.objects.filter(username=rif) and User.objects.get(username=rif).check_password(clave):
+        if User.objects.filter(username=rif) and not User.objects.get(username=rif).check_password(clave):
             raise forms.ValidationError(_("Contraseña incorrecta"))
 
         return clave
