@@ -14,6 +14,15 @@
     /// URL para validar el rif en los registros del SENIAT
     var URL_VALIDAR_RIF_SENIAT = "{% url 'validar_rif_seniat' %}";
 
+    /// URL para cargar datos en un select
+    var URL_CARGAR_SELECT = "{% url 'cargar_combo' %}";
+
+    /// URL para actualizar combos anidados
+    var URL_ACTUALIZAR_SELECT = "{% url 'actualizar_combo' %}";
+
+    /// URL para eliminar registros
+    var URL_ELIMINAR_REGISTRO = "{% url 'eliminar_registro' %}";
+
     /// Mensaje de error en peticiones AJAX
     var MSG_PETICION_AJAX_FALLIDA = "{% trans 'Petición fallida. Verifique el error: ' %}";
 
@@ -44,4 +53,25 @@
 
     /// Mensaje de contraseña muy fuerte
     var MSG_PASSWD_MUY_FUERTE = "{% trans 'Muy fuerte' %}";
+
+    /// Mensaje al usuario solicitando si esta realmente seguro de eliminar el registro seleccionado
+    var MSG_ELIMINAR_REGISTRO = "{% trans 'Esta seguro de querer eliminar el registro seleccionado?' %}";
+
+    /// Mensaje al usuario indicando que el registro fue eliminado del sistema
+    var MGS_REGISTRO_ELIMINADO = "{% trans 'Registro eliminado con éxito' %}";
+
+    /// Mensaje al usuario indicando que el registro no pudo ser eliminado
+    var MSG_REGISTRO_NO_ELIMINADO = "{% trans 'El registro seleccionado no puede ser eliminado' %}";
+
+    /// Mensaje al usuario indicando que el registro fue almacenado correctamente
+    var MSG_REGISTRO_OK = "{% trans 'Los datos fueron registrados con éxito' %}";
+
+    /// Texto a mostrar para el botón de registrar datos del formulario
+    var BTN_REGISTRAR = "{% trans 'Registrar' %}";
+
+    /// Texto a mostrar para el botón de limpiar datos del formulario
+    var BTN_LIMPIAR = "{% trans 'Limpiar' %}";
+
+    /// Texto a mostrar para el botón de cancelar acción
+    var BTN_CANCELAR = "{% trans 'Cancelar' %}";
 </script>
