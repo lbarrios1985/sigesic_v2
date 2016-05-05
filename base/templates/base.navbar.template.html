@@ -104,13 +104,19 @@
         					</li>
         					<!-- Menu Footer-->
         					<li class="user-footer">
-        						<div class="pull-left">
+        						<div class="col-md-4">
         							<a href="#" class="btn btn-default btn-flat" data-toggle="tooltip"
                                        title="{% trans 'Presione para modificar datos del usuario' %}">
                                         {% trans 'Perfil' %}
                                     </a>
         						</div>
-        						<div class="pull-right">
+                                <div class="col-md-4">
+        							<a href="#" class="btn btn-default btn-flat" data-toggle="tooltip"
+                                       title="{% trans 'Presione para ver el histórico de registros en el sistema' %}">
+                                        {% trans 'Histórico' %}
+                                    </a>
+        						</div>
+        						<div class="col-md-4">
         							<a href="{% url 'salir' %}" class="btn btn-default btn-flat"
                                        data-toggle="tooltip" title="{% trans 'Presione para salir del sistema' %}">
                                         {% trans 'Salir' %}
