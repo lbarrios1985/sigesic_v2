@@ -26,7 +26,68 @@
 				<!-- seccion para el contenido del sistema -->
 				<section class="content" style="padding:auto 0;">
 					<div class="row">
-                        {% block contenido %}{% endblock %}
+                        {% block contenido %}
+                            <div class="box box-primary box-registro-general">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">{% trans 'Registro de Unidades Económicas' %}</h3>
+                                </div>
+                                <div class="box-body">
+                                    <h5 class="titulo">{% trans 'Bienvenido' %}, {{ request.user }}</h5>
+                                    <p class="text-justify">
+                                        {% blocktrans %}
+                                            Para facilitar su registro, el sistema le provee de una serie de material y
+                                            herramientas que le ayudaran a completar exitosamente su registro.
+                                        {% endblocktrans %}
+                                    </p>
+                                    <div class="row row-fluid row-entrada">
+                                        <div class="col-md-5 col-sm-12 col-xs-12"></div>
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <a href="#">
+                                                <img src="{% static 'img/manual.png' %}" alt="{% trans 'Manual' %}"
+                                                     class="img-responsive img-entrada"
+                                                     data-toggle="tooltip"
+                                                     title="{% trans 'Presione para ver el manual de usuario' %}">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <h2 class="titulo-img-entrada text-left">{% trans 'Manual de Usuario' %}</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row row-fluid row-entrada">
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <h2 class="titulo-img-entrada text-right">{% trans 'Preguntas Frecuentes' %}</h2>
+                                        </div>
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <a href="#">
+                                                <img src="{% static 'img/preguntas.png' %}"
+                                                     alt="{% trans 'Preguntas Frecuentes' %}"
+                                                     class="img-responsive img-entrada"
+                                                     data-toggle="tooltip"
+                                                     title="{% trans 'Presione para ver las preguntas frecuentes' %}">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-5 col-sm-12 col-xs-12">&#160;</div>
+                                    </div>
+                                    <div class="row row-fluid row-entrada">
+                                        <div class="col-md-5 col-sm-12 col-xs-12"></div>
+                                        <div class="col-md-2 col-sm-12 col-xs-12">
+                                            <a href="#">
+                                                <img src="{% static 'img/contacto.png' %}" alt="{% trans 'Contactenos' %}"
+                                                     class="img-responsive img-entrada"
+                                                     data-toggle="tooltip"
+                                                     title="{% trans 'Presione para contactarnos' %}">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <h2 class="titulo-img-entrada text-left">{% trans 'Contáctenos' %}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer text-right">
+                                    <button type="button" class="btn btn-primary btn-sm">{% trans 'Comenzar' %}</button>
+                                </div>
+                            </div>
+                        {% endblock %}
 	      			</div>
 				</section>
       			
