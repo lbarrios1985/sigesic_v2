@@ -54,7 +54,7 @@ def hash_user(user, is_new_user=False, is_reset=False):
     @param is_reset <b>{boolean}</b> Indica si se reinician los datos del usuario
     @return Devuelve un enlace cifrado
     """
-    date_to_hash = ''
+
     if is_new_user:
         date_to_hash = user.date_joined.isoformat()
     else:
@@ -70,6 +70,15 @@ def hash_user(user, is_new_user=False, is_reset=False):
 
 
 def confirmar_registro(request):
+    """!
+    Función que permite confirmar el enlace enviado al usuario durante el registro
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 02-05-2016
+    @param request <b>{object}</b> Objeto que contiene la petición
+    @return Devuelve un mensje al usuario indicando el estatus de la validación del enlace
+    """
     userid = request.GET.get('userid', None)
     key = request.GET.get('key', None)
     verificado = False
@@ -198,6 +207,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             user=self.object
         )
 
+        ## Asigna un enlace de verificación en el registro de usuarios
         link = self.request.build_absolute_uri("%s?userid=%s&key=%s" % (
             urlresolvers.reverse('usuario.views.confirmar_registro'),
             self.object.username, hash_user(self.object, is_new_user=True).decode()
@@ -208,6 +218,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             administrador = settings.ADMINS[0][0]
             admin_email = settings.ADMINS[0][1]
 
+        ## Indica si el correo electrónico fue enviado
         enviado = enviar_correo(self.object.email, 'usuario.bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
             'link': link, 'emailapp': settings.EMAIL_FROM, 'administrador': administrador, 'admin_email': admin_email
         })
