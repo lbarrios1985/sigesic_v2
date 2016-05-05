@@ -92,8 +92,9 @@ def confirmar_registro(request):
             mensaje = str(_("El enlace utilizado expiró. Contacte al administrador del sistema."))
 
     return render_to_response(
-        'validar.cuenta.html', {'verificado': verificado, 'emailapp': settings.EMAIL_FROM, 'mensaje': mensaje,
-                                'login_url': login_url},
+        'usuario.validar.cuenta.html', {
+            'verificado': verificado, 'emailapp': settings.EMAIL_FROM, 'mensaje': mensaje, 'login_url': login_url
+        },
         context_instance=RequestContext(request)
     )
 
@@ -131,7 +132,7 @@ def acceso(request):
             logger.info(str(_("Acceso al sistema por el usuario [%s]") % username))
             return HttpResponseRedirect(urlresolvers.reverse("inicio"))
 
-    return render_to_response('acceso.html', {'form': form}, context_instance=RequestContext(request))
+    return render_to_response('usuario.acceso.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def salir(request):
@@ -164,7 +165,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
     """
     model = User
     form_class = RegistroForm
-    template_name = 'registro.html'
+    template_name = 'usuario.registro.html'
     success_url = reverse_lazy('acceso')
     success_message = REGISTRO_MESSAGE
 
@@ -207,7 +208,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             administrador = settings.ADMINS[0][0]
             admin_email = settings.ADMINS[0][1]
 
-        enviado = enviar_correo(self.object.email, 'bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
+        enviado = enviar_correo(self.object.email, 'usuario.bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
             'link': link, 'emailapp': settings.EMAIL_FROM, 'administrador': administrador, 'admin_email': admin_email
         })
 
