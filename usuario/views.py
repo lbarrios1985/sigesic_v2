@@ -30,7 +30,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from base.constant import CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO
 from base.functions import calcular_diferencia_fechas, enviar_correo
-from base.models import DatosSistema
 from usuario.forms import AutenticarForm, RegistroForm
 from usuario.models import UserProfile
 
@@ -110,7 +109,6 @@ def acceso(request):
     @return Redirecciona al usuario a la pagina correspondiente en caso de que se haya autenticado o no
     """
     form = AutenticarForm()
-    datos_sistema = DatosSistema.objects.get(activo=True)
 
     if request.method == "POST":
         form = AutenticarForm(data=request.POST)
@@ -133,9 +131,7 @@ def acceso(request):
             logger.info(str(_("Acceso al sistema por el usuario [%s]") % username))
             return HttpResponseRedirect(urlresolvers.reverse("inicio"))
 
-    return render_to_response('acceso.html',
-                              {'form': form, 'datos_sistema': datos_sistema},
-                              context_instance=RequestContext(request))
+    return render_to_response('acceso.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def salir(request):
