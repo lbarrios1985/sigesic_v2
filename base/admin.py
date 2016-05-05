@@ -14,8 +14,6 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from base.models import DatosSistema, TelefonoSistema, HorarioSistema, ImagenCarousel
-
 import logging
 
 logger = logging.getLogger("base")
@@ -25,14 +23,3 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 
-class DatosSistemaAdmin(admin.ModelAdmin):
-    list_display = ("institucion",)
-    list_filter = ("institucion",)
-    ordering = ("institucion",)
-    search_fields = ("institucion",)
-
-
-admin.site.register(DatosSistema, DatosSistemaAdmin)
-admin.site.register(TelefonoSistema)
-admin.site.register(HorarioSistema)
-admin.site.register(ImagenCarousel)
