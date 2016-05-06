@@ -5,7 +5,9 @@
         {% csrf_token %}
         <div class="box box-primary box-registro" style="padding:20px">
             <div class="box-header with-border">
-                <h3 class="box-title">{% trans 'Registro de usuarios' %}</h3>
+                <h3 class="box-title">
+                    {% trans 'Registro de usuarios' %}&#160;<i class="glyphicon glyphicon-edit"></i>
+                </h3>
             </div>
             <div class="box-body">
                 <h5 class="titulo">{% trans 'Datos de la Unidad Económica' %}</h5>
