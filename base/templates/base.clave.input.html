@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="form-group {% if form.clave.errors %}has-error{% endif %}">
+    <div>{{ form.clave.label_tag }}</div>
+    <div class="form-inline">
+        {{ form.clave }}<i class="ion ion-ios-medical item-requerido" data-toggle="tooltip"
+                           title="{% trans 'Este campo es obligatorio' %}"></i>
+    </div>
+    {% if form.clave.errors %}
+        <p class="bg-warning">
+            <span class="help-block msg-error">
+                <i class="fa fa-times-circle-o"></i> {{ form.clave.errors.as_text|cut:'* ' }}
+            </span>
+        </p>
+    {% endif %}
+</div>
