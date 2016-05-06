@@ -186,8 +186,8 @@ class RegistroForm(ModelForm):
         max_length=20,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'placeholder': '(058)-___-_______',
-                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '12',
+                'class': 'form-control input-sm', 'placeholder': '(058)-000-0000000',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '15',
                 'title': _("Indique el número telefónico de contacto con el usuario"), 'data-mask': '(000)-000-0000000'
             }
         ),
