@@ -287,5 +287,8 @@ if DEBUG:
     ## Elimina la imagen de ruido en el fondo del captcha cuando la aplicacion se encuentra en modo desarrollo
     CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null',)
 
+    ## Tiempo de expiración del captcha en entornos de desarrollo, representado en minutos
+    CAPTCHA_TIMEOUT = 1440 # 24 horas
+
     ## Configura el backend para el envío de correo electrónico para mostrarlo en consola, solo en entorno de desarrollo
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
