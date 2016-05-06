@@ -21,6 +21,7 @@ from base.constant import (
     FORTALEZA_CONTRASENHA
 )
 from base.fields import RifField, CedulaField
+from base.forms import RifForm, ClaveForm, CaptchaForm, CorreoForm
 from base.functions import verificar_rif
 from base.classes import Seniat
 from captcha.fields import CaptchaField, CaptchaTextInput
@@ -46,74 +47,35 @@ __docstring__ = "DoxyGen"
 
 
 @python_2_unicode_compatible
-class AutenticarForm(forms.Form):
+class AutenticarForm(RifForm, ClaveForm, CaptchaForm):
     """!
-    Clase que muestra el formulario de registro de usuarios
+    Clase que muestra el formulario de registro de usuarios. Extiende de las clases RifForm, ClaveForm y CaptchaForm
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 21-04-2016
     @version 2.0.0
     """
+    pass
 
-    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
-    rif = RifField()
+@python_2_unicode_compatible
+class OlvidoClaveForm(RifForm, CorreoForm):
+    """!
+    Clase que muestra el formulario para envío de correo electrónico con enlace para la modificación de clave
 
-    ## Contraseña del usuario
-    clave = CharField(
-        label=_("Contraseña"), max_length=30, widget=PasswordInput(attrs={
-            'class': 'form-control input-sm', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
-            'title': _("Indique la contraseña de acceso al sistema"), 'size': '28'
-        })
-    )
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 06-05-2016
+    @version 2.0.0
+    """
 
-    ## Campo de validación de captcha
-    captcha = CaptchaField(
-        label=_("Captcha"), widget=CaptchaTextInput(attrs={
-            'class': 'form-control input-sm', 'placeholder': _("texto de la imagen"),
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el texto de la imagen")
-        })
-    )
+    def clean_correo(self):
+        correo = self.cleaned_data['correo']
 
-    def clean_rif(self):
-        """!
-        Método que permite validar el campo de rif
+        if not User.objects.filter(email=correo):
+            raise forms.ValidationError(_("El correo indicado no existe"))
 
-        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
-        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-        @date 27-04-2016
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @return Devuelve un mensaje de error en caso de que el rif no sea válido o no se encuentre registrado en el
-                sistema, en caso contrario devuelve el valor actual del campo
-        """
-        rif = self.cleaned_data['rif']
-
-        if not verificar_rif(rif):
-            raise forms.ValidationError(_("El RIF es inválido"))
-        elif not User.objects.filter(username=rif):
-            raise forms.ValidationError(_("Usuario no registrado"))
-
-        return
-
-    def clean_clave(self):
-        """!
-        Método que permite validar el campo de contraseña
-
-        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
-        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-        @date 27-04-2016
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @return Devuelve un mensaje de error en caso de que la contraseña sea incorrecta, en caso contrario devuelve
-                el valor actual del campo
-        """
-        clave = self.cleaned_data['clave']
-        rif = "%s%s%s" % (self.data['rif_0'], self.data['rif_1'], self.data['rif_2'])
-
-        if User.objects.filter(username=rif) and not User.objects.get(username=rif).check_password(clave):
-            raise forms.ValidationError(_("Contraseña incorrecta"))
-
-        return clave
+        return correo
 
 
 @python_2_unicode_compatible
