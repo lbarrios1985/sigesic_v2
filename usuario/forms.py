@@ -107,7 +107,7 @@ class ModificarClaveForm(ClaveForm, CaptchaForm, forms.Form):
         password_meter = self.data['passwordMeterId']
         if int(password_meter) < FORTALEZA_CONTRASENHA:
             raise forms.ValidationError(_("La contraseña es débil"))
-        return self.cleaned_data['password']
+        return self.cleaned_data['clave']
 
     def clean_verificar_contrasenha(self):
         """!
@@ -120,7 +120,7 @@ class ModificarClaveForm(ClaveForm, CaptchaForm, forms.Form):
         @return Devuelve un mensaje de error en caso de que la contrasenha no pueda ser verificada
         """
         verificar_contrasenha = self.cleaned_data['verificar_contrasenha']
-        contrasenha = self.data['password']
+        contrasenha = self.data['clave']
         if contrasenha != verificar_contrasenha:
             raise forms.ValidationError(_("La contraseña no es la misma"))
 

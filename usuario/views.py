@@ -64,7 +64,7 @@ def hash_user(user, is_new_user=False, is_reset=False):
     username = user.username
     password = user.password
     date_to_hash = date_to_hash + ("", "|reset")[is_reset]
-    cadena = username+"|"+password+"|"+date_to_hash
+    cadena = username + "|" + password + "|" + date_to_hash
 
     hash = hashlib.sha1(cadena.encode("utf-8")).hexdigest()
     return base64.urlsafe_b64encode(bytes(hash, "utf-8"))
@@ -253,6 +253,9 @@ def modificar_clave(request):
 
         if form.is_valid():
             user = User.objects.get(username=username)
+            user.set_password(request.POST['clave'])
+            user.save()
+            messages.info(request, _("Su contraseña ha sido modificada correctamente"))
 
             logger.info(str(_("El usuario [%s] modificó su contraseña por olvido") % username))
             return HttpResponseRedirect(urlresolvers.reverse("acceso"))
