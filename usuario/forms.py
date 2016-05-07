@@ -59,7 +59,7 @@ class AutenticarForm(RifForm, ClaveForm, CaptchaForm):
     pass
 
 @python_2_unicode_compatible
-class OlvidoClaveForm(RifForm, CorreoForm):
+class OlvidoClaveForm(RifForm, CorreoForm, CaptchaForm):
     """!
     Clase que muestra el formulario para envío de correo electrónico con enlace para la modificación de clave
 
@@ -76,6 +76,55 @@ class OlvidoClaveForm(RifForm, CorreoForm):
             raise forms.ValidationError(_("El correo indicado no existe"))
 
         return correo
+
+
+class ModificarClaveForm(ClaveForm, CaptchaForm, forms.Form):
+
+    ## Confirmación de contraseña de acceso
+    verificar_contrasenha = CharField(
+        label=_("Verificar Contraseña"),
+        max_length=128,
+        widget=PasswordInput(
+            attrs={
+                'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '50',
+                'title': _("Indique nuevamente la contraseña de aceso al sistema")
+            }
+        )
+    )
+
+    def clean_clave(self):
+        """!
+        Método que permite validar el campo de password
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la fortaleza de la contraseña sea inferior al minimo
+                establecido
+        """
+        password_meter = self.data['passwordMeterId']
+        if int(password_meter) < FORTALEZA_CONTRASENHA:
+            raise forms.ValidationError(_("La contraseña es débil"))
+        return self.cleaned_data['password']
+
+    def clean_verificar_contrasenha(self):
+        """!
+        Método que permite validar el campo de verificar_contrasenha
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la contrasenha no pueda ser verificada
+        """
+        verificar_contrasenha = self.cleaned_data['verificar_contrasenha']
+        contrasenha = self.data['password']
+        if contrasenha != verificar_contrasenha:
+            raise forms.ValidationError(_("La contraseña no es la misma"))
+
+        return verificar_contrasenha
 
 
 @python_2_unicode_compatible

@@ -7,7 +7,7 @@
     {% include 'base.clave.input.html' %}
     {% include 'base.captcha.input.html' %}
     <div class="form-group">
-        <a href="#" data-toggle="tooltip"
+        <a href="{% url 'olvido_clave' %}" data-toggle="tooltip"
            title="{% trans 'Presione para generar una nueva contraseña de acceso' %}">
             {% trans '¿Olvidó su contraseña?' %}
         </a>

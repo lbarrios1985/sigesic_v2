@@ -1,0 +1,27 @@
+{% extends 'base.acceso.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block box_acceso_titulo %}{% trans 'Modificar Contraseña' %}{% endblock %}
+{% block box_acceso_campos %}
+    {% include 'base.clave.input.html' %}
+    <div class="form-group {% if form.verificar_contrasenha.errors %}has-error{% endif %}">
+        <div>{{ form.verificar_contrasenha.label_tag }}</div>
+        <div class="form-inline">
+            {{ form.verificar_contrasenha }}<i class="ion ion-ios-medical item-requerido"></i>
+        </div>
+        {% if form.verificar_contrasenha.errors %}
+            <p class="bg-warning">
+                <span class="help-block msg-error">
+                    <i class="fa fa-times-circle-o"></i> {{ form.verificar_contrasenha.errors.as_text|cut:'* ' }}
+                </span>
+            </p>
+        {% endif %}
+    </div>
+    {% include 'base.captcha.input.html' %}
+{% endblock %}
+{% block box_acceso_botones %}
+    <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip"
+            title="{% trans 'Presione el botón para ingresar al sistema' %}">
+        {% trans 'Ingresar' %}
+    </button>
+{% endblock %}
