@@ -10,6 +10,12 @@
         <div id="passwordDescription">Contraseña no introducida</div>
         <div id="passwordStrength" class="strength0 text-center" style="margin: 0 auto; float: none;"></div>
         <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;">
+    {% else %}
+        {% block extra_footer %}
+            <script type="text/javascript">
+                document.getElementById("{{ form.clave.auto_id }}").onkeyup = function() {return ''};
+            </script>
+        {% endblock %}
     {% endif %}
     {% if form.clave.errors %}
         <p class="bg-warning">
