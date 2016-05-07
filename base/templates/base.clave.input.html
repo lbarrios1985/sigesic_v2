@@ -5,6 +5,12 @@
         {{ form.clave }}<i class="ion ion-ios-medical item-requerido" data-toggle="tooltip"
                            title="{% trans 'Este campo es obligatorio' %}"></i>
     </div>
+    {% if fortaleza_clave %}
+        <label for="passwordStrength">Fortaleza de contraseña</label>
+        <div id="passwordDescription">Contraseña no introducida</div>
+        <div id="passwordStrength" class="strength0 text-center" style="margin: 0 auto; float: none;"></div>
+        <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;">
+    {% endif %}
     {% if form.clave.errors %}
         <p class="bg-warning">
             <span class="help-block msg-error">
