@@ -99,7 +99,8 @@ class ClaveForm(forms.Form):
     clave = CharField(
         label=_("Contraseña"), max_length=30, widget=PasswordInput(attrs={
             'class': 'form-control input-sm', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
-            'title': _("Indique la contraseña de acceso al sistema"), 'size': '28'
+            'title': _("Indique la contraseña de acceso al sistema"), 'size': '28',
+            'onkeyup': 'passwordStrength(this.value)'
         })
     )
 
