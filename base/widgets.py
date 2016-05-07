@@ -73,9 +73,8 @@ class RifWidget(MultiWidget):
         return ' - '.join(rendered_widgets)
 
     def decompress(self, value):
-
         if value:
-            return [value[0], value[1], value[2]]
+            return [value[0], value[1:-1], value[-1]]
         return [None, None, None]
 
 
@@ -114,5 +113,5 @@ class CedulaWidget(MultiWidget):
 
     def decompress(self, value):
         if value:
-            return [value[0], value[1]]
+            return [value[0], value[1:]]
         return [None, None]
