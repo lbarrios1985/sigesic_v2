@@ -33,6 +33,7 @@ from django.forms import (
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from base.widgets import RifWidgetReadOnly
 from .models import UserProfile
 
 """!
@@ -351,6 +352,7 @@ class RegistroForm(ModelForm):
         return verificar_contrasenha
 
 
+@python_2_unicode_compatible
 class PerfilForm(RegistroForm):
     """!
     Clase que muestra el formulario del perfil del usuario
@@ -367,8 +369,73 @@ class PerfilForm(RegistroForm):
             'rif', 'nombre_ue', 'cedula', 'cargo', 'nombre', 'apellido', 'telefono', 'correo', 'password',
             'verificar_contrasenha', 'captcha'
         ]
-        exclude = [
-            'fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'username', 'rif',
-            'is_superuser', 'last_login', 'is_staff', 'user_permissions', 'is_active', 'groups'
-        ]
 
+
+    def __init__(self, *args, **kwargs):
+        """!
+        Método que inicializa la clase del formulario PerfilForm
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param *kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        """
+        super(PerfilForm, self).__init__(*args, **kwargs)
+        self.fields['password'].required = False
+        self.fields['verificar_contrasenha'].required = False
+        if self.data.__contains__('password') and self.data['password'] != '':
+            self.fields['password'].required = True
+            self.fields['verificar_contrasenha'].required = True
+        self.fields['rif'].required = False
+        self.fields['rif'].widget = RifWidgetReadOnly()
+        self.fields['password'].help_text = 'passwordMeterId'
+
+
+    def clean_rif(self):
+        """!
+        Método que permite validar el campo de rif
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve los datos del campo sin validacion, ya que es de solo lectura a nivel informativo
+        """
+        return self.cleaned_data['rif']
+
+    def clean_correo(self):
+        """!
+        Método que permite validar el campo de correo electronico
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que el correo electronico ya se encuentre registrado
+        """
+        correo = self.cleaned_data['correo']
+        rif = self.cleaned_data['rif']
+
+        if User.objects.filter(email=correo).exclude(username=rif):
+            raise forms.ValidationError(_("El correo ya esta registrado"))
+
+        return correo
+
+    def clean_password(self):
+        """!
+        Método que permite validar el campo de contraseña
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la fortaleza de la contraseña no sea la adecuada
+        """
+        if self.cleaned_data['password'] != '':
+            password_meter = self.data['passwordMeterId']
+            if int(password_meter) < FORTALEZA_CONTRASENHA:
+                raise forms.ValidationError(_("La contraseña es débil"))
+
+        return self.cleaned_data['password']

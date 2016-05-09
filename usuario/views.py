@@ -395,12 +395,14 @@ class PerfilUpdate(SuccessMessageMixin, UpdateView):
 
         self.object.save()
 
-        if UserProfile.objects.filter(user=self.object.username):
-            perfil = UserProfile.objects.get(user=self.object.username)
+        if UserProfile.objects.filter(user__username=str(self.object.username)):
+            perfil = UserProfile.objects.get(user__username=str(self.object.username))
             perfil.nacionalidad = form.cleaned_data['cedula'][0]
             perfil.cedula = form.cleaned_data['cedula'][1:]
             perfil.cargo = form.cleaned_data['cargo']
             perfil.telefono = form.cleaned_data['telefono']
             perfil.save()
+
+        messages.info(self.request, UPDATE_MESSAGE)
 
         return HttpResponseRedirect(self.get_success_url())
