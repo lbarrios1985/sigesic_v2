@@ -10,7 +10,7 @@
         <div class="box box-primary box-registro-general">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    {% block titulo_registro %}{% endblock %}&#160;<i class="glyphicon glyphicon-edit"></i>
+                    <i class="glyphicon glyphicon-edit"></i>&#160;{% block titulo_registro %}{% endblock %}
                 </h3>
             </div>
             <div class="box-body">
@@ -30,14 +30,23 @@
                                                     <i class="ion ion-ios-medical item-requerido"></i>
                                                 {% endif %}
                                             </div>
+                                            {% if field.help_text == 'passwordMeterId' %}
+                                                <label for="passwordStrength">Fortaleza de contraseña</label>
+                                                <div id="passwordDescription">Contraseña no introducida</div>
+                                                <div id="passwordStrength" class="strength0"></div>
+                                                <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;" value="0">
+                                            {% else %}
+                                                <span class="help-block">{{ field.help_text }}</span>
+                                            {% endif %}
+                                            {% if field.errors %}
+                                                <p class="bg-warning">
+                                                    <span class="help-block msg-error">
+                                                        <i class="fa fa-times-circle-o"></i> {{ field.errors.as_text|cut:'* ' }}
+                                                    </span>
+                                                </p>
+                                            {% endif %}
                                         </div>
-                                        {% if field.errors %}
-                                            <p class="bg-warning">
-                                                <span class="help-block msg-error">
-                                                    <i class="fa fa-times-circle-o"></i> {{ fields.errors.as_text|cut:'* ' }}
-                                                </span>
-                                            </p>
-                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>
