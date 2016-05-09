@@ -1,5 +1,8 @@
-function passwordStrength(password)
-{
+/**
+ * @brief Función que mide la fortaleza de la contraseña y la muestra en pantalla
+ * @param password Cadena de carácteres con la contraseña indicada por el usuario
+ */
+function passwordStrength(password) {
     var desc = new Array();
     desc[0] = MSG_PASSWD_MUY_DEBIL;
     desc[1] = MSG_PASSWD_DEBIL;
