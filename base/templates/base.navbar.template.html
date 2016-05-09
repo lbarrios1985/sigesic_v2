@@ -105,7 +105,8 @@
         					<!-- Menu Footer-->
         					<li class="user-footer">
         						<div class="col-md-4">
-        							<a href="#" class="btn btn-default btn-flat" data-toggle="tooltip"
+        							<a href="{% url 'modificar_perfil' request.user.pk %}"
+                                       data-toggle="tooltip" class="btn btn-default btn-flat"
                                        title="{% trans 'Presione para modificar datos del usuario' %}">
                                         {% trans 'Perfil' %}
                                     </a>

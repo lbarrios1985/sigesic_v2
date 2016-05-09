@@ -349,3 +349,18 @@ class RegistroForm(ModelForm):
             raise forms.ValidationError(_("La contraseña no es la misma"))
 
         return verificar_contrasenha
+
+
+class PerfilForm(RegistroForm):
+    """!
+    Clase que muestra el formulario del perfil del usuario
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 07-05-2016
+    @version 2.0.0
+    """
+
+    class Meta:
+        model = User
+        exclude = ['fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'username', 'rif']

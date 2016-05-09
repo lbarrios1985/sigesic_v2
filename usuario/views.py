@@ -26,12 +26,14 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.utils.translation import ugettext_lazy as _
 
-from base.constant import CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO
+from base.constant import (
+    CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO, UPDATE_MESSAGE
+)
 from base.functions import calcular_diferencia_fechas, enviar_correo
-from usuario.forms import AutenticarForm, RegistroForm, OlvidoClaveForm, ModificarClaveForm
+from usuario.forms import AutenticarForm, RegistroForm, OlvidoClaveForm, ModificarClaveForm, PerfilForm
 from usuario.models import UserProfile
 
 import logging
@@ -255,6 +257,10 @@ def modificar_clave(request):
             user = User.objects.get(username=username)
             user.set_password(request.POST['clave'])
             user.save()
+            if UserProfile.objects.filter(user=user):
+                perfil = UserProfile.objects.get(user=user)
+                perfil.fecha_modpass = datetime.now()
+                perfil.save()
             messages.info(request, _("Su contraseña ha sido modificada correctamente"))
 
             logger.info(str(_("El usuario [%s] modificó su contraseña por olvido") % username))
@@ -350,3 +356,46 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             )
 
         return super(RegistroCreate, self).form_valid(form)
+
+
+class PerfilUpdate(SuccessMessageMixin, UpdateView):
+    model = User
+    form_class = PerfilForm
+    template_name = 'usuario.registro.html'
+    success_url = reverse_lazy('inicio')
+    success_message = UPDATE_MESSAGE
+
+    def get_initial(self):
+        datos_iniciales = super(PerfilUpdate, self).get_initial()
+        datos_iniciales['rif'] = self.request.user.username
+        perfil = UserProfile.objects.get(user=self.request.user)
+        datos_iniciales['cedula'] = perfil.nacionalidad + perfil.cedula
+        datos_iniciales['cargo'] = perfil.cargo
+        datos_iniciales['nombre'] = self.request.user.first_name
+        datos_iniciales['apellido'] = self.request.user.last_name
+        datos_iniciales['telefono'] = perfil.telefono
+        datos_iniciales['correo'] = self.request.user.email
+
+        return datos_iniciales
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+
+        if self.object.first_name != form.cleaned_data['nombre']:
+            self.object.first_name = form.cleaned_data['nombre']
+        if self.object.last_name != form.cleaned_data['apellido']:
+            self.object.last_name = form.cleaned_data['apellido']
+        if self.object.email != form.cleaned_data['correo']:
+            self.object.email = form.cleaned_data['correo']
+        if form.cleaned_data['password'] != "":
+            self.object.set_password(form.cleaned_data['password'])
+
+        self.object.save()
+
+        perfil = UserProfile.objects.get(user=self.object.username)
+        perfil.nacionalidad = form.cleaned_data['cedula'][0]
+        perfil.cedula = form.cleaned_data['cedula'][1:]
+        perfil.cargo = form.cleaned_data['cargo']
+        perfil.telefono = form.cleaned_data['telefono']
+
+        return HttpResponseRedirect(self.get_success_url())
