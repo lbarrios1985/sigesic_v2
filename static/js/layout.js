@@ -9,7 +9,7 @@ $(document).ready(function() {
     /** Declaración de variables */
     var browserName = navigator.appName, browserVer = navigator.appVersion,
         select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
-        input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'),
+        input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'), form_update = $('.form-update'),
         tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
@@ -19,8 +19,24 @@ $(document).ready(function() {
         });
     }
 
+    if (form_update.length) {
+        /** Muestra un mensaje de confirmacion para actualizar datos en el sistema */
+        form_update.submit(function(e) {
+            var currentForm = this;
+            e.preventDefault();
+            bootbox.confirm(MSG_REGISTRO_UPDATE, function(result) {
+                if (result) {
+                    currentForm.submit();
+                }
+            });
+        });
+    }
+
     if (input_captcha.length) {
+        /** Agrega clases de bootstrap para el input del captcha */
         input_captcha.addClass("form-control input-sm");
+
+        /** Agrega un placeholder al input del captcha */
         input_captcha.attr("placeholder", "texto de la imagen");
     }
 
