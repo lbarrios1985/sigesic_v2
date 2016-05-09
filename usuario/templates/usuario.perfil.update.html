@@ -1,0 +1,13 @@
+{% extends 'base.registro.template.html' %}
+{% load i18n %}
+{% block titulo_registro %}{% trans 'Actualización de Perfil' %}{% endblock %}
+{% block form_columnas %}col-md-6 col-sm-12{% endblock %}
+{% block content_header_title %}{% trans 'Perfil' %}{% endblock %}
+{% block active_link %}{% trans 'Perfil' %}{% endblock %}
+{% block form_extra_class %}form-update{% endblock %}
+{% block extra_footer %}
+    <script type="text/javascript">
+        /** Remueve la clase active del menu lateral de la aplicacion */
+        $(".sidebar-menu").find(".treeview").removeClass("active");
+    </script>
+{% endblock %}
