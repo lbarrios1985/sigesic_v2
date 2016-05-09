@@ -39,4 +39,12 @@
     $(document).ajaxComplete(function(event, request, settings) {
         cargando.hidePleaseWait();
     });
+
+    /** Evento que se ejecuta al cargar una página del sistema para mostrar el mensaje de espera */
+    cargando.showPleaseWait();
+
+    /** Evento que se ejecuta cuando una página ha sido cargada totalmente para ocultar el mensaje de espera */
+    $(document).ready(function() {
+        cargando.hidePleaseWait();
+    });
 </script>
