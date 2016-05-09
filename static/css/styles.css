@@ -85,6 +85,7 @@ h4.titulo, h5.titulo {
     margin-left: 20px;
     font-size: 10px !important;
     color: #F56954;
+    cursor: pointer;
 }
 
 /* Estilos para fortaleza de contraseña */

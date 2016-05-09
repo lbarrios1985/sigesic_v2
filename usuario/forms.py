@@ -21,6 +21,7 @@ from base.constant import (
     FORTALEZA_CONTRASENHA
 )
 from base.fields import RifField, CedulaField
+from base.forms import RifForm, ClaveForm, CaptchaForm, CorreoForm
 from base.functions import verificar_rif
 from base.classes import Seniat
 from captcha.fields import CaptchaField, CaptchaTextInput
@@ -46,74 +47,84 @@ __docstring__ = "DoxyGen"
 
 
 @python_2_unicode_compatible
-class AutenticarForm(forms.Form):
+class AutenticarForm(RifForm, ClaveForm, CaptchaForm):
     """!
-    Clase que muestra el formulario de registro de usuarios
+    Clase que muestra el formulario de registro de usuarios. Extiende de las clases RifForm, ClaveForm y CaptchaForm
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 21-04-2016
     @version 2.0.0
     """
+    pass
 
-    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
-    rif = RifField()
+@python_2_unicode_compatible
+class OlvidoClaveForm(RifForm, CorreoForm, CaptchaForm):
+    """!
+    Clase que muestra el formulario para envío de correo electrónico con enlace para la modificación de clave
 
-    ## Contraseña del usuario
-    clave = CharField(
-        label=_("Contraseña"), max_length=30, widget=PasswordInput(attrs={
-            'class': 'form-control input-sm', 'placeholder': _("contraseña de acceso"), 'data-toggle': 'tooltip',
-            'title': _("Indique la contraseña de acceso al sistema"), 'size': '28'
-        })
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 06-05-2016
+    @version 2.0.0
+    """
+
+    def clean_correo(self):
+        correo = self.cleaned_data['correo']
+
+        if not User.objects.filter(email=correo):
+            raise forms.ValidationError(_("El correo indicado no existe"))
+
+        return correo
+
+
+class ModificarClaveForm(ClaveForm, CaptchaForm, forms.Form):
+
+    ## Confirmación de contraseña de acceso
+    verificar_contrasenha = CharField(
+        label=_("Verificar Contraseña"),
+        max_length=128,
+        widget=PasswordInput(
+            attrs={
+                'class': 'form-control input-sm', 'placeholder': _("Contraseña de acceso"),
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '50',
+                'title': _("Indique nuevamente la contraseña de aceso al sistema")
+            }
+        )
     )
-
-    ## Campo de validación de captcha
-    captcha = CaptchaField(
-        label=_("Captcha"), widget=CaptchaTextInput(attrs={
-            'class': 'form-control input-sm', 'placeholder': _("texto de la imagen"),
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el texto de la imagen")
-        })
-    )
-
-    def clean_rif(self):
-        """!
-        Método que permite validar el campo de rif
-
-        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
-        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-        @date 27-04-2016
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @return Devuelve un mensaje de error en caso de que el rif no sea válido o no se encuentre registrado en el
-                sistema, en caso contrario devuelve el valor actual del campo
-        """
-        rif = self.cleaned_data['rif']
-
-        if not verificar_rif(rif):
-            raise forms.ValidationError(_("El RIF es inválido"))
-        elif not User.objects.filter(username=rif):
-            raise forms.ValidationError(_("Usuario no registrado"))
-
-        return
 
     def clean_clave(self):
         """!
-        Método que permite validar el campo de contraseña
+        Método que permite validar el campo de password
 
         @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
         @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-        @date 27-04-2016
+        @date 02-05-2016
         @param self <b>{object}</b> Objeto que instancia la clase
-        @return Devuelve un mensaje de error en caso de que la contraseña sea incorrecta, en caso contrario devuelve
-                el valor actual del campo
+        @return Devuelve un mensaje de error en caso de que la fortaleza de la contraseña sea inferior al minimo
+                establecido
         """
-        clave = self.cleaned_data['clave']
-        rif = "%s%s%s" % (self.data['rif_0'], self.data['rif_1'], self.data['rif_2'])
+        password_meter = self.data['passwordMeterId']
+        if int(password_meter) < FORTALEZA_CONTRASENHA:
+            raise forms.ValidationError(_("La contraseña es débil"))
+        return self.cleaned_data['clave']
 
-        if User.objects.filter(username=rif) and not User.objects.get(username=rif).check_password(clave):
-            raise forms.ValidationError(_("Contraseña incorrecta"))
+    def clean_verificar_contrasenha(self):
+        """!
+        Método que permite validar el campo de verificar_contrasenha
 
-        return clave
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 02-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve un mensaje de error en caso de que la contrasenha no pueda ser verificada
+        """
+        verificar_contrasenha = self.cleaned_data['verificar_contrasenha']
+        contrasenha = self.data['clave']
+        if contrasenha != verificar_contrasenha:
+            raise forms.ValidationError(_("La contraseña no es la misma"))
+
+        return verificar_contrasenha
 
 
 @python_2_unicode_compatible
@@ -186,8 +197,8 @@ class RegistroForm(ModelForm):
         max_length=20,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'placeholder': '(058)-___-_______',
-                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '12',
+                'class': 'form-control input-sm', 'placeholder': '(058)-000-0000000',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '15',
                 'title': _("Indique el número telefónico de contacto con el usuario"), 'data-mask': '(000)-000-0000000'
             }
         ),
@@ -338,3 +349,18 @@ class RegistroForm(ModelForm):
             raise forms.ValidationError(_("La contraseña no es la misma"))
 
         return verificar_contrasenha
+
+
+class PerfilForm(RegistroForm):
+    """!
+    Clase que muestra el formulario del perfil del usuario
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 07-05-2016
+    @version 2.0.0
+    """
+
+    class Meta:
+        model = User
+        exclude = ['fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'username', 'rif']

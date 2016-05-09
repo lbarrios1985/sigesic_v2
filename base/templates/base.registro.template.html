@@ -1,40 +1,54 @@
 {% extends 'base.template.html' %}
 {% load i18n %}
 {% block contenido %}
-    <form action="{% block form_action %}{% endblock %}" role="form" class="form validate-form"
-          method="{% block form_method %}post{% endblock %}" autocomplete="off" enctype="multipart/form-data"
+    <form action="{% block form_action %}{% endblock %}" role="form"
+          class="form validate-form {% block form_extra_class %}{% endblock %}"
+          method="{% block form_method %}post{% endblock %}"
+          autocomplete="off" enctype="multipart/form-data"
           onsubmit="{% block form_onsubmit %}{% endblock %}">
         {% csrf_token %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <i class="glyphicon glyphicon-edit"></i> {% block titulo_registro %}{% endblock %}
+        <div class="box box-primary box-registro-general">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    {% block titulo_registro %}{% endblock %}&#160;<i class="glyphicon glyphicon-edit"></i>
                 </h3>
             </div>
-            <div class="panel-body">
+            <div class="box-body">
                 {% block form_inputs %}
-                    {% for field in form.visible_fields %}
-                        <div class="col-xs-12 {% block form_columnas %}col-sm-12 col-md-12{% endblock %}">
-                            <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}has-feedback{% endif %}">
-                                <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
-                                {% if field.errors %}
-                                    <div class="control-label" for="inputError">
-                                        <i class="fa fa-times-circle-o"></i> {{ field.errors.as_text|cut:"* " }}
+                    <div class="row">
+                        {% for field in form.visible_fields %}
+                            <div class="col-xs-12 {% block form_columnas %}col-sm-12 col-md-12{% endblock %}">
+                                <div class="row-fluid">
+                                    <div class="form-group {% if field.errors %}has-error{% endif %} {% if field.field.required %}has-feedback{% endif %}">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ field.auto_id }}">
+                                            {{ field.label }}
+                                        </label>
+                                        <div class="col-md-9 col-xs-9 col-sm-9">
+                                            <div class="form-inline">
+                                                {{ field }}
+                                                {% if field.field.required %}
+                                                    <i class="ion ion-ios-medical item-requerido"></i>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% if field.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i> {{ fields.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
                                     </div>
-                                {% endif %}
-                                {{ field }}
-                                {% if field.field.required %}
-                                    <span class="ion ion-ios-medical text-red fuente-10 form-control-feedback"
-                                          aria-hidden="true"></span>
-                                {% endif %}
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+
                     {% for field in form.hidden_fields %}{{field}}{% endfor %}
                 {% endblock %}
                 {% block form_extra_data %}{% endblock %}
             </div>
-            <div class="panel-footer text-right">
+            <div class="box-footer text-right">
                 {% block form_buttons %}
                     <input type="submit" data-toggle="tooltip"
                            value="{% if not form.instance.pk %}{% trans 'Registrar' %}{% else %}{% trans 'Actualizar' %}{% endif %}"

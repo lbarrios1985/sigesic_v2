@@ -1,0 +1,29 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block contenido %}
+    <div class="col-md-6">
+        {% include 'base.carousel.template.html' %}
+    </div>
+    <div class="col-md-6">
+        {% csrf_token %}
+        <div class="box box-primary text-center">
+            <form action="" method="post" role="form">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{% block box_acceso_titulo %}{% endblock %}</h3>
+                </div>
+                <div class="box-body">
+                    {% csrf_token %}
+                    {% block box_acceso_campos %}{% endblock %}
+                </div>
+                <div class="box-footer text-right">
+                    {% block box_acceso_botones %}{% endblock %}
+                    <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                            title="{% trans 'Presione el botón para limpiar los datos del formulario' %}">
+                        {% trans 'Limpiar' %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

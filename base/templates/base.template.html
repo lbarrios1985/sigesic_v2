@@ -15,10 +15,12 @@
 				{% if request.user.is_authenticated %}
 					<!-- header del contenido -->
 					<section class="content-header">
-						<h1>Contenido</h1>
+						<h1>{% block content_header_title %}{% trans 'Entrada' %}{% endblock %}</h1>
 						<ol class="breadcrumb">
-							<li><a href="#">{% trans 'Inicio' %}</a></li>
-							<li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
+                            {% block content_header_roadmap %}
+                                <li><a href="#">{% trans 'Inicio' %}</a></li>
+                                <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
+                            {% endblock %}
 						</ol>
 					</section>
 				{% endif %}

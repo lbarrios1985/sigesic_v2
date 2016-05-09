@@ -12,8 +12,9 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 # @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
+from django.contrib.auth.decorators import login_required
 
-from .views import RegistroCreate
+from .views import RegistroCreate, PerfilUpdate
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -24,5 +25,9 @@ urlpatterns = [
     url(r'^login/?$', 'usuario.views.acceso', name='acceso'),
     url(r'^logout/?$', 'usuario.views.salir', name='salir'),
     url(r'^registro/$', RegistroCreate.as_view(), name='registro'),
-    url(r'^confirm/?$', 'usuario.views.confirmar_registro', name='confirmar registro'),
+    url(r'^olvido-clave/$', 'usuario.views.olvido_clave', name='olvido_clave'),
+    url(r'^confirm/?$', 'usuario.views.confirmar_registro', name='confirmar_registro'),
+    url(r'^confirm-modificar-clave/?$', 'usuario.views.confirmar_modificar_clave', name='confirmar_modificar_clave'),
+    url(r'^modificar-clave/?$', 'usuario.views.modificar_clave', name='modificar_clave'),
+    url(r'^perfil/update/(?P<pk>\d+)/$', login_required(PerfilUpdate.as_view()), name='modificar_perfil'),
 ]

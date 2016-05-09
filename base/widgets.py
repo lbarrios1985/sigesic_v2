@@ -53,15 +53,15 @@ class RifWidget(MultiWidget):
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'placeholder': _("Nro. de R.I.F."),
-                    'data-toggle': 'tooltip', 'maxlength': '8', 'size':'7', 'data-rule-required': 'true',
+                    'class': 'form-control input-sm text-center', 'placeholder': '00000000', 'data-mask': '00000000',
+                    'data-toggle': 'tooltip', 'maxlength': '8', 'size': '7', 'data-rule-required': 'true',
                     'title': _("Indique el número de R.I.F., si es menor a 8 dígitos complete con ceros a la izquierda")
                 }
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'data-rule-required': 'true',
-                    'title': _("Indique el último dígito del R.I.F."), 'placeholder': 'X', 'maxlength': '1',
+                    'class': 'form-control input-sm text-center', 'data-rule-required': 'true', 'data-mask': '0',
+                    'title': _("Indique el último dígito del R.I.F."), 'placeholder': '0', 'maxlength': '1',
                     'size': '1', 'data-toggle': 'tooltip',
                 }
             )
@@ -73,9 +73,8 @@ class RifWidget(MultiWidget):
         return ' - '.join(rendered_widgets)
 
     def decompress(self, value):
-
         if value:
-            return [value[0], value[1], value[2]]
+            return [value[0], value[1:-1], value[-1]]
         return [None, None, None]
 
 
@@ -100,7 +99,7 @@ class CedulaWidget(MultiWidget):
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'placeholder': _("Cédula"),
+                    'class': 'form-control input-sm text-center', 'placeholder': '00000000', 'data-mask': '00000000',
                     'data-toggle': 'tooltip', 'maxlength': '8', 'size':'7', 'data-rule-required': 'true',
                     'title': _("Indique el número de Cédula de Identidad")
                 }
@@ -114,5 +113,5 @@ class CedulaWidget(MultiWidget):
 
     def decompress(self, value):
         if value:
-            return [value[0], value[1]]
+            return [value[0], value[1:]]
         return [None, None]
