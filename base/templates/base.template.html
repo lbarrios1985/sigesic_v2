@@ -86,7 +86,10 @@
                                     </div>
                                 </div>
                                 <div class="box-footer text-right">
-                                    <button type="button" class="btn btn-primary btn-sm">{% trans 'Comenzar' %}</button>
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="anho_registro('{% trans 'Año a Registrar' %}', $('#year-register').html())">
+                                        {% trans 'Comenzar' %}
+                                    </button>
                                 </div>
                             </div>
                         {% endblock %}

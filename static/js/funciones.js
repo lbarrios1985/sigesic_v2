@@ -32,3 +32,32 @@ function passwordStrength(password) {
      document.getElementById("passwordStrength").className = "strength" + score;
      document.getElementById("passwordMeterId").value = score;
 }
+
+function anho_registro(title, template) {
+    var modal = bootbox.dialog({
+        title: title,
+        message: template,
+        buttons: {
+            success: {
+                label: BTN_REGISTRAR,
+                className: "btn btn-success btn-sm",
+                callback: function() {
+
+                }
+            },
+            'limpiar': {
+                label: BTN_LIMPIAR,
+                className: "btn btn-primary btn-sm",
+                callback: function() {
+                    $(modal).find("form")[0].reset();
+                    return false;
+                }
+            },
+            main: {
+                label: BTN_CANCELAR,
+                className: "btn btn-warning btn-sm"
+            }
+        }
+    });
+
+}

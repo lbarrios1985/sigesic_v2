@@ -7,7 +7,8 @@
 */
 $(document).ready(function() {
     /** Declaración de variables */
-    var browserName = navigator.appName, browserVer = navigator.appVersion,
+    var browserName = navigator.appName, browserVer = navigator.appVersion, date = new Date(),
+        year_info_develop = $("#year-info-develop"),
         select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
         input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'), form_update = $('.form-update'),
         tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
@@ -17,6 +18,10 @@ $(document).ready(function() {
         bootbox.alert(MSG_WEB_NAVIGATOR, function() {
             window.location.href = 'http://www.mozilla-europe.org/es/firefox/';
         });
+    }
+
+    if (year_info_develop.length) {
+        year_info_develop.html(date.getFullYear());
     }
 
     if (form_update.length) {
