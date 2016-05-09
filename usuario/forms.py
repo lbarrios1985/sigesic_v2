@@ -363,4 +363,12 @@ class PerfilForm(RegistroForm):
 
     class Meta:
         model = User
-        exclude = ['fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'username', 'rif']
+        fields = [
+            'rif', 'nombre_ue', 'cedula', 'cargo', 'nombre', 'apellido', 'telefono', 'correo', 'password',
+            'verificar_contrasenha', 'captcha'
+        ]
+        exclude = [
+            'fecha_modpass', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'username', 'rif',
+            'is_superuser', 'last_login', 'is_staff', 'user_permissions', 'is_active', 'groups'
+        ]
+
