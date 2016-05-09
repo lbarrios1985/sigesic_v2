@@ -78,6 +78,54 @@ class RifWidget(MultiWidget):
         return [None, None, None]
 
 
+class RifWidgetReadOnly(MultiWidget):
+    """!
+    Clase que agrupa los widgets de los campos del tipo de rif, número de rif y dígito validador del rif
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 26-04-2016
+    @version 2.0.0
+    """
+
+    def __init__(self, attrs=None, *args, **kwargs):
+
+        self.attrs = attrs or {}
+
+        widgets = (
+            TextInput(
+                attrs={
+                    'class': 'form-control input-sm text-center', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'title': _("Tipo de R.I.F."), 'size': '1',
+                }
+            ),
+            TextInput(
+                attrs={
+                    'class': 'form-control input-sm text-center', 'readonly': 'readonly',
+                    'data-toggle': 'tooltip', 'maxlength': '8', 'size': '7',
+                    'title': _("Número de R.I.F.")
+                }
+            ),
+            TextInput(
+                attrs={
+                    'class': 'form-control input-sm text-center', 'readonly': 'readonly',
+                    'title': _("Ultimo dígito del R.I.F."), 'placeholder': '0', 'maxlength': '1',
+                    'size': '1', 'data-toggle': 'tooltip',
+                }
+            )
+        )
+
+        super(RifWidgetReadOnly, self).__init__(widgets, attrs, *args, **kwargs)
+
+    def format_output(self, rendered_widgets):
+        return ' - '.join(rendered_widgets)
+
+    def decompress(self, value):
+        if value:
+            return [value[0], value[1:-1], value[-1]]
+        return [None, None, None]
+
+
 class CedulaWidget(MultiWidget):
     """!
     Clase que agrupa los widgets de los campos de nacionalidad y número de cédula de identidad
