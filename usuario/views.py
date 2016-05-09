@@ -361,20 +361,23 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
 class PerfilUpdate(SuccessMessageMixin, UpdateView):
     model = User
     form_class = PerfilForm
-    template_name = 'usuario.registro.html'
+    template_name = 'usuario.perfil.update.html'
     success_url = reverse_lazy('inicio')
     success_message = UPDATE_MESSAGE
 
     def get_initial(self):
         datos_iniciales = super(PerfilUpdate, self).get_initial()
         datos_iniciales['rif'] = self.request.user.username
-        perfil = UserProfile.objects.get(user=self.request.user)
-        datos_iniciales['cedula'] = perfil.nacionalidad + perfil.cedula
-        datos_iniciales['cargo'] = perfil.cargo
+
+        if UserProfile.objects.filter(user=self.request.user):
+            perfil = UserProfile.objects.get(user=self.request.user)
+            datos_iniciales['cedula'] = perfil.nacionalidad + perfil.cedula
+            datos_iniciales['cargo'] = perfil.cargo
+            datos_iniciales['telefono'] = perfil.telefono
+
+        datos_iniciales['correo'] = self.request.user.email
         datos_iniciales['nombre'] = self.request.user.first_name
         datos_iniciales['apellido'] = self.request.user.last_name
-        datos_iniciales['telefono'] = perfil.telefono
-        datos_iniciales['correo'] = self.request.user.email
 
         return datos_iniciales
 
@@ -392,10 +395,12 @@ class PerfilUpdate(SuccessMessageMixin, UpdateView):
 
         self.object.save()
 
-        perfil = UserProfile.objects.get(user=self.object.username)
-        perfil.nacionalidad = form.cleaned_data['cedula'][0]
-        perfil.cedula = form.cleaned_data['cedula'][1:]
-        perfil.cargo = form.cleaned_data['cargo']
-        perfil.telefono = form.cleaned_data['telefono']
+        if UserProfile.objects.filter(user=self.object.username):
+            perfil = UserProfile.objects.get(user=self.object.username)
+            perfil.nacionalidad = form.cleaned_data['cedula'][0]
+            perfil.cedula = form.cleaned_data['cedula'][1:]
+            perfil.cargo = form.cleaned_data['cargo']
+            perfil.telefono = form.cleaned_data['telefono']
+            perfil.save()
 
         return HttpResponseRedirect(self.get_success_url())
