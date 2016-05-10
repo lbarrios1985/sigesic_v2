@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^$', 'base.views.inicio', name='inicio'),
     url(r'^', include('usuario.urls')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^', include('unidadeconomica.urls')),
 ]
 
 if settings.DEBUG:
