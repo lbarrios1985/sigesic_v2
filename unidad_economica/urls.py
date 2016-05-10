@@ -12,7 +12,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
-from django.conf.urls import url
+from django.conf.urls import url, include
 from .views import UnidadEconomicaCreate
 
 __licence__ = "GNU Public License v2"
@@ -21,4 +21,5 @@ __docstring__ = "DoxyGen"
 
 urlpatterns = [
     url(r'^informacion-general/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
+    url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
 ]
