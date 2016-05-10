@@ -1,7 +1,7 @@
 {% extends 'base.template.html' %}
 {% load i18n %}
 {% block contenido %}
-	<form action="{% url 'registroUE' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+	<form action="{% url 'registro_ue' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box box-primary box-registro" style="padding:20px">
             <div class="box-body">
