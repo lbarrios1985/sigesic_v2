@@ -6,10 +6,10 @@
             <form id="year-register-form" class="form-horizontal" method="post" action="">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="anho">
+                    <label class="col-md-6 control-label" for="anho">
                         {% trans 'Seleccione el Año a registrar' %}
                     </label>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <select id="anhoregistro" name="anhoregistro" class="select2 form-control" data-toggle="tooltip"
                                 title="{% trans 'Seleccione el año de registro' %}">
                             <option value="">{% trans 'Seleccione...' %}</option>

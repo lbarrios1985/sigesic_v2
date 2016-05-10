@@ -33,6 +33,11 @@ function passwordStrength(password) {
      document.getElementById("passwordMeterId").value = score;
 }
 
+/**
+ * @brief Función que muestra una ventana emergente con el formulario de selección para el año de registro
+ * @param title Titulo de la ventana emergente
+ * @param template Plantilla html a utilizar para mostrar el formulario
+ */
 function anho_registro(title, template) {
     var modal = bootbox.dialog({
         title: title,
@@ -60,4 +65,10 @@ function anho_registro(title, template) {
         }
     });
 
+    $(modal).find('#anhoregistro').html("<option value=''>" + SELECT_INICIAL_DATA + "</option>");
+    var anho_actual = new Date();
+    for (i=ANHO_REGISTRO_INICIAL; i<=anho_actual.getFullYear(); i++) {
+        $(modal).find('#anhoregistro').append("<option '" + i + "'>" + i + "</option>");
+    }
+    $(modal).find('.select2').select2({});
 }
