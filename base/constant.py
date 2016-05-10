@@ -19,6 +19,18 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
+
+## Estatus de las notificaciones
+ESTATUS_NOTIFICACION = (
+    ("N", _("Notificado")),
+    ("L", _("Leído")),
+    ("P", _("Registrando")),
+    ("C", _("Culminado")),
+)
+
+## Estatus por defecto de las notificaciones
+ESTATUS_NOTIFICACION_DEFAULT = 'N'
+
 ## Nacionalidades
 NACIONALIDAD = (
     ("V", _("Venezolano")),
