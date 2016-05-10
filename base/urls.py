@@ -22,6 +22,7 @@ __docstring__ = "DoxyGen"
 
 urlpatterns = [
     url(r'^inicio/$', 'base.views.inicio', name='inicio'),
+    url(r'^contacto/$', 'base.views.contacto', name='contacto'),
 ]
 
 

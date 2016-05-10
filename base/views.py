@@ -24,3 +24,8 @@ __docstring__ = "DoxyGen"
 @login_required
 def inicio(request):
     return render_to_response('base.template.html', {}, context_instance=RequestContext(request))
+
+
+@login_required
+def contacto(request):
+    return render_to_response('base.contacto.template.html', {}, context_instance=RequestContext(request))
