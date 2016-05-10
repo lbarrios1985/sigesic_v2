@@ -22,14 +22,15 @@ __docstring__ = "DoxyGen"
 
 urlpatterns = [
     url(r'^inicio/$', 'base.views.inicio', name='inicio'),
+    url(r'^contacto/$', 'base.views.contacto', name='contacto'),
 ]
 
 
 ## URLs de peticiones AJAX
 urlpatterns += [
-    url(r'^ajax/get_data_rif/?$', get_data_rif, name='get_data_rif'),
-    url(r'^ajax/validar_rif_seniat/?$', validar_rif_seniat, name='validar_rif_seniat'),
-    url(r'^ajax/actualizar_combo/?$', actualizar_combo, name='actualizar_combo'),
-    url(r'^ajax/eliminar_registro/$', eliminar_registro, name="eliminar_registro"),
-    url(r'^ajax/cargar_combo/?$', cargar_combo, name='cargar_combo'),
+    url(r'^ajax/get-data-rif/?$', get_data_rif, name='get_data_rif'),
+    url(r'^ajax/validar-rif-seniat/?$', validar_rif_seniat, name='validar_rif_seniat'),
+    url(r'^ajax/actualizar-combo/?$', actualizar_combo, name='actualizar_combo'),
+    url(r'^ajax/eliminar-registro/$', eliminar_registro, name="eliminar_registro"),
+    url(r'^ajax/cargar-combo/?$', cargar_combo, name='cargar_combo'),
 ]

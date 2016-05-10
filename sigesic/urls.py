@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^', include('usuario.urls')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^', include('informacion_mercantil.urls')),
+    url(r'^', include('unidadeconomica.urls')),
 ]
 
 if settings.DEBUG:
