@@ -1,6 +1,8 @@
 {% extends 'base.template.html' %}
 {% load static from staticfiles %}
 {% load i18n %}
+{% block content_header_title %}{% trans 'Contacto' %}{% endblock %}
+{% block active_link %}{% trans 'Información de contacto' %}{% endblock %}
 {% block contenido %}
     <div class="box box-primary box-registro-general">
         <div class="box-header with-border">
@@ -88,4 +90,10 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block extra_footer %}
+    <script type="text/javascript">
+        /** Remueve la clase active del menu lateral de la aplicacion */
+        $(".sidebar-menu").find(".treeview").removeClass("active");
+    </script>
 {% endblock %}
