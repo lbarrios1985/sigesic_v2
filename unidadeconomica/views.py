@@ -21,34 +21,36 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
+
 class UnidadEconomicaCreate(CreateView):
-	"""!
-	Clase que registra los datos de la unidad económica
+    """!
+    Clase que registra los datos de la unidad económica
 
-	@author Eveli Ramírez (eramirez at cenditel.gob.ve)
-	@copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-	@date 04-05-2016
-	@version 2.0
-	"""
-	template = "unidadeconomica.registro.html"
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 04-05-2016
+    @version 2.0
+    """
+    template = "unidadeconomica.registro.html"
 
-	def get(self, request):
-		formulario = unidadEconomicaForm()
-		return render(request, self.template, {'ue':formulario})
+    def get(self, request):
+        formulario = unidadEconomicaForm()
+        return render(request, self.template, {'ue': formulario})
 
-	"""def post(self, request):
-		mensaje = "Datos guardados satisfactoriamente"
-		formulario = unidadEconomicaForm()
-		modeloue = unidad_economica()
-		modeloue.rif = request.POST['rif']
-		modeloue.nombre_ue = request.POST['nombre_ue']
-		modeloue.razon_social = request.POST['razon_social']
-		modeloue.nro_planta = request.POST['nro_planta']
-		modeloue.nro_unid_comercializadora = request.POST['nro_unid_comercializadora']
-		modeloue.servicio = request.POST['servicio']
-		modeloue.orga_comunal = request.POST['orga_comunal']
-		modeloue.casa_matriz_franquicia = request.POST['casa_matriz_franquicia']
-		modeloue.nro_franquicias = request.POST['nro_franquicias']
-		modeloue.save()
-		return render(request, self.template, {'mensaje':mensaje})
-	"""
+    """
+    def post(self, request):
+        mensaje = "Datos guardados satisfactoriamente"
+        formulario = unidadEconomicaForm()
+        modeloue = unidad_economica()
+        modeloue.rif = request.POST['rif']
+        modeloue.nombre_ue = request.POST['nombre_ue']
+        modeloue.razon_social = request.POST['razon_social']
+        modeloue.nro_planta = request.POST['nro_planta']
+        modeloue.nro_unid_comercializadora = request.POST['nro_unid_comercializadora']
+        modeloue.servicio = request.POST['servicio']
+        modeloue.orga_comunal = request.POST['orga_comunal']
+        modeloue.casa_matriz_franquicia = request.POST['casa_matriz_franquicia']
+        modeloue.nro_franquicias = request.POST['nro_franquicias']
+        modeloue.save()
+        return render(request, self.template, {'mensaje':mensaje})
+    """
