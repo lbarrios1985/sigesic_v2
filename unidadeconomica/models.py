@@ -17,31 +17,40 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
+
 class unidad_economica(models.Model):
-	"""!
-	Tabla para almacenar el registro de la Unidad Económica
+    """!
+    Tabla para almacenar el registro de la Unidad Económica
 
-	@author Eveli Ramírez (eramirez at cenditel.gob.ve)
-	@copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-	@date 04-05-2016
-	@version 2.0
-	"""
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 04-05-2016
+    @version 2.0
+    """
 
-	## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
-	rif = models.CharField(max_length=10)
-	## Nombre Comercial de la Unidad Económica
-	nombre_ue = models.CharField(max_length=30)
-	## Razón Social
-	razon_social = models.CharField(max_length=45)
-	## Número de Plantas Productivas de la Unidad Económica
-	nro_planta = models.IntegerField(null=True)
-	## Número de Unidades Comercializadoras
-	nro_unid_comercializadora = models.IntegerField(null=True)
-	## Servicios que presta la Unidad Económica
-	servicio = models.BooleanField(default=False)
-	## Organización comunal
-	orga_comunal = models.BooleanField(default=False)
-	## Casa Matriz de alguna Franquicia
-	casa_matriz_franquicia = models.BooleanField(default=False)
-	## Número de Franquicias asociadas a la Unidad Económica
-	nro_franquicias = models.IntegerField(null=True)
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
+    rif = models.CharField(max_length=10)
+
+    ## Nombre Comercial de la Unidad Económica
+    nombre_ue = models.CharField(max_length=30)
+
+    ## Razón Social
+    razon_social = models.CharField(max_length=45)
+
+    ## Número de Plantas Productivas de la Unidad Económica
+    nro_planta = models.IntegerField(null=True)
+
+    ## Número de Unidades Comercializadoras
+    nro_unid_comercializadora = models.IntegerField(null=True)
+
+    ## Servicios que presta la Unidad Económica
+    servicio = models.BooleanField(default=False)
+
+    ## Organización comunal
+    orga_comunal = models.BooleanField(default=False)
+
+    ## Casa Matriz de alguna Franquicia
+    casa_matriz_franquicia = models.BooleanField(default=False)
+
+    ## Número de Franquicias asociadas a la Unidad Económica
+    nro_franquicias = models.IntegerField(null=True)
