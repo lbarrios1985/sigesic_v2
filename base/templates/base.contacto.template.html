@@ -1,0 +1,91 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block contenido %}
+    <div class="box box-primary box-registro-general">
+        <div class="box-header with-border">
+            <h3 class="box-title">{% trans 'Contactenos' %}</h3>
+        </div>
+        <div class="box-body">
+            <h5 class="titulo">{% trans 'Bienvenido' %}, {{ request.user }}</h5>
+            <p class="text-justify">
+                {% blocktrans %}
+                    Para atender cualquier duda o problema relacionado al registro, puede comunicarse con nosotros por
+                    los siguientes medios:
+                {% endblocktrans %}
+            </p>
+            <div class="row">
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="row-fuid">
+                        <div class="col-md-6">
+                            <h4><i class="ionicon ion-email icon-contacto"></i> {% trans 'CORREO ELECTRONICO' %}</h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4>
+                                <a href="mailto:soportesigesic@sigesic.gob.ve">soportesigesic@sigesic.gob.ve</a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="row-fluid">
+                        <div class="col-md-6">
+                            <h4><i class="glyphicon glyphicon-screenshot icon-contacto"></i> {% trans 'DIRECCION' %}</h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4>
+                                <ul class="footer-descripcion">
+                                    <li>Av. Ministerio. Edificio x</li>
+                                    <li>Piso x. Caracas Distrito Capital</li>
+                                </ul>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="row-fuid">
+                        <div class="col-md-6">
+                            <h4><i class="fa fa-phone-square icon-contacto"></i> {% trans 'TELEFONO' %}</h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4>
+                                <ul class="footer-descripcion">
+                                    <li>+(58)-212-000000</li>
+                                </ul>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 col-sm-12">
+                    <div class="row-fluid">
+                        <div class="col-md-6">
+                            <h4><i class="ionicon ion-clock icon-contacto"></i> {% trans 'HORARIO DE ATENCION' %}</h4>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <h4>
+                                <ul class="footer-descripcion">
+                                    <li>8:00am a 12:00m</li>
+                                    <li>2:00pm a 4:00pm</li>
+                                </ul>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12 col-sm-12">
+                    <div class="row-fluid">
+                        <div class="col-md-4">
+                            <img src="{% static 'img/logo.png' %}" class="center-block img-responsive" style="max-height: 40px;">
+                        </div>
+                        <div class="col-md-8">
+                            <h1>{% trans 'Ministerio del poder popular para' %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
