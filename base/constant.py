@@ -25,6 +25,13 @@ NACIONALIDAD = (
     ("E", _("Extranjero"))
 )
 
+##Naturaleza Juridica
+NATURALEZA_JURIDICA = (
+    ("S.A", _("Sociedad Anónima")),
+    ("C.A", _("Compañía Anónima")),
+    ("Co", _("Cooperativa")),
+    )
+
 ## TIPOS DE PERSONALIDAD
 TIPO_PERSONA = (
     ("V", _("Natural")),
