@@ -108,13 +108,20 @@ BASE_TEMPLATES = os.path.join(BASE_DIR, "base/templates")
 
 ## Directorio en donde se encuentran las plantillas del módulo de usuarios
 USERS_TEMPLATES = os.path.join(BASE_DIR, "usuario/templates")
-## Directorio en donde se encuentran las plantillas del módulo información mercantil
-INFORMACION_MERCANTIL = os.path.join(BASE_DIR, "unidad_economica/informacion_mercantil/templates")
+
+## Directorio en donde se encuentran las plantillas del módulo de Unidad Económica
+UNIDAD_ECONOMICA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/templates")
+
+## Directorio en donde se encuentran las plantillas del módulo Información Mercantil
+INFORMACION_MERCANTIL_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/informacion_mercantil/templates")
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, INFORMACION_MERCANTIL],
+        'DIRS': [
+            ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
+            INFORMACION_MERCANTIL_TEMPLATES
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
