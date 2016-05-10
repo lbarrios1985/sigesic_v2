@@ -19,5 +19,5 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-	url(r'^registroUE/', UnidadEconomicaCreate.as_view(), name="registroUE"),
+	url(r'^unidad-economica/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
 ]
