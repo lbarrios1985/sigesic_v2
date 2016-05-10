@@ -1,10 +1,8 @@
 *.pyc
 .idea
-..gitignore
 static/tmp
 *.db
 *.dot
-*.svg
 *.xml
 tmp/*.png
 sigesic/database_config.py
