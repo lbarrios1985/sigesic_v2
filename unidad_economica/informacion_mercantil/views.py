@@ -1,6 +1,6 @@
 from django.views.generic import CreateView
-from informacion_mercantil.forms import CapitalAccionistaForms
-from informacion_mercantil.models import CapitalAccionista
+from unidad_economica.informacion_mercantil.forms import CapitalAccionistaForms
+from unidad_economica.informacion_mercantil.models import CapitalAccionista
 
 class mercantil (CreateView):
     model = CapitalAccionista

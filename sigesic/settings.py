@@ -63,8 +63,7 @@ if DEBUG:
     PREREQ_APPS += [
         'django_extensions',
         'debug_toolbar',
-	'informacion_mercantil'   
- ]
+    ]
 
     ## Configuracion de parametros de django-debug-toolbar
     JQUERY_URL = ''
@@ -73,7 +72,8 @@ if DEBUG:
 PROJECT_APPS = [
     'base',
     'usuario',
-    'unidadeconomica'
+    'unidad_economica',
+    'unidad_economica.informacion_mercantil',
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
@@ -109,7 +109,7 @@ BASE_TEMPLATES = os.path.join(BASE_DIR, "base/templates")
 ## Directorio en donde se encuentran las plantillas del módulo de usuarios
 USERS_TEMPLATES = os.path.join(BASE_DIR, "usuario/templates")
 ## Directorio en donde se encuentran las plantillas del módulo información mercantil
-INFORMACION_MERCANTIL = os.path.join(BASE_DIR, "informacion_mercantil/templates")
+INFORMACION_MERCANTIL = os.path.join(BASE_DIR, "unidad_economica/informacion_mercantil/templates")
 
 TEMPLATES = [
     {
