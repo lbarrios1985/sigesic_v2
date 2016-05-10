@@ -15,8 +15,8 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
 
-from .forms import unidadEconomicaForm
-from .models import unidad_economica
+from .forms import UnidadEconomicaForm
+from .models import UnidadEconomica
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -35,7 +35,7 @@ class UnidadEconomicaCreate(CreateView):
     template = "unidadeconomica.registro.html"
 
     def get(self, request):
-        formulario = unidadEconomicaForm()
+        formulario = UnidadEconomicaForm()
         return render(request, self.template, {'ue': formulario})
 
     """
