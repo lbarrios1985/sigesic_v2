@@ -13,9 +13,10 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
-from unidad_economica.directorio.models import DirectorioModel
 
-# Create your models here.
+from unidad_economica.directorio.models import Directorio
+
+
 class SubUnidadEconomica(models.Model):
     """!
     Clase que gestiona los datos de la subunidad económica
@@ -35,8 +36,8 @@ class SubUnidadEconomica(models.Model):
     coordenada_geografica = models.CharField(max_length=45)
     
     ## Telefono de la sub unidad
-    telefono_planta = models.CharField(
-        max_length=20, help_text=_("Número telefónico de contacto con el usuario"),
+    telefono = models.CharField(
+        max_length=20, help_text=_("Número telefónico de contacto"),
         validators=[
             validators.RegexValidator(
                 r'^[\d+-]+$',
@@ -74,6 +75,19 @@ class SubUnidadEconomica(models.Model):
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  models.BooleanField()
     
-    ## Datos del directorio (Se relaciona con el modelo Directorio)
-    directorio_id = models.OneToOneField(DirectorioModel,on_delete=models.CASCADE)
-    
+
+class SubUnidadEconomicaDirectorio(models.Model):
+    """!
+    Clase que contiene la relacion entre la Sub Unidad Economica y el Directorio
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 11-05-2016
+    @version 2.0.0
+    """
+
+    ## Establece la relación con la Sub Unidad Económica
+    sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
+
+    ## Establece la relación con el Directorio
+    directorio = models.ForeignKey(Directorio)
