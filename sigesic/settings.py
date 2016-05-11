@@ -72,6 +72,7 @@ if DEBUG:
 PROJECT_APPS = [
     'base',
     'usuario',
+    'unidad_economica.directorio',
     'unidad_economica',
     'unidad_economica.informacion_mercantil',
 ]
