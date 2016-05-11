@@ -14,6 +14,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django.db import models
 
+from .directorio.models import Directorio
+
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
@@ -55,3 +57,20 @@ class UnidadEconomica(models.Model):
 
     ## Número de Franquicias asociadas a la Unidad Económica
     nro_franquicias = models.IntegerField(null=True)
+
+
+class UnidadEconomicaDirectorio(models.Model):
+    """!
+    Clase que gestiona los datos de dirección asociada a una Unidad Económica
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 20-04-2016
+    @version 2.0.0
+    """
+
+    ## Establece la relación con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
+
+    ## Establece la relación con el Directorio
+    directorio = models.ForeignKey(Directorio)
