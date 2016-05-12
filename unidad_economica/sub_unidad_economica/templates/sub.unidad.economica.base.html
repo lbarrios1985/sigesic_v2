@@ -4,7 +4,7 @@
 {% block contenido %}
 <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
     {% csrf_token %}
-    <div class="box box-primary box-registro" style="padding:20px">
+    <div class="box box-primary box-registro-general" style="padding:20px">
         <div class="box-header with-border">
             <h3 class="box-title">{% trans 'Plantas Productivas' %}</h3>
         </div>
@@ -27,103 +27,103 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ directorio.estado.auto_id }}">
-                        {{ directorio.estado.label }}
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ form.estado.auto_id }}">
+                        {{ form.estado.label }}
                     </label>
                     <div class="col-md-3 col-xs-3 col-sm-3">
-                        <div class="form-inline">{{ directorio.estado }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.estado.errors %}
+                        <div class="form-inline">{{ form.estado }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.estado.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.estado.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.estado.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ directorio.municipio.auto_id }}">
-                        {{ directorio.municipio.label }}
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ form.municipio.auto_id }}">
+                        {{ form.municipio.label }}
                     </label>
                     <div class="col-md-3 col-xs-3 col-sm-3">
-                        <div class="form-inline">{{ directorio.municipio }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.municipio.errors %}
+                        <div class="form-inline">{{ form.municipio }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.municipio.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.municipio.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.municipio.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ directorio.parroquia.auto_id }}">
-                        {{ directorio.parroquia.label }}
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ form.parroquia.auto_id }}">
+                        {{ form.parroquia.label }}
                     </label>
                     <div class="col-md-3 col-xs-3 col-sm-3">
-                        <div class="form-inline">{{ directorio.parroquia }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.parroquia.errors %}
+                        <div class="form-inline">{{ form.parroquia }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.parroquia.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.parroquia.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.parroquia.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.prefijo3.auto_id }}">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo3.auto_id }}">
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for radio in directorio.prefijo1 %}
+                        {% for radio in form.prefijo1 %}
                                 {{ radio }}
                         {% endfor %}
                         <i class="ion ion-ios-medical item-requerido"></i>
-                        {% if directorio.prefijo1.errors %}
+                        {% if form.prefijo1.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.prefijo1.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.prefijo1.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.prefijo2.auto_id }}">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo2.auto_id }}">
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for radio in directorio.prefijo2 %}
+                        {% for radio in form.prefijo2 %}
                                 {{ radio }}
                         {% endfor %}
                         <i class="ion ion-ios-medical item-requerido"></i>
-                        {% if directorio.prefijo2.errors %}
+                        {% if form.prefijo2.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.prefijo2.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.prefijo2.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.nombre1.auto_id }}">
-                        {{ directorio.nombre1.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre1.auto_id }}">
+                        {{ form.nombre1.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        <div class="form-inline">{{ directorio.nombre1 }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.nombre1.errors %}
+                        <div class="form-inline">{{ form.nombre1 }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.nombre1.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.nombre1.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre1.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.nombre2.auto_id }}">
-                        {{ directorio.nombre2.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre2.auto_id }}">
+                        {{ form.nombre2.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        <div class="form-inline">{{ directorio.nombre2 }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.nombre2.errors %}
+                        <div class="form-inline">{{ form.nombre2 }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.nombre2.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.nombre2.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre2.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
@@ -131,62 +131,62 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.prefijo3.auto_id }}">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo3.auto_id }}">
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for radio in directorio.prefijo3 %}
+                        {% for radio in form.prefijo3 %}
                                 {{ radio }}
                         {% endfor %}
                         <i class="ion ion-ios-medical item-requerido"></i>
-                        {% if directorio.prefijo3.errors %}
+                        {% if form.prefijo3.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.prefijo3.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.prefijo3.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.prefijo4.auto_id }}">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo4.auto_id }}">
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for radio in directorio.prefijo4 %}
+                        {% for radio in form.prefijo4 %}
                                 {{ radio }}
                         {% endfor %}
                         <i class="ion ion-ios-medical item-requerido"></i>
-                        {% if directorio.prefijo4.errors %}
+                        {% if form.prefijo4.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.prefijo4.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.prefijo4.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.nombre3.auto_id }}">
-                        {{ directorio.nombre3.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre3.auto_id }}">
+                        {{ form.nombre3.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        <div class="form-inline">{{ directorio.nombre3 }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.nombre3.errors %}
+                        <div class="form-inline">{{ form.nombre3 }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.nombre3.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.nombre3.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre3.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ directorio.nombre4.auto_id }}">
-                        {{ directorio.nombre4.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre4.auto_id }}">
+                        {{ form.nombre4.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        <div class="form-inline">{{ directorio.nombre4 }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if directorio.nombre4.errors %}
+                        <div class="form-inline">{{ form.nombre4 }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.nombre4.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ directorio.nombre4.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.nombre4.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}
@@ -209,15 +209,15 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.telefono_planta.auto_id }}">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.telefono.auto_id }}">
                         {{ form.telefono_planta.label }}
                     </label>
                     <div class="col-md-10 col-xs-10 col-sm-10">
-                        <div class="form-inline">{{ form.telefono_planta }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                        {% if form.telefono_planta.errors %}
+                        <div class="form-inline">{{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        {% if form.telefono.errors %}
                             <p class="bg-warning">
                                 <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i> {{ form.telefono_planta.errors.as_text|cut:'* ' }}
+                                    <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
                                 </span>
                             </p>
                         {% endif %}

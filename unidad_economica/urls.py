@@ -22,4 +22,5 @@ __docstring__ = "DoxyGen"
 urlpatterns = [
     url(r'^informacion-general/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
+    url(r'^plantas-productivas/', include('unidad_economica.sub_unidad_economica.urls')),
 ]

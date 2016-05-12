@@ -13,8 +13,9 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 
 from django import forms
 from django.forms import (
-    TextInput, Select,RadioSelect)
+    ModelForm,TextInput, Select,RadioSelect)
 from django.utils.translation import ugettext_lazy as _
+from .models import Directorio
 
 PREFIX1 = (("Autopista","Autopista"),("Avenida","Avenida"),("Carretera","Carretera"),
             ("Calle","Calle"),("Carrera","Carrera"),("Vereda","Vereda"))
@@ -26,7 +27,7 @@ PREFIX3 = (("Local","Local"),("Oficina","Oficina"),("Apartamento","Apartamento")
 
 PREFIX4 = (("Urbanización","Urbanización"),("Sector","Sector"),("Zona","Zona"))
 
-class DirectorioForm(forms.Form):
+class DirectorioForm(ModelForm):
     """!
     Clase que muestra el formulario de ingreso del directorio
 
@@ -90,12 +91,16 @@ class DirectorioForm(forms.Form):
     municipio = forms.ChoiceField(
         label=_("Municipio"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),
+        }), choices = ((1,"Mérida"),(2,"Caracas")),
     )
     
     ## Parroquía de la planta
     parroquia = forms.ChoiceField(
         label=_("Parroquia"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),
+        }), choices = ((1,"Mérida"),(2,"Caracas")),
     )
+    
+    class Meta:
+        model = Directorio
+        exclude = ['activo']

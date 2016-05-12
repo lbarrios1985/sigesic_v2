@@ -13,15 +13,17 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse_lazy
 
-from .forms import PlantasProductivasForm
-from .models import SubUnidadEconomica
-#from unidad_economica.directorio.models import DirectorioModel
+from .forms import SubUnidadEconomicaForm
+from .models import SubUnidadEconomica, SubUnidadEconomicaDirectorio
+from base.models import Parroquia
 from unidad_economica.directorio.forms import DirectorioForm
-from base.constant import REGISTRO_MESSAGE
+from unidad_economica.directorio.models import Directorio
+from base.constant import CREATE_MESSAGE
 
 # Create your views here.
-class PlantasCreate(SuccessMessageMixin,CreateView):
+class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
     """!
     Clase que registra las plantas productivas
 
@@ -30,59 +32,66 @@ class PlantasCreate(SuccessMessageMixin,CreateView):
     @date 03-05-2016
     @version 2.0.0
     """
-    template_name = "subunidad_form.html"
-    success_message = REGISTRO_MESSAGE
-    cantidad_plantas = 2
+    model = SubUnidadEconomica
+    form_class = SubUnidadEconomicaForm
+    template_name = "sub.unidad.economica.base.html"
+    success_url = reverse_lazy('sub_unidad_create')
+    success_message = CREATE_MESSAGE
     
-    def get(self,request):
+    def form_valid(self, form):
         """!
-        Metodo para cargar el formulario cuando se hace un petición por GET
-
-        @author Rodrigo Boet (rboet at cenditel.gob.ve)
-        @copyright GNU/GPLv2
-        @date 03-05-2016
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
-        @return Retorna los dos formularios (PlantasProductivasForm y DirectorioForm) vacios
-        """
-        form = PlantasProductivasForm
-        directorio = DirectorioForm
-        return render(request,self.template_name, {'form': form,'directorio':directorio,'cant':range(self.cantidad_plantas)})
+        Metodo que valida si el formulario es valido, en cuyo caso se procede a registrar los datos de la sub unidad económica
     
-    def post(self,request):
-        """!
-        Metodo para cargar el formulario cuando se hace un petición por POST
-
         @author Rodrigo Boet (rboet at cenditel.gob.ve)
         @copyright GNU/GPLv2
         @date 09-05-2016
         @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
-        @return Retorna los dos formularios (PlantasProductivasForm y DirectorioForm) con validaciones y errores
+        @param form <b>{object}</b> Objeto que contiene el formulario de registro
+        @return Retorna el formulario validado
         """
-        form = PlantasProductivasForm(request.POST)
-        directorio = DirectorioForm(request.POST)
-        #modelDirectorio = DirectorioModel
-        modelSubUnidad = SubUnidadEconomica
         
-        ## Se pasan los datos del formulario al modelo sub unidad económica
-        if(form.is_valid()):
-            modelSubUnidad.nombre_sub = form.cleaned_data['nombre_sub']
-            #modelSubUnidad.tipo_coordenada = form.cleaned_data['tipo_coordenada']
-            modelSubUnidad.coordenada_geografica = form.cleaned_data['coordenada_geografica']
-            modelSubUnidad.telefono_planta = form.cleaned_data['telefono_planta']
-            #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
-            modelSubUnidad.m2_contruccion = form.cleaned_data['m2_contruccion']
-            modelSubUnidad.m2_terreno = form.cleaned_data['m2_terreno']
-            modelSubUnidad.autonomia_electrica = form.cleaned_data['autonomia_electrica']
-            modelSubUnidad.consumo_electrico = form.cleaned_data['consumo_electrico']
-            #modelSubUnidad.codigo_ciiu_id = form.cleaned_data['codigo_ciiu_id']
-            modelSubUnidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
-            modelSubUnidad.capacidad_instalada_select = form.cleaned_data['capacidad_instalada_select']
-            modelSubUnidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
-            modelSubUnidad.sede_servicio = form.cleaned_data['sede_servicio']
-            print(modelSubUnidad.nombre_sub)
-            
-        #print(form)
-        #print(directorio)
-        return render(request,self.template_name, {'form': form,'directorio':directorio,'cant':range(self.cantidad_plantas)})
+        parroquia = Parroquia.objects.get(pk=7)
+        
+        ## Se crea y se guarda el modelo de directorio
+        directorio = Directorio()
+        directorio.prefijo_uno=form.cleaned_data['prefijo1'],
+        directorio.direccion_uno=form.cleaned_data['nombre1'],
+        directorio.prefijo_dos=form.cleaned_data['prefijo2'],
+        directorio.direccion_dos=form.cleaned_data['nombre2'],
+        directorio.prefijo_tres=form.cleaned_data['prefijo3'],
+        directorio.direccion_tres=form.cleaned_data['nombre3'],
+        directorio.prefijo_cuatro=form.cleaned_data['prefijo4'],
+        directorio.direccion_cuatro=form.cleaned_data['nombre4'],
+        directorio.parroquia = parroquia
+        directorio.activo=True,
+        directorio.save()
+        
+        ## Se crea y se guarda el modelo de sub_unidad_economica
+        self.object = form.save(commit=False)
+        self.object.nombre_sub = form.cleaned_data['nombre_sub']
+        #self.object.tipo_coordenada = form.cleaned_data['tipo_coordenada']
+        self.object.coordenada_geografica = form.cleaned_data['coordenada_geografica']
+        self.object.telefono = form.cleaned_data['telefono']
+        #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
+        self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
+        self.object.m2_terreno = form.cleaned_data['m2_terreno']
+        self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
+        self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
+        #self.object.codigo_ciiu_id = form.cleaned_data['codigo_ciiu_id']
+        self.object.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
+        self.object.capacidad_instalada_select = form.cleaned_data['capacidad_instalada_select']
+        self.object.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
+        self.object.sede_servicio = form.cleaned_data['sede_servicio']
+        self.object.directorio = directorio
+        self.object.save()
+        
+        ## Se crea y se guarda la tabla intermedio entre directorio-sub unidad
+        directorio_subunidad = SubUnidadEconomicaDirectorio()
+        directorio_subunidad.directorio = directorio
+        directorio_subunidad.sub_unidad_economica = self.object
+        directorio_subunidad.save()
+        
+        
+        print(self.object.nombre_sub)
+        
+        return super(SubUnidadEconomicaCreate, self).form_valid(form)

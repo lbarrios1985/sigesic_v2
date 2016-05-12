@@ -75,7 +75,6 @@ PROJECT_APPS = [
     'unidad_economica.directorio',
     'unidad_economica',
     'unidad_economica.informacion_mercantil',
-    'unidad_economica.sub_unidad_economica',
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
@@ -117,12 +116,15 @@ UNIDAD_ECONOMICA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/templates"
 ## Directorio en donde se encuentran las plantillas del módulo Información Mercantil
 INFORMACION_MERCANTIL_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/informacion_mercantil/templates")
 
+## Directorio en donde se encuentran las plantillas del módulo de Unidad Económica
+SUB_UNIDAD_ECONOMICA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sub_unidad_economica/templates")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
-            INFORMACION_MERCANTIL_TEMPLATES
+            INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES
         ],
         'APP_DIRS': True,
         'OPTIONS': {

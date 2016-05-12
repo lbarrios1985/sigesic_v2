@@ -14,8 +14,11 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    ModelForm, TextInput, CharField, Select, RadioSelect
+    TextInput, CharField, Select, RadioSelect
     )
+from unidad_economica.directorio.forms import DirectorioForm
+from .models import SubUnidadEconomica
+
 
 CAPACIDAD_INSTALADA_UNIDAD = (("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
 
@@ -23,7 +26,7 @@ TIPO_TENENCIA = ((1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(
 
 
 @python_2_unicode_compatible
-class PlantasProductivasForm(forms.Form):
+class SubUnidadEconomicaForm(DirectorioForm):
     """!
     Clase que muestra el formulario de ingreso de plantas productivas
 
@@ -58,7 +61,7 @@ class PlantasProductivasForm(forms.Form):
     )
     
     ## Telefono de la sub unidad
-    telefono_planta = forms.CharField(
+    telefono = forms.CharField(
         label=_("Télefono"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'placeholder': '(058)-000-0000000','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
@@ -148,3 +151,7 @@ class PlantasProductivasForm(forms.Form):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
         }),choices = ((1,"Si"),(0,"No")),
     )
+    
+    class Meta:
+        model = SubUnidadEconomica
+        fields = '__all__'

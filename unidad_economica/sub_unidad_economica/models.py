@@ -37,13 +37,7 @@ class SubUnidadEconomica(models.Model):
     
     ## Telefono de la sub unidad
     telefono = models.CharField(
-        max_length=20, help_text=_("Número telefónico de contacto"),
-        validators=[
-            validators.RegexValidator(
-                r'^[\d+-]+$',
-                _("Número telefónico inválido. Solo se permiten números, y los signos + o -")
-            ),
-        ])
+        max_length=20,)
     
     ## Tipo de tenencia de la sub unidad. (Se relaciona con el modelo Tenencia)
     #tipo_tenencia_id = models.OneToOneField()

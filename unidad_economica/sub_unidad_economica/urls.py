@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from .views import PlantasCreate
+from .views import SubUnidadEconomicaCreate
 
 urlpatterns = [
-    url(r'^plantas_productivas', PlantasCreate.as_view() ,name="plantas_productivas_form"),
+    url(r'^registro', SubUnidadEconomicaCreate.as_view() ,name="sub_unidad_create"),
 ]
