@@ -32,11 +32,11 @@ class UnidadEconomicaCreate(CreateView):
     @date 04-05-2016
     @version 2.0
     """
-    template = "unidadeconomica.registro.html"
+    template_name = "unidad.economica.registro.html"
 
     def get(self, request):
         formulario = UnidadEconomicaForm()
-        return render(request, self.template, {'ue': formulario})
+        return render(request, self.template_name, {'ue': formulario})
 
     """
     def post(self, request):
@@ -51,7 +51,7 @@ class UnidadEconomicaCreate(CreateView):
         modeloue.servicio = request.POST['servicio']
         modeloue.orga_comunal = request.POST['orga_comunal']
         modeloue.casa_matriz_franquicia = request.POST['casa_matriz_franquicia']
-        modeloue.nro_franquicias = request.POST['nro_franquicias']
+        modeloue.nro_franquicia = request.POST['nro_franquicia']
         modeloue.save()
         return render(request, self.template, {'mensaje':mensaje})
     """

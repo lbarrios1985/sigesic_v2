@@ -74,6 +74,12 @@ TURNO = (
     ("T", _("Tarde"))
 )
 
+## Respuesta de selección
+SELECCION = (
+  ("N", _("NO")),
+  ("S", _("SI"))
+)
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 

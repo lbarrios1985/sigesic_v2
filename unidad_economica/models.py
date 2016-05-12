@@ -52,11 +52,17 @@ class UnidadEconomica(models.Model):
     ## Organización comunal
     orga_comunal = models.BooleanField(default=False)
 
+    tipo_orga_comunal = models.CharField(max_length=45)
+
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = models.BooleanField(default=False)
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicias = models.IntegerField(null=True)
+    nro_franquicia = models.IntegerField(null=True)
+
+    franquiciado = models.BooleanField(default=False)
+
+    pais_franquicia = models.CharField(max_length=45)
 
 
 class UnidadEconomicaDirectorio(models.Model):

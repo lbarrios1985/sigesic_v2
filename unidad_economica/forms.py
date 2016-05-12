@@ -12,10 +12,14 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
-from django import forms
-from base.fields import RifField, CedulaField
 
+from django import forms
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+
+from base.constant import SELECCION
+from base.fields import RifField
+from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -34,44 +38,94 @@ class UnidadEconomicaForm(forms.Form):
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
 
+    rif.widget = RifWidgetReadOnly()
+
     ## Nombre Comercial de la Unidad Económica
     nombre_ue = forms.CharField(
         label=_("Nombre Comercial: "),
-        max_length=30
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '35'
+            }
+        )
     )
 
     ## Razón Social
     razon_social = forms.CharField(
         label=_("Razón Social: "),
-        max_length=45,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'readonly': 'readonly',
+                'title': _("Razón Social"),
+            }
+        ), required=False
     )
 
     ## Número de Plantas Productivas de la Unidad Económica
     nro_planta = forms.IntegerField(
         label=_("Número de Plantas Productivas:"),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Número de Plantas Productivas de la Unidad Económica"), 'size': '1'
+            }
+        )
     )
 
     ## Número de Unidades Comercializadoras 
     nro_unid_comercializadora = forms.IntegerField(
         label=_("Número de Unidades Comercializadoras:"),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Número de Unidades Comercializadoras de la Unidad Económica"), 'size': '1'
+            }
+        )
     )
 
     ## Servicios que presta la Unidad Económica
-    servicio = forms.BooleanField(
+    servicio = forms.ChoiceField(
         label=_("¿Presta algún servicio?"),
+        choices=(SELECCION)
     )
 
     ## Organización comunal
-    orga_comunal = forms.BooleanField(
+    orga_comunal = forms.ChoiceField(
         label=_("¿Es una organización comunal?"),
+        choices=(SELECCION)
+    )
+
+    tipo_orga_comunal = forms.CharField(
+        label=_("Tipo de Organizacón Comunal: "),
     )
 
     ## Casa Matriz de alguna Franquicia
-    casa_matriz_franquicia = forms.BooleanField(
-        label=_("¿Es la casa matriz de alguna Franquicia?"),
+    casa_matriz_franquicia = forms.ChoiceField(
+        label=_("¿Es la casa matríz de una Franquicia?"),
+        choices=(SELECCION)
     )
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicias = forms.IntegerField(
+    nro_franquicia = forms.IntegerField(
         label=_("Número de Franquicias:"),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '1'
+            }
+        )
+    )
+
+    ## Franquiciado
+    franquiciado = forms.ChoiceField(
+        label=_("¿Forma parte de una Franquicia?"),
+        choices=(SELECCION)
+    )
+
+    ## País de la Franquicia
+    pais_franquicia = forms.ChoiceField(
+        label=_("País de Origen de la Franquicia"),
+        choices=("Seleccione..")
     )
