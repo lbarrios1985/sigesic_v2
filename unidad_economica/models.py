@@ -14,6 +14,10 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django.db import models
 
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+
+from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -21,6 +25,7 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 
+@python_2_unicode_compatible
 class UnidadEconomica(models.Model):
     """!
     Tabla para almacenar el registro de la Unidad Económica
@@ -65,6 +70,7 @@ class UnidadEconomica(models.Model):
     pais_franquicia = models.CharField(max_length=45)
 
 
+@python_2_unicode_compatible
 class UnidadEconomicaDirectorio(models.Model):
     """!
     Clase que gestiona los datos de dirección asociada a una Unidad Económica
@@ -80,3 +86,24 @@ class UnidadEconomicaDirectorio(models.Model):
 
     ## Establece la relación con el Directorio
     directorio = models.ForeignKey(Directorio)
+
+
+@python_2_unicode_compatible
+class Notificacion(models.Model):
+    """!
+    Clase que gestiona las notificaciones realizadas a los usuarios
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 10-05-2016
+    @version 2.0.0
+    """
+
+    ## Registra el mensaje de la notificación a enviar
+    mensaje = models.TextField(help_text=_("Mensaje"))
+
+    ## Estatus del mensaje
+    estatus = models.CharField(max_length=1, choices=ESTATUS_NOTIFICACION, default=ESTATUS_NOTIFICACION_DEFAULT)
+
+    ## Establece la relación con la Unidad Económica a la cual se le envío la notificación
+    unidad_economica = models.ForeignKey(UnidadEconomica)
