@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+{% load i18n %}
+<html lang="es">
+	{% include 'base.head.template.html' %}
+	<body class="hold-transition skin-blue-dark sidebar-mini">
+		<div class="wrapper">
+			{% include 'base.navbar.template.html' %}
+			{% if request.user.is_authenticated %}
+				{% include 'base.menu.left.side.html' %}
+			{% endif %}
+			<!-- Content Wrapper. Contains page content -->
+      		<div class="content-wrapper" {% if not request.user.is_authenticated %}style="margin-left: 0;"{% endif %}>
+
+				{% if request.user.is_authenticated %}
+					<!-- header del contenido -->
+					<section class="content-header">
+						<h1>{% block content_header_title %}{% trans 'Sede administrativa' %}{% endblock %}</h1>
+						<ol class="breadcrumb">
+                            {% block content_header_roadmap %}
+                                <li><a href="#">{% trans 'sede adminitrativa' %}</a></li>
+                                <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
+                            {% endblock %}
+						</ol>
+					</section>
+				{% endif %}
+        <section class="content" style="padding:auto 0;">
+					<div class="row">
+                {% block contenido %}
+                      <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+									        {% csrf_token %}
+									        <div class="box box-primary box-registro-general" style="padding:20px">
+									            <div class="box-header with-border">
+									                <h3 class="box-title">
+									                    {% trans 'Registro Sedes administrativas ' %}&#160;<i class="glyphicon glyphicon-pencil"></i>
+									                </h3>
+									            </div>
+									            <div class="box-body">
+																<h5 class="titulo">{% trans 'Bienvenido' %}, {{ request.user }}</h5>
+									                <h2 class="titulo" align="center"><small>{% trans 'Datos de la sede administrativa' %}</small></h2>
+																	<hr>
+									                <div class="row">
+																		<div class="col-md-9">
+																				<div class="form-group {% if form.nombre_sede.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.nombre_sede.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.nombre_sede}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.nombre_sede.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.nombre_sede.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.tipo_carretera.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.tipo_carretera.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.tipo_carretera}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.tipo_carretera.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.tipo_carretera.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.nombre_carretera.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.nombre_carretera.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.nombre_carretera}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.nombre_carretera.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.nombre_carretera.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.tipo_edificacion.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.tipo_edificacion.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.tipo_edificacion}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.tipo_edificacion.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.tipo_edificacion.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.nombre_edificacion.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.nombre_edificacion.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.nombre_edificacion}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.nombre_edificacion.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.nombre_edificacion.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.nombre_sector.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.nombre_sector.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.nombre_sector}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.nombre_sector.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.nombre_sector.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																				<div class="form-group {% if form.tipo_tenencia.errors %}has-error{% endif %}">
+																						<label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_sede.auto_id }}">
+																							{{form.tipo_tenencia.label}}
+																						</label>
+																						<div class="col-md-9 col-xs-9 col-sm-9">
+																								<div class="form-inline">
+																										{{form.tipo_tenencia}}<i class="ion ion-ios-medical item-requerido"></i>
+																										{% if form.tipo_tenencia.errors %}
+																												<p class="bg-warning">
+																														<span class="help-block msg-error">
+																																<i class="fa fa-times-circle-o"></i> {{ form.tipo_tenencia.errors.as_text|cut:'* ' }}
+																														</span>
+																												</p>
+																										{% endif %}
+																								</div>
+																						</div>
+																				</div>
+																		</div>
+									                </div>
+									            </div>
+									            <hr>
+									            <div class="box-body datos-sedes" >
+									                <h5 class="titulo"></h5>
+									                <div class="row">
+
+
+									                </div>
+									                <div class="row">
+
+									                </div>
+									                <div class="row">
+
+									                </div>
+									                <div class="row">
+
+									                </div>
+									                <div class="row">
+
+									                </div>
+
+									            </div>
+									            <div class="box-footer text-right">
+									                <div class="col-md-6 text-justify">
+									                </div>
+									                <div class="col-md-6 text-right">
+									                    <button type="submit" class="btn btn-primary btn-sm">{% trans 'Registrar' %}</button>
+									                    <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
+									                </div>
+									            </div>
+									        </div>
+									    </form>
+                        {% endblock %}
+	      			</div>
+				</section>
+
+      		</div>
+		</div>
+		{% include 'base.footer.info.template.html' %}
+		{% include 'base.footer.template.html' %}
+		{% block extra_footer %}{% endblock %}
+        {% include 'base.loading.message.html' %}
+	</body>
+</html>
