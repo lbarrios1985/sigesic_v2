@@ -12,13 +12,13 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
-
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import SELECCION
 from base.fields import RifField
+from base.models import Pais
 from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
@@ -127,5 +127,5 @@ class UnidadEconomicaForm(forms.Form):
     ## País de la Franquicia
     pais_franquicia = forms.ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=("Seleccione..")
+        choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()]
     )
