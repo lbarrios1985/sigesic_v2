@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from .views import mercantil
+from .views import MercantilCreate
 
 urlpatterns = [
-    url(r'^mercantil/$', mercantil.as_view(), name='mercantil'),
+    url(r'^informacion-mercantil/registro/$', MercantilCreate.as_view(), name='informacion_mercantil'),
 ]

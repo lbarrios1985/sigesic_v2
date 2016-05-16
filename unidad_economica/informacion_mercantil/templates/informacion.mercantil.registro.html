@@ -1,0 +1,70 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block contenido %}
+
+    <h4 class="titulo">{% trans "Información Mercantil"%}</h4>
+    <form action="{% url 'informacion_mercantil' %}" method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+            <div class="box box-primary box-registro" style="padding:20px">
+                <div class="box-header with-border">
+                    <div class="container">
+                        <h4 class="titulo">{% trans 'Distribución del Capital' %}</h4>
+                        <hr/>
+                        <div class="row">
+                            <div > Naturaleza Jurídica: {{ form.naturaleza_juridica }}</div>
+                            <div class="col-md-6">
+                                <label >{{ form.capital_suscrito.label }}{{ form.capital_suscrito}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label> {{ form.capital_pagado.label }}{{ form.capital_pagado}} </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <h4 class="titulo">{% trans "Distribución Porcentual del capital suscrito" %} </h4>
+                            <label> {{form.publico_nacional.label}} {{ form.publico_nacional }}</label>
+                            <label>{{form.publico_extranjero.label}}{{form.publico_extranjero}}</label>
+                            <label>{{form.privado_nacional.label}}{{form.privado_nacional}}</label>
+                            <label>{{form.privado_extranjero.label}}{{form.privado_extranjero}}</label>
+                        </div>
+
+                        <h4 class="titulo">{% trans "Composición Accionaria" %} </h4>
+                        <hr/>
+                        <div class="row">
+                            <label> {{form.tipo_persona_id.label}}{{ form.tipo_persona_id }}</label>
+
+                            <div> RIF: {{form.rif_accionista }}</div>
+
+                        </div>
+                        <div class="">{{form.nombre_accionista.label}}{{form.nombre_accionista}}</div>
+
+
+                        <div class="">
+                            <label class="form-group">{{form.porc_acciones.label}}{{form.porc_acciones}}</label>
+
+                        </div>
+                        <div class="box-footer text-right">
+                            <button type="submit">Limpiar</button>
+                            <button type="submit">Guardar</button>
+                            <button type="submit">Agregar otro</button>
+                        </div>
+                        <div class="row">
+                            <h4 class="titulo">{% trans "Representante Legal" %} </h4>
+                            <hr/>
+                            <div class="form-group">
+                                <label class=""> {{ form.nombre_rep.label }}{{ form.nombre_rep }} </label>
+
+                                <label class=""> {{ form.apellido_rep.label }}{{ form.apellido_rep }} </label>
+
+                                <label class=""> {{ form.cedula_rep.label }}{{ form.cedula_rep }} </label>
+
+                                <label class=""> {{ form.correo_rep.label }}{{ form.correo_rep }} </label>
+
+                            </div>
+                        </div>
+                    </div>
+              </div>
+        </div>
+    </form>
+ {%endblock%}
