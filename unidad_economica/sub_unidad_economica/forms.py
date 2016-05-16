@@ -19,6 +19,9 @@ from django.forms import (
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
 
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 CAPACIDAD_INSTALADA_UNIDAD = (("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
 
@@ -38,10 +41,9 @@ class SubUnidadEconomicaForm(DirectorioForm):
     
     ## Nombre de la sub unidad
     nombre_sub = forms.CharField(
-        label=_("Nombre de la Planta"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'placeholder': _("nombre de la planta"),
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el nombre de la planta"), 'size': '50'
+        label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50'
         })
     )
     
@@ -81,7 +83,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25', 'type':'number',
+            'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
     
@@ -90,7 +92,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Metros Cuadrados de Terreno"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique lo metros cuadrados del terreno"), 'size': '25', 'type':'number',
+            'title': _("Indique lo metros cuadrados del terreno"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
@@ -99,7 +101,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Porcentaje de Autonomía Eléctrica"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25', 'type':'number',
+            'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
@@ -108,7 +110,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Consumo Eléctrico"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25', 'type':'number',
+            'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
@@ -125,7 +127,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Capacidad Instalada Mensual"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number',
+            'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
     
@@ -141,8 +143,16 @@ class SubUnidadEconomicaForm(DirectorioForm):
         label=_("Capacidad Utilizada Mensual"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number',
+            'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
+    )
+    
+    cantidad_empleados = forms.IntegerField(
+            label=_("Cantidad de empleados"), widget=TextInput(attrs={
+            'class': 'form-control input-md','data-rule-required': 'true',
+            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
+            'title': _("Indique la cantidad de empleados"), 'size': '25', 'type':'number', 'min':'1',
+        }),
     )
     
     ## Pregunta si la unidad económica presta un servicio

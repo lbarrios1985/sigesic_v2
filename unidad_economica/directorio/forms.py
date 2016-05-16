@@ -17,6 +17,10 @@ from django.forms import (
 from django.utils.translation import ugettext_lazy as _
 from .models import Directorio
 
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
+
 PREFIX1 = (("Autopista","Autopista"),("Avenida","Avenida"),("Carretera","Carretera"),
             ("Calle","Calle"),("Carrera","Carrera"),("Vereda","Vereda"))
 

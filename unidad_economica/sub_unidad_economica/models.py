@@ -16,6 +16,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from unidad_economica.directorio.models import Directorio
 
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 class SubUnidadEconomica(models.Model):
     """!
@@ -65,6 +68,10 @@ class SubUnidadEconomica(models.Model):
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_utilizada = models.DecimalField(max_digits=20,decimal_places=5,)
+    
+    ## Cantidad de empleados
+    cantidad_empleados = models.IntegerField()
+
     
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  models.BooleanField()

@@ -18,6 +18,9 @@ from django.utils.translation import ugettext_lazy as _
 
 from base.models import Parroquia
 
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 class Directorio(models.Model):
     """!
