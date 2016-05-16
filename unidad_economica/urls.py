@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^informacion-general/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
     url(r'^plantas-productivas/', include('unidad_economica.plantas_productivas.urls')),
+    url(r'^unidades-comercializadoras/', include('unidad_economica.unidades_comercializadoras.urls')),
 ]

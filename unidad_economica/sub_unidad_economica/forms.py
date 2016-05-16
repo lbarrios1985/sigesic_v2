@@ -31,7 +31,7 @@ TIPO_TENENCIA = ((1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(
 @python_2_unicode_compatible
 class SubUnidadEconomicaForm(DirectorioForm):
     """!
-    Clase que muestra el formulario de ingreso de plantas productivas
+    Clase que muestra el formulario de ingreso de la sub-unidad económica
 
     @author Rodrigo Boet (rboet at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -114,6 +114,36 @@ class SubUnidadEconomicaForm(DirectorioForm):
         }), max_digits=20,decimal_places=5,
     )
     
+    cantidad_empleados = forms.IntegerField(
+            label=_("Cantidad de empleados"), widget=TextInput(attrs={
+            'class': 'form-control input-md','data-rule-required': 'true',
+            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
+            'title': _("Indique la cantidad de empleados"), 'size': '25', 'type':'number', 'min':'1',
+        }),
+    )
+    
+    ## Pregunta si la unidad económica presta un servicio
+    sede_servicio =  forms.ChoiceField(
+        widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+        }),choices = ((1,"Si"),(0,"No")),
+    )
+    
+    class Meta:
+        model = SubUnidadEconomica
+        fields = '__all__'
+        
+        
+@python_2_unicode_compatible
+class SubUnidadEconomicaProcesoForm(SubUnidadEconomicaForm):
+    """!
+    Clase que muestra el formulario de ingreso de plantas productivas
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0.0
+    """
     ## Código CIIU
     codigo_ciiu =  forms.ChoiceField(
         label=_("Actividad Económica Principal"), widget=Select(attrs={
@@ -146,22 +176,3 @@ class SubUnidadEconomicaForm(DirectorioForm):
             'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
-    
-    cantidad_empleados = forms.IntegerField(
-            label=_("Cantidad de empleados"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true',
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la cantidad de empleados"), 'size': '25', 'type':'number', 'min':'1',
-        }),
-    )
-    
-    ## Pregunta si la unidad económica presta un servicio
-    sede_servicio =  forms.ChoiceField(
-        widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),choices = ((1,"Si"),(0,"No")),
-    )
-    
-    class Meta:
-        model = SubUnidadEconomica
-        fields = '__all__'
