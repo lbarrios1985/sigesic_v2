@@ -28,7 +28,7 @@ __docstring__ = "DoxyGen"
 @python_2_unicode_compatible
 class UnidadEconomica(models.Model):
     """!
-    Tabla para almacenar el registro de la Unidad Económica
+    Clase que gestiona los datos para el registro de la Unidad Económica
 
     @author Eveli Ramírez (eramirez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -69,6 +69,22 @@ class UnidadEconomica(models.Model):
 
     pais_franquicia = models.CharField(max_length=45)
 
+class ActividadEconomicaCiiu(models.Model):
+    """!
+    Clase que gestiona los datos de actividades CIUU relacionados con la Unidad Económica
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0
+    """
+    ## Establece la relación con el código CIUU
+    #ciuu = models.ForeignKey(ciuu)
+
+    principal = models.BooleanField()
+
+    ## Establece la relación con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
 
 @python_2_unicode_compatible
 class UnidadEconomicaDirectorio(models.Model):

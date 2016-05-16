@@ -63,18 +63,86 @@
                     {% trans 'Dirección Fiscal' %}
                 </h4>
                 <hr />
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ ue.prefijo_uno }}
-                            {{ ue.direccion_uno.label }} {{ ue.direccion_uno }}
-                        </div>
+                
+                <div class="form-group">
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ ue.estado_ue.auto_id }}">
+                        {{ ue.estado_ue.label }}
+                    </label>
+                    <div class="col-md-3 col-xs-3 col-sm-3">
+                        {{ ue.estado_ue }}
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ ue.prefijo_dos }}
-                            {{ ue.direccion_dos.label }} {{ ue.direccion_dos }}
-                        </div>
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ ue.municipio_ue.auto_id }}">
+                        {{ ue.municipio_ue.label }}
+                    </label>
+                    <div class="col-md-3 col-xs-3 col-sm-3">
+                        {{ ue.municipio_ue }}
+                    </div>
+                    <label class="col-md-1 col-xs-1 col-sm-1 control-label" for="{{ ue.parroquia_ue.auto_id }}">
+                        {{ ue.parroquia_ue.label }}
+                    </label>
+                    <div class="col-md-3 col-xs-3 col-sm-3">
+                        {{ ue.parroquia_ue }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_uno.auto_id }}">
+                        Seleccione:
+                    </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {% for prefijo in ue.prefijo_uno %}
+                            {{ prefijo }}
+                        {% endfor %}
+                    </div>
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_dos.auto_id }}">
+                        Seleccione:
+                    </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {% for prefijo in ue.prefijo_dos %}
+                            {{ prefijo }}
+                        {% endfor %}
+                    </div>
+                    <label class="col-md-6 control-label" for="{{ ue.direccion_uno.auto_id }}">
+                        {{ ue.direccion_uno.label }} {{ ue.direccion_uno }}
+                    </label>
+                    <label class="col-md-6 control-label" for="{{ ue.direccion_dos.auto_id }}">
+                        {{ ue.direccion_dos.label }} {{ ue.direccion_dos }}
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_tres.auto_id }}">
+                        Seleccione:
+                    </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {% for prefijo in ue.prefijo_tres %}
+                            {{ prefijo }}
+                        {% endfor %}
+                    </div>
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
+                        Seleccione:
+                    </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {% for prefijo in ue.prefijo_cuatro %}
+                            {{ prefijo }}
+                        {% endfor %}
+                    </div>
+                    <label class="col-md-6 control-label" for="{{ ue.direccion_tres.auto_id }}">
+                        {{ ue.direccion_tres.label }} {{ ue.direccion_tres }}
+                    </label>
+                    <label class="col-md-6 control-label" for="{{ ue.direccion_cuatro.auto_id }}">
+                        {{ ue.direccion_cuatro.label }} {{ ue.direccion_cuatro }}
+                    </label>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ ue.tipo_coordenada.auto_id }}">
+                        {{ ue.tipo_coordenada.label }} {{ ue.tipo_coordenada }}
+                    </label>
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <label class="control-label" for="{{ ue.coordenada.auto_id }}">
+                            {{ ue.coordenada.label }}{{ ue.coordenada }}
+                        </label>
                     </div>
                 </div>
 
@@ -83,9 +151,12 @@
                 </h4>
                 <hr />
                 
-                <div class="row">
-                    <div class="form-group">
-                        
+                <div class="form-group">
+                    <div class="col-md-6 col-xs-6 col-sm-6">
+                        <label class="control-label" for="{{ ue.actividad.auto_id }}">
+                            {{ ue.actividad.label }}
+                        </label>
+                        {{ ue.actividad }}
                     </div>
                 </div>
 
