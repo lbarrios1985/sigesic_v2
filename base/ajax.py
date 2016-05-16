@@ -203,7 +203,7 @@ def actualizar_combo(request):
                 for o in modelo.objects.using(bd).filter(**filtro).order_by(n_text):
                     out = "%s<option value='%s'>%s</option>" \
                           % (out, str(o.__getattribute__(n_value)),
-                             o.__getattribute__(n_text).encode("utf-8"))
+                             o.__getattribute__(n_text))
             else:
                 combo_disabled = "true"
 

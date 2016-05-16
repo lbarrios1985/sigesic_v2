@@ -80,6 +80,40 @@ SELECCION = (
   ("S", _("SI"))
 )
 
+## Prefijos permitidos para el primer campo de direcciones
+PREFIJO_DIRECTORIO_UNO_CHOICES = (
+    ('AU', _("Autopista")),
+    ('AV', _("Avenida")),
+    ('CA', _("Carretera")),
+    ('CL', _("Calle")),
+    ('CR', _("Carrera")),
+    ('VR', _("Vereda")),
+)
+
+## Prefijos permitidos para el segundo campo de direcciones
+PREFIJO_DIRECTORIO_DOS_CHOICES = (
+    ('ED', _("Edificio")),
+    ('GA', _("Galpón")),
+    ('QT', _("Quinta")),
+    ('CA', _("Casa")),
+    ('LC', _("Local")),
+    ('CC', _("Centro Comercial")),
+)
+
+## Prefijos permitidos para el tercer campo de direcciones
+PREFIJO_DIRECTORIO_TRES_CHOICES = (
+    ('LC', _("Local")),
+    ('OF', _("Oficina")),
+    ('AP', _("Apartamento")),
+)
+
+## Prefijos permitidos para el cuarto campo de direcciones
+PREFIJO_DIRECTORIO_CUATRO_CHOICES = (
+    ('UB', _("Urbanización")),
+    ('SC', _("Sector")),
+    ('ZN', _("Zona")),
+)
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 

@@ -16,7 +16,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from base.constant import SELECCION
+from base.constant import (
+    PREFIJO_DIRECTORIO_UNO_CHOICES, PREFIJO_DIRECTORIO_DOS_CHOICES, PREFIJO_DIRECTORIO_TRES_CHOICES,
+    PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
+)
 from base.fields import RifField
 from base.models import *
 from base.widgets import RifWidgetReadOnly
@@ -84,7 +87,7 @@ class UnidadEconomicaForm(forms.Form):
     ## Prefijos Autopista, Avenida, Carretera, Calle, Carrera, Vereda
     prefijo_uno = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=Directorio.PREFIJO_UNO_CHOICES
+        choices=PREFIJO_DIRECTORIO_UNO_CHOICES
     )
 
     ## Descripción de la dirección en el primer prefijo
@@ -100,7 +103,7 @@ class UnidadEconomicaForm(forms.Form):
     ## Prefijos Edificio, Galpón, Centro Comercial, Quinta, Casa, Local 
     prefijo_dos = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=Directorio.PREFIJO_DOS_CHOICES
+        choices=PREFIJO_DIRECTORIO_DOS_CHOICES
     )
 
     ## Descripción de la dirección en el segundo prefijo
