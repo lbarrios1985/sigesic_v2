@@ -11,11 +11,11 @@
                     <div class="col-md-6">
                         <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.rif.auto_id }}">
-                                {{ ue.rif.label }}
+                                {{ ue.rif.label }} 
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.rif }}
+                                    {{ ue.rif }}{{ request.user }}
                                 </div>
                                 {% if form.rif.errors %}
                                     <p class="bg-warning">
@@ -66,9 +66,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            {{ ue.prefijo_uno }}
+                            {{ ue.direccion_uno.label }} {{ ue.direccion_uno }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ ue.prefijo_dos }}
+                            {{ ue.direccion_dos.label }} {{ ue.direccion_dos }}
                         </div>
                     </div>
                 </div>
+
                 <h4 class="titulo">
                     {% trans 'Actividad Económica' %}
                 </h4>
@@ -133,7 +142,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.pais_franquiciado }}
+                                    {{ ue.pais_franquicia }}
                                 </div>
                             </div>
                         </div>
@@ -141,8 +150,32 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nombre_franquicia.auto_id }}">
+                                {{ ue.nombre_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ ue.nombre_franquicia }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.rif_franquicia.auto_id }}">
+                                {{ ue.rif_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ ue.rif_franquicia }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
+            
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -185,12 +218,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nro_unid_comercializadoras.auto_id }}">
-                                {{ ue.nro_unid_comercializadoras.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nro_unid_comercializadora.auto_id }}">
+                                {{ ue.nro_unid_comercializadora.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.nro_unid_comercializadoras }}
+                                    {{ ue.nro_unid_comercializadora }}
                                 </div>
                             </div>
                         </div>

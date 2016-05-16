@@ -15,10 +15,20 @@ from __future__ import unicode_literals, absolute_import
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 from base.models import Parroquia
+from base.constant import (
+    PREFIJO_DIRECTORIO_UNO_CHOICES, PREFIJO_DIRECTORIO_DOS_CHOICES, PREFIJO_DIRECTORIO_TRES_CHOICES,
+    PREFIJO_DIRECTORIO_CUATRO_CHOICES
+)
+
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 
+@python_2_unicode_compatible
 class Directorio(models.Model):
     """!
     Clase que gestiona los datos del directorio de direcciones
@@ -29,60 +39,26 @@ class Directorio(models.Model):
     @version 2.0.0
     """
 
-    ## Prefijos permitidos para el primer campo de direcciones
-    PREFIJO_UNO_CHOICES = (
-        ('AU', _("Autopista")),
-        ('AV', _("Avenida")),
-        ('CA', _("Carretera")),
-        ('CL', _("Calle")),
-        ('CR', _("Carrera")),
-        ('VR', _("Vereda")),
-    )
-
-    ## Prefijos permitidos para el segundo campo de direcciones
-    PREFIJO_DOS_CHOICES = (
-        ('ED', _("Edificio")),
-        ('GA', _("Galpón")),
-        ('CC', _("Centro Comercial")),
-        ('QT', _("Quinta")),
-        ('CA', _("Casa")),
-        ('LC', _("Local")),
-    )
-
-    ## Prefijos permitidos para el tercer campo de direcciones
-    PREFIJO_TRES_CHOICES = (
-        ('LC', _("Local")),
-        ('OF', _("Oficina")),
-        ('AP', _("Apartamento")),
-    )
-
-    ## Prefijos permitidos para el cuarto campo de direcciones
-    PREFIJO_CUATRO_CHOICES = (
-        ('UB', _("Urbanización")),
-        ('SC', _("Sector")),
-        ('ZN', _("Zona")),
-    )
-    
-    ## Va a contener los prefijos Autopista, Avenida, Carretera, Calle, Carrera, Vereda 
-    prefijo_uno = models.CharField(max_length=2, choices=PREFIJO_UNO_CHOICES)
+    ## Va a contener los prefijos Autopista, Avenida, Carretera, Calle, Carrera, Vereda
+    prefijo_uno = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_UNO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el primer prefijo
     direccion_uno = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Edificio, Galpón, Centro Comercial, Quinta, Casa, Local 
-    prefijo_dos = models.CharField(max_length=2, choices=PREFIJO_DOS_CHOICES)
+    prefijo_dos = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_DOS_CHOICES)
     
     ## Va a contener la descripción de la dirección en el segundo prefijo
     direccion_dos = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Local, Oficina, Apartamento 
-    prefijo_tres = models.CharField(max_length=2, choices=PREFIJO_TRES_CHOICES)
+    prefijo_tres = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_TRES_CHOICES)
     
     ## Va a contener la descripción de la dirección en el tercer prefijo
     direccion_tres = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Urbanización, Sector, Zona 
-    prefijo_cuatro = models.CharField(max_length=2, choices=PREFIJO_CUATRO_CHOICES)
+    prefijo_cuatro = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_CUATRO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el cuarto prefijo
     direccion_cuatro = models.CharField(max_length=20)

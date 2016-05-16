@@ -14,8 +14,14 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    ModelForm, TextInput, CharField, Select, RadioSelect
+    TextInput, CharField, Select, RadioSelect
     )
+from unidad_economica.directorio.forms import DirectorioForm
+from .models import SubUnidadEconomica
+
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 CAPACIDAD_INSTALADA_UNIDAD = (("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
 
@@ -23,9 +29,9 @@ TIPO_TENENCIA = ((1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(
 
 
 @python_2_unicode_compatible
-class PlantasProductivasForm(forms.Form):
+class SubUnidadEconomicaForm(DirectorioForm):
     """!
-    Clase que muestra el formulario de ingreso de plantas productivas
+    Clase que muestra el formulario de ingreso de la sub-unidad económica
 
     @author Rodrigo Boet (rboet at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -35,10 +41,9 @@ class PlantasProductivasForm(forms.Form):
     
     ## Nombre de la sub unidad
     nombre_sub = forms.CharField(
-        label=_("Nombre de la Planta"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'placeholder': _("nombre de la planta"),
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el nombre de la planta"), 'size': '50'
+        label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50'
         })
     )
     
@@ -58,7 +63,7 @@ class PlantasProductivasForm(forms.Form):
     )
     
     ## Telefono de la sub unidad
-    telefono_planta = forms.CharField(
+    telefono = forms.CharField(
         label=_("Télefono"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'placeholder': '(058)-000-0000000','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
@@ -78,7 +83,7 @@ class PlantasProductivasForm(forms.Form):
         label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25', 'type':'number',
+            'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
     
@@ -87,7 +92,7 @@ class PlantasProductivasForm(forms.Form):
         label=_("Metros Cuadrados de Terreno"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique lo metros cuadrados del terreno"), 'size': '25', 'type':'number',
+            'title': _("Indique lo metros cuadrados del terreno"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
@@ -96,7 +101,7 @@ class PlantasProductivasForm(forms.Form):
         label=_("Porcentaje de Autonomía Eléctrica"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25', 'type':'number',
+            'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
@@ -105,10 +110,40 @@ class PlantasProductivasForm(forms.Form):
         label=_("Consumo Eléctrico"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25', 'type':'number',
+            'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
     )
     
+    cantidad_empleados = forms.IntegerField(
+            label=_("Cantidad de empleados"), widget=TextInput(attrs={
+            'class': 'form-control input-md','data-rule-required': 'true',
+            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
+            'title': _("Indique la cantidad de empleados"), 'size': '25', 'type':'number', 'min':'1',
+        }),
+    )
+    
+    ## Pregunta si la unidad económica presta un servicio
+    sede_servicio =  forms.ChoiceField(
+        widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+        }),choices = ((1,"Si"),(0,"No")),
+    )
+    
+    class Meta:
+        model = SubUnidadEconomica
+        fields = '__all__'
+        
+        
+@python_2_unicode_compatible
+class SubUnidadEconomicaProcesoForm(SubUnidadEconomicaForm):
+    """!
+    Clase que muestra el formulario de ingreso de plantas productivas
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0.0
+    """
     ## Código CIIU
     codigo_ciiu =  forms.ChoiceField(
         label=_("Actividad Económica Principal"), widget=Select(attrs={
@@ -122,7 +157,7 @@ class PlantasProductivasForm(forms.Form):
         label=_("Capacidad Instalada Mensual"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number',
+            'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
     
@@ -138,13 +173,6 @@ class PlantasProductivasForm(forms.Form):
         label=_("Capacidad Utilizada Mensual"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number',
+            'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
-    )
-    
-    ## Pregunta si la unidad económica presta un servicio
-    sede_servicio =  forms.ChoiceField(
-        widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),choices = ((1,"Si"),(0,"No")),
     )

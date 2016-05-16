@@ -36,12 +36,6 @@ class Pais(models.Model):
     ## Nombre del pais
     nombre = models.CharField(max_length=50)
 
-    def __str__(self):
-        return "%s" % self.nombre
-
-    def __unicode__(self):
-        return "%s" % self.nombre
-
 
 @python_2_unicode_compatible
 class Estado(models.Model):
@@ -61,10 +55,7 @@ class Estado(models.Model):
     pais = models.ForeignKey(Pais)
 
     def __str__(self):
-        return "%s" % self.nombre
-
-    def __unicode__(self):
-        return "%s" % self.nombre
+        return self.nombre
 
 
 @python_2_unicode_compatible
@@ -84,12 +75,6 @@ class Municipio(models.Model):
     ## Estado en donde se encuentra el Municipio
     estado = models.ForeignKey(Estado)
 
-    def __str__(self):
-        return "%s" % self.nombre
-
-    def __unicode__(self):
-        return "%s" % self.nombre
-
 
 @python_2_unicode_compatible
 class Parroquia(models.Model):
@@ -108,12 +93,6 @@ class Parroquia(models.Model):
     ## Municipio en el que se encuentra ubicada la Parroquia
     municipio = models.ForeignKey(Municipio)
 
-    def __str__(self):
-        return "%s" % self.nombre
-
-    def __unicode__(self):
-        return "%s" % self.nombre
-
 
 @python_2_unicode_compatible
 class Ciudad(models.Model):
@@ -131,9 +110,3 @@ class Ciudad(models.Model):
 
     ## Estado en donde se encuentra ubicada la Ciudad
     estado = models.ForeignKey(Estado)
-
-    def __str__(self):
-        return "%s" % self.nombre
-
-    def __unicode__(self):
-        return "%s" % self.nombre

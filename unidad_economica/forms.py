@@ -12,14 +12,18 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
-
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-from base.constant import SELECCION
+from base.constant import (
+    PREFIJO_DIRECTORIO_UNO_CHOICES, PREFIJO_DIRECTORIO_DOS_CHOICES, PREFIJO_DIRECTORIO_TRES_CHOICES,
+    PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
+)
 from base.fields import RifField
+from base.models import *
 from base.widgets import RifWidgetReadOnly
+from .directorio.models import *
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -37,7 +41,6 @@ class UnidadEconomicaForm(forms.Form):
 
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
-
     rif.widget = RifWidgetReadOnly()
 
     ## Nombre Comercial de la Unidad Económica
@@ -61,6 +64,56 @@ class UnidadEconomicaForm(forms.Form):
                 'title': _("Razón Social"),
             }
         ), required=False
+    )
+
+    ## Estado
+    estado_ue = forms.ChoiceField(
+        label=_("Estado"),
+        choices=[(estado.id, estado.nombre) for estado in Estado.objects.all()]
+    )
+
+    ## Municipio
+    municipio_ue = forms.ChoiceField(
+        label=_("Municipio"),
+        choices=[(municipio.id, municipio.nombre) for municipio in Municipio.objects.all()]
+    )
+
+    ## Parroquia
+    parroquia_ue = forms.ChoiceField(
+        label=_("Municipio"),
+        choices=[(parroquia.id, parroquia.nombre) for parroquia in Parroquia.objects.all()]
+    )
+
+    ## Prefijos Autopista, Avenida, Carretera, Calle, Carrera, Vereda
+    prefijo_uno = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=PREFIJO_DIRECTORIO_UNO_CHOICES
+    )
+
+    ## Descripción de la dirección en el primer prefijo
+    direccion_uno = forms.CharField(
+        label=_("Indique el nombre: "),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+            }
+        )
+    )
+
+    ## Prefijos Edificio, Galpón, Centro Comercial, Quinta, Casa, Local 
+    prefijo_dos = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=PREFIJO_DIRECTORIO_DOS_CHOICES
+    )
+
+    ## Descripción de la dirección en el segundo prefijo
+    direccion_dos = forms.CharField(
+        label=_("Indique el nombre: "),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+            }
+        )
     )
 
     ## Número de Plantas Productivas de la Unidad Económica
@@ -88,23 +141,24 @@ class UnidadEconomicaForm(forms.Form):
     ## Servicios que presta la Unidad Económica
     servicio = forms.ChoiceField(
         label=_("¿Presta algún servicio?"),
-        choices=(SELECCION)
+        choices=SELECCION
     )
 
     ## Organización comunal
     orga_comunal = forms.ChoiceField(
         label=_("¿Es una organización comunal?"),
-        choices=(SELECCION)
+        choices=SELECCION
     )
 
-    tipo_orga_comunal = forms.CharField(
+    tipo_orga_comunal = forms.ChoiceField(
         label=_("Tipo de Organizacón Comunal: "),
+        #choices=[(comunal.id, comunal.tipo_comunal) for comunal in comun_tipo_orga.objects.all()]
     )
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = forms.ChoiceField(
         label=_("¿Es la casa matríz de una Franquicia?"),
-        choices=(SELECCION)
+        choices=SELECCION
     )
 
     ## Número de Franquicias asociadas a la Unidad Económica
@@ -121,11 +175,11 @@ class UnidadEconomicaForm(forms.Form):
     ## Franquiciado
     franquiciado = forms.ChoiceField(
         label=_("¿Forma parte de una Franquicia?"),
-        choices=(SELECCION)
+        choices=SELECCION
     )
 
     ## País de la Franquicia
     pais_franquicia = forms.ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=("Seleccione..")
+        choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()]
     )
