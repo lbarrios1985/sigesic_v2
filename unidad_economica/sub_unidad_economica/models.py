@@ -56,7 +56,22 @@ class SubUnidadEconomica(models.Model):
     
     ## Consumo eléctrico promedio en el mes
     consumo_electrico = models.DecimalField(max_digits=20,decimal_places=5)
+        
+    ## Cantidad de empleados
+    cantidad_empleados = models.IntegerField()
+
+    ## Pregunta si la unidad económica presta un servicio
+    sede_servicio =  models.BooleanField()
     
+class SubUnidadEconomicaProceso(models.Model):
+    """!
+    Clase que gestiona los datos comunes de las actividades económicas de la sub-unidad 
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0.0
+    """        
     ## Código CIIU (Se relaciona con el modelo CIIU)
     #codigo_ciiu_id =  models.OneToOneField()
     
@@ -69,12 +84,8 @@ class SubUnidadEconomica(models.Model):
     ## Capacidad instalada mensual (campo de texto)
     capacidad_utilizada = models.DecimalField(max_digits=20,decimal_places=5,)
     
-    ## Cantidad de empleados
-    cantidad_empleados = models.IntegerField()
-
-    
-    ## Pregunta si la unidad económica presta un servicio
-    sede_servicio =  models.BooleanField()
+    ## Establece la relación con la Sub Unidad Económica
+    sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
     
 
 class SubUnidadEconomicaDirectorio(models.Model):

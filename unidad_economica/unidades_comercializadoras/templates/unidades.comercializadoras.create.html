@@ -1,0 +1,75 @@
+{% extends 'sub.unidad.economica.base.html' %}
+{% block nombre %}Nombre de la unidad comercializadora{%endblock%}
+{% block titulo1 %}Unidades Comercializadoras{% endblock %}
+{% block titulo2 %}Descripción Física de la Unidad{% endblock %}
+{% block actividad_economica %}
+    <div class="box-header with-border">
+        <h4 class="box-title">{% block titulo3 %}Actividad Económica de la Unidad{% endblock %}</h4>
+    </div>
+    <br>
+    {% block plantas_productivas %}{%endblock%}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group {% if form.codigo_ciiu.errors %}has-error{% endif %}">
+                <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.codigo_ciiu.auto_id }}">
+                    {{ form.codigo_ciiu.label }}
+                </label>
+                <div class="col-md-10 col-xs-10 col-sm-10">
+                    <div class="form-inline">{{ form.codigo_ciiu }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                    {% if form.codigo_ciiu.errors %}
+                        <p class="bg-warning">
+                            <span class="help-block msg-error">
+                                <i class="fa fa-times-circle-o"></i> {{ form.codigo_ciiu.errors.as_text|cut:'* ' }}
+                            </span>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <div class="form-group {% if form.capacidad_instalada_texto.errors %}has-error{% endif %}">
+                <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.capacidad_instalada_texto.auto_id }}">
+                    {{ form.capacidad_instalada_texto.label }}
+                </label>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <div class="form-inline">{{ form.capacidad_instalada_texto }}</div>
+                    {% if form.capacidad_instalada_texto.errors %}
+                        <p class="bg-warning">
+                            <span class="help-block msg-error">
+                                <i class="fa fa-times-circle-o"></i> {{ form.capacidad_instalada_texto.errors.as_text|cut:'* ' }}
+                            </span>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <div class="form-group {% if form.capacidad_instalada_select.errors %}has-error{% endif %}">
+                <div class="form-inline">{{ form.capacidad_instalada_select }}<i class="ion ion-ios-medical item-requerido"></i></div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group {% if form.capacidad_utilizada.errors %}has-error{% endif %}">
+                <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.capacidad_utilizada.auto_id }}">
+                    {{ form.capacidad_utilizada.label }}
+                </label>
+                <div class="col-md-10 col-xs-10 col-sm-10">
+                    <div class="form-inline">{{ form.capacidad_utilizada }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                    {% if form.capacidad_utilizada.errors %}
+                        <p class="bg-warning">
+                            <span class="help-block msg-error">
+                                <i class="fa fa-times-circle-o"></i> {{ form.capacidad_utilizada.errors.as_text|cut:'* ' }}
+                            </span>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}
