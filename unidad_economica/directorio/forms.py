@@ -13,23 +13,21 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 
 from django import forms
 from django.forms import (
-    ModelForm,TextInput, Select,RadioSelect)
+    ModelForm, TextInput, Select, RadioSelect, ModelChoiceField)
 from django.utils.translation import ugettext_lazy as _
+
+from base.constant import (
+    PREFIJO_DIRECTORIO_UNO_CHOICES, PREFIJO_DIRECTORIO_DOS_CHOICES, PREFIJO_DIRECTORIO_TRES_CHOICES,
+    PREFIJO_DIRECTORIO_CUATRO_CHOICES
+)
+from base.models import Estado, Municipio, Parroquia
+from base.fields import CoordenadaField
 from .models import Directorio
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-PREFIX1 = (("Autopista","Autopista"),("Avenida","Avenida"),("Carretera","Carretera"),
-            ("Calle","Calle"),("Carrera","Carrera"),("Vereda","Vereda"))
-
-PREFIX2 = (("Edificio","Edificio"),("Galpón","Galpón"),("Centro Comercial","Centro Comercial"),
-            ("Quinta","Quinta"),("Casa","Casa"),("Local","Local"))
-
-PREFIX3 = (("Local","Local"),("Oficina","Oficina"),("Apartamento","Apartamento"))
-
-PREFIX4 = (("Urbanización","Urbanización"),("Sector","Sector"),("Zona","Zona"))
 
 class DirectorioForm(ModelForm):
     """!
@@ -41,69 +39,77 @@ class DirectorioForm(ModelForm):
     @version 2.0.0
     """
     
-    prefijo1 = forms.ChoiceField(
+    prefijo_uno = forms.ChoiceField(
         widget=RadioSelect(attrs={
-            'style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = PREFIX1,
+            'class': 'radio'
+        }), choices = PREFIJO_DIRECTORIO_UNO_CHOICES,
     )
-    nombre1 = forms.CharField(
-        label=_("Indique el nombre"), widget=TextInput(attrs={
+    direccion_uno = forms.CharField(
+        label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
         })
     )
-    prefijo2 = forms.ChoiceField(
+    prefijo_dos = forms.ChoiceField(
         widget=RadioSelect(attrs={
-            'style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = PREFIX2,
+            'class': 'radio'
+        }), choices = PREFIJO_DIRECTORIO_DOS_CHOICES,
     )
-    nombre2 = forms.CharField(
-        label=_("Indique el nombre"), widget=TextInput(attrs={
+    direccion_dos = forms.CharField(
+        label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
         })
     )
-    prefijo3 = forms.ChoiceField(
+    prefijo_tres = forms.ChoiceField(
         widget=RadioSelect(attrs={
-            'style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = PREFIX3,
+            'class': 'radio',
+        }), choices = PREFIJO_DIRECTORIO_TRES_CHOICES,
     )
-    nombre3 = forms.CharField(
-        label=_("Indique el nombre"), widget=TextInput(attrs={
+    direccion_tres = forms.CharField(
+        label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
         }))
-    prefijo4 = forms.ChoiceField(
+    prefijo_cuatro = forms.ChoiceField(
         widget=RadioSelect(attrs={
-            'style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = PREFIX4,
+            'class': 'radio',
+        }), choices = PREFIJO_DIRECTORIO_CUATRO_CHOICES,
     )
-    nombre4 = forms.CharField(
-        label=_("Indique el nombre"), widget=TextInput(attrs={
+    direccion_cuatro = forms.CharField(
+        label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
     }))
-    
-    ## Entidad federal de la planta
-    estado = forms.ChoiceField(
-        label=_("Estado"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = ((1,"Mérida"),(2,"Caracas")),
+
+    estado = ModelChoiceField(
+        label=_("Estado"), queryset=Estado.objects.all(), empty_label=_("Seleccione..."),
+        widget=Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': _("Seleccione el estado en donde se encuentra ubicada"),
+            'onchange': "actualizar_combo(this.value,'base','Municipio','estado','pk','nombre','id_municipio')"
+        })
     )
-    
-    ## Municipio de la planta
-    municipio = forms.ChoiceField(
-        label=_("Municipio"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = ((1,"Mérida"),(2,"Caracas")),
+
+    ## Municipio en el que se encuentra ubicada la parroquia
+    municipio = ModelChoiceField(
+        label=_("Municipio"), queryset=Municipio.objects.all(), empty_label=_("Seleccione..."),
+        widget=Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip', 'disabled': 'true',
+            'title': _("Seleccione el municipio en donde se encuentra ubicada"),
+            'onchange': "actualizar_combo(this.value,'base','Parroquia','municipio','pk','nombre','id_parroquia')"
+        })
     )
-    
-    ## Parroquía de la planta
-    parroquia = forms.ChoiceField(
-        label=_("Parroquia"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = ((1,"Mérida"),(2,"Caracas")),
+
+    parroquia = ModelChoiceField(
+        label=_("Parroquia"), queryset=Municipio.objects.all(), empty_label=_("Seleccione..."),
+        widget=Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip', 'disabled': 'true',
+            'title': _("Seleccione la parroquia en donde se encuentra ubicada")
+        })
     )
+
+    coordenada = CoordenadaField()
     
     class Meta:
         model = Directorio

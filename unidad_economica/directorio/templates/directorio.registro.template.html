@@ -2,145 +2,237 @@
 {% load i18n %}
 {% block form_extra_class %}form-horizontal{% endblock %}
 {% block form_inputs %}
-    <div class="row">
-        <div class="col-xs-12 col-md-12 col-sm-12">
-            <h3>{% trans 'Dirección Fiscal' %}</h3>
-            <hr>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="form-group has-feedback {% if form.prefijo_uno.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_uno.auto_id }}">
-                    {{ form.direccion_uno.label }}
-                </label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.prefijo_uno }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.prefijo_uno.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.prefijo_uno.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="form-group has-feedback {% if form.direccion_uno.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_uno.auto_id }}">&#160;</label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.direccion_uno }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.direccion_uno.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.direccion_uno.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
+    <div class="col-md-12 col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <h3>{% trans 'Dirección Fiscal' %}</h3>
+                <hr>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="form-group has-feedback {% if form.prefijo_dos.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_dos.auto_id }}">
-                    {{ form.direccion_dos.label }}
-                </label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.prefijo_dos }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.prefijo_dos.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.prefijo_dos.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.prefijo_uno.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_uno.auto_id }}">
+                        {{ form.direccion_uno.label }}
+                    </label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.prefijo_uno }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.prefijo_uno.errors %}
+                            <div class="col-xs-12 col-sm-12 col-md-12" style="padding-left: 0">
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_uno.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group has-feedback {% if form.direccion_uno.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_uno.auto_id }}">&#160;</label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.direccion_uno }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.direccion_uno.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.direccion_uno.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            <div class="form-group has-feedback {% if form.direccion_dos.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_dos.auto_id }}">&#160;</label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.direccion_dos }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.direccion_dos.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.direccion_dos.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.prefijo_dos.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_dos.auto_id }}">
+                        {{ form.direccion_dos.label }}
+                    </label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.prefijo_dos }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.prefijo_dos.errors %}
+                            <div class="col-xs-12 col-sm-12 col-md-12" style="padding-left: 0">
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_dos.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group has-feedback {% if form.direccion_dos.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_dos.auto_id }}">&#160;</label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.direccion_dos }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.direccion_dos.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.direccion_dos.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.prefijo_tres.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_tres.auto_id }}">
+                        {{ form.direccion_tres.label }}
+                    </label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.prefijo_tres }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.prefijo_tres.errors %}
+                            <div class="col-xs-12 col-sm-12 col-md-12" style="padding-left: 0">
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_tres.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group has-feedback {% if form.direccion_tres.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_tres.auto_id }}">&#160;</label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.direccion_tres }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.direccion_tres.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.direccion_tres.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.prefijo_cuatro.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
+                        {{ form.direccion_cuatro.label }}
+                    </label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.prefijo_cuatro }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.prefijo_cuatro.errors %}
+                            <div class="col-xs-12 col-sm-12 col-md-12" style="padding-left: 0">
+                                <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.prefijo_cuatro.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group has-feedback {% if form.direccion_cuatro.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_cuatro.auto_id }}">&#160;</label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        {{ form.direccion_cuatro }}
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                        {% if form.direccion_cuatro.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.direccion_cuatro.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.estado.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.estado.auto_id }}">
+                        {{ form.estado.label }}
+                    </label>
+                    <div class="col-md-8 col-xs-8 col-sm-8">
+                        {{ form.estado }}
+                        {% if form.estado.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.estado.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-sm-1">
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.municipio.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.municipio.auto_id }}">
+                        {{ form.municipio.label }}
+                    </label>
+                    <div class="col-md-8 col-xs-8 col-sm-8">
+                        {{ form.municipio }}
+                        {% if form.municipio.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.municipio.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-sm-1">
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.parroquia.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.parroquia.auto_id }}">
+                        {{ form.parroquia.label }}
+                    </label>
+                    <div class="col-md-8 col-xs-8 col-sm-8">
+                        {{ form.parroquia }}
+                        {% if form.parroquia.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.parroquia.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1 col-xs-1 col-sm-1">
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-6">
+                <div class="form-group has-feedback {% if form.coordenada.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.coordenada.auto_id }}">
+                        {{ form.coordenada.label }}
+                    </label>
+                    <div class="col-md-3 col-xs-9 col-sm-9">
+                        {{ form.coordenada }}
+                        {% if form.coordenada.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    <i class="fa fa-times-circle-o"></i> {{ form.coordenada.errors.as_text|cut:'* ' }}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="form-group has-feedback {% if form.prefijo_tres.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_tres.auto_id }}">
-                    {{ form.direccion_tres.label }}
-                </label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.prefijo_tres }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.prefijo_tres.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.prefijo_tres.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="form-group has-feedback {% if form.direccion_tres.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_tres.auto_id }}">&#160;</label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.direccion_tres }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.direccion_tres.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.direccion_tres.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6">
-            <div class="form-group has-feedback {% if form.prefijo_cuatro.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
-                    {{ form.direccion_cuatro.label }}
-                </label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.prefijo_cuatro }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.prefijo_cuatro.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.prefijo_cuatro.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="form-group has-feedback {% if form.direccion_cuatro.errors %}has-error{% endif %}">
-                <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_cuatro.auto_id }}">&#160;</label>
-                <div class="col-md-9 col-xs-9 col-sm-9">
-                    {{ form.direccion_cuatro }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.direccion_cuatro.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.direccion_cuatro.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
