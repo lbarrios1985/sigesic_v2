@@ -163,3 +163,43 @@ class CedulaWidget(MultiWidget):
         if value:
             return [value[0], value[1:]]
         return [None, None]
+
+
+class CoordenadaWidgetReadOnly(MultiWidget):
+    """!
+    Clase que agrupa los widgets de los campos del tipo de rif, número de rif y dígito validador del rif
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 26-04-2016
+    @version 2.0.0
+    """
+
+    def __init__(self, attrs=None, *args, **kwargs):
+
+        self.attrs = attrs or {}
+
+        widgets = (
+            TextInput(
+                attrs={
+                    'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'title': _("Coordenada de Longitud"), 'size': '15'
+                }
+            ),
+            TextInput(
+                attrs={
+                    'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'title': _("Coordenada de Latitud"), 'size': '15'
+                }
+            )
+        )
+
+        super(CoordenadaWidgetReadOnly, self).__init__(widgets, attrs, *args, **kwargs)
+
+    def format_output(self, rendered_widgets):
+        return ' - '.join(rendered_widgets)
+
+    def decompress(self, value):
+        if value:
+            return [value]
+        return [None, None]
