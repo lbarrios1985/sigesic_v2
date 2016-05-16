@@ -119,7 +119,7 @@ class UnidadEconomicaForm(forms.Form):
     ## Prefijos Local, Oficina, Apartamento 
     prefijo_tres = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=Directorio.PREFIJO_TRES_CHOICES
+        choices=PREFIJO_DIRECTORIO_TRES_CHOICES
     )
 
     ## Descripción de la dirección en el tercer prefijo
@@ -135,7 +135,7 @@ class UnidadEconomicaForm(forms.Form):
     ## Prefijos Urbanización, Sector, Zona
     prefijo_cuatro = forms.ChoiceField(
         widget=forms.RadioSelect,
-        choices=Directorio.PREFIJO_CUATRO_CHOICES
+        choices=PREFIJO_DIRECTORIO_CUATRO_CHOICES
     )
 
     ## Descripción de la dirección en el cuarto prefijo
