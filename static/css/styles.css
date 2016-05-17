@@ -148,3 +148,8 @@ optgroup, option, select, span.input-group-btn, .select2-container--default .sel
 .select2-container--default .select2-selection--single .select2-selection__rendered, .selection {
     font-size: 11px !important;
 }
+
+.map {
+    height: 200px;
+    width: 100%;
+}
