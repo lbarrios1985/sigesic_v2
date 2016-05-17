@@ -23,9 +23,9 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-CAPACIDAD_INSTALADA_UNIDAD = (("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
+CAPACIDAD_INSTALADA_UNIDAD = (('','Seleccione...'),("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
 
-TIPO_TENENCIA = ((1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(5,"Otra"))
+TIPO_TENENCIA = (('','Seleccione...'),(1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(5,"Otra"))
 
 
 @python_2_unicode_compatible
@@ -51,7 +51,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     tipo_coordenada =  forms.ChoiceField(
         label=_("Tipo de Coordenada"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), required=False,
+        }), required=False, 
     )
     
     ## Coordenada geográfica de la sub unidad
@@ -75,7 +75,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     tipo_tenencia = forms.ChoiceField(
         label=_("Tipo de Tenencia"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),choices = TIPO_TENENCIA,
+        }),choices = TIPO_TENENCIA, 
     )
     
     ## Metros cuadrados de la construcción
@@ -124,9 +124,9 @@ class SubUnidadEconomicaForm(DirectorioForm):
     
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
-        widget=Select(attrs={
+       widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }),choices = ((1,"Si"),(0,"No")),
+        }),choices = (('','Seleccione...'),(1,"Si"),(0,"No")),
     )
     
     class Meta:

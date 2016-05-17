@@ -17,7 +17,6 @@ from django.core.urlresolvers import reverse_lazy
 
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaProceso
 from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaProcesoForm
-from base.models import Parroquia
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.directorio.models import Directorio
 from base.constant import CREATE_MESSAGE
@@ -54,19 +53,17 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         @return Retorna el formulario validado
         """
         
-        parroquia = Parroquia.objects.get(pk=7)
-        
         ## Se crea y se guarda el modelo de directorio
         directorio = Directorio()
-        directorio.prefijo_uno=form.cleaned_data['prefijo1'],
-        directorio.direccion_uno=form.cleaned_data['nombre1'],
-        directorio.prefijo_dos=form.cleaned_data['prefijo2'],
-        directorio.direccion_dos=form.cleaned_data['nombre2'],
-        directorio.prefijo_tres=form.cleaned_data['prefijo3'],
-        directorio.direccion_tres=form.cleaned_data['nombre3'],
-        directorio.prefijo_cuatro=form.cleaned_data['prefijo4'],
-        directorio.direccion_cuatro=form.cleaned_data['nombre4'],
-        directorio.parroquia = parroquia
+        directorio.prefijo_uno=form.cleaned_data['prefijo_uno'],
+        directorio.direccion_uno=form.cleaned_data['direccion_uno'],
+        directorio.prefijo_dos=form.cleaned_data['prefijo_dos'],
+        directorio.direccion_dos=form.cleaned_data['direccion_dos'],
+        directorio.prefijo_tres=form.cleaned_data['prefijo_tres'],
+        directorio.direccion_tres=form.cleaned_data['direccion_tres'],
+        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
+        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
+        directorio.parroquia = form.cleaned_data['parroquia']
         directorio.activo=True,
         directorio.save()
         
