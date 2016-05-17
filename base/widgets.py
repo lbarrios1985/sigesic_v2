@@ -53,14 +53,14 @@ class RifWidget(MultiWidget):
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'placeholder': '00000000', 'data-mask': '00000000',
+                    'class': 'form-control text-center', 'placeholder': '00000000', 'data-mask': '00000000',
                     'data-toggle': 'tooltip', 'maxlength': '8', 'size': '7', 'data-rule-required': 'true',
                     'title': _("Indique el número de R.I.F., si es menor a 8 dígitos complete con ceros a la izquierda")
                 }
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'data-rule-required': 'true', 'data-mask': '0',
+                    'class': 'form-control text-center', 'data-rule-required': 'true', 'data-mask': '0',
                     'title': _("Indique el último dígito del R.I.F."), 'placeholder': '0', 'maxlength': '1',
                     'size': '1', 'data-toggle': 'tooltip',
                 }
@@ -95,20 +95,20 @@ class RifWidgetReadOnly(MultiWidget):
         widgets = (
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'class': 'form-control text-center', 'data-toggle': 'tooltip', 'readonly': 'readonly',
                     'title': _("Tipo de R.I.F."), 'size': '1',
                 }
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'readonly': 'readonly',
+                    'class': 'form-control text-center', 'readonly': 'readonly',
                     'data-toggle': 'tooltip', 'maxlength': '8', 'size': '7',
                     'title': _("Número de R.I.F.")
                 }
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'readonly': 'readonly',
+                    'class': 'form-control text-center', 'readonly': 'readonly',
                     'title': _("Ultimo dígito del R.I.F."), 'placeholder': '0', 'maxlength': '1',
                     'size': '1', 'data-toggle': 'tooltip',
                 }
@@ -147,7 +147,7 @@ class CedulaWidget(MultiWidget):
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm text-center', 'placeholder': '00000000', 'data-mask': '00000000',
+                    'class': 'form-control text-center', 'placeholder': '00000000', 'data-mask': '00000000',
                     'data-toggle': 'tooltip', 'maxlength': '8', 'size':'7', 'data-rule-required': 'true',
                     'title': _("Indique el número de Cédula de Identidad")
                 }
@@ -167,11 +167,11 @@ class CedulaWidget(MultiWidget):
 
 class CoordenadaWidgetReadOnly(MultiWidget):
     """!
-    Clase que agrupa los widgets de los campos del tipo de rif, número de rif y dígito validador del rif
+    Clase que agrupa los widgets de los campos para las coordenadas geográficas, latitud y longitud
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 26-04-2016
+    @date 16-05-2016
     @version 2.0.0
     """
 
@@ -182,14 +182,14 @@ class CoordenadaWidgetReadOnly(MultiWidget):
         widgets = (
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'readonly': 'readonly',
-                    'title': _("Coordenada de Longitud"), 'size': '15'
+                    'class': 'form-control', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'title': _("Coordenada de Longitud"), 'size': '15', 'placeholder': _("Longitud")
                 }
             ),
             TextInput(
                 attrs={
-                    'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'readonly': 'readonly',
-                    'title': _("Coordenada de Latitud"), 'size': '15'
+                    'class': 'form-control', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                    'title': _("Coordenada de Latitud"), 'size': '15', 'placeholder': _("Latitud")
                 }
             )
         )
