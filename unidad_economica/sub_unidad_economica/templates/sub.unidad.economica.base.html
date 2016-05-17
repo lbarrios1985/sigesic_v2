@@ -84,19 +84,19 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.prefijo1.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo3.auto_id }}">
+                    <div class="form-group {% if form.prefijo_uno.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_uno.auto_id }}">
                             Seleccione:
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
-                            {% for radio in form.prefijo1 %}
+                            {% for radio in form.prefijo_uno %}
                                     {{ radio }}
                             {% endfor %}
                             <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo1.errors %}
+                            {% if form.prefijo_uno.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo1.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_uno.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -104,19 +104,19 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.prefijo2.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo2.auto_id }}">
+                    <div class="form-group {% if form.prefijo_dos.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_dos.auto_id }}">
                             Seleccione:
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
-                            {% for radio in form.prefijo2 %}
+                            {% for radio in form.prefijo_dos %}
                                     {{ radio }}
                             {% endfor %}
                             <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo2.errors %}
+                            {% if form.prefijo_dos.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo2.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_dos.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -126,18 +126,18 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.nombre1.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre1.auto_id }}">
-                            {{ form.nombre1.label }}
+                    <div class="form-group {% if form.direccion_uno.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.direccion_uno.auto_id }}">
+                            {{ form.direccion_uno.label }}
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
                             <div class="form-inline">
-                                {{ form.nombre1 }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {{ form.direccion_uno }}<i class="ion ion-ios-medical item-requerido"></i>
                             </div>
-                            {% if form.nombre1.errors %}
+                            {% if form.direccion_uno.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.nombre1.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.direccion_uno.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -145,61 +145,18 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.nombre2.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre2.auto_id }}">
-                            {{ form.nombre2.label }}
+                    <div class="form-group {% if form.direccion_dos.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.direccion_dos.auto_id }}">
+                            {{ form.direccion_dos.label }}
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
                             <div class="form-inline">
-                                {{ form.nombre2 }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {{ form.direccion_dos }}<i class="ion ion-ios-medical item-requerido"></i>
                             </div>
-                            {% if form.nombre2.errors %}
+                            {% if form.direccion_dos.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.nombre2.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-                
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.prefijo3.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo3.auto_id }}">
-                            Seleccione:
-                        </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
-                            {% for radio in form.prefijo3 %}
-                                    {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo3.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo3.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.prefijo4.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo4.auto_id }}">
-                            Seleccione:
-                        </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
-                            {% for radio in form.prefijo4 %}
-                                    {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo4.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo4.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.direccion_dos.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -210,18 +167,19 @@
                 
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.nombre3.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre3.auto_id }}">
-                            {{ form.nombre3.label }}
+                    <div class="form-group {% if form.prefijo_tres.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_tres.auto_id }}">
+                            Seleccione:
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
-                            <div class="form-inline">
-                                {{ form.nombre3 }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
-                            {% if form.nombre3.errors %}
+                            {% for radio in form.prefijo_tres %}
+                                    {{ radio }}
+                            {% endfor %}
+                            <i class="ion ion-ios-medical item-requerido"></i>
+                            {% if form.prefijo_tres.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.nombre3.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_tres.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -229,18 +187,60 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.nombre4.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre4.auto_id }}">
-                            {{ form.nombre4.label }}
+                    <div class="form-group {% if form.prefijo_cuatro.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
+                            Seleccione:
+                        </label>
+                        <div class="col-md-10 col-xs-10 col-sm-10">
+                            {% for radio in form.prefijo_cuatro %}
+                                    {{ radio }}
+                            {% endfor %}
+                            <i class="ion ion-ios-medical item-requerido"></i>
+                            {% if form.prefijo_cuatro.errors %}
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_cuatro.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group {% if form.direccion_tres.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.direccion_tres.auto_id }}">
+                            {{ form.direccion_tres.label }}
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
                             <div class="form-inline">
-                                {{ form.nombre4 }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {{ form.direccion_tres }}<i class="ion ion-ios-medical item-requerido"></i>
                             </div>
-                            {% if form.nombre4.errors %}
+                            {% if form.direccion_tres.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.nombre4.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.direccion_tres.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group {% if form.direccion_cuatro.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.direccion_cuatro.auto_id }}">
+                            {{ form.direccion_cuatro.label }}
+                        </label>
+                        <div class="col-md-10 col-xs-10 col-sm-10">
+                            <div class="form-inline">
+                                {{ form.direccion_cuatro }}<i class="ion ion-ios-medical item-requerido"></i>
+                            </div>
+                            {% if form.direccion_cuatro.errors %}
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.direccion_cuatro.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}

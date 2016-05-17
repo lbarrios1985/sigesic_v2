@@ -40,7 +40,8 @@ class SubUnidadEconomica(models.Model):
     
     ## Telefono de la sub unidad
     telefono = models.CharField(
-        max_length=20,)
+        max_length=20, help_text=_("Número telefónico de contacto con el usuario"),
+    )
     
     ## Tipo de tenencia de la sub unidad. (Se relaciona con el modelo Tenencia)
     #tipo_tenencia_id = models.OneToOneField()

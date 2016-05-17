@@ -1,0 +1,215 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block contenido %}
+
+    <h4 class="titulo" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+        xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
+    <form action="{% url 'informacion_mercantil' %}" method="post" enctype="multipart/form-data" role="form">
+        {% csrf_token %}
+            <div class="box box-primary box-registro" style="padding:20px">
+                <div class="box-header with-border">
+                    <div class="box-body">
+                        <h4 class="titulo">{% trans 'Distribución del Capital' %}</h4>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica.auto_id }}">
+                                        {{ form.naturaleza_juridica.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.naturaleza_juridica }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="col-md-6 col-xs-6 col-sm-6 control-label" >{{ form.capital_suscrito.label }}</label>
+                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.capital_suscrito}}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-6 col-xs-6 col-sm-6 control-label"> {{ form.capital_pagado.label }}</label>
+                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.capital_pagado}}</div>
+                            </div>
+                        </div>
+                        </br>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="col-md-9 col-xs-9 col-sm-9 titulo">{% trans "Distribución Porcentual del capital suscrito" %} </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="form-inline col-md-12">
+                                <label class="col-md-2">{{form.publico_nacional.label}} </label>
+                                    <div class="col-md-1"> {{ form.publico_nacional }}</div>
+                                <label class="col-md-2"> {{form.publico_extranjero.label}}</label>
+                                    <div class="col-md-1">{{form.publico_extranjero}}</div>
+                                <label class="col-md-2">{{form.privado_nacional.label}}</label>
+                                    <div class="col-md-1">{{form.privado_nacional}}</div>
+                                <label class="col-md-2">{{form.privado_extranjero.label}}</label>
+                                    <div class="col-md-1"> {{form.privado_extranjero}}</div>
+                            </div>
+                        </div>
+
+                        <h4 class="titulo">{% trans "Composición Accionaria" %} </h4>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_accionista.auto_id }}">
+                                        {{ form.rif_accionista.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.rif_accionista }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_accionista.auto_id }}">
+                                    {{ form.nombre_accionista.label }}
+                                    </label>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.nombre_accionista }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.pais_origen.auto_id }}">
+                                        {{ form.pais_origen.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.pais_origen }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.porc_acciones.auto_id }}">
+                                    {{ form.porc_acciones.label }}
+                                    </label>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.porc_acciones }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <div class=" text-center">
+                            <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
+                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Guardar</button>
+                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Agregar otro</button>
+                        </div>
+
+                        <h4 class="titulo">{% trans "Representante Legal" %} </h4>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula_rep.auto_id }}">
+                                    {{ form.cedula_rep.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.cedula_rep }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_rep.auto_id }}">
+                                    {{ form.nombre_rep.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.nombre_rep }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido_rep.auto_id }}">
+                                    {{ form.apellido_rep.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.apellido_rep }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo_rep.auto_id }}">
+                                    {{ form.correo_rep.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.correo_rep }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono_rep.auto_id }}">
+                                    {{ form.telefono_rep.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.telefono_rep }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="col-md-3 col-xs-3 col-sm-3 control-label" >{{ form.cargo_rep.label }}</label>
+                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.cargo_rep}}</div>
+                            </div>
+                        </div>
+
+                            <div class=" text-right">
+                                <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
+                                <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+        </div>
+    </form>
+ {%endblock%}

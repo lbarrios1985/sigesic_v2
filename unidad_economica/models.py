@@ -18,6 +18,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
+from base.models import TipoComunal, Ciiu
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -28,7 +29,7 @@ __docstring__ = "DoxyGen"
 @python_2_unicode_compatible
 class UnidadEconomica(models.Model):
     """!
-    Tabla para almacenar el registro de la Unidad Económica
+    Clase que gestiona los datos para el registro de la Unidad Económica
 
     @author Eveli Ramírez (eramirez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -45,6 +46,12 @@ class UnidadEconomica(models.Model):
     ## Razón Social
     razon_social = models.CharField(max_length=45)
 
+    ## Número de Seguro Social
+    ivss = models.CharField(max_length=10)
+
+    ## Número de contrato social
+    snc = models.CharField(max_length=10)
+
     ## Número de Plantas Productivas de la Unidad Económica
     nro_planta = models.IntegerField(null=True)
 
@@ -57,18 +64,58 @@ class UnidadEconomica(models.Model):
     ## Organización comunal
     orga_comunal = models.BooleanField(default=False)
 
-    tipo_orga_comunal = models.CharField(max_length=45)
+    ## Establece la relación con el Tipo de Organización Comunal
+    tipo_comunal = models.ForeignKey(TipoComunal)
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = models.BooleanField(default=False)
 
     ## Número de Franquicias asociadas a la Unidad Económica
     nro_franquicia = models.IntegerField(null=True)
-
+  
+    ## Forma parte de una franquicia
     franquiciado = models.BooleanField(default=False)
 
-    pais_franquicia = models.CharField(max_length=45)
+    ## Código SITUR de la organización comunal
+    codigo_SITUR = models.CharField(max_length=45)
 
+@python_2_unicode_compatible
+class Franquicia(models.Model):
+    """!
+    Clase que gestiona los datos de la franquicia relacionados con la Unidad Económica
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0
+    """
+
+    ## RIF de la casa matriz de la franquicia
+    rif_casa_matriz = models.CharField(max_length=10)
+
+    ## Nombre de la Franquicia 
+    nombre_franquicia = models.CharField(max_length=45)
+
+    ## Establece la relación con la Unidad Económica
+    unidad_economica_rif = models.ForeignKey(UnidadEconomica)
+
+@python_2_unicode_compatible
+class ActividadCiiu(models.Model):
+    """!
+    Clase que gestiona los datos de actividades CIIU relacionados con la Unidad Económica
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0
+    """
+    ## Establece la relación con el código CIUU
+    ciiu = models.ForeignKey(Ciiu)
+
+    principal = models.BooleanField(default=True)
+
+    ## Establece la relación con la Unidad Económica
+    unidad_economica_rif = models.ForeignKey(UnidadEconomica)
 
 @python_2_unicode_compatible
 class UnidadEconomicaDirectorio(models.Model):
