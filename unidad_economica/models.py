@@ -69,6 +69,27 @@ class UnidadEconomica(models.Model):
 
     pais_franquicia = models.CharField(max_length=45)
 
+@python_2_unicode_compatible
+class Franquicia(models.Model):
+    """!
+    Clase que gestiona los datos de la franquicia relacionados con la Unidad Económica
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0
+    """
+
+    ## RIF de la casa matriz de la franquicia
+    rif_casa_matriz = models.CharField(max_length=10)
+
+    ## Nombre de la Franquicia 
+    nombre_franquicia = models.CharField(max_length=45)
+
+    ## Establece la relación con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
+
+@python_2_unicode_compatible
 class ActividadEconomicaCiiu(models.Model):
     """!
     Clase que gestiona los datos de actividades CIUU relacionados con la Unidad Económica

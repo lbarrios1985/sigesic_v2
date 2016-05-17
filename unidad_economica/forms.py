@@ -80,7 +80,7 @@ class UnidadEconomicaForm(forms.Form):
 
     ## Parroquia
     parroquia_ue = forms.ChoiceField(
-        label=_("Municipio"),
+        label=_("Parroquia"),
         choices=[(parroquia.id, parroquia.nombre) for parroquia in Parroquia.objects.all()]
     )
 
