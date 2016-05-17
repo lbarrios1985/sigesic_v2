@@ -133,15 +133,18 @@ h4.titulo, h5.titulo {
     cursor: pointer;
 }
 
-input, textarea {
+input:not([name='q']), textarea {
     height: 25px !important;
     padding: 5px 10px !important;
     font-size: 11px !important;
     line-height: 1.5 !important;
     border-radius: 3px !important;
 }
+input[name="q"] {
+    border-radius: 0 !important;
+}
 
-optgroup, option, select, .select2-container--default .select2-selection--single,
+optgroup, option, select, span.input-group-btn, .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--single .select2-selection__rendered, .selection {
     font-size: 11px !important;
 }
