@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
-from base.constant import NATURALEZA_JURIDICA
 
 
 @python_2_unicode_compatible
@@ -17,10 +16,12 @@ class CapitalAccionista(models.Model):
     """
 
     ## Establece la nacionalidad del usuario
-    naturaleza_juridica = models.CharField(
-        max_length=1, choices=NATURALEZA_JURIDICA,
-    )
+    naturaleza_juridica = models.CharField(max_length=1)
 
+    naturaleza_juridica_otros = models.CharField(
+        max_length=20, help_text= "Agregue la Naturaleza Jurídica"
+
+    )
 
     ##Establece el capital solicitado: capital suscrito
     capital_suscrito = models.CharField(
@@ -69,11 +70,6 @@ class CapitalAccionista(models.Model):
                 _("Sólo se permiten números.")
             ),
         ]
-    )
-
-    ## Establece el tipo de persona
-    tipo_persona_id = models.CharField(
-        max_length=10, help_text=_("ID persona")
     )
 
     ## Establece el rif del accionista
@@ -129,9 +125,7 @@ class CapitalAccionista(models.Model):
     )
 
     ##Establece el correo electrónico del Represntante Legal
-    cargo_rep = models.CharField(
-        max_length=175, help_text=_("Cargo del usuario dentro de la Unidad Económica")
-    )
+    cargo_rep = models.CharField(max_length=1)
 
     class Meta:
         verbose_name = _("Accionista")
