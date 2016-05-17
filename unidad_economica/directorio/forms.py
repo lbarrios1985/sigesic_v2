@@ -38,50 +38,60 @@ class DirectorioForm(ModelForm):
     @date 05-05-2016
     @version 2.0.0
     """
-    
+
+    ## Prefijo para establecer el tipo de datos de la primera dirección
     prefijo_uno = forms.ChoiceField(
-        widget=RadioSelect(attrs={
-            'class': 'radio'
-        }), choices = PREFIJO_DIRECTORIO_UNO_CHOICES,
+        widget=RadioSelect(attrs={'class': 'radio'}), choices = PREFIJO_DIRECTORIO_UNO_CHOICES,
     )
+
+    ## Primer dato correspondiente a la dirección de Autopista, Avenida, Carretera, Calle, Carrera o Vereda
     direccion_uno = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
+            'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
         })
     )
+
+    ## Prefijo para establecer el tipo de datos de la segunda dirección
     prefijo_dos = forms.ChoiceField(
-        widget=RadioSelect(attrs={
-            'class': 'radio'
-        }), choices = PREFIJO_DIRECTORIO_DOS_CHOICES,
+        widget=RadioSelect(attrs={'class': 'radio'}), choices = PREFIJO_DIRECTORIO_DOS_CHOICES,
     )
+
+    ## Segundo dato correspondiente a la dirección de Edificio, Galpón, Quinta, Casa, Local o Centro Comercial
     direccion_dos = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
+            'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
         })
     )
+
+    ## Prefijo para establecer el tipo de datos de la tercera dirección
     prefijo_tres = forms.ChoiceField(
-        widget=RadioSelect(attrs={
-            'class': 'radio',
-        }), choices = PREFIJO_DIRECTORIO_TRES_CHOICES,
+        widget=RadioSelect(attrs={'class': 'radio',}), choices = PREFIJO_DIRECTORIO_TRES_CHOICES
     )
+
+    ## Tercer dato correspondiente a la dirección de Local, Oficina o Apartamento
     direccion_tres = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
+            'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
-        }))
-    prefijo_cuatro = forms.ChoiceField(
-        widget=RadioSelect(attrs={
-            'class': 'radio',
-        }), choices = PREFIJO_DIRECTORIO_CUATRO_CHOICES,
+        })
     )
+
+    ## Prefijo para establecer el tipo de datos de la cuarta dirección
+    prefijo_cuatro = forms.ChoiceField(
+        widget=RadioSelect(attrs={'class': 'radio',}), choices = PREFIJO_DIRECTORIO_CUATRO_CHOICES,
+    )
+
+    ## Cuarto dato correspondiente a la dirección de Urbanización, Sector o Zona
     direccion_cuatro = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
+            'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
-    }))
+        })
+    )
 
+    ## Estado o Entidad en donde se encuentra ubicado el municipio
     estado = ModelChoiceField(
         label=_("Estado"), queryset=Estado.objects.all(), empty_label=_("Seleccione..."),
         widget=Select(attrs={
@@ -101,6 +111,7 @@ class DirectorioForm(ModelForm):
         })
     )
 
+    ## Parroquia en donde se encuentra ubicada la dirección suministrada
     parroquia = ModelChoiceField(
         label=_("Parroquia"), queryset=Municipio.objects.all(), empty_label=_("Seleccione..."),
         widget=Select(attrs={
@@ -109,6 +120,7 @@ class DirectorioForm(ModelForm):
         })
     )
 
+    ## Coordenadas geográficas de Longitud y Latitud
     coordenada = CoordenadaField()
     
     class Meta:
