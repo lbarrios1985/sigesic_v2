@@ -163,3 +163,28 @@ class CorreoForm(forms.Form):
             'title': _("Indique el correo electrónico")
         })
     )
+
+
+@python_2_unicode_compatible
+class TelefonoForm(forms.Form):
+    """!
+    Clase que contiene el campo de teléfono a incorporar en un formulario
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 18-05-2016
+    @version 2.0.0
+    """
+
+    telefono = CharField(
+        label=_("Teléfono"),
+        max_length=20,
+        widget=TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'placeholder': '(058)-000-0000000',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '15',
+                'title': _("Indique el número telefónico"), 'data-mask': '(000)-000-0000000'
+            }
+        ),
+        help_text=_("(país)-área-número")
+    )

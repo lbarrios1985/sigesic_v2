@@ -1,0 +1,14 @@
+<div class="form-group {% if form.telefono.errors %}has-error{% endif %}">
+    <div>{{ form.telefono.label_tag }}</div>
+    <div class="form-inline">
+        {{ form.telefono }}
+        {% if form.telefono.field.required %}<i class="ion ion-ios-medical item-requerido"></i>{% endif %}
+    </div>
+    {% if form.telefono.errors %}
+        <p class="bg-warning">
+            <span class="help-block msg-error">
+                <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
+            </span>
+        </p>
+    {% endif %}
+</div>

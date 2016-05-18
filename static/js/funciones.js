@@ -98,6 +98,112 @@ function seleccionar_coordenadas(title, template) {
     });
 
     $(document).ready(function() {
+        var app = {};
+
+        /**
+         * @constructor
+         * @extends {ol.interaction.Pointer}
+         */
+        app.Drag = function() {
+            ol.interaction.Pointer.call(this, {
+                handleDownEvent: app.Drag.prototype.handleDownEvent,
+                handleDragEvent: app.Drag.prototype.handleDragEvent,
+                handleMoveEvent: app.Drag.prototype.handleMoveEvent,
+                handleUpEvent: app.Drag.prototype.handleUpEvent
+            });
+
+            /**
+             * @type {ol.Pixel}
+             * @private
+             */
+            this.coordinate_ = null;
+
+            /**
+             * @type {string|undefined}
+             * @private
+             */
+            this.cursor_ = 'pointer';
+
+            /**
+             * @type {ol.Feature}
+             * @private
+             */
+            this.feature_ = null;
+
+            /**
+             * @type {string|undefined}
+             * @private
+             */
+            this.previousCursor_ = undefined;
+        };
+
+        ol.inherits(app.Drag, ol.interaction.Pointer);
+
+        /**
+         * @param {ol.MapBrowserEvent} evt Map browser event.
+         * @return {boolean} `true` to start the drag sequence.
+         */
+        app.Drag.prototype.handleDownEvent = function(evt) {
+            var map = evt.map;
+
+            var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+                return feature;
+            });
+
+            if (feature) {
+                this.coordinate_ = evt.coordinate;
+                this.feature_ = feature;
+            }
+
+            return !!feature;
+        };
+
+        /**
+         * @param {ol.MapBrowserEvent} evt Map browser event.
+         */
+        app.Drag.prototype.handleDragEvent = function(evt) {
+            var deltaX = evt.coordinate[0] - this.coordinate_[0];
+            var deltaY = evt.coordinate[1] - this.coordinate_[1];
+
+            var geometry = (this.feature_.getGeometry());
+            geometry.translate(deltaX, deltaY);
+
+            this.coordinate_[0] = evt.coordinate[0];
+            this.coordinate_[1] = evt.coordinate[1];
+        };
+
+        /**
+         * @param {ol.MapBrowserEvent} evt Event.
+         */
+        app.Drag.prototype.handleMoveEvent = function(evt) {
+            if (this.cursor_) {
+                var map = evt.map;
+                var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+                    return feature;
+                });
+                var element = evt.map.getTargetElement();
+
+                if (feature) {
+                    if (element.style.cursor != this.cursor_) {
+                        this.previousCursor_ = element.style.cursor;
+                        element.style.cursor = this.cursor_;
+                    }
+                } else if (this.previousCursor_ !== undefined) {
+                    element.style.cursor = this.previousCursor_;
+                    this.previousCursor_ = undefined;
+                }
+            }
+        };
+
+        /**
+         * @return {boolean} `false` to stop the drag sequence.
+         */
+        app.Drag.prototype.handleUpEvent = function() {
+            this.coordinate_ = null;
+            this.feature_ = null;
+            return false;
+        };
+
         var satellite = new ol.layer.Tile({
             source: new ol.source.MapQuest({layer: 'sat'})
         });
@@ -106,61 +212,44 @@ function seleccionar_coordenadas(title, template) {
             source: new ol.source.MapQuest({layer: 'osm'})
         });
 
-        satellite.on('tileloadstart', function() {
-            cargando.showPleaseWait();
-        });
+        var pointFeature = new ol.Feature(new ol.geom.Point([-65.0000,6.5000]).transform('EPSG:4326', 'EPSG:3857'));
 
-        satellite.on('tileloadend', function() {
-            cargando.hidePleaseWait();
+        var vectorLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [pointFeature]
+            })
         });
 
         var map = new ol.Map({
+            interactions: ol.interaction.defaults().extend([new app.Drag()]),
             target: 'map',
-            layers: [satellite, osm],
+            layers: [satellite, osm, vectorLayer],
             view: new ol.View({
-                center: ol.proj.transform([-65.0000,6.5000], 'EPSG:4326', 'EPSG:900913'),
+                center: ol.proj.transform([-65.0000,6.5000], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4
             })
         });
 
         var mousePosition = new ol.control.MousePosition({
             coordinateFormat: ol.coordinate.createStringXY(6),
-            projection: 'EPSG:4326',
+            projection: 'EPSG:3857',
             target: document.getElementById('myposition'),
             undefinedHTML: '&nbsp;'
         });
 
+        map.on('singleclick', function(evt) {
+            console.log(evt.coordinate);
+            console.log(evt.pixel);
+        });
+
         map.addControl(mousePosition);
 
-        map.on("click", function(evt) {
+        map.on('loadstart', function() {
+            cargando.showPleaseWait();
+        });
 
-            // agregar funcionalidad para el marcador
-
-            /*iconFeatures = [];
-            var iconFeature = new ol.Feature({
-              geometry: new ol.geom.Point(ol.proj.transform(evt.coordinate, 'EPSG:4326',
-              'EPSG:900913'))
-            });
-
-            iconFeatures.push(iconFeature);
-
-            var vectorSource = new ol.source.Vector({
-              features: iconFeatures //add an array of features
-            });
-
-            var iconStyle = new ol.style.Style({
-              image: new ol.style.Icon(({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels'
-              }))
-            });
-
-
-            var vectorLayer = new ol.layer.Vector({
-              source: vectorSource,
-              style: iconStyle
-            });*/
+        map.on('loadend', function() {
+            cargando.hidePleaseWait();
         });
     });
 
