@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static from staticfiles %}
 <script type="text/javascript">
     /**
      * @brief Sección de variables comúnes
@@ -87,4 +88,7 @@
 
     /// Texto a mostrar para el botón de cancelar acción
     var BTN_CANCELAR = "{% trans 'Cancelar' %}";
+
+    /// Ruta de imagen para el marcador de coordenadas
+    var IMG_MARK_GIS = "{% static 'img/mark.png' %}";
 </script>
