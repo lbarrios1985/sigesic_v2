@@ -1,7 +1,7 @@
 {% extends 'base.template.html' %}
 {% load i18n %}
 {% block contenido %}
-    <form action="{% url 'registro_ue' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box box-primary box-registro" style="padding:20px">
             <div class="box-body">
@@ -10,31 +10,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.rif.auto_id }}">
-                                {{ ue.rif.label }} 
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                                {{ form.rif.label }} 
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.rif }}{{ request.user }}
+                                    {{ form.rif }}
                                 </div>
-                                {% if form.rif.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.razon_social.auto_id }}">
-                                {{ ue.razon_social.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.razon_social.auto_id }}">
+                                {{ form.razon_social.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.razon_social }}
+                                    {{ form.razon_social }}
                                 </div>
                             </div>
                         </div>
@@ -43,18 +36,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nombre_ue.auto_id }}">
-                                {{ ue.nombre_ue.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_ue.auto_id }}">
+                                {{ form.nombre_ue.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">{{ ue.nombre_ue }}</div>
-                                {% if form.nombre_ue.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_ue.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                <div class="form-inline">{{ form.nombre_ue }}</div>
                             </div>
                         </div>
                     </div>
@@ -65,25 +51,25 @@
                 <hr />
                 
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ ue.estado_ue.auto_id }}">
-                        {{ ue.estado_ue.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.estado.auto_id }}">
+                        {{ form.estado.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {{ ue.estado_ue }}
+                        {{ form.estado }}<i class="ion ion-ios-medical item-requerido"></i>
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ ue.municipio_ue.auto_id }}">
-                        {{ ue.municipio_ue.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.municipio.auto_id }}">
+                        {{ form.municipio.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {{ ue.municipio_ue }}
+                        {{ form.municipio }}<i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ ue.parroquia_ue.auto_id }}">
-                        {{ ue.parroquia_ue.label }}
+                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.parroquia.auto_id }}">
+                        {{ form.parroquia.label }}
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {{ ue.parroquia_ue }}
+                        {{ form.parroquia }}<i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                 </div>
                 <br />
@@ -93,7 +79,7 @@
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for prefijo in ue.prefijo_uno %}
+                        {% for prefijo in form.prefijo_uno %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
@@ -101,15 +87,15 @@
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for prefijo in ue.prefijo_dos %}
+                        {% for prefijo in form.prefijo_dos %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-6 control-label" for="{{ ue.direccion_uno.auto_id }}">
-                        {{ ue.direccion_uno.label }} {{ ue.direccion_uno }}
+                    <label class="col-md-6 control-label" for="{{ form.direccion_uno.auto_id }}">
+                        {{ form.direccion_uno.label }} {{ form.direccion_uno }}
                     </label>
-                    <label class="col-md-6 control-label" for="{{ ue.direccion_dos.auto_id }}">
-                        {{ ue.direccion_dos.label }} {{ ue.direccion_dos }}
+                    <label class="col-md-6 control-label" for="{{ form.direccion_dos.auto_id }}">
+                        {{ form.direccion_dos.label }} {{ form.direccion_dos }}
                     </label>
                 </div>
 
@@ -118,7 +104,7 @@
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for prefijo in ue.prefijo_tres %}
+                        {% for prefijo in form.prefijo_tres %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
@@ -126,26 +112,26 @@
                         Seleccione:
                     </label>
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        {% for prefijo in ue.prefijo_cuatro %}
+                        {% for prefijo in form.prefijo_cuatro %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-6 control-label" for="{{ ue.direccion_tres.auto_id }}">
-                        {{ ue.direccion_tres.label }} {{ ue.direccion_tres }}
+                    <label class="col-md-6 control-label" for="{{ form.direccion_tres.auto_id }}">
+                        {{ form.direccion_tres.label }} {{ form.direccion_tres }}
                     </label>
-                    <label class="col-md-6 control-label" for="{{ ue.direccion_cuatro.auto_id }}">
-                        {{ ue.direccion_cuatro.label }} {{ ue.direccion_cuatro }}
+                    <label class="col-md-6 control-label" for="{{ form.direccion_cuatro.auto_id }}">
+                        {{ form.direccion_cuatro.label }} {{ form.direccion_cuatro }}
                     </label>
                 </div>
                 <br />
 
                 <div class="form-group">
-                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ ue.tipo_coordenada.auto_id }}">
-                        {{ ue.tipo_coordenada.label }} {{ ue.tipo_coordenada }}
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.tipo_coordenada.auto_id }}">
+                        {{ form.tipo_coordenada.label }} {{ form.tipo_coordenada }}
                     </label>
                     <div class="col-md-6 col-xs-6 col-sm-6">
-                        <label class="control-label" for="{{ ue.coordenada.auto_id }}">
-                            {{ ue.coordenada.label }}{{ ue.coordenada }}
+                        <label class="control-label" for="{{ form.coordenada.auto_id }}">
+                            {{ form.coordenada.label }}{{ form.coordenada }}
                         </label>
                     </div>
                 </div>
@@ -156,11 +142,11 @@
                 <hr />
                 
                 <div class="form-group">
-                    <div class="col-md-6 col-xs-6 col-sm-6">
-                        <label class="control-label" for="{{ ue.actividad.auto_id }}">
-                            {{ ue.actividad.label }}
+                    <div class="col-md-12">
+                        <label class="control-label" for="{{ form.actividad.auto_id }}">
+                            {{ form.actividad.label }}
                         </label>
-                        {{ ue.actividad }}
+                        {{ form.actividad }}
                     </div>
                 </div>
 
@@ -173,51 +159,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.orga_comunal.auto_id }}">
-                                {{ ue.orga_comunal.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.orga_comunal.auto_id }}">
+                                {{ form.orga_comunal.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.orga_comunal }}
+                                    {{ form.orga_comunal }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.tipo_orga_comunal.auto_id }}">
-                                {{ ue.tipo_orga_comunal.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_comunal.auto_id }}">
+                                {{ form.tipo_comunal.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.tipo_orga_comunal }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.franquiciado.auto_id }}">
-                                {{ ue.franquiciado.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ ue.franquiciado }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.pais_franquicia.auto_id }}">
-                                {{ ue.pais_franquicia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ ue.pais_franquicia }}
+                                    {{ form.tipo_comunal }}
                                 </div>
                             </div>
                         </div>
@@ -227,24 +186,51 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nombre_franquicia.auto_id }}">
-                                {{ ue.nombre_franquicia.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.franquiciado.auto_id }}">
+                                {{ form.franquiciado.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.nombre_franquicia }}
+                                    {{ form.franquiciado }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.rif_franquicia.auto_id }}">
-                                {{ ue.rif_franquicia.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.pais_franquicia.auto_id }}">
+                                {{ form.pais_franquicia.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.rif_franquicia }}
+                                    {{ form.pais_franquicia }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
+                                {{ form.nombre_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nombre_franquicia }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_franquicia.auto_id }}">
+                                {{ form.rif_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.rif_franquicia }}
                                 </div>
                             </div>
                         </div>
@@ -254,24 +240,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.casa_matriz_franquicia.auto_id }}">
-                                {{ ue.casa_matriz_franquicia.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.casa_matriz_franquicia.auto_id }}">
+                                {{ form.casa_matriz_franquicia.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.casa_matriz_franquicia }}
+                                    {{ form.casa_matriz_franquicia }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nro_franquicia.auto_id }}">
-                                {{ ue.nro_franquicia.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_franquicia.auto_id }}">
+                                {{ form.nro_franquicia.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.nro_franquicia }}
+                                    {{ form.nro_franquicia }}
                                 </div>
                             </div>
                         </div>
@@ -281,24 +267,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nro_planta.auto_id }}">
-                                {{ ue.nro_planta.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_planta.auto_id }}">
+                                {{ form.nro_planta.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.nro_planta }}
+                                    {{ form.nro_planta }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.nro_unid_comercializadora.auto_id }}">
-                                {{ ue.nro_unid_comercializadora.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_unid_comercializadora.auto_id }}">
+                                {{ form.nro_unid_comercializadora.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.nro_unid_comercializadora }}
+                                    {{ form.nro_unid_comercializadora }}
                                 </div>
                             </div>
                         </div>
@@ -308,12 +294,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ ue.servicio.auto_id }}">
-                                {{ ue.servicio.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.servicio.auto_id }}">
+                                {{ form.servicio.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ ue.servicio }}
+                                    {{ form.servicio }}
                                 </div>
                             </div>
                         </div>
