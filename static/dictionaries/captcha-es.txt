@@ -43,9 +43,7 @@ arriba
 arroz
 arte
 ascensor
-asco
 asiento
-ataque
 aumentar
 aunque
 autoridad
@@ -72,10 +70,8 @@ billete
 blanco
 bloquear
 boca
-bola
 bolsa
 bolsillo
-bomba
 bombilla
 borde
 bota
@@ -117,7 +113,6 @@ carta
 casa
 casado
 casi
-castigo
 causa
 cepillo
 cera
@@ -138,7 +133,6 @@ clave
 clavo
 cobre
 cocinero
-cola
 colgante
 collar
 color
@@ -151,7 +145,6 @@ competencia
 complejo
 completo
 comportamiento
-con
 conducir
 conocimiento
 consciente
@@ -167,8 +160,6 @@ cosa
 crecimiento
 creencia
 criado
-crimen
-cruel
 cuadrado
 cualquier
 cuando
@@ -176,11 +167,9 @@ cubierta
 cubo
 cuchara
 cuchilla
-cuchillo
 cuello
 cuenca
 cuenta
-cuerno
 cuero
 cuerpo
 cuidado
@@ -217,14 +206,12 @@ efecto
 ejemplo
 empresa
 empuje
-en
 encima
 enfermedad
 enfermo
 enojado
 entonces
 entre
-envenenar
 enviar
 equilibrio
 error
@@ -273,7 +260,6 @@ gato
 general
 gerente
 gobierno
-golpe
 grado
 gran
 granja
@@ -409,8 +395,6 @@ morder
 motor
 movimiento
 mucho
-muerte
-muerto
 mujer
 muy
 nacimiento
@@ -437,7 +421,6 @@ noticias
 nube
 nudo
 nuevo
-odiar
 oeste
 oferta
 oficina
@@ -480,7 +463,6 @@ paz
 pecho
 pegajoso
 peine
-peligro
 pendiente
 pensamiento
 perno
@@ -496,7 +478,6 @@ pierna
 pintar
 pipa
 piso
-pistola
 placa
 placer
 planta
@@ -525,7 +506,6 @@ profundo
 propiedad
 propietario
 prosa
-protesta
 prueba
 puente
 puerta
@@ -570,7 +550,6 @@ sacudir
 sal
 saltar
 saludable
-sangre
 seco
 secretario
 secreto
@@ -585,7 +564,6 @@ sentimiento
 separado
 ser
 serpiente
-sexo
 si
 siempre
 signo
