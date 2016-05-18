@@ -165,3 +165,16 @@ function seleccionar_coordenadas(title, template) {
     });
 
 }
+
+/**
+ * @brief Función que habilita los campos dependientes de un select
+ * @param opcion Respuesta del usuario según la pregunta
+ * @param campo Campo a deshabilitar
+ */
+function habilitar(opcion, campo){
+    if(opcion == "S"){
+        $('#'+campo).removeAttr('disabled');
+    }else{
+        $('#'+campo).attr('disabled', 'disabled');
+    }
+}
