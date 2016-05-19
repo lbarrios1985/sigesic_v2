@@ -4,7 +4,7 @@
 {% block contenido %}
 
     <h4 class="titulo" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
-        xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
+        xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
     <form action="{% url 'informacion_mercantil' %}" method="post" enctype="multipart/form-data" role="form">
         {% csrf_token %}
             <div class="box box-primary box-registro" style="padding:20px">
@@ -22,12 +22,28 @@
                                     </div>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.naturaleza_juridica }}
+                                           {{ form.naturaleza_juridica }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica_otros.auto_id }}">
+                                    {{ form.naturaleza_juridica_otros.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.naturaleza_juridica_otros }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
                         </br>
                         <div class="row">
                             <div class="col-md-6">

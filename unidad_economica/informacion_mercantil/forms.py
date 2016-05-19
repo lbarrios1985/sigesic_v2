@@ -1,6 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 from django.forms import (
-    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField
+    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField, Select
 )
 from django.utils.translation import ugettext_lazy as _
 from six import python_2_unicode_compatible
@@ -16,11 +16,21 @@ class CapitalAccionistaForms(ModelForm):
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
         label=_("Naturaleza Jurídica: "),
-        choices=NATURALEZA_JURIDICA
+        choices=NATURALEZA_JURIDICA,
+        widget=Select(
+            attrs={
+         'class': 'form-control input-sm', 'size': '28',
+        # 'onchange': "habilitar(naturaleza_juridica, naturaleza_juridica_otros)"
+        })
     )
     naturaleza_juridica_otros = CharField(
-        widget=TextInput(attrs={
-            'class': 'form-control input-sm', 'size': '28'
+        label=_("Otros: "),
+        widget=TextInput(
+            attrs={
+            'class': 'form-control input-sm', 'size': '28',
+            #'style': 'display: none',
+            #'disabled': 'true',
+            'onchange': "habilitar(this.value, '0', 'naturaleza_juridica_otros')"
         })
     )
 
@@ -30,7 +40,6 @@ class CapitalAccionistaForms(ModelForm):
         widget=TextInput(attrs={
             'class': 'form-control input-sm', 'size': '2'
         })
-
     )
 
     ## Tipo de capital solicitado: capital pagado
@@ -77,7 +86,7 @@ class CapitalAccionistaForms(ModelForm):
 
     ## Rif del accionista
     rif_accionista = RifField()
-    rif_accionista.widget = RifWidgetReadOnly()
+    #rif_accionista.widget = RifWidgetReadOnly()
 
     ## Nombre del accionista
     nombre_accionista = CharField(
@@ -96,9 +105,10 @@ class CapitalAccionistaForms(ModelForm):
     ## Porcentaje de acciones que posee el accionista
     porc_acciones = CharField(
         label=_("Porcentaje de acciones: "), max_length=30,
-        widget=TextInput(attrs={
-            'class': 'form-control input-sm', 'data-toggle': 'tooltip',
-            'title': _("Porcentaje"), 'size': '2'
+        widget=TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': _("Porcentaje"), 'size': '5'
         })
     )
 

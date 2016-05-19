@@ -5,34 +5,30 @@ from django.views.generic import CreateView
 from unidad_economica.informacion_mercantil.forms import CapitalAccionistaForms
 from unidad_economica.informacion_mercantil.models import CapitalAccionista
 
-
-
-
-
-
 class MercantilCreate(CreateView):
-    """!
-    Clase que registra usuarios en el sistema
 
-    @author Ing. Lully Troconis (ltroconis at cenditel.gob.ve)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 25-04-2016
-    @version 2.0.0
-    """
     model = CapitalAccionista
     form_class = CapitalAccionistaForms
     template_name = 'informacion.mercantil.registro.html'
 
     def get(self,request):
-        form_name = CapitalAccionistaForms()
-        return render_to_response('informacion.mercantil.registro.html', {'form':form_name}, context_instance=RequestContext(request))
-
+        form = CapitalAccionistaForms()
+        return render_to_response('informacion.mercantil.registro.html', {'form': form}, context_instance=RequestContext(request))
     def post(self,request):
+
         form = CapitalAccionistaForms(request.POST)
 
-        if(form.is_valid()):
-            self.object = form.save(commit=False)
-            self.object.naturaleza_juridica = form.cleaned_data['naturaleza_juridica']
-            self.object.save()
 
-            return render_to_response('informacion.mercantil.registro.html', {'form':form}, context_instance=RequestContext(request))
+        if(form.is_valid()):
+
+            self.model_naturaleza_juridica = form.request.POST['naturaleza_juridica']
+            self.model_naturaleza_juridica_otros = form. request.POST['naturaleza_juridica_otros']
+            self.model_capital_suscrito = form. request.POST['capital_suscrito']
+            self.model_capital_pagado = form. request.POST['capital_pagado']
+            self.model_publico_nacional = form. request.POST['publico_nacional']
+            self.model_publico_extranjero = form. request.POST['publico_extranjero']
+            self.model_privado_nacional = form. request.POST['privado_nacional']
+            self.model_privado_extranjero = form. request.POST['privado_extranjero']
+            self.model_nombre_accionista = form. request.POST['nombre_accionista']
+            self.model_save()
+            return render_to_response('informacion.mercantil.registro.html', context_instance=RequestContext(request))

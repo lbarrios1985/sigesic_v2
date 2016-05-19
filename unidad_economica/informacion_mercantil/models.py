@@ -18,9 +18,9 @@ class CapitalAccionista(models.Model):
     ## Establece la nacionalidad del usuario
     naturaleza_juridica = models.CharField(max_length=1)
 
+    ##Establece el campo de texto para agregar la naturaleza jurídica en caso de que no se encuentre en el select
     naturaleza_juridica_otros = models.CharField(
-        max_length=20, help_text= "Agregue la Naturaleza Jurídica"
-
+        max_length=20, help_text=_("Agregue la Naturaleza Jurídica")
     )
 
     ##Establece el capital solicitado: capital suscrito

@@ -19,6 +19,6 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = patterns('',
-    url(r'^registro$',SedesCreate.as_view(), name='sedes_admin'),
+    url(r'^sede-administrativa/$',SedesCreate.as_view(), name='sedes_admin'),
     #url(r'^/?$', 'sedes_admin.views.', name=''),
 )
