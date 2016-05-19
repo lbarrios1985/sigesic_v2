@@ -15,6 +15,8 @@ from django.views.generic import CreateView
 from .forms import RegistroSedesForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica,SubUnidadEconomicaDirectorio
 from unidad_economica.directorio.models import Directorio
+from base.classes import Seniat
+
 
 
 
@@ -37,6 +39,18 @@ class SedesCreate(CreateView):
     model = SubUnidadEconomica
     form_class = RegistroSedesForm
     template_name = 'sedes-admin.registrar.html'
+
+    def get_initial(self):
+        rif = self.request.user
+        datos_iniciales = super(SedesCreate, self).get_initial()
+        datos_iniciales['rif'] = self.request.user.username
+
+        datos_rif = Seniat()
+        seniat = datos_rif.buscar_rif(rif)
+        datos_iniciales['nombre_ue'] = datos_rif.nombre
+        datos_iniciales['razon_social'] = datos_rif.nombre
+
+        return datos_iniciales
 
     def form_valid(self, form):
         """!

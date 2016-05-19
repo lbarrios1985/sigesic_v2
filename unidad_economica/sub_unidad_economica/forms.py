@@ -19,6 +19,9 @@ from django.forms import (
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
+from base.fields import RifField
+from base.models import *
+from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -43,12 +46,16 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     @date 04-05-2016
     @version 2.0.0
     """
-    
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
+    rif = RifField()
+    rif.widget = RifWidgetReadOnly()
+
     ## Nombre de la sub unidad
     nombre_sub = forms.CharField(
         label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
+            'style': 'width: 250px;',
         })
     )
     
@@ -105,6 +112,7 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
+        label=_("Presta Servicio: "),
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
