@@ -4,14 +4,16 @@ from django.forms import (
 )
 from django.utils.translation import ugettext_lazy as _
 from six import python_2_unicode_compatible
-from .models import CapitalAccionista
 from base.constant import NATURALEZA_JURIDICA, CARGO_REP
 from base.fields import RifField, CedulaField
 from base.widgets import RifWidgetReadOnly
 from base.models import Pais
+from unidad_economica.models import UnidadEconomica
+
+from unidad_economica.informacion_mercantil.models import RepresentanteLegal
 
 @python_2_unicode_compatible
-class CapitalAccionistaForms(ModelForm):
+class InformacionMercantilForms(ModelForm):
 
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
@@ -19,8 +21,8 @@ class CapitalAccionistaForms(ModelForm):
         choices=NATURALEZA_JURIDICA,
         widget=Select(
             attrs={
-         'class': 'form-control input-sm', 'size': '28',
-        # 'onchange': "habilitar(naturaleza_juridica, naturaleza_juridica_otros)"
+            'class': 'form-control input-sm', 'size': '28',
+            'onchange': "habilitar(naturaleza_juridica, naturaleza_juridica_otros.id)"
         })
     )
     naturaleza_juridica_otros = CharField(
@@ -28,9 +30,7 @@ class CapitalAccionistaForms(ModelForm):
         widget=TextInput(
             attrs={
             'class': 'form-control input-sm', 'size': '28',
-            #'style': 'display: none',
-            #'disabled': 'true',
-            'onchange': "habilitar(this.value, '0', 'naturaleza_juridica_otros')"
+            'onchange': "habilitar(this.value, 'naturaleza_juridica_otros')", 'readonly': 'readonly'
         })
     )
 
@@ -86,15 +86,14 @@ class CapitalAccionistaForms(ModelForm):
 
     ## Rif del accionista
     rif_accionista = RifField()
-    #rif_accionista.widget = RifWidgetReadOnly()
 
     ## Nombre del accionista
-    nombre_accionista = CharField(
-        label=_("Nombre SENIAT: "), max_length=30,
+    nombre = CharField(
+        label=_("Nombre: "), max_length=30,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm', 'placeholder': _("Nombre SENIAT"), 'data-toggle': 'tooltip',
-            'title': _("Nombre SENIAT"), 'size': '28'
-        }), required=True
+            'class': 'form-control input-sm', 'placeholder': _("Nombre"), 'data-toggle': 'tooltip',
+            'title': _("Nombre "), 'size': '28', 'readonly': 'readonly'
+        }), required= False
     )
 
     pais_origen = ChoiceField(
@@ -102,8 +101,9 @@ class CapitalAccionistaForms(ModelForm):
         choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()]
     )
 
+
     ## Porcentaje de acciones que posee el accionista
-    porc_acciones = CharField(
+    porcentaje = CharField(
         label=_("Porcentaje de acciones: "), max_length=30,
         widget=TextInput(
             attrs={
@@ -113,9 +113,10 @@ class CapitalAccionistaForms(ModelForm):
     )
 
     ## Cédula de identidad del Representante Legal
-    cedula_rep = CedulaField()
+    cedula_representante = CedulaField()
 
-    nombre_rep = CharField(
+    ## Nombre del Representante Legal
+    nombre_representante = CharField(
         label=_("Nombre"),
         max_length=30,
         widget=TextInput(
@@ -127,7 +128,7 @@ class CapitalAccionistaForms(ModelForm):
     )
 
     ## Apellido del Representante Legal
-    apellido_rep = CharField(
+    apellido_representante = CharField(
         label=_("Apellido"),
         max_length=30,
         widget=TextInput(
@@ -139,7 +140,7 @@ class CapitalAccionistaForms(ModelForm):
     )
 
     ## Correo electrónico de contacto del Representante Legal
-    correo_rep = EmailField(
+    correo_electronico = EmailField(
         label=_("Correo Electrónico"),
         max_length=75,
         widget=EmailInput(
@@ -153,7 +154,7 @@ class CapitalAccionistaForms(ModelForm):
     )
 
     ## Número telefónico de contacto del Representante Legal
-    telefono_rep = CharField(
+    telefono = CharField(
         label=_("Teléfono"),
         max_length=20,
         widget=TextInput(
@@ -166,17 +167,17 @@ class CapitalAccionistaForms(ModelForm):
         help_text=_("(país)-área-número")
     )
 
+
     ## Cargo que ejerce el Representante Legal
-    cargo_rep = ChoiceField(
+    cargo = ChoiceField(
         label=_("Cargo: "),
         choices=CARGO_REP
     )
 
-
     class Meta:
-        model = CapitalAccionista
+        model = RepresentanteLegal
         fields = [
-            'rif_rep', 'cedula_rep', 'cargo_rep', 'nombre_rep', 'apellido_rep', 'telefono_rep', 'correo_rep'
+            'nombre_representante', 'apellido_representante', 'telefono', 'correo_electronico'
             ]
         exclude = ['naturaleza_juridica_otros']
 
