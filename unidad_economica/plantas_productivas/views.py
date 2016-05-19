@@ -15,8 +15,11 @@ from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 
-from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaProceso
-from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaProcesoForm
+from unidad_economica.sub_unidad_economica.models import (
+    SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
+    SubUnidadEconomicaPrincipalProceso
+    )
+from .forms import PlantasProductivasForm
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.directorio.models import Directorio
 from base.constant import CREATE_MESSAGE
@@ -36,10 +39,14 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
     @version 2.0.0
     """
     model = SubUnidadEconomica
-    form_class = SubUnidadEconomicaProcesoForm
+    form_class = PlantasProductivasForm
     template_name = "plantas.productivas.create.html"
     success_url = reverse_lazy('plantas_create')
     success_message = CREATE_MESSAGE
+    
+    def get_context_data(self, **kwargs):
+        kwargs['object_list'] = SubUnidadEconomicaProceso.objects.all()
+        return super(PlantasProductivasCreate, self).get_context_data(**kwargs)
     
     def form_valid(self, form):
         """!
@@ -64,14 +71,13 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
         directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
         directorio.parroquia = form.cleaned_data['parroquia']
+        directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.activo=True,
         directorio.save()
         
         ## Se crea y se guarda el modelo de sub_unidad_economica
         self.object = form.save(commit=False)
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
-        #self.object.tipo_coordenada = form.cleaned_data['tipo_coordenada']
-        self.object.coordenada_geografica = form.cleaned_data['coordenada_geografica']
         self.object.telefono = form.cleaned_data['telefono']
         #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
         self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
@@ -83,13 +89,31 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         self.object.directorio = directorio
         self.object.save()
         
+        
+        ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
+        capacidad = SubUnidadEconomicaCapacidad()
+        #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
+        capacidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
+        capacidad.capacidad_instalada_select = form.cleaned_data['capacidad_instalada_select']
+        capacidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
+        capacidad.sub_unidad_economica = self.object
+        capacidad.save()
+        
         ## Se crea y se guarda en el modelo del proceso de la sub-unidad
         proceso = SubUnidadEconomicaProceso()
         #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
-        proceso.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
-        proceso.capacidad_instalada_select = form.cleaned_data['capacidad_instalada_select']
-        proceso.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
-        proceso.sub_unidad_economica = self.object
+        proceso.tipo_proceso = form.cleaned_data['tipo_proceso']
+        proceso.nombre_proceso = form.cleaned_data['nombre_proceso']
+        proceso.descripcion_proceso = form.cleaned_data['descripcion_proceso']
+        proceso.estado_proceso = form.cleaned_data['descripcion_proceso']
+        proceso.save()
+        
+        ## Se crea y se guarda la tabla intermedio entre sub unidad y el proceso de la sub unidads
+        sub_unidad_proceso = SubUnidadEconomicaPrincipalProceso()
+        sub_unidad_proceso.sub_unidad_economica = self.object
+        sub_unidad_proceso.sub_unidad_economica_proceso = proceso
+        sub_unidad_proceso.save()
+        
         
         ## Se crea y se guarda la tabla intermedio entre directorio-sub unidad
         directorio_subunidad = SubUnidadEconomicaDirectorio()

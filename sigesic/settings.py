@@ -75,6 +75,7 @@ PROJECT_APPS = [
     'unidad_economica.directorio',
     'unidad_economica',
     'unidad_economica.informacion_mercantil',
+    'unidad_economica.sub_unidad_economica',
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
@@ -118,6 +119,9 @@ INFORMACION_MERCANTIL_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/infor
 ## Directorio en donde se encuentran las plantillas del módulo de Sub Unidad Económica
 SUB_UNIDAD_ECONOMICA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sub_unidad_economica/templates")
 
+## Directorio en donde se encuentran las plantillas del módulo de sede_administrativa
+SEDES_ADMINISTRATIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sede_administrativa/templates")
+
 ## Directorio en donde se encuentran las plantillas del módulo de Plantas Productivas
 PLANTAS_PRODUCTIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/plantas_productivas/templates")
 
@@ -131,8 +135,13 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
+<<<<<<< HEAD
             INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, PLANTAS_PRODUCTIVAS_TEMPLATES,
             UNIDADES_COMERCIALIZADORAS_TEMPLATES, SEDES_ADMINISTRATIVAS_TEMPLATES
+=======
+            INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES,SEDES_ADMINISTRATIVAS_TEMPLATES,PLANTAS_PRODUCTIVAS_TEMPLATES,
+            UNIDADES_COMERCIALIZADORAS_TEMPLATES
+>>>>>>> 866bd73bf9b4f7a0ba069b5face382572eb2c1ba
         ],
         'APP_DIRS': True,
         'OPTIONS': {

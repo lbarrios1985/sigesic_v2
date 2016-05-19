@@ -4,9 +4,9 @@ Sistema Integral de Gestión para la Industria y el Comercio (SIGESIC)
 
 Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/wiki
 """
-## @namespace sedes_admin.models
+## @namespace sedes_administrativa.models
 #
-# Contiene las clases, atributos, métodos y/o funciones a implementar para los  del módulo de usuario
+# Contiene las clases, atributos, métodos y/o funciones a implementar para los  del módulo de sedes_administrativa
 # @author Ing. Hugo Ramirez (hramirez at cenditel.gob.ve)
 # @author <a href='http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
 # (CENDITEL) nodo Mérida - Venezuela</a>
@@ -70,12 +70,3 @@ class RegistroSedes(models.Model):
     consumo_electrico = models.TextField(
         choices=PORCENTAJE, help_text=_("Porcentaje del consumo electrico en la sede")
      )
-     ##Establece el porcentaje de consumo de agua de la sede
-    consumo_agua = models.TextField(
-        choices=PORCENTAJE, help_text=_("Porcentaje del consumo de agua en la sede")
-     )
-     ##Establece el porcentaje de consumo de gas de la sede
-    consumo_gas = models.TextField(
-        choices=PORCENTAJE, help_text=_("Porcentaje del consumo de gas en la sede")
-     )
-
