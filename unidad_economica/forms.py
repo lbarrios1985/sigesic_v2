@@ -51,7 +51,7 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '50'
+                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '50', 'disabled': 'disabled'
             }
         )
     )
@@ -106,7 +106,7 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("¿Es una organización comunal?"),
         choices=SELECCION,
         widget=forms.Select(attrs={
-                'onchange': "habilitar(this.value, tipo_comunal.id)",
+                'onchange': "habilitar(this.value, tipo_comunal.id), habilitar(this.value, situr.id)",
             }
         )
     )
@@ -122,7 +122,17 @@ class UnidadEconomicaForm(DirectorioForm):
             }
         )
     )
-    print(tipo_comunal)
+
+    ## Código SITUR
+    situr = forms.CharField(
+        label=_("Código SITUR:"),
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Código SITUR de la organización comunal"), 'disabled': 'disabled'
+            }
+        )
+    )
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = forms.ChoiceField(

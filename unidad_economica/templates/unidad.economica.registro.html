@@ -146,7 +146,7 @@
                         <label class="control-label" for="{{ form.actividad.auto_id }}">
                             {{ form.actividad.label }}
                         </label>
-                        {{ form.actividad }}
+                        {{ form.actividad }}<i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.orga_comunal }}
+                                    {{ form.orga_comunal }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -182,6 +182,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.situr.auto_id }}">
+                                {{ form.situr.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.situr }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -191,7 +205,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.franquiciado }}
+                                    {{ form.franquiciado }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +259,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.casa_matriz_franquicia }}
+                                    {{ form.casa_matriz_franquicia }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -272,7 +286,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.nro_planta }}
+                                    {{ form.nro_planta }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -284,7 +298,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.nro_unid_comercializadora }}
+                                    {{ form.nro_unid_comercializadora }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +313,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.servicio }}
+                                    {{ form.servicio }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +322,7 @@
 
             </div>
             <div class="box-footer text-right">
-                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
+                <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
                 <button type="submit" class="btn btn-primary btn-sm">{% trans 'Siguiente' %}</button>
             </div>
         </div>
