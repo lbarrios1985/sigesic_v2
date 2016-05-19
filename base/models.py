@@ -123,28 +123,28 @@ class Ciiu(models.Model):
     """
 
     ## Código Industrial Internacional de Actividades Económicas
-    codigo_ciiu = models.CharField(max_length=6)
+    codigo_ciiu = models.CharField(max_length=6, primary_key=True)
 
     ## Descripción del Código Industrial Internacional de Actividades Económicas
-    descripcion = models.CharField(max_length=45)
+    descripcion = models.CharField(max_length=100)
 
     ## Sección
     seccion = models.CharField(max_length=1)
 
     ## Descripción de la sección
-    descripcion_seccion = models.CharField(max_length=45)
+    descripcion_seccion = models.CharField(max_length=100)
 
     ## División
     division = models.CharField(max_length=3)
 
     ## Descripción de la División
-    descripcion_division = models.CharField(max_length=45)
+    descripcion_division = models.CharField(max_length=100)
 
     ## Grupo
     grupo = models.CharField(max_length=4)
 
     ## Descripción del grupo
-    descripcion_grupo = models.CharField(max_length=45)
+    descripcion_grupo = models.CharField(max_length=100)
 
 @python_2_unicode_compatible
 class TipoComunal(models.Model):

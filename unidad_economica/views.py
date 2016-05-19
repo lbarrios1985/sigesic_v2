@@ -12,8 +12,12 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
+
+from base.constant import CREATE_MESSAGE, REGISTRO_MESSAGE, UPDATE_MESSAGE
+from base.classes import Seniat
 
 from .forms import UnidadEconomicaForm
 from .models import UnidadEconomica
@@ -23,7 +27,7 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 
-class UnidadEconomicaCreate(CreateView):
+class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     """!
     Clase que registra los datos de la unidad económica
 
@@ -32,11 +36,42 @@ class UnidadEconomicaCreate(CreateView):
     @date 04-05-2016
     @version 2.0
     """
+    model = UnidadEconomica
+    form_class = UnidadEconomicaForm
     template_name = "unidad.economica.registro.html"
+    success_message = REGISTRO_MESSAGE
 
-    def get(self, request):
-        formulario = UnidadEconomicaForm()
-        return render(request, self.template_name, {'ue': formulario})
+    def get_initial(self):
+        rif = self.request.user
+        datos_iniciales = super(UnidadEconomicaCreate, self).get_initial()
+        datos_iniciales['rif'] = self.request.user.username
+
+        datos_rif = Seniat()
+        seniat = datos_rif.buscar_rif(rif)
+        datos_iniciales['nombre_ue'] = datos_rif.nombre
+        datos_iniciales['razon_social'] = datos_rif.nombre
+
+        return datos_iniciales
+
+    def form_valid(self, form):
+        """!
+        Método que valida si el formulario es valido, en cuyo caso se procede a registrar los datos de la unidad económica
+        
+        @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 18-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param form <b>{object}</b> Objeto que contiene el formulario de registro
+        @return Retorna el formulario validado
+        """
+
+        self.object.rif = form.cleaned_data['rif']
+        self.object.nombre_ue = form.cleaned_data['nombre_ue']
+        self.object.razon_social = form.cleaned_data['razon_social']
+        self.object.nro_planta = form.cleaned_data['nro_planta']
+        self.object.save()
+
+        return super(UnidadEconomicaCreate, self).form_valid(form)
 
     """
     def post(self, request):
