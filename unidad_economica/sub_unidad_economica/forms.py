@@ -14,8 +14,9 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, CharField, Select, RadioSelect
+    TextInput, CharField, Select, RadioSelect, Textarea,
     )
+from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
 
@@ -23,13 +24,17 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-CAPACIDAD_INSTALADA_UNIDAD = (('','Seleccione...'),("Gramo","Gramo"),("Kilogramo","Kilogramo"),("Tonelada","Tonelada"))
+CAPACIDAD_INSTALADA_MEDIDA = (('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada"))
 
 TIPO_TENENCIA = (('','Seleccione...'),(1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(5,"Otra"))
 
+TIPO_PROCESO = (('','Seleccione...'),("LN", "Lineas"),("ET","Estaciones de Trabajo"))
+
+ESTADO_PROCESO = (('','Seleccione...'),(1, "Activo"),(0,"Inactivo"))
+
 
 @python_2_unicode_compatible
-class SubUnidadEconomicaForm(DirectorioForm):
+class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     """!
     Clase que muestra el formulario de ingreso de la sub-unidad económica
 
@@ -43,32 +48,8 @@ class SubUnidadEconomicaForm(DirectorioForm):
     nombre_sub = forms.CharField(
         label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50'
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
         })
-    )
-    
-    ## Tipo de coordenada de la sub unidad
-    tipo_coordenada =  forms.ChoiceField(
-        label=_("Tipo de Coordenada"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), required=False, 
-    )
-    
-    ## Coordenada geográfica de la sub unidad
-    coordenada_geografica = forms.CharField(
-        label=_("Coordenadas Geográficas"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la coordenada geográfica de la planta"), 'size': '30'
-        }),required=False,
-    )
-    
-    ## Telefono de la sub unidad
-    telefono = forms.CharField(
-        label=_("Télefono"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'placeholder': '(058)-000-0000000','data-rule-required': 'true',
-            'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
-            'title': _("Indique el télefono de la planta"), 'size': '18', 'data-mask': '(000)-000-0000000'
-        }),help_text=_("(país)-área-número")
     )
     
     ## Tipo de tenencia de la sub unidad
@@ -81,7 +62,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     ## Metros cuadrados de la construcción
     m2_contruccion = forms.DecimalField(
         label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'data-rule-required': 'true',
+            'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
@@ -90,7 +71,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     ## Metros cuadrados del terreno
     m2_terreno = forms.DecimalField(
         label=_("Metros Cuadrados de Terreno"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'data-rule-required': 'true',
+            'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique lo metros cuadrados del terreno"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
@@ -99,7 +80,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     ## Autonomía Eléctrica en porcentaje
     autonomia_electrica = forms.DecimalField(
         label=_("Porcentaje de Autonomía Eléctrica"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'data-rule-required': 'true',
+            'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
@@ -108,7 +89,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     ## Consumo eléctrico promedio en el mes
     consumo_electrico = forms.DecimalField(
         label=_("Consumo Eléctrico"), widget=TextInput(attrs={
-            'class': 'form-control input-md', 'data-rule-required': 'true',
+            'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25', 'type':'number', 'step':'any',
         }), max_digits=20,decimal_places=5,
@@ -116,7 +97,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     
     cantidad_empleados = forms.IntegerField(
             label=_("Cantidad de empleados"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true',
+            'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la cantidad de empleados"), 'size': '25', 'type':'number', 'min':'1',
         }),
@@ -126,6 +107,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
     sede_servicio =  forms.ChoiceField(
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'required':'required',
         }),choices = (('','Seleccione...'),(1,"Si"),(0,"No")),
     )
     
@@ -135,7 +117,7 @@ class SubUnidadEconomicaForm(DirectorioForm):
         
         
 @python_2_unicode_compatible
-class SubUnidadEconomicaProcesoForm(SubUnidadEconomicaForm):
+class SubUnidadEconomicaActividadForm(SubUnidadEconomicaForm):
     """!
     Clase que muestra el formulario de ingreso de plantas productivas
 
@@ -144,35 +126,72 @@ class SubUnidadEconomicaProcesoForm(SubUnidadEconomicaForm):
     @date 16-05-2016
     @version 2.0.0
     """
+    
+    ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
+    tipo_proceso = forms.ChoiceField(
+        label=_("Tipo de Proceso Productivo"), widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo"), 'size': '15',
+            'required':'required',
+        }), choices = TIPO_PROCESO,
+    )
+    
+    ## nombre del proceso productivo
+    nombre_proceso = forms.CharField(
+        label=_("Nombre del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
+        })
+    )
+    
+    ## descripcion del proceso productivo
+    descripcion_proceso = forms.CharField(
+        label=_("Descripción del Proceso Productivo"), widget=Textarea(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique la descripción del proceso productivo"), 'required':'required',
+        }))
+    
+    ## estado del proceso productivo
+    estado_proceso = forms.ChoiceField(
+        label=_("Estado del Proceso Productivo"), widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el Estado de Proceso Productivo"), 'size': '15',
+            'required':'required',
+        }), choices = ESTADO_PROCESO,
+    )
+    
     ## Código CIIU
     codigo_ciiu =  forms.ChoiceField(
         label=_("Actividad Económica Principal"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Principal"), 'size': '15',
+            'required':'required',
         }), choices = [(1,"Primera Opcion"),(2,"Segunda Opcion")],
     )
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_instalada_texto = forms.DecimalField(
         label=_("Capacidad Instalada Mensual"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true',
+            'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
     
     ## Capacidad instalada mensual (Unidad de Medida)
-    capacidad_instalada_select = forms.ChoiceField(
+    capacidad_instalada_medida = forms.ChoiceField(
         widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), choices = CAPACIDAD_INSTALADA_UNIDAD,
+            'required':'required',
+        }), choices = CAPACIDAD_INSTALADA_MEDIDA,
     )
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_utilizada = forms.DecimalField(
         label=_("Capacidad Utilizada Mensual"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true',
+            'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
         }),max_digits=20,decimal_places=5,
     )
+    

@@ -251,25 +251,23 @@
              
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">   
-                    <div class="form-group {% if form.tipo_coordenada.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.tipo_coordenada.auto_id }}">
-                            {{ form.tipo_coordenada.label }}
+                    <div class="form-group {% if form.coordenada.errors %}has-error{% endif %}">
+                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.coordenada.auto_id }}">
+                            {{ form.coordenada.label }}
                         </label>
                         <div class="col-md-10 col-xs-10 col-sm-10">
-                            <div class="form-inline">{{ form.tipo_coordenada }}</div>
+                            <div class="form-inline">{{ form.coordenada }}</div>
+                            {% if form.coordenada.errors %}
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.coordenada.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">   
-                    <div class="form-group {% if form.coordenada_geografica.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.coordenada_geografica.auto_id }}">
-                            {{ form.coordenada_geografica.label }}
-                        </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
-                            <div class="form-inline">{{ form.coordenada_geografica }}</div>
-                        </div>
-                    </div>
-                </div>
              </div>
                 
             <div class="row">

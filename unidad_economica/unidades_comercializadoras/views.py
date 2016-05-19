@@ -16,7 +16,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaProceso
-from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaProcesoForm
+from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaActividadForm
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.directorio.models import Directorio
 from base.constant import CREATE_MESSAGE
@@ -36,7 +36,7 @@ class UnidadComercializadoraCreate(SuccessMessageMixin,CreateView):
     @version 2.0.0
     """
     model = SubUnidadEconomica
-    form_class = SubUnidadEconomicaProcesoForm
+    form_class = SubUnidadEconomicaActividadForm
     template_name = "unidades.comercializadoras.create.html"
     success_url = reverse_lazy('unidades_comercializadoras_create')
     success_message = CREATE_MESSAGE
@@ -64,14 +64,13 @@ class UnidadComercializadoraCreate(SuccessMessageMixin,CreateView):
         directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
         directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
         directorio.parroquia = form.cleaned_data['parroquia']
+        directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.activo=True,
         directorio.save()
         
         ## Se crea y se guarda el modelo de sub_unidad_economica
         self.object = form.save(commit=False)
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
-        #self.object.tipo_coordenada = form.cleaned_data['tipo_coordenada']
-        self.object.coordenada_geografica = form.cleaned_data['coordenada_geografica']
         self.object.telefono = form.cleaned_data['telefono']
         #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
         self.object.m2_contruccion = form.cleaned_data['m2_contruccion']

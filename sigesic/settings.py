@@ -75,6 +75,7 @@ PROJECT_APPS = [
     'unidad_economica.directorio',
     'unidad_economica',
     'unidad_economica.informacion_mercantil',
+    'unidad_economica.sub_unidad_economica',
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
