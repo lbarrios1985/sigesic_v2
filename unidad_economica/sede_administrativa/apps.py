@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class SedesAdminConfig(AppConfig):
-    name = 'unidad_economica.sedes_admin'
+    name = 'unidad_economica.sedes_administrativa'
