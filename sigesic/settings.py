@@ -128,20 +128,13 @@ PLANTAS_PRODUCTIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/plantas
 ## Directorio en donde se encuentran las plantillas del módulo de Unidades Comercializadoras
 UNIDADES_COMERCIALIZADORAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/unidades_comercializadoras/templates")
 
-SEDES_ADMINISTRATIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sedes_admin/templates")
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
-<<<<<<< HEAD
             INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, PLANTAS_PRODUCTIVAS_TEMPLATES,
             UNIDADES_COMERCIALIZADORAS_TEMPLATES, SEDES_ADMINISTRATIVAS_TEMPLATES
-=======
-            INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES,SEDES_ADMINISTRATIVAS_TEMPLATES,PLANTAS_PRODUCTIVAS_TEMPLATES,
-            UNIDADES_COMERCIALIZADORAS_TEMPLATES
->>>>>>> 866bd73bf9b4f7a0ba069b5face382572eb2c1ba
         ],
         'APP_DIRS': True,
         'OPTIONS': {
