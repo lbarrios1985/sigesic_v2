@@ -267,3 +267,12 @@ function habilitar(opcion, campo){
         $('#'+campo).attr('disabled', 'disabled');
     }
 }
+
+function habilitar1(opcion1, campo1){
+    if(opcion1 == "O"){
+        $('#'+campo1).removeAttr('disabled');
+    }else{
+        $('#'+campo1).attr('disabled', 'disabled');
+    }
+}
+
