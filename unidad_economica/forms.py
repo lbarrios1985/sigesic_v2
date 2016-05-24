@@ -159,7 +159,7 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("¿Forma parte de una Franquicia?"),
         choices=SELECCION,
         widget=Select(attrs={
-                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id)",
+                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id), habilitar(this.value, rif_franquicia_0.id), habilitar(this.value, rif_franquicia_1.id, habilitar(this.value, rif_franquicia_2.id))",
             }
         )
     )
@@ -188,5 +188,4 @@ class UnidadEconomicaForm(DirectorioForm):
     )
 
     ## RIF Franquicia
-    rif_franquicia = RifField()
-    rif_franquicia.widget = RifWidgetReadOnly()
+    rif_franquicia = RifField(disabled=True)

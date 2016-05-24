@@ -18,6 +18,7 @@ from django.views.generic import CreateView, UpdateView
 
 from base.constant import CREATE_MESSAGE, REGISTRO_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
+from base.models import Parroquia
 
 from .forms import UnidadEconomicaForm
 from .models import UnidadEconomica
@@ -65,6 +66,24 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         @return Retorna el formulario validado
         """
 
+        ## Obtiene los datos seleccionados en Parroquia        
+        parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
+
+        ## Almacena en el modelo de Directorio
+        directorio = Directorio()
+        directorio.prefijo_uno=form.cleaned_data['prefijo_uno']
+        directorio.direccion_uno=form.cleaned_data['direccion_uno']
+        directorio.prefijo_dos=form.cleaned_data['prefijo_dos']
+        directorio.direccion_dos=form.cleaned_data['direccion_dos']
+        directorio.prefijo_tres=form.cleaned_data['prefijo_tres']
+        directorio.direccion_tres=form.cleaned_data['direccion_tres']
+        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
+        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
+        directorio.coordenadas = form.cleaned_data['coordenada']
+        directorio.parroquia = parroquia
+        directorio.activo=True
+        directorio.save()
+
         ## Almacena en el modelo de UnidadEconomica
         self.object = form.save(commit=False)
         self.object.rif = form.cleaned_data['rif']
@@ -83,26 +102,12 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
 
-        ## Almacena en el modelo de Directorio
-        directorio = Directorio()
-        directorio.prefijo_uno=form.cleaned_data['prefijo_uno'],
-        directorio.direccion_uno=form.cleaned_data['direccion_uno'],
-        directorio.prefijo_dos=form.cleaned_data['prefijo_dos'],
-        directorio.direccion_dos=form.cleaned_data['direccion_dos'],
-        directorio.prefijo_tres=form.cleaned_data['prefijo_tres'],
-        directorio.direccion_tres=form.cleaned_data['direccion_tres'],
-        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
-        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
-        directorio.parroquia = form.cleaned_data['parroquia']
-        directorio.coordenadas = form.cleaned_data['coordenada']
-        directorio.activo=True,
-        directorio.save()
-
         ## Almacena en el modelo Franquicia
         franquicia = Franquicia()
         franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
         franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
         franquicia.rif_franquicia = form.cleaned_data['rif_franquicia']
+        franquicia.unidad_economica_rif = self.object
         franquicia.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
