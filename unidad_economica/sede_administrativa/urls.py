@@ -18,6 +18,11 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
+<<<<<<< HEAD
 urlpatterns = patterns('', url(r'^registro$',SedesCreate.as_view(), name='sede_administrativa'),
 
+=======
+urlpatterns = patterns('',
+    url(r'^registro$',SedesCreate.as_view(), name='sede_administrativa'),
+>>>>>>> 9534f2ddf4ada0c0bb9ee91e2c4c22d081bce6f4
 )

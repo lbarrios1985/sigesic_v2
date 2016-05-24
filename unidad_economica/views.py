@@ -65,28 +65,45 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         @return Retorna el formulario validado
         """
 
+        ## Almacena en el modelo de UnidadEconomica
+        self.object = form.save(commit=False)
         self.object.rif = form.cleaned_data['rif']
         self.object.nombre_ue = form.cleaned_data['nombre_ue']
         self.object.razon_social = form.cleaned_data['razon_social']
+        self.object.directorio = directorio
+        self.object.actividad = form.cleaned_data['actividad']
         self.object.nro_planta = form.cleaned_data['nro_planta']
+        self.object.nro_unid_comercializadora = form.cleaned_data['nro_unid_comercializadora']
+        self.object.servicio = form.cleaned_data['servicio']
+        self.object.orga_comunal = form.cleaned_data['orga_comunal']
+        self.object.tipo_comunal = form.cleaned_data['tipo_comunal']
+        self.object.situr = form.cleaned_data['situr']
+        self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
+        self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
+        self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
+
+        ## Almacena en el modelo de Directorio
+        directorio = Directorio()
+        directorio.prefijo_uno=form.cleaned_data['prefijo_uno'],
+        directorio.direccion_uno=form.cleaned_data['direccion_uno'],
+        directorio.prefijo_dos=form.cleaned_data['prefijo_dos'],
+        directorio.direccion_dos=form.cleaned_data['direccion_dos'],
+        directorio.prefijo_tres=form.cleaned_data['prefijo_tres'],
+        directorio.direccion_tres=form.cleaned_data['direccion_tres'],
+        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
+        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
+        directorio.parroquia = form.cleaned_data['parroquia']
+        directorio.coordenadas = form.cleaned_data['coordenada']
+        directorio.activo=True,
+        directorio.save()
+
+        ## Almacena en el modelo Franquicia
+        franquicia = Franquicia()
+        franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
+        franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
+        franquicia.rif_franquicia = form.cleaned_data['rif_franquicia']
+        franquicia.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
-    """
-    def post(self, request):
-        mensaje = "Datos guardados satisfactoriamente"
-        formulario = unidadEconomicaForm()
-        modeloue = unidad_economica()
-        modeloue.rif = request.POST['rif']
-        modeloue.nombre_ue = request.POST['nombre_ue']
-        modeloue.razon_social = request.POST['razon_social']
-        modeloue.nro_planta = request.POST['nro_planta']
-        modeloue.nro_unid_comercializadora = request.POST['nro_unid_comercializadora']
-        modeloue.servicio = request.POST['servicio']
-        modeloue.orga_comunal = request.POST['orga_comunal']
-        modeloue.casa_matriz_franquicia = request.POST['casa_matriz_franquicia']
-        modeloue.nro_franquicia = request.POST['nro_franquicia']
-        modeloue.save()
-        return render(request, self.template, {'mensaje':mensaje})
-    """

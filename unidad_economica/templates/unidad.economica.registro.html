@@ -75,60 +75,70 @@
                 <br />
 
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_uno.auto_id }}">
-                        Seleccione:
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_uno.auto_id }}">
+                        Seleccione: <i class="ion ion-ios-medical item-requerido"></i>
                     </label>
-                    <div class="col-md-4 col-xs-4 col-sm-4">
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_dos.auto_id }}">
+                        Seleccione: <i class="ion ion-ios-medical item-requerido"></i>
+                    </label>
+                     <div class="col-md-6 col-xs-6 col-sm-6">
                         {% for prefijo in form.prefijo_uno %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_dos.auto_id }}">
-                        Seleccione:
-                    </label>
-                    <div class="col-md-4 col-xs-4 col-sm-4">
+                    <div class="col-md-6 col-xs-6 col-sm-6">
                         {% for prefijo in form.prefijo_dos %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-6 control-label" for="{{ form.direccion_uno.auto_id }}">
-                        {{ form.direccion_uno.label }} {{ form.direccion_uno }}
+                    <label class="col-md-2 control-label" for="{{ form.direccion_uno.auto_id }}">
+                        Indique nombre: 
                     </label>
-                    <label class="col-md-6 control-label" for="{{ form.direccion_dos.auto_id }}">
-                        {{ form.direccion_dos.label }} {{ form.direccion_dos }}
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {{ form.direccion_uno }}<i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+
+                    <label class="col-md-2 control-label" for="{{ form.direccion_dos.auto_id }}">
+                        Indique nombre: 
                     </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {{ form.direccion_dos }}<i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_tres.auto_id }}">
-                        Seleccione:
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_tres.auto_id }}">
+                        Seleccione: <i class="ion ion-ios-medical item-requerido"></i>
                     </label>
-                    <div class="col-md-4 col-xs-4 col-sm-4">
+                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
+                        Seleccione: <i class="ion ion-ios-medical item-requerido"></i>
+                    </label>
+                    <div class="col-md-6 col-xs-6 col-sm-6">
                         {% for prefijo in form.prefijo_tres %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
-                        Seleccione:
-                    </label>
-                    <div class="col-md-4 col-xs-4 col-sm-4">
+                    <div class="col-md-6 col-xs-6 col-sm-6">
                         {% for prefijo in form.prefijo_cuatro %}
                             {{ prefijo }}
                         {% endfor %}
                     </div>
-                    <label class="col-md-6 control-label" for="{{ form.direccion_tres.auto_id }}">
-                        {{ form.direccion_tres.label }} {{ form.direccion_tres }}
+                    <label class="col-md-2 control-label" for="{{ form.direccion_tres.auto_id }}">
+                        Indique nombre:
                     </label>
-                    <label class="col-md-6 control-label" for="{{ form.direccion_cuatro.auto_id }}">
-                        {{ form.direccion_cuatro.label }} {{ form.direccion_cuatro }}
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {{ form.direccion_tres }}<i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                    <label class="col-md-2 control-label" for="{{ form.direccion_cuatro.auto_id }}">
+                        Indique nombre:
                     </label>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        {{ form.direccion_cuatro }}<i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
                 </div>
                 <br />
 
                 <div class="form-group">
-                    <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.tipo_coordenada.auto_id }}">
-                        {{ form.tipo_coordenada.label }} {{ form.tipo_coordenada }}
-                    </label>
                     <div class="col-md-6 col-xs-6 col-sm-6">
                         <label class="control-label" for="{{ form.coordenada.auto_id }}">
                             {{ form.coordenada.label }}{{ form.coordenada }}

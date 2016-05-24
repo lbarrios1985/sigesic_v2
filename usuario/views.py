@@ -32,6 +32,7 @@ from django.utils.translation import ugettext_lazy as _
 from base.constant import (
     CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO, UPDATE_MESSAGE
 )
+from base.classes import Seniat
 from base.functions import calcular_diferencia_fechas, enviar_correo
 from usuario.forms import AutenticarForm, RegistroForm, OlvidoClaveForm, ModificarClaveForm, PerfilForm
 from usuario.models import UserProfile
@@ -368,6 +369,11 @@ class PerfilUpdate(SuccessMessageMixin, UpdateView):
     def get_initial(self):
         datos_iniciales = super(PerfilUpdate, self).get_initial()
         datos_iniciales['rif'] = self.request.user.username
+        
+        rif = self.request.user
+        datos_rif = Seniat()
+        seniat = datos_rif.buscar_rif(rif)
+        datos_iniciales['nombre_ue'] = datos_rif.nombre
 
         if UserProfile.objects.filter(user=self.request.user):
             perfil = UserProfile.objects.get(user=self.request.user)
