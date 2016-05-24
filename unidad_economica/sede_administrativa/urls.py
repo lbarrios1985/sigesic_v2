@@ -18,11 +18,6 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-urlpatterns = patterns('',
-<<<<<<< HEAD:unidad_economica/sedes_admin/urls.py
-    url(r'^sede-administrativa/$',SedesCreate.as_view(), name='sedes_admin'),
-=======
-    url(r'^registro$',SedesCreate.as_view(), name='sede_administrativa'),
->>>>>>> 866bd73bf9b4f7a0ba069b5face382572eb2c1ba:unidad_economica/sede_administrativa/urls.py
-    #url(r'^/?$', 'sedes_admin.views.', name=''),
+urlpatterns = patterns('', url(r'^registro$',SedesCreate.as_view(), name='sede_administrativa'),
+
 )

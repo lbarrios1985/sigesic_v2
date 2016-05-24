@@ -25,5 +25,4 @@ urlpatterns = [
     url(r'^plantas-productivas/', include('unidad_economica.plantas_productivas.urls')),
     url(r'^sede-administrativa/', include('unidad_economica.sede_administrativa.urls')),
     url(r'^unidades-comercializadoras/', include('unidad_economica.unidades_comercializadoras.urls')),
-    url(r'^', include('unidad_economica.sedes_admin.urls'))
 ]
