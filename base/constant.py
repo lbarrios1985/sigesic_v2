@@ -126,6 +126,13 @@ PREFIJO_DIRECTORIO_CUATRO_CHOICES = (
     ('ZN', _("Zona")),
 )
 
+## Tipos de Sub-Unidad Económica
+TIPO_SUB_UNIDAD = (
+    ('Se', _("Sede Administrativa")),
+    ('Pl', _("Planta Productiva")),
+    ('Su', _("Sucursal")),
+)
+
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
 ACTUALIZACION_PASSWORD = 90
 

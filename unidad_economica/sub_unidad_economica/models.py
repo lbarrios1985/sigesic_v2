@@ -43,6 +43,9 @@ class SubUnidadEconomica(models.Model):
     ## Tipo de tenencia de la sub unidad. (Se relaciona con el modelo Tenencia)
     #tipo_tenencia_id = models.OneToOneField()
     
+    ## Tipo de subunidad
+    tipo_sub_unidad = models.CharField(max_length=2)
+    
     ## Metros cuadrados de la construcción
     m2_contruccion = models.DecimalField(max_digits=20,decimal_places=5)
     

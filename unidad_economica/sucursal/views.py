@@ -22,7 +22,7 @@ from unidad_economica.sub_unidad_economica.models import (
 from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaActividadForm
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.directorio.models import Directorio
-from base.constant import CREATE_MESSAGE
+from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD
 from base.classes import Seniat
 from base.models import Parroquia
 
@@ -102,6 +102,7 @@ class SucursalCreate(SuccessMessageMixin,CreateView):
         self.object = form.save(commit=False)
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
         self.object.rif = form.cleaned_data['rif']
+        self.object.tipo_sub_unidad = TIPO_SUB_UNIDAD[2][0]
         self.object.telefono = form.cleaned_data['telefono']
         #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
         self.object.m2_contruccion = form.cleaned_data['m2_contruccion']

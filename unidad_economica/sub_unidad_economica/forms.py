@@ -121,7 +121,7 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     
     class Meta:
         model = SubUnidadEconomica
-        fields = '__all__'
+        exclude = ['tipo_sub_unidad']
         
         
 @python_2_unicode_compatible

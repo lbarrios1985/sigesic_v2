@@ -22,7 +22,7 @@ from unidad_economica.sub_unidad_economica.models import (
 from base.models import Parroquia
 from .forms import PlantasProductivasForm
 from unidad_economica.directorio.models import Directorio
-from base.constant import CREATE_MESSAGE
+from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD
 from base.classes import Seniat
 
 __licence__ = "GNU Public License v2"
@@ -106,16 +106,17 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
         self.object.rif = form.cleaned_data['rif']
         self.object.telefono = form.cleaned_data['telefono']
+        self.object.tipo_sub_unidad = TIPO_SUB_UNIDAD[1][0]
         #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
         self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
         self.object.m2_terreno = form.cleaned_data['m2_terreno']
         self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
         self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
         self.object.cantidad_empleados = form.cleaned_data['cantidad_empleados']
-        self.object.sede_servicio = form.cleaned_data['sede_servicio']
+        self.object.sede_servicio = int(form.cleaned_data['sede_servicio'])
         self.object.save()
-        
-        ## Se llama a la función que creará los distintos procesos
+
+         ## Se llama a la función que creará las actividades economicas
         self.modificar_diccionario(dictionary,self.object)
         
         ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
@@ -154,7 +155,7 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
             proceso.tipo_proceso = dictionary['tipo_proceso_tb'][i]
             proceso.nombre_proceso = dictionary['nombre_proceso_tb'][i]
             proceso.descripcion_proceso = dictionary['descripcion_proceso_tb'][i]
-            proceso.estado_proceso = dictionary['estado_proceso_tb'][i]
+            proceso.estado_proceso = int(dictionary['estado_proceso_tb'][i])
             proceso.save()
             
             ## Se crea y se guarda la tabla intermedio entre sub unidad y el proceso de la sub unidads
