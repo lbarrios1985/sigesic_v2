@@ -276,3 +276,73 @@ function habilitar1(opcion1, campo1){
     }
 }
 
+/**
+ * @brief Función para agregar campos a un datatable
+ * @param campos Es un arreglo con el id de los campos a agregar en la tabla
+ * @param table_id Es un campo con el id de la tabla en la que agregan los campos
+ */
+function add_field_datatable(campos, table_id){
+    var bool = true;
+    var new_data = new Array();
+    var t = $(table_id).DataTable();
+    var index = t.rows()[0].length;
+    $.each(campos,function(index,value){
+            var text = $(value).val();
+            var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
+            /*if ($(value+"option:selected'")) {
+                //code
+            }*/
+            new_data.push(text+form);
+            if((text.trim()==''))
+            {
+                bool = false
+            }
+        });
+    if (!bool) {
+        var modal = bootbox.dialog({
+            title: 'Alerta',
+            message: 'Algunos campos estan vacios',
+            buttons: {
+                main: {
+                    label: 'Aceptar',
+                    className: "btn btn-danger btn-sm"
+                }
+            }
+        });
+        modal.show();
+        new_data = [];
+    }
+    else
+    {
+        $.each(campos,function(index,value){
+            $(value).val('');
+        });
+        new_data.push('<i class="glyphicon glyphicon-pencil"></i><a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>');
+        t.row.add(new_data).draw(false);
+    }
+}
+
+/**
+ * @brief Remover dinámicamente campos de una datatable con el id mydtable
+ * @param table_id Es un campo con el id de la tabla en la que se eliminaran los campos
+ * @param remove_id Es un campo con el id del campo que se eliminará en la tabla
+ */
+function remove_field_datatable(table_id,remove_id) {
+    var t = $(table_id).DataTable();
+    $(table_id).on('click',remove_id,function(){
+        t.row($(this).parent().closest('tr')).remove().draw( false );
+    });
+}
+
+/**
+ * @brief Función para ocultar campos de una datable
+ * @param table_id Es un campo con el id de la tabla en la que se ocultaran los campos
+ * @param fields Es un arreglo con el id de los campos a ocultar en la tabla
+ */
+function default_datatable_field(table_id,fields) {
+    var t = $(table_id).DataTable();
+    $.each(fields,function(index,value){
+       var col = t.column(value);
+       col.visible(false);
+    });
+}
