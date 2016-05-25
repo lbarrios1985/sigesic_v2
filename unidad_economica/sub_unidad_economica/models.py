@@ -32,6 +32,9 @@ class SubUnidadEconomica(models.Model):
     ## Nombre de la subunidad económica
     nombre_sub = models.CharField(max_length=45)
     
+    ## Rif de la subunidad
+    rif = models.CharField(max_length=45)
+    
     ## Telefono de la sub unidad
     telefono = models.CharField(
         max_length=20, help_text=_("Número telefónico de contacto con el usuario"),
