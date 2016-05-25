@@ -24,9 +24,5 @@ urlpatterns = [
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
     url(r'^plantas-productivas/', include('unidad_economica.plantas_productivas.urls')),
     url(r'^sede-administrativa/', include('unidad_economica.sede_administrativa.urls')),
-<<<<<<< HEAD
-    url(r'^unidades-comercializadoras/', include('unidad_economica.unidades_comercializadoras.urls')),
-=======
     url(r'^unidades-comercializadoras/', include('unidad_economica.unidades_comercializadoras.urls'))
->>>>>>> 9534f2ddf4ada0c0bb9ee91e2c4c22d081bce6f4
 ]
