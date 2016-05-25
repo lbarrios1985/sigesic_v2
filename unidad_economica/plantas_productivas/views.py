@@ -23,6 +23,7 @@ from base.models import Parroquia
 from .forms import PlantasProductivasForm
 from unidad_economica.directorio.models import Directorio
 from base.constant import CREATE_MESSAGE
+from base.classes import Seniat
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -43,6 +44,18 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
     template_name = "plantas.productivas.create.html"
     success_url = reverse_lazy('plantas_create')
     success_message = CREATE_MESSAGE
+    
+    def get_initial(self):
+        rif = self.request.user
+        datos_iniciales = super(PlantasProductivasCreate, self).get_initial()
+        datos_iniciales['rif'] = self.request.user.username
+
+        datos_rif = Seniat()
+        seniat = datos_rif.buscar_rif(rif)
+        datos_iniciales['nombre_ue'] = datos_rif.nombre
+        datos_iniciales['razon_social'] = datos_rif.nombre
+
+        return datos_iniciales
     
     def get_context_data(self, **kwargs):
         kwargs['object_list'] = SubUnidadEconomicaProceso.objects.all()

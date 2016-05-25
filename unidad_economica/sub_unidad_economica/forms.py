@@ -140,32 +140,30 @@ class SubUnidadEconomicaActividadForm(SubUnidadEconomicaForm):
         label=_("Tipo de Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo"), 'size': '15',
-            'required':'required',
-        }), choices = TIPO_PROCESO,
+        }), choices = TIPO_PROCESO, required=False,
     )
     
     ## nombre del proceso productivo
     nombre_proceso = forms.CharField(
         label=_("Nombre del Proceso Productivo"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
-        })
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50',
+        }), required=False,
     )
     
     ## descripcion del proceso productivo
     descripcion_proceso = forms.CharField(
         label=_("Descripción del Proceso Productivo"), widget=Textarea(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la descripción del proceso productivo"), 'required':'required',
-        }))
+            'data-toggle': 'tooltip','title': _("Indique la descripción del proceso productivo"),
+        }), required=False,
+    )
     
     ## estado del proceso productivo
     estado_proceso = forms.ChoiceField(
         label=_("Estado del Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el Estado de Proceso Productivo"), 'size': '15',
-            'required':'required',
-        }), choices = ESTADO_PROCESO,
+        }), choices = ESTADO_PROCESO, required=False,
     )
     
     ## Código CIIU
@@ -203,3 +201,41 @@ class SubUnidadEconomicaActividadForm(SubUnidadEconomicaForm):
         }),max_digits=20,decimal_places=5,
     )
     
+@python_2_unicode_compatible
+class SubUnidadEconomicaActividadTableForm(forms.Form):
+    """!
+    Clase que muestra el formulario de ingreso de plantas productivas
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-05-2016
+    @version 2.0.0
+    """
+    
+    ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
+    tipo_proceso_tb = forms.CharField(
+        label=_("Tipo de Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }), 
+    )
+    
+    ## nombre del proceso productivo
+    nombre_proceso_tb = forms.CharField(
+        label=_("Nombre del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;','size': '30',
+        }),
+    )
+    
+    ## descripcion del proceso productivo
+    descripcion_proceso_tb = forms.CharField(
+        label=_("Descripción del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;','size': '30',
+        }),
+    )
+    
+    ## estado del proceso productivo
+    estado_proceso_tb = forms.CharField(
+        label=_("Estado del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),
+    )
