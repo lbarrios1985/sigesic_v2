@@ -4,9 +4,9 @@ Sistema Integral de Gestión para la Industria y el Comercio (SIGESIC)
 
 Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/wiki
 """
-## @namespace sedes_admin.models
+## @namespace sedes_administrativa.models
 #
-# Contiene las clases, atributos, métodos y/o funciones a implementar para los  del módulo de usuario
+# Contiene las clases, atributos, métodos y/o funciones a implementar para los  del módulo de sedes_administrativa
 # @author Ing. Hugo Ramirez (hramirez at cenditel.gob.ve)
 # @author <a href='http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
 # (CENDITEL) nodo Mérida - Venezuela</a>

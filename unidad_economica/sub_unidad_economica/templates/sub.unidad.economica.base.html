@@ -6,11 +6,26 @@
     {% csrf_token %}
     <div class="box box-primary box-registro-general" style="padding:20px">
         <div class="box-header with-border">
-            <h3 class="box-title">{% block titulo1 %}{% endblock %}</h3>
+            <h1 class="box-title">{% block titulo1 %}{% endblock %}</h1>
         </div>
         <div class="box-body">
+        <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                                {{ form.rif.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.rif }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        <br>
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-10 col-sm-10 col-xs-10">
                     <div class="form-group {% if form.nombre_sub.errors %}has-error{% endif %}">
                         <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre_planta.auto_id }}">
                             {% block nombre %}{{ form.nombre_sub.label }}{% endblock %}
@@ -291,7 +306,7 @@
             </div>
            
             <div class="box-header with-border">
-                <h4 class="box-title">{% block titulo2 %}{% endblock %}</h4>
+                <h3 class="box-title">{% block titulo2 %}{% endblock %}</h3>
             </div>
             <br>
              <div class="row">
@@ -421,7 +436,7 @@
             {% block actividad_economica %}{%endblock%}
                 
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-10 col-sm-10 col-xs-10">
                     <div class="form-group {% if form.sede_servicio.errors %}has-error{% endif %}">
                         <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.sede_servicio.auto_id }}">
                             {% block presta_servicio %}{{ form.sede_servicio.label }}{% endblock %}
