@@ -47,10 +47,10 @@ class MercantilCreate(CreateView):
         datos['nombre'] = datos_rif.nombre
 
         return datos
-
+"""
     def form_valid(self, form):
-        """!
-        Método que valida si el formulario es valido,
+
+        Método que valida si el formulario es válido
 
         @author Lully Troconis (ltroconis at cenditel.gob.ve)
         @copyright GNU/GPLv2
@@ -58,18 +58,14 @@ class MercantilCreate(CreateView):
         @param self <b>{object}</b> Objeto que instancia la clase
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado
-        """
 
+        self.object = form.save(commit=False)
         self.object.rif = form.cleaned_data['rif']
         self.object.naturaleza_juridica = form.cleaned_data['naturaleza_juridica']
         self.object.naturaleza_juridica_otros = form.cleaned_data['naturaleza_juridica_otros']
-        self.object.capital_suscrito = form.cleaned_data['capital_suscrito']
-        self.object.capital_pagado = form.cleaned_data['capital_pagado']
-        self.object.publico_nacional = form.cleaned_data['publico_nacional']
-        self.object.publico_extranjero = form.cleaned_data['publico_extranjero']
-        self.object.privado_nacional = form.cleaned_data['privado_nacional']
-        self.object.privado_extranjero = form.cleaned_data['privado_extranjero']
+        self.object.naturaleza_juridica_otros = form.cleaned_data['capital_suscrito']
         self.object.save()
 
 
         return super(MercantilCreate, self).form_valid(form)
+"""

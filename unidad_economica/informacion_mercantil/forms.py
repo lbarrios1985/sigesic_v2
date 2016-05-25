@@ -122,6 +122,7 @@ class InformacionMercantilForms(ModelForm):
     ## Rif del accionista
     rif_accionista = RifField()
 
+
     ## Nombre del accionista
     nombre = CharField(
         label=_("Nombre: "), max_length=30,
@@ -153,7 +154,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Nombre del Representante Legal
     nombre_representante = CharField(
-        label=_("Nombre"),
+        label=_("Nombre: "),
         max_length=30,
         widget=TextInput(
             attrs={
@@ -165,7 +166,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Apellido del representante legal
     apellido_representante = CharField(
-        label=_("Apellido"),
+        label=_("Apellido: "),
         max_length=30,
         widget=TextInput(
             attrs={
@@ -177,7 +178,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Correo electrónico del representante legal
     correo_electronico = EmailField(
-        label=_("Correo Electrónico"),
+        label=_("Correo Electrónico: "),
         max_length=75,
         widget=EmailInput(
             attrs={
@@ -191,7 +192,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Número telefónico del representante legal
     telefono = CharField(
-        label=_("Teléfono"),
+        label=_("Teléfono: "),
         max_length=20,
         widget=TextInput(
             attrs={
