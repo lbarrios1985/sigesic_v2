@@ -121,7 +121,7 @@ class DirectorioForm(ModelForm):
     )
 
     ## Coordenadas geográficas de Longitud y Latitud
-    coordenada = CoordenadaField()
+    coordenada = CoordenadaField(required=False)
     
     class Meta:
         model = Directorio

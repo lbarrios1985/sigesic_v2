@@ -16,7 +16,6 @@
                 </label>
                 <div class="col-md-10 col-xs-10 col-sm-10">
                     {{ form.tipo_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
                     {% if form.tipo_proceso.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -34,7 +33,6 @@
                 </label>
                 <div class="col-md-10 col-xs-10 col-sm-10">
                     {{ form.nombre_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
                     {% if form.nombre_proceso.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -54,7 +52,6 @@
                 </label>
                 <div class="col-md-10 col-xs-10 col-sm-10">
                     {{ form.descripcion_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
                     {% if form.descripcion_proceso.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -72,45 +69,6 @@
                 </label>
                 <div class="col-md-10 col-xs-10 col-sm-10">
                     {{ form.estado_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.estado_proceso.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.estado_proceso.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-        <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group {% if form.descripcion_proceso.errors %}has-error{% endif %}">
-                <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.descripcion_proceso.auto_id }}">
-                    {{ form.descripcion_proceso.label }}
-                </label>
-                <div class="col-md-10 col-xs-10 col-sm-10">
-                    {{ form.descripcion_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
-                    {% if form.descripcion_proceso.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.descripcion_proceso.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group {% if form.estado_proceso.errors %}has-error{% endif %}">
-                <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.estado_proceso.auto_id }}">
-                    {{ form.estado_proceso.label }}
-                </label>
-                <div class="col-md-10 col-xs-10 col-sm-10">
-                    {{ form.estado_proceso }}
-                    <i class="ion ion-ios-medical item-requerido"></i>
                     {% if form.estado_proceso.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -123,49 +81,43 @@
         </div>
     </div>
         
-    <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2">
-            <span>{% trans 'Agregar Actividad' %}</span>
-            <a id="#dtable"><i class="glyphicon glyphicon-plus"></i></a>
+    <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
+        <div class="col-md-2 col-sm-2 col-xs-2">     
+            <label>{% trans 'Agregar Actividad' %}</label>
+            <a id="#dtable" onclick="add_field_datatable(['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso'],'#mydtable');">
+            <i class="glyphicon glyphicon-plus"></i></a>
+            <i class="ion ion-ios-medical item-requerido"></i>
         </div>
     </div>
     
-    {% if object_list %}
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                <h5>{% trans 'Actividades Registradas' %}</h5>
-            </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+            <h5>{% trans 'Actividades Registradas' %}</h5>
         </div>
-        
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-striped table-hover display dataTable">
-                    <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>Tipo de Proceso</td>
-                            <td>Nombre del Proceso</td>
-                            <td>Descripción del Proceso</td>
-                            <td>Estado del Proceso</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in object_list %}
-                            <tr>
-                                <td>{{forloop.counter}}</td>
-                                <td>{{item.tipo_proceso}}</td>
-                                <td>{{item.nombre_proceso}}</td>
-                                <td>{{item.descripcion_proceso}}</td>
-                                <td>{{item.estado_proceso}}</td>
-                                <td><i class="glyphicon glyphicon-pencil"></i><i class="glyphicon glyphicon-remove"></i></td>
-                            </tr>
-                        {%endfor%}
-                    </tbody>
-                </table>
-            </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">        
+            <table class="table table-striped table-hover display dataTable" id="mydtable">
+                <thead>
+                    <tr>
+                        <td>Tipo de Proceso</td>
+                        <td>Nombre del Proceso</td>
+                        <td>Descripción del Proceso</td>
+                        <td>Estado del Proceso</td>
+                        <td>Opciones</td>
+                    </tr>
+                </thead>
+            </table>
+            {% if form.nombre_proceso_tb.errors %}
+                <p class="bg-warning">
+                    <span class="help-block msg-error">
+                        {% trans 'Debe agregar al menos una actividad' %}
+                    </span>
+                </p>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
     
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -194,7 +146,7 @@
                     {{ form.capacidad_instalada_texto.label }}
                 </label>
                 <div class="col-md-6 col-xs-6 col-sm-6">
-                    <div class="form-inline">{{ form.capacidad_instalada_texto }}</div>
+                    <div class="form-inline">{{ form.capacidad_instalada_texto }}<i class="ion ion-ios-medical item-requerido"></i></div>
                     {% if form.capacidad_instalada_texto.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -206,11 +158,12 @@
             </div>
         </div>
         <div class="col-md-8 col-sm-8 col-xs-8">
-            <div class="form-group {% if form.capacidad_instalada_select.errors %}has-error{% endif %}">
-                <div class="form-inline">{{ form.capacidad_instalada_select }}<i class="ion ion-ios-medical item-requerido"></i></div>
+            <div class="form-group {% if form.capacidad_instalada_medida.errors %}has-error{% endif %}">
+                <div class="form-inline">{{ form.capacidad_instalada_medida }}<i class="ion ion-ios-medical item-requerido"></i></div>
             </div>
         </div>
     </div>
+
         
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -232,3 +185,11 @@
         </div>
     </div>
 {%endblock%}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //default_datatable_field('#mydtable',[1,3,5,7]);
+            remove_field_datatable('#mydtable','.remove_item');
+        });
+    </script>
+{% endblock %}

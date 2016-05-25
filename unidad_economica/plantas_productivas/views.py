@@ -17,10 +17,10 @@ from django.core.urlresolvers import reverse_lazy
 
 from unidad_economica.sub_unidad_economica.models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
-    SubUnidadEconomicaPrincipalProceso
+    SubUnidadEconomicaPrincipalProceso,
     )
+from base.models import Parroquia
 from .forms import PlantasProductivasForm
-from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.directorio.models import Directorio
 from base.constant import CREATE_MESSAGE
 
@@ -47,7 +47,7 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
     def get_context_data(self, **kwargs):
         kwargs['object_list'] = SubUnidadEconomicaProceso.objects.all()
         return super(PlantasProductivasCreate, self).get_context_data(**kwargs)
-    
+
     def form_valid(self, form):
         """!
         Metodo que valida si el formulario es valido, en cuyo caso se procede a registrar los datos de la planta productiva
@@ -60,19 +60,23 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         @return Retorna el formulario validado
         """
         
+        ## Se crea un diccionario de la data recibida por POST
+        dictionary = dict(self.request.POST.lists())
+        
+        parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
+
         ## Se crea y se guarda el modelo de directorio
         directorio = Directorio()
-        directorio.prefijo_uno=form.cleaned_data['prefijo_uno'],
-        directorio.direccion_uno=form.cleaned_data['direccion_uno'],
-        directorio.prefijo_dos=form.cleaned_data['prefijo_dos'],
-        directorio.direccion_dos=form.cleaned_data['direccion_dos'],
-        directorio.prefijo_tres=form.cleaned_data['prefijo_tres'],
-        directorio.direccion_tres=form.cleaned_data['direccion_tres'],
-        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro'],
-        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro'],
-        directorio.parroquia = form.cleaned_data['parroquia']
-        directorio.coordenadas = form.cleaned_data['coordenada']
-        directorio.activo=True,
+        directorio.prefijo_uno=form.cleaned_data['prefijo_uno']
+        directorio.direccion_uno=form.cleaned_data['direccion_uno']
+        directorio.prefijo_dos=form.cleaned_data['prefijo_dos']
+        directorio.direccion_dos=form.cleaned_data['direccion_dos']
+        directorio.prefijo_tres=form.cleaned_data['prefijo_tres']
+        directorio.direccion_tres=form.cleaned_data['direccion_tres']
+        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
+        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
+        directorio.parroquia = parroquia
+        #directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.save()
         
         ## Se crea y se guarda el modelo de sub_unidad_economica
@@ -86,33 +90,19 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
         self.object.cantidad_empleados = form.cleaned_data['cantidad_empleados']
         self.object.sede_servicio = form.cleaned_data['sede_servicio']
-        self.object.directorio = directorio
         self.object.save()
         
+        ## Se llama a la función que creará los distintos procesos
+        self.modificar_diccionario(dictionary,self.object)
         
         ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
         capacidad = SubUnidadEconomicaCapacidad()
         #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
         capacidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
-        capacidad.capacidad_instalada_select = form.cleaned_data['capacidad_instalada_select']
+        capacidad.capacidad_instalada_medida = form.cleaned_data['capacidad_instalada_medida']
         capacidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
         capacidad.sub_unidad_economica = self.object
         capacidad.save()
-        
-        ## Se crea y se guarda en el modelo del proceso de la sub-unidad
-        proceso = SubUnidadEconomicaProceso()
-        #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
-        proceso.tipo_proceso = form.cleaned_data['tipo_proceso']
-        proceso.nombre_proceso = form.cleaned_data['nombre_proceso']
-        proceso.descripcion_proceso = form.cleaned_data['descripcion_proceso']
-        proceso.estado_proceso = form.cleaned_data['descripcion_proceso']
-        proceso.save()
-        
-        ## Se crea y se guarda la tabla intermedio entre sub unidad y el proceso de la sub unidads
-        sub_unidad_proceso = SubUnidadEconomicaPrincipalProceso()
-        sub_unidad_proceso.sub_unidad_economica = self.object
-        sub_unidad_proceso.sub_unidad_economica_proceso = proceso
-        sub_unidad_proceso.save()
         
         
         ## Se crea y se guarda la tabla intermedio entre directorio-sub unidad
@@ -121,4 +111,36 @@ class PlantasProductivasCreate(SuccessMessageMixin,CreateView):
         directorio_subunidad.sub_unidad_economica = self.object
         directorio_subunidad.save()
         
-        return super(SubUnidadEconomicaCreate, self).form_valid(form)
+        return super(PlantasProductivasCreate, self).form_valid(form)
+    
+    def modificar_diccionario(self, dictionary, model):
+        """!
+        Metodo que extrae los datos de la tabla de actividades economicas en un diccionario y las guarda en el modelo respectivo
+    
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
+        @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
+        @return Retorna el formulario validado
+        """
+        for i in range(0,len(dictionary['nombre_proceso_tb'])):
+            ## Se crea y se guarda en el modelo del proceso de la sub-unidad
+            proceso = SubUnidadEconomicaProceso()
+            proceso.tipo_proceso = dictionary['tipo_proceso_tb'][i]
+            proceso.nombre_proceso = dictionary['nombre_proceso_tb'][i]
+            proceso.descripcion_proceso = dictionary['descripcion_proceso_tb'][i]
+            proceso.estado_proceso = dictionary['estado_proceso_tb'][i]
+            proceso.save()
+            
+            ## Se crea y se guarda la tabla intermedio entre sub unidad y el proceso de la sub unidads
+            sub_unidad_proceso = SubUnidadEconomicaPrincipalProceso()
+            sub_unidad_proceso.sub_unidad_economica = model
+            sub_unidad_proceso.sub_unidad_economica_proceso = proceso
+            sub_unidad_proceso.save()
+            
+            
+            
+            
+            
