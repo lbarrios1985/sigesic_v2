@@ -36,7 +36,6 @@ class Capital(models.Model):
     ## Establece el rif de la unidad economica
     rif_ue = models.ForeignKey(UnidadEconomica)
 
-
     ##Establece el capital solicitado: capital suscrito
     capital_suscrito = models.FloatField(
         max_length=2,
@@ -108,9 +107,8 @@ class RepresentanteLegal(models.Model):
     @version 2.0.0
     """
 
-    # relación de RIF Unidad Económica
+    ## relación de RIF Unidad Económica
     rif_ue = models.ForeignKey(UnidadEconomica)
-
 
     ## Cédula de Identidad del representante legal
     cedula_representante = models.CharField(

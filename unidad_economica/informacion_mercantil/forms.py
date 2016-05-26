@@ -57,7 +57,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
-            })
+            }), required=False
     )
 
     ## Establece el tipo de capital solicitado: capital suscrito
@@ -66,7 +66,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '2',
+                'data-toggle': 'tooltip', 'size': '28',
                 'title': _("Indique el Capital Social Suscrito")
             })
 
@@ -78,7 +78,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '2',
+                'data-toggle': 'tooltip', 'size': '28',
                 'title': _("Indique el Capital Social Pagado")
             })
     )
@@ -88,7 +88,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Público Nacional: "),
         widget=TextInput(attrs={
             'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            })
+            }), required=False
 
     )
 
@@ -98,7 +98,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            })
+            }), required=False
     )
 
     ## Tipo de capital solicitado: capital privado nacional
@@ -107,7 +107,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-                })
+                }),required=False
     )
 
     ## Tipo de capital solicitado: capital privado
@@ -116,7 +116,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            })
+            }), required=False
     )
 
     ## Rif del accionista
@@ -189,7 +189,7 @@ class InformacionMercantilForms(ModelForm):
             }
         )
     )
-
+    """
     ## Número telefónico del representante legal
     telefono = CharField(
         label=_("Teléfono: "),
@@ -203,7 +203,7 @@ class InformacionMercantilForms(ModelForm):
         ),
         help_text=_("(país)-área-número")
     )
-
+    """
 
     ## Cargo que ejerce el representante legal dentro de la unidad económica
     cargo = ChoiceField(
@@ -222,13 +222,13 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
-            })
+            }), required=False
     )
 
     class Meta:
         model = RepresentanteLegal
         fields = [
-            'nombre_representante', 'apellido_representante', 'telefono', 'correo_electronico'
+            'rif_accionista', 'nombre_representante', 'apellido_representante', 'telefono', 'correo_electronico'
             ]
         exclude = ['naturaleza_juridica_otros']
 
