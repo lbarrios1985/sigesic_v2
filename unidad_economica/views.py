@@ -13,15 +13,18 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @version 2.0
 from __future__ import unicode_literals
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView
 
-from base.constant import CREATE_MESSAGE, REGISTRO_MESSAGE, UPDATE_MESSAGE
+from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
-from base.models import Parroquia
+from base.models import Estado, Municipio, Parroquia
+
+from unidad_economica.directorio.models import Directorio
 
 from .forms import UnidadEconomicaForm
-from .models import UnidadEconomica
+from .models import UnidadEconomica, Franquicia, UnidadEconomicaDirectorio
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -40,7 +43,8 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     model = UnidadEconomica
     form_class = UnidadEconomicaForm
     template_name = "unidad.economica.registro.html"
-    success_message = REGISTRO_MESSAGE
+    success_url = reverse_lazy('informacion_mercantil')
+    success_message = CREATE_MESSAGE
 
     def get_initial(self):
         rif = self.request.user
@@ -65,8 +69,16 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado
         """
+        print("Valido..")
+        print(self.request.POST)
 
-        ## Obtiene los datos seleccionados en Parroquia        
+        ## Obtiene los datos seleccionados en Estado
+        estado = Estado.objects.get(pk=self.request.POST['estado'])
+        
+        ## Obtiene los datos seleccionados en Municipio
+        municipio = Municipio.objects.get(pk=self.request.POST['municipio'])
+        
+        ## Obtiene los datos seleccionados en Parroquia
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
 
         ## Almacena en el modelo de Directorio
@@ -79,7 +91,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         directorio.direccion_tres=form.cleaned_data['direccion_tres']
         directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
         directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
-        directorio.coordenadas = form.cleaned_data['coordenada']
+        #directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.parroquia = parroquia
         directorio.activo=True
         directorio.save()
@@ -89,7 +101,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.rif = form.cleaned_data['rif']
         self.object.nombre_ue = form.cleaned_data['nombre_ue']
         self.object.razon_social = form.cleaned_data['razon_social']
-        self.object.directorio = directorio
         self.object.actividad = form.cleaned_data['actividad']
         self.object.nro_planta = form.cleaned_data['nro_planta']
         self.object.nro_unid_comercializadora = form.cleaned_data['nro_unid_comercializadora']
@@ -102,13 +113,24 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
 
+        """## Almacena en el modelo de relación de dirección y unidad económica
+        direccion = UnidadEconomicaDirectorio()
+        direccion.unidad_economica = self.object
+        direccion.directorio = directorio
+        direccion.save()
+
         ## Almacena en el modelo Franquicia
         franquicia = Franquicia()
         franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
         franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
         franquicia.rif_franquicia = form.cleaned_data['rif_franquicia']
         franquicia.unidad_economica_rif = self.object
-        franquicia.save()
+        franquicia.save()"""
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        print('*'*10)
+        print(form)
+        return super(UnidadEconomicaCreate, self).form_invalid(form)        
 

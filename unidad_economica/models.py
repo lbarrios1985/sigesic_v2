@@ -66,7 +66,7 @@ class UnidadEconomica(models.Model):
     orga_comunal = models.BooleanField(default=False)
 
     ## Establece la relación con el Tipo de Organización Comunal
-    tipo_comunal = models.ForeignKey(TipoComunal)
+    tipo_comunal = models.ForeignKey(TipoComunal, null=True)
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = models.BooleanField(default=False)

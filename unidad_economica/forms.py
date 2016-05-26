@@ -49,8 +49,8 @@ class UnidadEconomicaForm(DirectorioForm):
         max_length=30,
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '50', 'disabled': 'disabled'
+                'class': 'form-control', 'data-toggle': 'tooltip',
+                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '50', 'readonly': 'readonly'
             }
         )
     )
@@ -63,13 +63,19 @@ class UnidadEconomicaForm(DirectorioForm):
                 'class': 'form-control input-sm', 'readonly': 'readonly',
                 'title': _("Razón Social"), 'size': '50',
             }
-        ), required=False
+        )
     )
 
     ## Actividad económica principal
     actividad = ChoiceField(
         label=_("Actividad Económica Principal"),
-        choices=[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()]
+        choices=[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+        widget=Select(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Seleccione la Actividad Económica Principal que realiza")
+            }
+        )
     )
 
     ## Número de Plantas Productivas de la Unidad Económica
@@ -97,7 +103,13 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Servicios que presta la Unidad Económica
     servicio = ChoiceField(
         label=_("¿Presta algún servicio?"),
-        choices=SELECCION
+        choices=SELECCION,
+        widget=Select(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Presta algún servicio?")
+            }
+        )
     )
 
     ## Organización comunal
@@ -105,6 +117,8 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("¿Es una organización comunal?"),
         choices=SELECCION,
         widget=Select(attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Es una organización comunal?"),
                 'onchange': "habilitar(this.value, tipo_comunal.id), habilitar(this.value, situr.id)",
             }
         )
@@ -116,10 +130,10 @@ class UnidadEconomicaForm(DirectorioForm):
         choices=[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
         widget=Select(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el tipo de Organizacón Comunal"), 'disabled': 'disabled'
             }
-        )
+        ), required=False
     )
 
     ## Código SITUR
@@ -127,10 +141,10 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("Código SITUR:"),
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Código SITUR de la organización comunal"), 'size': '40', 'disabled': 'disabled'
             }
-        )
+        ), required=False
     )
 
     ## Casa Matriz de alguna Franquicia
@@ -138,6 +152,8 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("¿Es la casa matríz de una Franquicia?"),
         choices=SELECCION,
         widget=Select(attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Es la casa matríz de una Franquicia?"),
                 'onchange': "habilitar(this.value, nro_franquicia.id)",
             }
         )
@@ -148,10 +164,10 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("Número de Franquicias:"),
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Número de Franquicias de la Unidad Económica"), 'size': '1', 'disabled': 'disabled' 
             }
-        )
+        ), required=False
     )
 
     ## Franquiciado
@@ -159,6 +175,8 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("¿Forma parte de una Franquicia?"),
         choices=SELECCION,
         widget=Select(attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Forma parte de una Franquicia?"),
                 'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id), habilitar(this.value, rif_franquicia_0.id), habilitar(this.value, rif_franquicia_1.id, habilitar(this.value, rif_franquicia_2.id))",
             }
         )
@@ -170,10 +188,10 @@ class UnidadEconomicaForm(DirectorioForm):
         choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()],
         widget=Select(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el país de origen de la franquicia"), 'disabled': 'disabled'
             }
-        )
+        ), required=False
     )
 
     ## Nombre de la Franquicia
@@ -181,11 +199,11 @@ class UnidadEconomicaForm(DirectorioForm):
         label=_("Nombre de la Franquicia"),
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Nombre de la franquicia"), 'size': '40', 'disabled': 'disabled'
             }
-        )
+        ), required=False
     )
 
     ## RIF Franquicia
-    rif_franquicia = RifField(disabled=True)
+    rif_franquicia = RifField(disabled=True, required=False)

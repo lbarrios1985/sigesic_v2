@@ -12,14 +12,14 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 # @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 from django import forms
 from django.utils.encoding import python_2_unicode_compatible
-from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaActividadForm
+from unidad_economica.sub_unidad_economica.forms import SubUnidadEconomicaActividadForm, SubUnidadEconomicaActividadTableForm
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
 @python_2_unicode_compatible
-class PlantasProductivasForm(SubUnidadEconomicaActividadForm):
+class PlantasProductivasForm(SubUnidadEconomicaActividadForm,SubUnidadEconomicaActividadTableForm):
     """!
     Clase que muestra el formulario de ingreso de plantas productivas (extiende de las actividades de la Sub Unidad)
 

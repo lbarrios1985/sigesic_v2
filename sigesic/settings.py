@@ -126,7 +126,7 @@ SEDES_ADMINISTRATIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sede_
 PLANTAS_PRODUCTIVAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/plantas_productivas/templates")
 
 ## Directorio en donde se encuentran las plantillas del módulo de Unidades Comercializadoras
-UNIDADES_COMERCIALIZADORAS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/unidades_comercializadoras/templates")
+SUCURSAL_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sucursal/templates")
 
 TEMPLATES = [
     {
@@ -134,7 +134,7 @@ TEMPLATES = [
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
             INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, PLANTAS_PRODUCTIVAS_TEMPLATES,
-            UNIDADES_COMERCIALIZADORAS_TEMPLATES, SEDES_ADMINISTRATIVAS_TEMPLATES
+            SUCURSAL_TEMPLATES, SEDES_ADMINISTRATIVAS_TEMPLATES
         ],
         'APP_DIRS': True,
         'OPTIONS': {
