@@ -275,18 +275,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.coordenada.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.coordenada.auto_id }}">
                                 {{ form.coordenada.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">{{ form.coordenada }}</div>
-                          </div>
+                            </div>
+                            {% if form.coordenada.errors %}
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i> {{ form.coordenada.errors.as_text|cut:'* ' }}
+                                    </span>
+                                </p>
+                            {% endif %}
                       </div>
                   </div>
-                </div>
+                </div>-->
 
                 
 
@@ -311,9 +318,25 @@
                     {% endif %}
                 </div>
 
+                <!--<div class="form-group {% if form.actividad.errors %}has-error{% endif %}">
+                    <label class="col-md-3 control-label" for="{{ form.actividad.auto_id }}">
+                        Actividad Económica Secundaria
+                    </label>
+                    <div class="col-md-9">
+                        {{ form.actividad }}
+                    </div>
+                    {% if form.actividad.errors %}
+                        <p class="bg-warning">
+                            <span class="help-block msg-error">
+                                <i class="fa fa-times-circle-o"></i> {{ form.actividad.errors.as_text|cut:'* ' }}
+                            </span>
+                        </p>
+                    {% endif %}
+                </div>-->
+
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.orga_comunal.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.orga_comunal.auto_id }}">
                                 {{ form.orga_comunal.label }}
                             </label>
@@ -321,11 +344,18 @@
                                 <div class="form-inline">
                                     {{ form.orga_comunal }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
+                                {% if form.orga_comunal.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.orga_comunal.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.tipo_comunal.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_comunal.auto_id }}">
                                 {{ form.tipo_comunal.label }}
                             </label>
@@ -333,13 +363,20 @@
                                 <div class="form-inline">
                                     {{ form.tipo_comunal }}
                                 </div>
+                                {% if form.tipo_comunal.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_comunal.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.situr.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.situr.auto_id }}">
                                 {{ form.situr.label }}
                             </label>
@@ -347,6 +384,13 @@
                                 <div class="form-inline">
                                     {{ form.situr }}
                                 </div>
+                                {% if form.situr.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.situr.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -354,7 +398,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.franquiciado.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.franquiciado.auto_id }}">
                                 {{ form.franquiciado.label }}
                             </label>
@@ -362,11 +406,18 @@
                                 <div class="form-inline">
                                     {{ form.franquiciado }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
+                                {% if form.franquiciado.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.franquiciado.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.pais_franquicia.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.pais_franquicia.auto_id }}">
                                 {{ form.pais_franquicia.label }}
                             </label>
@@ -374,6 +425,13 @@
                                 <div class="form-inline">
                                     {{ form.pais_franquicia }}
                                 </div>
+                                {% if form.pais_franquicia.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.pais_franquicia.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -394,12 +452,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_franquicia.auto_id }}">
-                                {{ form.rif_franquicia.label }}
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_casa_matriz.auto_id }}">
+                                {{ form.rif_casa_matriz.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.rif_franquicia }}
+                                    {{ form.rif_casa_matriz }}
                                 </div>
                             </div>
                         </div>
@@ -432,63 +490,6 @@
                         </div>
                     </div>
                 </div>
-            
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group {% if form.nro_planta.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_planta.auto_id }}">
-                                {{ form.nro_planta.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.nro_planta }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.nro_planta.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nro_planta.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group {% if form.nro_unid_comercializadora.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_unid_comercializadora.auto_id }}">
-                                {{ form.nro_unid_comercializadora.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.nro_unid_comercializadora }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.nro_unid_comercializadora.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nro_unid_comercializadora.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.servicio.auto_id }}">
-                                {{ form.servicio.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.servicio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
             <div class="box-footer text-right">
                 <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>

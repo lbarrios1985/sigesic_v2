@@ -19,7 +19,7 @@ from django.views.generic import CreateView, UpdateView
 
 from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
-from base.models import Estado, Municipio, Parroquia
+from base.models import Estado, Municipio, Parroquia, TipoComunal
 
 from unidad_economica.directorio.models import Directorio
 
@@ -47,6 +47,15 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     success_message = CREATE_MESSAGE
 
     def get_initial(self):
+        """!
+        Método usado para extraer los datos del usuario logeado en el sistema
+    
+        @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna los datos del rif
+        """
         rif = self.request.user
         datos_iniciales = super(UnidadEconomicaCreate, self).get_initial()
         datos_iniciales['rif'] = self.request.user.username
@@ -60,7 +69,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         """!
-        Método que valida si el formulario es valido, en cuyo caso se procede a registrar los datos de la unidad económica
+        Método que verifica si el formulario es válido, en cuyo caso se procede a registrar los datos de la unidad económica
         
         @author Eveli Ramírez (eramirez at cenditel.gob.ve)
         @copyright GNU/GPLv2
@@ -72,12 +81,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         print("Valido..")
         print(self.request.POST)
 
-        ## Obtiene los datos seleccionados en Estado
-        estado = Estado.objects.get(pk=self.request.POST['estado'])
-        
-        ## Obtiene los datos seleccionados en Municipio
-        municipio = Municipio.objects.get(pk=self.request.POST['municipio'])
-        
         ## Obtiene los datos seleccionados en Parroquia
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
 
@@ -102,18 +105,17 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.nombre_ue = form.cleaned_data['nombre_ue']
         self.object.razon_social = form.cleaned_data['razon_social']
         self.object.actividad = form.cleaned_data['actividad']
-        self.object.nro_planta = form.cleaned_data['nro_planta']
-        self.object.nro_unid_comercializadora = form.cleaned_data['nro_unid_comercializadora']
-        self.object.servicio = form.cleaned_data['servicio']
         self.object.orga_comunal = form.cleaned_data['orga_comunal']
-        self.object.tipo_comunal = form.cleaned_data['tipo_comunal']
+        if self.request.POST['tipo_comunal']:
+            tipo_comunal = TipoComunal.objects.get(pk=self.request.POST['tipo_comunal'])
+            self.object.tipo_comunal = tipo_comunal
         self.object.situr = form.cleaned_data['situr']
         self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
         self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
         self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
 
-        """## Almacena en el modelo de relación de dirección y unidad económica
+        ## Almacena en el modelo de relación de dirección y unidad económica
         direccion = UnidadEconomicaDirectorio()
         direccion.unidad_economica = self.object
         direccion.directorio = directorio
@@ -123,9 +125,9 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         franquicia = Franquicia()
         franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
         franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
-        franquicia.rif_franquicia = form.cleaned_data['rif_franquicia']
+        franquicia.rif_casa_matriz = form.cleaned_data['rif_casa_matriz']
         franquicia.unidad_economica_rif = self.object
-        franquicia.save()"""
+        franquicia.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
 

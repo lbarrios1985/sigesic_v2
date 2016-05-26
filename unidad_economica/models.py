@@ -53,15 +53,6 @@ class UnidadEconomica(models.Model):
     ## Número de contrato social
     snc = models.CharField(max_length=10)
 
-    ## Número de Plantas Productivas de la Unidad Económica
-    nro_planta = models.IntegerField(null=True)
-
-    ## Número de Unidades Comercializadoras
-    nro_unid_comercializadora = models.IntegerField(null=True)
-
-    ## Servicios que presta la Unidad Económica
-    servicio = models.BooleanField(default=False)
-
     ## Organización comunal
     orga_comunal = models.BooleanField(default=False)
 
@@ -73,13 +64,13 @@ class UnidadEconomica(models.Model):
 
     ## Número de Franquicias asociadas a la Unidad Económica
     nro_franquicia = models.IntegerField(
-        null=True, 
+        default=0, 
         validators=[
             validators.RegexValidator(
                 r'^[\d]+$',
                 _("Valor inválido. Solo se permiten números")
             ),
-        ],
+        ]
     )
   
     ## Forma parte de una franquicia
@@ -124,6 +115,7 @@ class ActividadCiiu(models.Model):
     ## Establece la relación con el código CIUU
     ciiu = models.ForeignKey(Ciiu)
 
+    ## Actividad principal de la Unidad Económica
     principal = models.BooleanField(default=True)
 
     ## Establece la relación con la Unidad Económica
