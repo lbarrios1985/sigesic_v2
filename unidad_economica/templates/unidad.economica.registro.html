@@ -307,7 +307,9 @@
                         {{ form.actividad.label }}
                     </label>
                     <div class="col-md-9">
-                        {{ form.actividad }}<i class="ion ion-ios-medical item-requerido"></i>
+                        {{ form.actividad }}
+                        <!--<a id="#dtable" onclick="add_field_datatable(['#id_actividad', 'id_'],'#mydtable');">
+                        <i class="glyphicon glyphicon-plus"></i></a> --><i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                     {% if form.actividad.errors %}
                         <p class="bg-warning">
@@ -317,18 +319,38 @@
                         </p>
                     {% endif %}
                 </div>
+                <!--
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <h5>{% trans 'Actividad(es) Secundaria(s)' %}</h5>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">        
+                        <table class="table table-striped table-hover display dataTable" id="mydtable">
+                            <thead>
+                                <tr>
+                                    <td>Código CIIU</td>
+                                    <td>Actividad</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                -->
 
-                <!--<div class="form-group {% if form.actividad.errors %}has-error{% endif %}">
-                    <label class="col-md-3 control-label" for="{{ form.actividad.auto_id }}">
+                <!--<div class="form-group {% if form.actividad2.errors %}has-error{% endif %}">
+                    <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         Actividad Económica Secundaria
                     </label>
                     <div class="col-md-9">
-                        {{ form.actividad }}
+                        {{ form.actividad2 }}
                     </div>
-                    {% if form.actividad.errors %}
+                    {% if form.actividad2.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.actividad.errors.as_text|cut:'* ' }}
+                                <i class="fa fa-times-circle-o"></i> {{ form.actividad2.errors.as_text|cut:'* ' }}
                             </span>
                         </p>
                     {% endif %}
@@ -439,7 +461,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.nombre_franquicia.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
                                 {{ form.nombre_franquicia.label }}
                             </label>
@@ -447,11 +469,18 @@
                                 <div class="form-inline">
                                     {{ form.nombre_franquicia }}
                                 </div>
+                                {% if form.nombre_franquicia.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.rif_casa_matriz.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_casa_matriz.auto_id }}">
                                 {{ form.rif_casa_matriz.label }}
                             </label>
@@ -459,6 +488,13 @@
                                 <div class="form-inline">
                                     {{ form.rif_casa_matriz }}
                                 </div>
+                                {% if form.rif_casa_matriz.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.rif_casa_matriz.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -466,7 +502,7 @@
             
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.casa_matriz.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.casa_matriz_franquicia.auto_id }}">
                                 {{ form.casa_matriz_franquicia.label }}
                             </label>
@@ -474,11 +510,18 @@
                                 <div class="form-inline">
                                     {{ form.casa_matriz_franquicia }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
+                                {% if form.casa_matriz.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.casa_matriz.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.nro_franquicia.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_franquicia.auto_id }}">
                                 {{ form.nro_franquicia.label }}
                             </label>
@@ -486,6 +529,13 @@
                                 <div class="form-inline">
                                     {{ form.nro_franquicia }}
                                 </div>
+                                {% if form.nro_franquicia.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nro_franquicia.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

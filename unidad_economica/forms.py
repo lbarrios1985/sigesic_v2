@@ -13,8 +13,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django import forms
 from django.forms import (
-    ModelForm, ChoiceField, IntegerField, TextInput, CharField, Select)
-from django.contrib.auth.models import User
+    CharField, ChoiceField, IntegerField, Select, TextInput)
+from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import (
@@ -22,10 +22,10 @@ from base.constant import (
     PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
 )
 from base.fields import RifField
-from base.models import Pais, TipoComunal, Ciiu
+from base.models import Ciiu, Pais, TipoComunal
 from base.widgets import RifWidgetReadOnly
-from .directorio.forms import DirectorioForm
 
+from .directorio.forms import DirectorioForm
 from .models import UnidadEconomica
 
 __licence__ = "GNU Public License v2"
@@ -81,6 +81,18 @@ class UnidadEconomicaForm(DirectorioForm):
         )
     )
 
+    ## Actividad económica secundaria
+    """actividad2 = ChoiceField(
+        label=_("Actividad Económica Principal"),
+        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+        widget=Select(
+            attrs={
+                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
+            }
+        ), required=False
+    )"""
+
     ## Organización comunal
     orga_comunal = ChoiceField(
         label=_("¿Es una organización comunal?"),
@@ -129,13 +141,13 @@ class UnidadEconomicaForm(DirectorioForm):
     )
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicia = IntegerField(
+    nro_franquicia = CharField(
         label=_("Número de Franquicias:"),
         initial=0,
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '1', 'disabled': 'disabled' 
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000', 'disabled': 'disabled' 
             }
         ), required=False
     )

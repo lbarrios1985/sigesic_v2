@@ -63,7 +63,8 @@ class UnidadEconomica(models.Model):
     casa_matriz_franquicia = models.BooleanField(default=False)
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicia = models.IntegerField(
+    nro_franquicia = models.CharField(
+        max_length=4,
         default=0, 
         validators=[
             validators.RegexValidator(
