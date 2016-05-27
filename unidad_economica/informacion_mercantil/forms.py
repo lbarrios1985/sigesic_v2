@@ -51,19 +51,11 @@ class InformacionMercantilForms(ModelForm):
                 'onchange': "habilitar1(this.value, 'id_naturaleza_juridica_otros')"
             })
     )
-    ## Campo para agregar la naturaleza jurídica del usuario
-    naturaleza_juridica_otros = CharField(
-        label=_("Otros: "),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
-            }), required=False
-    )
 
     ## Establece el tipo de capital solicitado: capital suscrito
     capital_suscrito = CharField(
         label=_("Capital Social Suscrito: "),
-        widget=TextInput(
+        widget=NumberInput(
             attrs={
                 'class': 'form-control input-sm',
                 'data-toggle': 'tooltip', 'size': '28',
@@ -88,7 +80,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Público Nacional: "),
         widget=TextInput(attrs={
             'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            }), required=False
+            })
 
     )
 
@@ -98,7 +90,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            }), required=False
+            })
     )
 
     ## Tipo de capital solicitado: capital privado nacional
@@ -107,7 +99,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-                }),required=False
+                })
     )
 
     ## Tipo de capital solicitado: capital privado
@@ -116,7 +108,7 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-            }), required=False
+            })
     )
 
     ## Rif del accionista
@@ -230,5 +222,5 @@ class InformacionMercantilForms(ModelForm):
         fields = [
             'rif_accionista', 'nombre_representante', 'apellido_representante', 'telefono', 'correo_electronico'
             ]
-        exclude = ['naturaleza_juridica_otros']
+        #exclude = ['naturaleza_juridica_otros']
 

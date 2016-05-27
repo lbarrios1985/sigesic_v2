@@ -75,7 +75,6 @@ class MercantilCreate(CreateView):
         self.object = form.save(commit=False)
         #self.object.rif_ue = form.cleaned_data['rif_ue']
         self.object.naturaleza_juridica = form.cleaned_data['naturaleza_juridica']
-        self.object.naturaleza_juridica_otros = form.cleaned_data['naturaleza_juridica_otros']
         self.object.capital_suscrito = form.cleaned_data['capital_suscrito']
         self.object.capital_pagado = form.cleaned_data['capital_pagado']
         self.object.publico_nacional = form.cleaned_data['publico_nacional']
@@ -85,14 +84,14 @@ class MercantilCreate(CreateView):
         self.object.save()
 
         Accionista.objects.create(
-            #rif_ue=form.cleaned_data['rif_ue'],
+            rif_ue=form.cleaned_data['rif_ue'],
             rif_accionista=form.cleaned_data['rif_accionista'],
             nombre=form.cleaned_data['nombre'],
             porcentaje=form.cleaned_data['porcentaje'],
         )
 
         RepresentanteLegal.objects.create(
-            #rif_ue=form.cleaned_data['rif_ue'],
+            rif_ue=form.cleaned_data['rif_ue'],
             cedula_representante=form.cleaned_data['cedula_representante'],
             nombre_representante=form.cleaned_data['nombre_representante'],
             apellido_representante=form.cleaned_data['apellido_representante'],

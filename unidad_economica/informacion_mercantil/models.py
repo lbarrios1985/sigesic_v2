@@ -37,34 +37,22 @@ class Capital(models.Model):
     rif_ue = models.ForeignKey(UnidadEconomica)
 
     ##Establece el capital solicitado: capital suscrito
-    capital_suscrito = models.FloatField(
-        max_length=2,
-    )
+    capital_suscrito = models.FloatField()
 
     ## Establece el tipo de capital solicitado: capital pagado
-    capital_pagado = models.FloatField(
-        max_length=2
-    )
+    capital_pagado = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: público nacional
-    publico_nacional = models.FloatField(
-        max_length=2
-    )
+    publico_nacional = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: público extranjero
-    publico_extranjero = models.FloatField(
-        max_length=2,
-    )
+    publico_extranjero = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: privado nacional
-    privado_nacional = models.FloatField(
-        max_length=2
-    )
+    privado_nacional = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: provado extranjero
-    privado_extranjero = models.FloatField(
-        max_length=2
-    )
+    privado_extranjero = models.FloatField()
 
 @python_2_unicode_compatible
 class Accionista(models.Model):

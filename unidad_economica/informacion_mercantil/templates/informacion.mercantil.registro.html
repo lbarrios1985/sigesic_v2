@@ -2,7 +2,8 @@
 {% load static from staticfiles %}
 {% load i18n %}
 {% block contenido %}
-    <h4 class="titulo" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
+    <h4 class="titulo" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+        xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
     <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
             <div class="box box-primary box-registro" style="padding:20px">
@@ -34,20 +35,6 @@
                             </div>
                         </div>
                         </br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica_otros.auto_id }}">
-                                    {{ form.naturaleza_juridica_otros.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.naturaleza_juridica_otros }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         </br>
                         <div class="row">
                             <div class="col-md-6">
@@ -72,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group {% if form_pagado.errors %}has-error{% endif %}">
+                                <div class="form-group {% if form_capital_pagado.errors %} has-error{% endif %}">
                                     <div class="form-inline ">
                                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.capital_pagado.auto_id }}">
                                         {{ form.capital_pagado.label }}
@@ -97,20 +84,30 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5 class="col-md-9 col-xs-9 col-sm-9 titulo">{% trans "Distribución Porcentual del capital suscrito" %} </h5>
+                                <i class="ion ion-ios-medical item-requerido"></i>
                             </div>
                         </div>
+                        </br>
                         <div class="row">
                             <div class="form-inline col-md-12">
-                                <label class="col-md-2">{{form.publico_nacional.label}} </label>
-                                    <div class="col-md-1"> {{ form.publico_nacional }}</div>
-                                <label class="col-md-2"> {{form.publico_extranjero.label}}</label>
-                                    <div class="col-md-1">{{form.publico_extranjero}}</div>
-                                <label class="col-md-2">{{form.privado_nacional.label}}</label>
-                                    <div class="col-md-1">{{form.privado_nacional}}</div>
-                                <label class="col-md-2">{{form.privado_extranjero.label}}</label>
-                                    <div class="col-md-1"> {{form.privado_extranjero}}</div>
-                            </div>
+	                                <label class="col-md-2">{{form.publico_nacional.label}} </label>
+	                                    <div class="col-md-1"> {{ form.publico_nacional }}</div>
+	                                <label class="col-md-2"> {{form.publico_extranjero.label}}</label>
+	                                    <div class="col-md-1">{{form.publico_extranjero}}</div>
+	                                <label class="col-md-2">{{form.privado_nacional.label}}</label>
+	                                    <div class="col-md-1">{{form.privado_nacional}}</div>
+	                                <label class="col-md-2">{{form.privado_extranjero.label}}</label>
+	                                    <div class="col-md-1"> {{form.privado_extranjero}}</div>
+	                            </div>
+                                {% if form.publico_nacional.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i> {{ form.capital_pagado.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
                         </div>
+                        </br>
                         <h4 class="titulo">{% trans "Composición Accionaria" %} </h4>
                         <hr/>
                         <div class="row">
@@ -192,9 +189,7 @@
                             </div>
                         </div>
                         </br>
-                        <div class=" text-center">
-                            <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
-                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Guardar</button>
+                        <div class=" text-right">
                             <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Agregar otro</button>
                         </div>
                         </br>
