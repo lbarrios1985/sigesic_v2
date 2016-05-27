@@ -11,9 +11,10 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
+from django import forms
 from django.forms import (
-    ModelForm, ChoiceField, IntegerField, TextInput, CharField, Select)
-from django.contrib.auth.models import User
+    CharField, ChoiceField, IntegerField, Select, TextInput)
+from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import (
@@ -21,9 +22,11 @@ from base.constant import (
     PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
 )
 from base.fields import RifField
-from base.models import Pais, TipoComunal, Ciiu
+from base.models import Ciiu, Pais, TipoComunal
 from base.widgets import RifWidgetReadOnly
+
 from .directorio.forms import DirectorioForm
+from .models import UnidadEconomica
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -69,7 +72,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Actividad económica principal
     actividad = ChoiceField(
         label=_("Actividad Económica Principal"),
-        choices=[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
@@ -78,39 +81,17 @@ class UnidadEconomicaForm(DirectorioForm):
         )
     )
 
-    ## Número de Plantas Productivas de la Unidad Económica
-    nro_planta = CharField(
-        label=_("Número de Plantas Productivas:"),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Número de Plantas Productivas de la Unidad Económica"), 'size': '1', 'maxlength': '2'
-            }
-        )
-    )
-
-    ## Número de Unidades Comercializadoras 
-    nro_unid_comercializadora = CharField(
-        label=_("Número de Unidades Comercializadoras:"),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Número de Unidades Comercializadoras de la Unidad Económica"), 'size': '1'
-            }
-        )
-    )
-
-    ## Servicios que presta la Unidad Económica
-    servicio = ChoiceField(
-        label=_("¿Presta algún servicio?"),
-        choices=SELECCION,
+    ## Actividad económica secundaria
+    """actividad2 = ChoiceField(
+        label=_("Actividad Económica Principal"),
+        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("¿Presta algún servicio?")
+                'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
             }
-        )
-    )
+        ), required=False
+    )"""
 
     ## Organización comunal
     orga_comunal = ChoiceField(
@@ -127,10 +108,10 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Tipo de organización comunal
     tipo_comunal = ChoiceField(
         label=_("Tipo de Organizacón Comunal: "),
-        choices=[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
+        choices=[('', 'Seleccione...')]+[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
         widget=Select(
             attrs={
-                'class': 'form-control', 'data-toggle': 'tooltip',
+                'class': 'form-control select2', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el tipo de Organizacón Comunal"), 'disabled': 'disabled'
             }
         ), required=False
@@ -162,10 +143,11 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Número de Franquicias asociadas a la Unidad Económica
     nro_franquicia = CharField(
         label=_("Número de Franquicias:"),
+        initial=0,
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '1', 'disabled': 'disabled' 
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000', 'disabled': 'disabled' 
             }
         ), required=False
     )
@@ -177,7 +159,7 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=Select(attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("¿Forma parte de una Franquicia?"),
-                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id), habilitar(this.value, rif_franquicia_0.id), habilitar(this.value, rif_franquicia_1.id, habilitar(this.value, rif_franquicia_2.id))",
+                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id), habilitar(this.value, rif_casa_matriz_0.id), habilitar(this.value, rif_casa_matriz_1.id, habilitar(this.value, rif_casa_matriz_2.id))",
             }
         )
     )
@@ -185,7 +167,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## País de la Franquicia
     pais_franquicia = ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()],
+        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
@@ -206,4 +188,27 @@ class UnidadEconomicaForm(DirectorioForm):
     )
 
     ## RIF Franquicia
-    rif_franquicia = RifField(disabled=True, required=False)
+    rif_casa_matriz = RifField(disabled=True, required=False)
+
+    def clean_nro_franquicia(self):
+        nro_franquicia = self.cleaned_data.get('nro_franquicia')
+        if nro_franquicia is None:
+            return 0
+            # above can be: return 1
+            # but now it takes value from model definition
+        else:
+            return nro_franquicia
+
+    def clean_tipo_comunal(self):
+        tipo_comunal = self.cleaned_data['tipo_comunal']
+        orga_comunal = self.cleaned_data['orga_comunal']
+
+        if orga_comunal == 'S' and not tipo_comunal:
+            raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
+
+    class Meta(object):
+        """docstring for Meta"""
+        model = UnidadEconomica
+        fields = ['rif', 'razon_social', 'nombre_ue']
+            
+
