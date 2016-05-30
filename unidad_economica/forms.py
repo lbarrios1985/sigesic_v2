@@ -81,8 +81,10 @@ class UnidadEconomicaForm(DirectorioForm):
         )
     )
 
+    nombre_actividad = Ciiu.objects.only("descripcion")
+
     ## Actividad económica secundaria
-    """actividad2 = ChoiceField(
+    actividad2 = ChoiceField(
         label=_("Actividad Económica Principal"),
         choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
@@ -91,7 +93,7 @@ class UnidadEconomicaForm(DirectorioForm):
                 'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
             }
         ), required=False
-    )"""
+    )
 
     ## Organización comunal
     orga_comunal = ChoiceField(

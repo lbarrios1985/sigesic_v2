@@ -307,9 +307,7 @@
                         {{ form.actividad.label }}
                     </label>
                     <div class="col-md-9">
-                        {{ form.actividad }}
-                        <!--<a id="#dtable" onclick="add_field_datatable(['#id_actividad', 'id_'],'#mydtable');">
-                        <i class="glyphicon glyphicon-plus"></i></a> --><i class="ion ion-ios-medical item-requerido"></i>
+                        {{ form.actividad }} <i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                     {% if form.actividad.errors %}
                         <p class="bg-warning">
@@ -319,33 +317,15 @@
                         </p>
                     {% endif %}
                 </div>
-                <!--
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                        <h5>{% trans 'Actividad(es) Secundaria(s)' %}</h5>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">        
-                        <table class="table table-striped table-hover display dataTable" id="mydtable">
-                            <thead>
-                                <tr>
-                                    <td>Código CIIU</td>
-                                    <td>Actividad</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                -->
 
-                <!--<div class="form-group {% if form.actividad2.errors %}has-error{% endif %}">
+                <div class="form-group {% if form.actividad2.errors %}has-error{% endif %}">
                     <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         Actividad Económica Secundaria
                     </label>
-                    <div class="col-md-9">
+                    <div class="col-md-9" onclick="mostrar(['#id_actividad2'],'#i');">
                         {{ form.actividad2 }}
+                        <a id="#dtable" onclick="add_field_datatable(['#id_actividad2'],'#mydtable');">
+                        <i id="i" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria" onclick="mostrar(['#id_actividad2'],'#t');"></i></a>
                     </div>
                     {% if form.actividad2.errors %}
                         <p class="bg-warning">
@@ -354,7 +334,22 @@
                             </span>
                         </p>
                     {% endif %}
-                </div>-->
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="t" class="dataTable-wrapper hidden">
+                            <div class="titulo text-center">{% trans 'Actividad(es) Económica(s) Secundaria(s)' %}<div>       
+                            <table class="table table-striped table-bordered table-hover dataTable" id="mydtable">
+                                <thead>
+                                    <tr>
+                                        <th>Código CIIU</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-6">

@@ -81,9 +81,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         print("Valido..")
         print(self.request.POST)
 
-        ## Se crea un diccionario de la data recibida por POST
-        #dictionary = dict(self.request.POST.lists())
-
         ## Obtiene los datos seleccionados en Parroquia
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
 
@@ -117,9 +114,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
 
-        ## Se llama a la función que creará las actividades economicas
-        #self.modificar_diccionario(dictionary,self.object)
-
         ## Almacena en el modelo de relación de dirección y unidad económica
         direccion = UnidadEconomicaDirectorio()
         direccion.unidad_economica = self.object
@@ -134,27 +128,27 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         franquicia.unidad_economica_rif = self.object
         franquicia.save()
 
-        """def modificar_diccionario(self, dictionary, model):
-           
-            Método que extrae los datos de la tabla de actividades económicas en un diccionario y las guarda en el modelo respectivo
-        
-            @author Rodrigo Boet (rboet at cenditel.gob.ve)
-            @copyright GNU/GPLv2
-            @date 09-05-2016
-            @param self <b>{object}</b> Objeto que instancia la clase
-            @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
-            @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
-            @return Retorna el formulario validado
-            
-            for i in range(0,len(dictionary['actividad'])):
-                ## Obtiene los datos seleccionados en Ciiu
-                ciiu = Ciiu.objects.get(pk=self.request.POST['actividad'])
+        ## Obtiene los datos seleccionados en Ciiu
+        ciiu = Ciiu.objects.get(pk=self.request.POST['actividad'])
 
-                ## Almacena en la tabla ActividadCiiu
-                actividad_ciiu = ActividadCiiu()
-                actividad_ciiu.ciiu = ciiu
-                actividad_ciiu.unidad_economica_rif = self.object
-                actividad_ciiu.save()"""
+        ## Almacena en la tabla ActividadCiiu
+        actividad_ciiu = ActividadCiiu()
+        actividad_ciiu.ciiu = ciiu
+        actividad_ciiu.unidad_economica_rif = self.object
+        actividad_ciiu.save()
+
+        lista = dict(self.request.POST.lists())
+        print(lista)
+        for i in lista['actividad2_tb']:
+            print("...", i)
+            ## Obtiene los datos seleccionados en Ciiu
+            ciiu = Ciiu.objects.get(pk=i)
+
+            ## Almacena en la tabla ActividadCiiu
+            actividad_ciiu = ActividadCiiu()
+            actividad_ciiu.ciiu = ciiu
+            actividad_ciiu.unidad_economica_rif = self.object
+            actividad_ciiu.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
