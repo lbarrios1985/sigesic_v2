@@ -19,20 +19,16 @@ from base.classes import Seniat
 from unidad_economica.informacion_mercantil.forms import InformacionMercantilForms
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from unidad_economica.informacion_mercantil.models import Capital, Accionista, RepresentanteLegal
-from base.constant import (
-    CREATE_MESSAGE, CADUCIDAD_LINK_REGISTRO, REGISTRO_MESSAGE, EMAIL_SUBJECT_REGISTRO, UPDATE_MESSAGE
-)
+from base.constant import CREATE_MESSAGE
+from unidad_economica.models import UnidadEconomica
 
 
-@login_required
-def siguiente(request):
-    return render_to_response('sedes-admin.registrar.html', {}, context_instance=RequestContext(request))
 
-
-class MercantilCreate(CreateView):
+class MercantilCreate(SuccessMessageMixin, CreateView):
     """!
     Clase que gestiona los procesos mercantiles
 
@@ -42,7 +38,7 @@ class MercantilCreate(CreateView):
     @version 2.0.0
     """
 
-    model = Capital
+    model = UnidadEconomica
     form_class = InformacionMercantilForms
     template_name = 'informacion.mercantil.registro.html'
     success_url = reverse_lazy('sede_administrativa')
@@ -50,14 +46,15 @@ class MercantilCreate(CreateView):
 
     def get_initial(self):
         rif = self.request.user
-        datos = super(MercantilCreate, self).get_initial()
-        datos['rif_accionista'] = self.request.user.username
+        #print(rif)
+        datos_iniciales = super(MercantilCreate, self).get_initial()
+        datos_iniciales['rif_accionista'] = self.request.user.username
 
         datos_rif = Seniat()
         seniat = datos_rif.buscar_rif(rif)
-        datos['nombre'] = datos_rif.nombre
+        datos_iniciales['nombre'] = datos_rif.nombre
 
-        return datos
+        return datos_iniciales
 
     def form_valid(self, form):
         """!
@@ -70,36 +67,42 @@ class MercantilCreate(CreateView):
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado
         """
-        print("Es válido")
+        unidad_economica = UnidadEconomica.objects.get(rif=self.request.user)
 
         self.object = form.save(commit=False)
-        #self.object.rif_ue = form.cleaned_data['rif_ue']
-        self.object.naturaleza_juridica = form.cleaned_data['naturaleza_juridica']
-        self.object.capital_suscrito = form.cleaned_data['capital_suscrito']
-        self.object.capital_pagado = form.cleaned_data['capital_pagado']
-        self.object.publico_nacional = form.cleaned_data['publico_nacional']
-        self.object.publico_extranjero = form.cleaned_data['publico_extranjero']
-        self.object.privado_nacional = form.cleaned_data['privado_nacional']
-        self.object.privado_extranjero = form.cleaned_data['privado_extranjero']
+        self.object.rif_ue = unidad_economica
+        #self.object.naturaleza_juridica = form.cleaned_data['naturaleza_juridica']
         self.object.save()
 
-        Accionista.objects.create(
-            rif_ue=form.cleaned_data['rif_ue'],
-            rif_accionista=form.cleaned_data['rif_accionista'],
-            nombre=form.cleaned_data['nombre'],
-            porcentaje=form.cleaned_data['porcentaje'],
+        Capital.objects.create(
+            rif_ue=unidad_economica,
+            #naturaleza_juridica = form.cleaned_data['naturaleza_juridica'],
+            capital_suscrito=form.cleaned_data['capital_suscrito'],
+            capital_pagado=form.cleaned_data['capital_pagado'],
+            publico_nacional=form.cleaned_data['publico_nacional'],
+            publico_extranjero=form.cleaned_data['publico_extranjero'],
+            privado_nacional=form.cleaned_data['privado_nacional'],
+            privado_extranjero=form.cleaned_data['privado_extranjero']
         )
 
+        Accionista.objects.create(
+            rif_ue=unidad_economica,
+            rif_accionista=form.cleaned_data['rif_accionista'],
+            nombre=form.cleaned_data['nombre'],
+            porcentaje=form.cleaned_data['porcentaje']
+        )
+
+        """
         RepresentanteLegal.objects.create(
-            rif_ue=form.cleaned_data['rif_ue'],
+            rif_ue=unidad_economica,
             cedula_representante=form.cleaned_data['cedula_representante'],
             nombre_representante=form.cleaned_data['nombre_representante'],
             apellido_representante=form.cleaned_data['apellido_representante'],
             correo_electronico=form.cleaned_data['correo_electronico'],
             telefono=form.cleaned_data['telefono'],
-            cargo=form.cleaned_data['cargo'],
-
+            cargo=form.cleaned_data['cargo']
         )
+        """
 
         return super(MercantilCreate, self).form_valid(form)
 
@@ -107,3 +110,4 @@ class MercantilCreate(CreateView):
         print("Es inválido")
         print(form)
         return super(MercantilCreate, self).form_invalid(form)
+

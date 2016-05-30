@@ -36,6 +36,8 @@ class Capital(models.Model):
     ## Establece el rif de la unidad economica
     rif_ue = models.ForeignKey(UnidadEconomica)
 
+    #naturaleza_juridica = models.CharField(max_length=45)
+
     ##Establece el capital solicitado: capital suscrito
     capital_suscrito = models.FloatField()
 
@@ -100,10 +102,10 @@ class RepresentanteLegal(models.Model):
 
     ## Cédula de Identidad del representante legal
     cedula_representante = models.CharField(
-        max_length=8, help_text=_("Cédula de Identidad del usuario"),
+        max_length=15, help_text=_("Cédula de Identidad del usuario"),
         validators=[
             validators.RegexValidator(
-                r'^[\d]{7,8}+$',
+                r'^[\d]{7,15}+$',
                 _("Introduzca un número de cédula válido. Solo se permiten números y una longitud de 7 u 8 carácteres.")
             ),
         ]
@@ -124,6 +126,7 @@ class RepresentanteLegal(models.Model):
         max_length=45, help_text=("correo@dssddsd.com")
     )
 
+
     ## Número telefónico del representante legal
     telefono = models.CharField(
         max_length=20, help_text=_("Número telefónico de contacto"),
@@ -136,6 +139,6 @@ class RepresentanteLegal(models.Model):
     )
 
     ## Cargo del representante legal dentro de la Unidad Económica
-    cargo = models.CharField(max_length=1)
+    cargo = models.CharField(max_length=45)
 
 
