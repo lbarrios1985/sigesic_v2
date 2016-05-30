@@ -289,9 +289,9 @@ function add_field_datatable(campos, table_id){
     $.each(campos,function(index,value){
             var text = $(value).val();
             var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
-            /*if ($(value+"option:selected'")) {
-                //code
-            }*/
+            if ($(value+" option:selected").text()) {
+                text = $(value+" option:selected").text();   
+            }
             new_data.push(text+form);
             if((text.trim()==''))
             {
@@ -317,7 +317,9 @@ function add_field_datatable(campos, table_id){
         $.each(campos,function(index,value){
             $(value).val('');
         });
-        new_data.push('<i class="glyphicon glyphicon-pencil"></i><a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>');
+        var buttons = '<a class="update_item"><i class="glyphicon glyphicon-pencil"></i></a>';
+        buttons += '<a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>';
+        new_data.push(buttons);
         t.row.add(new_data).draw(false);
     }
 }
@@ -325,12 +327,71 @@ function add_field_datatable(campos, table_id){
 /**
  * @brief Remover dinámicamente campos de una datatable con el id mydtable
  * @param table_id Es un campo con el id de la tabla en la que se eliminaran los campos
- * @param remove_id Es un campo con el id del campo que se eliminará en la tabla
  */
-function remove_field_datatable(table_id,remove_id) {
+function remove_field_datatable(table_id) {
     var t = $(table_id).DataTable();
-    $(table_id).on('click',remove_id,function(){
+    $(table_id).on('click','.remove_item',function(){
         t.row($(this).parent().closest('tr')).remove().draw( false );
+    });
+}
+
+/**
+ * @brief Actualiza dinámicamente campos de una datatable con el id mydtable
+ * @param table_id Es un campo con el id de la tabla en la que se actualizaran los campos
+ * @param url Es la url formulario que se cargar con ajax
+ * @param campos Es un array con los campos que se manipularan en el modal
+ */
+function update_field_datatable(table_id,url,campos) {
+    var mensaje = '';
+    $(table_id).on('click','.update_item',function(){
+        var tr = $(this).parent().closest('tr');
+        var t = $(table_id).DataTable();
+        $.ajax({url:url,data:tr.find('input'),type:'get',success:function(data){
+            mensaje = data;
+            var modal = bootbox.dialog({
+            title: 'Actualizar Campos',
+            message: mensaje,
+            buttons: {
+                success: {
+                    label: 'Actualizar',
+                    className: "btn btn-success btn-sm",
+                    callback: function() {
+                        var bool = true;
+                        var new_data = [];
+                        $.each(campos,function(index,value){
+                            var text = $(modal).find(value).val();
+                            var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
+                            if((text.trim()==''))
+                            {
+                                $(modal).find(value).parent().closest('.form-group').addClass('has-error');
+                                bool = false
+                            }
+                            if ($(modal).find(value +" option:selected").text()) {
+                                text = $(modal).find(value +" option:selected").text();   
+                            }
+                            new_data.push(text+form);
+                        });
+                        if (!bool) {
+                            alert("Algún campo esta incompleto");
+                            return false;
+                        }
+                        else{
+                            var buttons = '<a class="update_item"><i class="glyphicon glyphicon-pencil"></i></a>';
+                            buttons += '<a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>';
+                            new_data.push(buttons);
+                            t.row(tr).remove().draw(false);
+                            t.row.add(new_data).draw(false);
+                        }
+                    }
+                },
+                main: {
+                    label: BTN_CANCELAR,
+                    className: "btn btn-warning btn-sm"
+                }
+            },
+            });
+            modal.show();
+        }});
     });
 }
 
