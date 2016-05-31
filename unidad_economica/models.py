@@ -12,6 +12,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 04-05-2016
 # @version 2.0
 from __future__ import unicode_literals
+from django.core import validators
 from django.db import models
 
 from django.utils.encoding import python_2_unicode_compatible
@@ -52,26 +53,26 @@ class UnidadEconomica(models.Model):
     ## Número de contrato social
     snc = models.CharField(max_length=10)
 
-    ## Número de Plantas Productivas de la Unidad Económica
-    nro_planta = models.IntegerField(null=True)
-
-    ## Número de Unidades Comercializadoras
-    nro_unid_comercializadora = models.IntegerField(null=True)
-
-    ## Servicios que presta la Unidad Económica
-    servicio = models.BooleanField(default=False)
-
     ## Organización comunal
     orga_comunal = models.BooleanField(default=False)
 
     ## Establece la relación con el Tipo de Organización Comunal
-    tipo_comunal = models.ForeignKey(TipoComunal)
+    tipo_comunal = models.ForeignKey(TipoComunal, null=True)
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = models.BooleanField(default=False)
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicia = models.IntegerField(null=True)
+    nro_franquicia = models.CharField(
+        max_length=4,
+        default=0, 
+        validators=[
+            validators.RegexValidator(
+                r'^[\d]+$',
+                _("Valor inválido. Solo se permiten números")
+            ),
+        ]
+    )
   
     ## Forma parte de una franquicia
     franquiciado = models.BooleanField(default=False)
@@ -96,6 +97,9 @@ class Franquicia(models.Model):
     ## Nombre de la Franquicia 
     nombre_franquicia = models.CharField(max_length=45)
 
+    ## País de origen de la franquicia
+    pais_franquicia = models.CharField(max_length=50)
+
     ## Establece la relación con la Unidad Económica
     unidad_economica_rif = models.ForeignKey(UnidadEconomica)
 
@@ -112,6 +116,7 @@ class ActividadCiiu(models.Model):
     ## Establece la relación con el código CIUU
     ciiu = models.ForeignKey(Ciiu)
 
+    ## Actividad principal de la Unidad Económica
     principal = models.BooleanField(default=True)
 
     ## Establece la relación con la Unidad Económica

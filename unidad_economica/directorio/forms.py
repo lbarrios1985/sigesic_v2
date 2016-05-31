@@ -113,7 +113,7 @@ class DirectorioForm(ModelForm):
 
     ## Parroquia en donde se encuentra ubicada la dirección suministrada
     parroquia = ModelChoiceField(
-        label=_("Parroquia"), queryset=Municipio.objects.all(), empty_label=_("Seleccione..."),
+        label=_("Parroquia"), queryset=Parroquia.objects.all(), empty_label=_("Seleccione..."),
         widget=Select(attrs={
             'class': 'form-control select2', 'data-toggle': 'tooltip', 'disabled': 'true',
             'title': _("Seleccione la parroquia en donde se encuentra ubicada")
@@ -121,7 +121,7 @@ class DirectorioForm(ModelForm):
     )
 
     ## Coordenadas geográficas de Longitud y Latitud
-    coordenada = CoordenadaField()
+    coordenada = CoordenadaField(required=False)
     
     class Meta:
         model = Directorio

@@ -14,11 +14,15 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, CharField, Select, RadioSelect, Textarea,
+    TextInput, CharField, Select, RadioSelect, Textarea, 
     )
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
+from base.constant import TIPO_SUB_UNIDAD
+from base.fields import RifField
+from base.models import *
+from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -43,12 +47,16 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     @date 04-05-2016
     @version 2.0.0
     """
-    
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
+    rif = RifField()
+    rif.widget = RifWidgetReadOnly()
+
     ## Nombre de la sub unidad
     nombre_sub = forms.CharField(
         label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
+            'style': 'width: 250px;',
         })
     )
     
@@ -105,77 +113,70 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
+        label=_("Presta Servicio: "),
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
         }),choices = (('','Seleccione...'),(1,"Si"),(0,"No")),
     )
     
-    class Meta:
-        model = SubUnidadEconomica
-        fields = '__all__'
-        
-        
-@python_2_unicode_compatible
-class SubUnidadEconomicaActividadForm(SubUnidadEconomicaForm):
-    """!
-    Clase que muestra el formulario de ingreso de plantas productivas
-
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 16-05-2016
-    @version 2.0.0
-    """
+    ## Tipo de Sub Unidad Económica
+    tipo_sub_unidad = forms.ChoiceField(
+       label=_("Tipo de Sub-Unidad "),
+       widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'required':'required',
+        }),choices = (TIPO_SUB_UNIDAD),
+    )
     
     ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
     tipo_proceso = forms.ChoiceField(
         label=_("Tipo de Proceso Productivo"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo"), 'size': '15',
-            'required':'required',
-        }), choices = TIPO_PROCESO,
+            'class': 'form-control input-md',
+            'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo"),
+        }), choices = TIPO_PROCESO, required=False,
     )
     
     ## nombre del proceso productivo
     nombre_proceso = forms.CharField(
         label=_("Nombre del Proceso Productivo"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
-        })
+            'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50',
+        }), required=False,
     )
     
     ## descripcion del proceso productivo
     descripcion_proceso = forms.CharField(
         label=_("Descripción del Proceso Productivo"), widget=Textarea(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la descripción del proceso productivo"), 'required':'required',
-        }))
+            'data-toggle': 'tooltip','title': _("Indique la descripción del proceso productivo"),
+        }), required=False,
+    )
     
     ## estado del proceso productivo
     estado_proceso = forms.ChoiceField(
         label=_("Estado del Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el Estado de Proceso Productivo"), 'size': '15',
-            'required':'required',
-        }), choices = ESTADO_PROCESO,
+            'data-toggle': 'tooltip','title': _("Indique el estado del proceso productivo"),
+        }), choices = ESTADO_PROCESO, required=False,
     )
     
     ## Código CIIU
     codigo_ciiu =  forms.ChoiceField(
         label=_("Actividad Económica Principal"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Principal"), 'size': '15',
+            'class': 'form-control input-md',
+            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Principal"),
             'required':'required',
-        }), choices = [(1,"Primera Opcion"),(2,"Segunda Opcion")],
+        }), choices = ((1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False,
     )
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_instalada_texto = forms.DecimalField(
         label=_("Capacidad Instalada Mensual"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
+            'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number', 'step':'any',
-        }),max_digits=20,decimal_places=5,
+        }),max_digits=20,decimal_places=5,  required=False,
     )
     
     ## Capacidad instalada mensual (Unidad de Medida)
@@ -183,15 +184,104 @@ class SubUnidadEconomicaActividadForm(SubUnidadEconomicaForm):
         widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
-        }), choices = CAPACIDAD_INSTALADA_MEDIDA,
+        }), choices = CAPACIDAD_INSTALADA_MEDIDA,  required=False,
     )
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_utilizada = forms.DecimalField(
         label=_("Capacidad Utilizada Mensual"), widget=TextInput(attrs={
-            'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
+            'class': 'form-control input-md','data-rule-required': 'true',
             'style': 'min-width: 0; width: auto; display: inline;', 'data-toggle': 'tooltip',
             'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25', 'type':'number', 'step':'any',
-        }),max_digits=20,decimal_places=5,
+        }),max_digits=20,decimal_places=5, required=False,
     )
     
+        ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica (datatable)
+    tipo_proceso_tb = forms.CharField(
+        label=_("Tipo de Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),  required=False,
+    )
+    
+    ## nombre del proceso productivo (datatable)
+    nombre_proceso_tb = forms.CharField(
+        label=_("Nombre del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;','size': '30',
+        }), required=False,
+    )
+    
+    ## descripcion del proceso productivo (datatable)
+    descripcion_proceso_tb = forms.CharField(
+        label=_("Descripción del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;','size': '30',
+        }), required=False,
+    )
+    
+    ## estado del proceso productivo (datatable)
+    estado_proceso_tb = forms.CharField(
+        label=_("Estado del Proceso Productivo"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }), required=False,
+    )
+    
+    def clean_codigo_ciiu(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        codigo_ciiu = self.cleaned_data['codigo_ciiu']
+        if((tipo == 'Pl' or tipo == "Su") and (codigo_ciiu=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return codigo_ciiu
+        
+    def clean_capacidad_instalada_texto(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        capacidad_instalada_texto = self.cleaned_data['capacidad_instalada_texto']
+        if((tipo == 'Pl' or tipo == "Su") and (capacidad_instalada_texto=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return capacidad_instalada_texto
+        
+    def clean_capacidad_instalada_medida(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        capacidad_instalada_medida = self.cleaned_data['capacidad_instalada_medida']
+        if((tipo == 'Pl' or tipo == "Su") and (capacidad_instalada_medida=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return capacidad_instalada_medida
+        
+    def clean_capacidad_utilizada(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        capacidad_utilizada = self.cleaned_data['capacidad_utilizada']
+        if((tipo == 'Pl' or tipo == "Su") and (capacidad_utilizada=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return capacidad_utilizada
+    
+    def clean_tipo_proceso_tb(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        tipo_proceso_tb = self.cleaned_data['tipo_proceso_tb']
+        if((tipo == 'Pl' or tipo == "Su") and (tipo_proceso_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return tipo_proceso_tb
+    
+    def clean_nombre_proceso_tb(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        nombre_proceso_tb = self.cleaned_data['nombre_proceso_tb']
+        if((tipo == 'Pl' or tipo == "Su") and (nombre_proceso_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return nombre_proceso_tb
+    
+    def clean_descripcion_proceso_tb(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        descripcion_proceso_tb = self.cleaned_data['descripcion_proceso_tb']
+        if((tipo == 'Pl' or tipo == "Su") and (descripcion_proceso_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return descripcion_proceso_tb
+    
+    def clean_estado_proceso_tb(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        estado_proceso_tb = self.cleaned_data['estado_proceso_tb']
+        if((tipo == 'Pl' or tipo == "Su") and (estado_proceso_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return estado_proceso_tb
+    
+    
+    class Meta:
+        model = SubUnidadEconomica
+        fields = '__all__'
+        

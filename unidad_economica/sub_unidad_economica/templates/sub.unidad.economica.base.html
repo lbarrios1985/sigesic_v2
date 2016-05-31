@@ -6,11 +6,41 @@
     {% csrf_token %}
     <div class="box box-primary box-registro-general" style="padding:20px">
         <div class="box-header with-border">
-            <h3 class="box-title">{% block titulo1 %}{% endblock %}</h3>
+            <h1 class="box-title">{% trans 'Sub Unidad Económica'%}</h1>
         </div>
         <div class="box-body">
+        <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                                {{ form.rif.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.rif }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        <br>
             <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.tipo_sub_unidad.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_sub_unidad.auto_id }}">
+                            {{ form.tipo_sub_unidad.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.tipo_sub_unidad }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-10 col-sm-10 col-xs-10">
                     <div class="form-group {% if form.nombre_sub.errors %}has-error{% endif %}">
                         <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre_planta.auto_id }}">
                             {% block nombre %}{{ form.nombre_sub.label }}{% endblock %}
@@ -291,7 +321,7 @@
             </div>
            
             <div class="box-header with-border">
-                <h4 class="box-title">{% block titulo2 %}{% endblock %}</h4>
+                <h3 class="box-title">{% trans 'Actividad Física de la Sub-Unidad' %}</h3>
             </div>
             <br>
              <div class="row">
@@ -417,11 +447,192 @@
                     </div>
                 </div>
             </div>
+               
+            <div id="planta-sucursal">
+                <div class="box-header with-border">
+                    <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.tipo_proceso.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.tipo_proceso.auto_id }}">
+                                {{ form.tipo_proceso.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.tipo_proceso }}
+                                {% if form.tipo_proceso.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_proceso.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.nombre_proceso.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre_proceso.auto_id }}">
+                                {{ form.nombre_proceso.label }}
+                            </label>
+                            <div class="col-md-10 col-xs-10 col-sm-10">
+                                {{ form.nombre_proceso }}
+                                {% if form.nombre_proceso.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_proceso.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.descripcion_proceso.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.descripcion_proceso.auto_id }}">
+                                {{ form.descripcion_proceso.label }}
+                            </label>
+                            <div class="col-md-10 col-xs-10 col-sm-10">
+                                {{ form.descripcion_proceso }}
+                                {% if form.descripcion_proceso.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.descripcion_proceso.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.estado_proceso.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.estado_proceso.auto_id }}">
+                                {{ form.estado_proceso.label }}
+                            </label>
+                            <div class="col-md-10 col-xs-10 col-sm-10">
+                                {{ form.estado_proceso }}
+                                {% if form.estado_proceso.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.estado_proceso.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
+                    <div class="col-md-2 col-sm-2 col-xs-2">     
+                        <label>{% trans 'Agregar Actividad' %}</label>
+                        <a id="#dtable" onclick="add_field_datatable(['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso'],'#mydtable');">
+                        <i class="glyphicon glyphicon-plus"></i></a>
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                </div>
                 
-            {% block actividad_economica %}{%endblock%}
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <h5>{% trans 'Actividades Registradas' %}</h5>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">        
+                        <table class="table table-striped table-hover display dataTable" id="mydtable">
+                            <thead>
+                                <tr>
+                                    <td>Tipo de Proceso</td>
+                                    <td>Nombre del Proceso</td>
+                                    <td>Descripción del Proceso</td>
+                                    <td>Estado del Proceso</td>
+                                    <td>Opciones</td>
+                                </tr>
+                            </thead>
+                        </table>
+                        {% if form.nombre_proceso_tb.errors or form.tipo_proceso_tb.errors or form.descripcion_proceso_tb.errors or form.estado_proceso_tb.errors%}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    {% trans 'Debe agregar al menos una actividad' %}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group {% if form.codigo_ciiu.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.codigo_ciiu.auto_id }}">
+                                {{ form.codigo_ciiu.label }}
+                            </label>
+                            <div class="col-md-10 col-xs-10 col-sm-10">
+                                <div class="form-inline">{{ form.codigo_ciiu }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                                {% if form.codigo_ciiu.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.codigo_ciiu.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="form-group {% if form.capacidad_instalada_texto.errors %}has-error{% endif %}">
+                            <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.capacidad_instalada_texto.auto_id }}">
+                                {{ form.capacidad_instalada_texto.label }}
+                            </label>
+                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                <div class="form-inline">{{ form.capacidad_instalada_texto }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                                {% if form.capacidad_instalada_texto.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.capacidad_instalada_texto.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-xs-8">
+                        <div class="form-group {% if form.capacidad_instalada_medida.errors %}has-error{% endif %}">
+                            <div class="form-inline">{{ form.capacidad_instalada_medida }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        </div>
+                    </div>
+                </div>
+            
+                    
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group {% if form.capacidad_utilizada.errors %}has-error{% endif %}">
+                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.capacidad_utilizada.auto_id }}">
+                                {{ form.capacidad_utilizada.label }}
+                            </label>
+                            <div class="col-md-10 col-xs-10 col-sm-10">
+                                <div class="form-inline">{{ form.capacidad_utilizada }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                                {% if form.capacidad_utilizada.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.capacidad_utilizada.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-10 col-sm-10 col-xs-10">
                     <div class="form-group {% if form.sede_servicio.errors %}has-error{% endif %}">
                         <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.sede_servicio.auto_id }}">
                             {% block presta_servicio %}{{ form.sede_servicio.label }}{% endblock %}
@@ -448,4 +659,28 @@
         </div>
     </div>
 </form>
+
 {%endblock%}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var url = "{% url 'sub_unidad_ajax' %}";
+            remove_field_datatable('#mydtable');
+            update_field_datatable('#mydtable','form-ajax',
+                ['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso']);
+            comprobar();
+        });
+        $('#id_tipo_sub_unidad').on('change',function(){comprobar();});
+        function comprobar() {
+            tipo_sub_unidad = $('#id_tipo_sub_unidad').val();
+            if(tipo_sub_unidad=='Pl' || tipo_sub_unidad=='Su')
+            {
+                $('#planta-sucursal').show();
+            }
+            else
+            {
+                $('#planta-sucursal').hide();    
+            }
+        }
+    </script>
+{% endblock %}

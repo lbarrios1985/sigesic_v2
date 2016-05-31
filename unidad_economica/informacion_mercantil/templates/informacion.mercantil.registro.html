@@ -2,9 +2,7 @@
 {% load static from staticfiles %}
 {% load i18n %}
 {% block contenido %}
-
-    <h4 class="titulo" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
-        xmlns="http://www.w3.org/1999/html">{% trans "Información Mercantil"%}</h4>
+    <h4 class="titulo">{% trans "Información Mercantil"%}</h4>
     <form action="{% url 'informacion_mercantil' %}" method="post" enctype="multipart/form-data" role="form">
         {% csrf_token %}
             <div class="box box-primary box-registro" style="padding:20px">
@@ -22,12 +20,28 @@
                                     </div>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.naturaleza_juridica }}
+                                           {{ form.naturaleza_juridica }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-inline">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica_otros.auto_id }}">
+                                    {{ form.naturaleza_juridica_otros.label }}
+                                    </label>
+                                </div>
+                                <div class="col-md-9 col-xs-9 col-sm-9">
+                                    <div class="form-inline">
+                                        {{ form.naturaleza_juridica_otros }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </br>
                         </br>
                         <div class="row">
                             <div class="col-md-6">
@@ -79,17 +93,18 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_accionista.auto_id }}">
-                                    {{ form.nombre_accionista.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre.auto_id }}">
+                                    {{ form.nombre.label }}
                                     </label>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.nombre_accionista }}
+                                            {{ form.nombre }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <br/>
                          <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -107,12 +122,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.porc_acciones.auto_id }}">
-                                    {{ form.porc_acciones.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.porcentaje.auto_id }}">
+                                    {{ form.porcentaje.label }}
                                     </label>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.porc_acciones }}
+                                            {{ form.porcentaje }}
                                         </div>
                                     </div>
                                 </div>
@@ -130,13 +145,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula_rep.auto_id }}">
-                                    {{ form.cedula_rep.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula_representante.auto_id }}">
+                                    {{ form.cedula_representante.label }}
                                     </label>
                                 </div>
                                 <div class="col-md-9 col-xs-9 col-sm-9">
                                     <div class="form-inline">
-                                        {{ form.cedula_rep }}
+                                        {{ form.cedula_representante }}
                                     </div>
                                 </div>
                             </div>
@@ -145,25 +160,25 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_rep.auto_id }}">
-                                    {{ form.nombre_rep.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_representante.auto_id }}">
+                                    {{ form.nombre_representante.label }}
                                     </label>
                                 </div>
                                 <div class="col-md-9 col-xs-9 col-sm-9">
                                     <div class="form-inline">
-                                        {{ form.nombre_rep }}
+                                        {{ form.nombre_represetante }}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido_rep.auto_id }}">
-                                    {{ form.apellido_rep.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido_representante.auto_id }}">
+                                    {{ form.apellido_representante.label }}
                                     </label>
                                 </div>
                                 <div class="col-md-9 col-xs-9 col-sm-9">
                                     <div class="form-inline">
-                                        {{ form.apellido_rep }}
+                                        {{ form.apellido_representante }}
                                     </div>
                                 </div>
                             </div>
@@ -172,25 +187,25 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo_rep.auto_id }}">
-                                    {{ form.correo_rep.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo_electronico.auto_id }}">
+                                    {{ form.correo_electronico.label }}
                                     </label>
                                 </div>
                                 <div class="col-md-9 col-xs-9 col-sm-9">
                                     <div class="form-inline">
-                                        {{ form.correo_rep }}
+                                        {{ form.correo_electronico }}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono_rep.auto_id }}">
-                                    {{ form.telefono_rep.label }}
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">
+                                    {{ form.telefono.label }}
                                     </label>
                                 </div>
                                 <div class="col-md-9 col-xs-9 col-sm-9">
                                     <div class="form-inline">
-                                        {{ form.telefono_rep }}
+                                        {{ form.telefono }}
                                     </div>
                                 </div>
                             </div>
@@ -198,8 +213,8 @@
                         </br>
                         <div class="row">
                             <div class="col-md-6">
-                                <label class="col-md-3 col-xs-3 col-sm-3 control-label" >{{ form.cargo_rep.label }}</label>
-                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.cargo_rep}}</div>
+                                <label class="col-md-3 col-xs-3 col-sm-3 control-label" >{{ form.cargo.label }}</label>
+                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.cargo}}</div>
                             </div>
                         </div>
 
@@ -213,3 +228,14 @@
         </div>
     </form>
  {%endblock%}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
+            var onchange = "validar_rif_seniat('{{ form.rif_accionista.auto_id }}', '{{ form.nombre.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif_accionista.auto_id }}_"+i).attr("onchange", onchange);
+            }
+        });
+    </script>
+{% endblock %}
