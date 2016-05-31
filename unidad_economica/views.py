@@ -138,9 +138,8 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         actividad_ciiu.save()
 
         lista = dict(self.request.POST.lists())
-        print(lista)
+        
         for i in lista['actividad2_tb']:
-            print("...", i)
             ## Obtiene los datos seleccionados en Ciiu
             ciiu = Ciiu.objects.get(pk=i)
 

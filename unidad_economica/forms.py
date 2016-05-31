@@ -86,7 +86,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Actividad económica secundaria
     actividad2 = ChoiceField(
         label=_("Actividad Económica Principal"),
-        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+        choices=[('0','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
@@ -109,7 +109,7 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Tipo de organización comunal
     tipo_comunal = ChoiceField(
-        label=_("Tipo de Organizacón Comunal: "),
+        label=_("Tipo de Organización Comunal: "),
         choices=[('', 'Seleccione...')]+[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
         widget=Select(
             attrs={
