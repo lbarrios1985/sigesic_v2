@@ -290,7 +290,7 @@ function add_field_datatable(campos, table_id){
             var text = $(value).val();
             var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
             if ($(value+" option:selected").text()) {
-                text = $(value+" option:selected").text();   
+                text = $(value+" option:selected").text();
             }
             new_data.push(text+form);
             if((text.trim()==''))
@@ -406,4 +406,13 @@ function default_datatable_field(table_id,fields) {
        var col = t.column(value);
        col.visible(false);
     });
+}
+/**
+ * @brief Función para habilitar una dataTable cuando al seleccionar una opción
+ * @param select Es un campo con el valor de la opción seleccionada
+ * @param element Es un campo con el id de la tabla en la que se habilitará
+ */
+
+function mostrar(select, element){
+    $(element).removeClass('hidden');
 }
