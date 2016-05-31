@@ -16,6 +16,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from unidad_economica.directorio.forms import DirectorioForm
+
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
@@ -23,7 +25,10 @@ __docstring__ = "DoxyGen"
 
 @login_required
 def inicio(request):
-    return render_to_response('base.template.html', {}, context_instance=RequestContext(request))
+    form = DirectorioForm()
+    if request.POST:
+        form = DirectorioForm(request.POST)
+    return render_to_response('directorio.registro.template.html', {'form': form}, context_instance=RequestContext(request))
 
 
 @login_required

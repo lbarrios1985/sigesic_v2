@@ -21,7 +21,7 @@ from base.constant import (
     PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
 )
 from base.fields import RifField
-from base.models import *
+from base.models import Ciiu
 from base.widgets import RifWidgetReadOnly
 from .directorio.models import *
 from .directorio.forms import DirectorioForm
@@ -70,7 +70,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Actividad económica principal
     actividad = forms.ChoiceField(
         label=_("Actividad Económica Principal"),
-        choices=[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()]
+        choices=()
     )
 
     ## Número de Plantas Productivas de la Unidad Económica
@@ -114,7 +114,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Tipo de organización comunal
     tipo_comunal = forms.ChoiceField(
         label=_("Tipo de Organizacón Comunal: "),
-        choices=[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
+        choices=(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
@@ -158,7 +158,7 @@ class UnidadEconomicaForm(DirectorioForm):
     ## País de la Franquicia
     pais_franquicia = forms.ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()],
+        choices=(),
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
