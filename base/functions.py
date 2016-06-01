@@ -21,6 +21,9 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.template import Context
 from django.template.loader import get_template
+from django.utils.translation import ugettext_lazy as _
+
+from .models import Ciiu, TipoComunal
 
 logger = logging.getLogger('base')
 
@@ -128,3 +131,45 @@ def calcular_diferencia_fechas(fecha_inicial, fecha_final=date_now):
     diff_dates = fecha_final - fecha_inicial
 
     return diff_dates.days
+
+
+def cargar_actividad():
+    """!
+    Función que permite cargar los datos de las actividades CIIU en una tupla
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 01-06-2016
+    @return Devuelve una tupla con las actividades CIIU registradas
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for act in Ciiu.objects.all():
+            lista += (act.codigo_ciiu, act.descripcion),
+    except Exception as e:
+        pass
+
+    return lista
+
+
+def cargar_tipo_comunal():
+    """!
+    Función que permite cargar los datos de los tipos comunales en una tupla
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 01-06-2016
+    @return Devuelve una tupla con los tipos comunales
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for comunal in TipoComunal.objects.all():
+            lista += (comunal.id, comunal.tipo_comunal),
+    except Exception as e:
+        pass
+
+    return lista
