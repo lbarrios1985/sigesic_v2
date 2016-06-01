@@ -25,10 +25,7 @@ __docstring__ = "DoxyGen"
 
 @login_required
 def inicio(request):
-    form = DirectorioForm()
-    if request.POST:
-        form = DirectorioForm(request.POST)
-    return render_to_response('directorio.registro.template.html', {'form': form}, context_instance=RequestContext(request))
+    return render_to_response('base.template.html', {}, context_instance=RequestContext(request))
 
 
 @login_required
