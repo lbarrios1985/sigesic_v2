@@ -45,14 +45,14 @@ function anho_registro(title, template) {
         buttons: {
             success: {
                 label: BTN_REGISTRAR,
-                className: "btn btn-success btn-sm",
+                className: "btn btn-primary btn-sm",
                 callback: function() {
 
                 }
             },
             'limpiar': {
                 label: BTN_LIMPIAR,
-                className: "btn btn-primary btn-sm",
+                className: "btn btn-success btn-sm",
                 callback: function() {
                     $(modal).find("form")[0].reset();
                     return false;
