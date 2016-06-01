@@ -191,7 +191,7 @@ class UnidadEconomicaForm(DirectorioForm):
     rif_casa_matriz = RifField(disabled=True, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(UnidadEconomicaForm).__init__(*args, **kwargs)
+        super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
         self.fields['actividad'].choices = cargar_actividad()
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
 
