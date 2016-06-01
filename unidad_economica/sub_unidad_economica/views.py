@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
-    SubUnidadEconomicaPrincipalProceso,
+    SubUnidadEconomicaPrincipalProceso, SubUnidadEconomicaActividad
     )
 from base.models import Parroquia
 from .forms import SubUnidadEconomicaForm
@@ -107,7 +107,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         self.object.rif = form.cleaned_data['rif']
         self.object.telefono = form.cleaned_data['telefono']
         self.object.tipo_sub_unidad = form.cleaned_data['tipo_sub_unidad']
-        #modelSubUnidad.tipo_tenencia_id = form.cleaned_data['tipo_tenencia']
+        self.object.tipo_tenencia = form.cleaned_data['tipo_tenencia']
         self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
         self.object.m2_terreno = form.cleaned_data['m2_terreno']
         self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
@@ -125,12 +125,16 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             directorio_subunidad.sub_unidad_economica = self.object
             directorio_subunidad.save()
             
+            ## Se llama a la función que creará los procesos
+            self.agregar_proceso(dictionary,self.object)
+            
             ## Se llama a la función que creará las actividades economicas
-            self.modificar_diccionario(dictionary,self.object)
+            self.agregar_actividad(dictionary,self.object)
             
             ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
             capacidad = SubUnidadEconomicaCapacidad()
             #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
+            #capacidad.actividad_primaria = form.cleaned_data['actividad_caev_primaria']
             capacidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
             capacidad.capacidad_instalada_medida = form.cleaned_data['capacidad_instalada_medida']
             capacidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
@@ -140,9 +144,9 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         
         return super(SubUnidadEconomicaCreate, self).form_valid(form)
     
-    def modificar_diccionario(self, dictionary, model):
+    def agregar_proceso(self, dictionary, model):
         """!
-        Metodo que extrae los datos de la tabla de actividades economicas en un diccionario y las guarda en el modelo respectivo
+        Metodo que extrae los datos de la tabla de procesos en un diccionario y las guarda en el modelo respectivo
     
         @author Rodrigo Boet (rboet at cenditel.gob.ve)
         @copyright GNU/GPLv2
@@ -167,11 +171,38 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             sub_unidad_proceso.sub_unidad_economica_proceso = proceso
             sub_unidad_proceso.save()
             
-class SubUnidadFormAjax(TemplateView):
-    template_name = 'sub.unidad.ajax.html'
+    def agregar_actividad(self, dictionary, model):
+        """!
+        Metodo que extrae los datos de la tabla de actividades economicas en un diccionario y las guarda en el modelo respectivo
+    
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
+        @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
+        @return Retorna el formulario validado
+        """
+        for i in range(0,len(dictionary['actividad_caev_tb'])):
+            ## Se crea y se guarda en el modelo del proceso de la sub-unidad
+            actividad_economica = SubUnidadEconomicaActividad()
+            actividad_economica.sub_unidad_economica = model
+            actividad_economica.actividad = dictionary['actividad_caev_tb'][i]
+            actividad_economica.save()
+            
+            
+class SubUnidadFormProcesoAjax(TemplateView):
+    template_name = 'sub.unidad.proceso.ajax.html'
     
     def get(self,request):
         form = SubUnidadEconomicaForm(initial={'tipo_proceso':request.GET['tipo_proceso_tb'],
             'nombre_proceso':request.GET['nombre_proceso_tb'],'descripcion_proceso':request.GET['descripcion_proceso_tb'],
             'estado_proceso':request.GET['estado_proceso_tb']})
+        return render(request,self.template_name,{'form':form})
+    
+class SubUnidadFormActividadAjax(TemplateView):
+    template_name = 'sub.unidad.actividad.ajax.html'
+    
+    def get(self,request):
+        form = SubUnidadEconomicaForm(initial={'actividad_caev':request.GET['actividad_caev_tb']})
         return render(request,self.template_name,{'form':form})
