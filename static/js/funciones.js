@@ -407,12 +407,3 @@ function default_datatable_field(table_id,fields) {
        col.visible(false);
     });
 }
-/**
- * @brief Función para habilitar una dataTable cuando al seleccionar una opción
- * @param select Es un campo con el valor de la opción seleccionada
- * @param element Es un campo con el id de la tabla en la que se habilitará
- */
-
-function mostrar(select, element){
-    $(element).removeClass('hidden');
-}
