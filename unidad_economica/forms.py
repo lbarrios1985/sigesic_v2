@@ -81,18 +81,23 @@ class UnidadEconomicaForm(DirectorioForm):
         )
     )
 
-    nombre_actividad = Ciiu.objects.only("descripcion")
-
     ## Actividad económica secundaria
     actividad2 = ChoiceField(
         label=_("Actividad Económica Principal"),
         choices=[('0','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
             }
         ), required=False
+    )
+
+    ## Actividad económica secundaria (datatable)
+    actividad2_tb = forms.CharField(
+        label=_("Actividad Económica Secundaria"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+        }), required=False
     )
 
     ## Organización comunal
@@ -208,8 +213,14 @@ class UnidadEconomicaForm(DirectorioForm):
         if orga_comunal == 'S' and not tipo_comunal:
             raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
 
+    def clean_actividad2_tb(self):
+        actividad = self.cleaned_data['actividad2']
+        actividad2_tb = self.cleaned_data['actividad2_tb']
+        if((actividad != '') and (actividad2_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return actividad2_tb
+
     class Meta(object):
-        """docstring for Meta"""
         model = UnidadEconomica
         fields = ['rif', 'razon_social', 'nombre_ue']
             
