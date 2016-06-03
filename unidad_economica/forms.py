@@ -22,8 +22,9 @@ from base.constant import (
     PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
 )
 from base.fields import RifField
-from base.models import Ciiu, Pais, TipoComunal
+from base.models import Pais
 from base.widgets import RifWidgetReadOnly
+from base.functions import cargar_actividad, cargar_tipo_comunal
 
 from .directorio.forms import DirectorioForm
 from .models import UnidadEconomica
@@ -31,6 +32,7 @@ from .models import UnidadEconomica
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
+
 
 class UnidadEconomicaForm(DirectorioForm):
     """!
@@ -72,7 +74,6 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Actividad económica principal
     actividad = ChoiceField(
         label=_("Actividad Económica Principal"),
-        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
@@ -83,8 +84,7 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Actividad económica secundaria
     actividad2 = ChoiceField(
-        label=_("Actividad Económica Principal"),
-        choices=[('0','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+        label=_("Actividad Económica Secundaria"),
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
@@ -95,9 +95,13 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Actividad económica secundaria (datatable)
     actividad2_tb = forms.CharField(
-        label=_("Actividad Económica Secundaria"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-        }), required=False
+        label=_("Actividad Económica Secundaria"),
+        widget=Select(
+            attrs={
+                'class': 'form-control', 'data-toggle': 'tooltip',
+                'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
+            }
+        ), required=False
     )
 
     ## Organización comunal
@@ -114,8 +118,7 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Tipo de organización comunal
     tipo_comunal = ChoiceField(
-        label=_("Tipo de Organización Comunal: "),
-        choices=[('', 'Seleccione...')]+[(comunal.id, comunal.tipo_comunal) for comunal in TipoComunal.objects.all()],
+        label=_("Tipo de Organizacón Comunal: "),
         widget=Select(
             attrs={
                 'class': 'form-control select2', 'data-toggle': 'tooltip',
@@ -197,6 +200,12 @@ class UnidadEconomicaForm(DirectorioForm):
     ## RIF Franquicia
     rif_casa_matriz = RifField(disabled=True, required=False)
 
+    def __init__(self, *args, **kwargs):
+        super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
+        self.fields['actividad'].choices = cargar_actividad()
+        self.fields['actividad2'].choices = cargar_actividad()
+        self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
+
     def clean_nro_franquicia(self):
         nro_franquicia = self.cleaned_data.get('nro_franquicia')
         if nro_franquicia is None:
@@ -213,15 +222,7 @@ class UnidadEconomicaForm(DirectorioForm):
         if orga_comunal == 'S' and not tipo_comunal:
             raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
 
-    def clean_actividad2_tb(self):
-        actividad = self.cleaned_data['actividad2']
-        actividad2_tb = self.cleaned_data['actividad2_tb']
-        if((actividad != '') and (actividad2_tb=='')):
-            raise forms.ValidationError(_("Este campo es obligatorio"))
-        return actividad2_tb
-
     class Meta(object):
         model = UnidadEconomica
         fields = ['rif', 'razon_social', 'nombre_ue']
-            
 
