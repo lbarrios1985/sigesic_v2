@@ -106,6 +106,9 @@ function seleccionar_coordenadas(title, template) {
     $(modal).modal("show");
 }
 
+/**
+ * @brief Función que carga los datos del mapa a mostrar para la selección de coordenadas geográficas
+ */
 function load_map() {
     $(document).ready(function() {
         var app = {};
