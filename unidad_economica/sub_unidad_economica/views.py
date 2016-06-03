@@ -67,6 +67,29 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         return datos_iniciales
     
     def get_context_data(self, **kwargs):
+        buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>';
+        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>';
+        if 'tipo_proceso_tb' in self.request.POST:
+            dictionary = dict(self.request.POST.lists())
+            table = []
+            for i in range(len(dictionary['tipo_proceso_tb'])):
+                tipo = 'Lineas' if dictionary['tipo_proceso_tb'][i] == 'LN' else 'Estaciones de Trabajo'
+                estado = 'Activo' if dictionary['estado_proceso_tb'][i] == '1' else 'Inactivo'
+                my_list = [tipo+'<input type="text" id="id_tipo_proceso_tb" value="'+dictionary['tipo_proceso_tb'][i]+'" name="tipo_proceso_tb" hidden="true">',
+                           dictionary['nombre_proceso_tb'][i]+'<input type="text" id="id_nombre_proceso_tb" value="'+str(dictionary['nombre_proceso_tb'][i])+'" name="nombre_proceso_tb" hidden="true">',
+                           dictionary['descripcion_proceso_tb'][i]+'<input type="text" id="id_descripcion_proceso_tb" value="'+dictionary['descripcion_proceso_tb'][i]+'" name="descripcion_proceso_tb" hidden="true">',
+                           estado +'<input type="text" id="id_estado_proceso_tb" value="'+str(dictionary['estado_proceso_tb'][i])+'" name="estado_proceso_tb" hidden="true">',
+                           buttons]
+                table.append(my_list)
+            kwargs['first_table'] = table
+        if 'actividad_caev_tb' in self.request.POST:
+            dictionary = dict(self.request.POST.lists())
+            table = []
+            for i in range(len(dictionary['actividad_caev_tb'])):
+                my_list = [dictionary['actividad_caev_tb'][i]+'<input type="text" id="id_actividad_caev_tb" value="'+dictionary['actividad_caev_tb'][i]+'" name="actividad_caev_tb" hidden="true">',
+                buttons]
+                table.append(my_list)
+            kwargs['second_table'] = table
         kwargs['object_list'] = SubUnidadEconomicaProceso.objects.all()
         return super(SubUnidadEconomicaCreate, self).get_context_data(**kwargs)
 

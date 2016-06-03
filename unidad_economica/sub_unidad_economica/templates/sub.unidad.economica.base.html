@@ -559,6 +559,17 @@
                                     <td>Opciones</td>
                                 </tr>
                             </thead>
+                            {% if first_table %}
+                                <tbody>
+                                {% for value in first_table %}
+                                    <tr>
+                                    {% for item in value %}                                       
+                                        <td>{{item | safe }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            {% endif %}
                         </table>
                         {% if form.nombre_proceso_tb.errors or form.tipo_proceso_tb.errors or form.descripcion_proceso_tb.errors or form.estado_proceso_tb.errors%}
                             <p class="bg-warning">
@@ -628,6 +639,17 @@
                                     <td>Opciones</td>
                                 </tr>
                             </thead>
+                            {% if second_table %}
+                                <tbody>
+                                {% for value in second_table %}
+                                    <tr>
+                                    {% for item in value %}                                       
+                                        <td>{{item | safe }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            {% endif %}
                         </table>
                         {% if form.actividad_caev_tb.errors %}
                             <p class="bg-warning">
