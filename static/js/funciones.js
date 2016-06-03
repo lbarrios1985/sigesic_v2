@@ -87,8 +87,8 @@ function seleccionar_coordenadas(title, template) {
                 label: BTN_AGREGAR,
                 className: "btn btn-primary btn-sm",
                 callback: function() {
-                    $("#id_coordenada_1").val();
-                    $("#id_coordenada_2").val();
+                    $("#id_coordenada_0").val($(modal).find("#inputLongitud").val());
+                    $("#id_coordenada_1").val($(modal).find("#inputLatitud").val());
                 }
             },
             main: {
