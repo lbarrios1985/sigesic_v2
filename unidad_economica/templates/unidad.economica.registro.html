@@ -470,25 +470,6 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.nombre_franquicia.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
-                                {{ form.nombre_franquicia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.nombre_franquicia }}
-                                </div>
-                                {% if form.nombre_franquicia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group {% if form.rif_casa_matriz.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_casa_matriz.auto_id }}">
                                 {{ form.rif_casa_matriz.label }}
@@ -501,6 +482,25 @@
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
                                             <i class="fa fa-times-circle-o"></i> {{ form.rif_casa_matriz.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.nombre_franquicia.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
+                                {{ form.nombre_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nombre_franquicia }}
+                                </div>
+                                {% if form.nombre_franquicia.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
                                         </span>
                                     </p>
                                 {% endif %}
@@ -561,10 +561,13 @@
     <script type="text/javascript">
         $(document).ready(function(){
             /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
-            var onchange = "validar_rif_seniat('{{ form.rif_casa_matriz.auto_id }}', true)";
+            var onchange = "validar_rif_seniat('{{ form.rif_casa_matriz.auto_id }}', '{{ form.nombre_franquicia.auto_id }}', true)";
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
             }
+
+            console.log($("#{{ form.nombre_franquicia.auto_id }}").text());
+
 
             /** Función para eliminar cabecera y pie de DataTable */
             $('#mydtable').DataTable({

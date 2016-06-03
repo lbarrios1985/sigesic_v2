@@ -20,8 +20,8 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-    url(r'^informacion-general/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
-    url(r'^form-actividad-ajax', UnidadEconomicaActividadAjax.as_view(), name="actividad_ajax"),
+    url(r'^informacion-general/registro/$', UnidadEconomicaCreate.as_view(), name="registro_ue"),
+    url(r'^informacion-general/registro/form-actividad-ajax', UnidadEconomicaActividadAjax.as_view(), name="actividad_ajax"),
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
     url(r'^sub-unidad/', include('unidad_economica.sub_unidad_economica.urls')),
 ]
