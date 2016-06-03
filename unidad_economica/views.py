@@ -15,16 +15,21 @@ from __future__ import unicode_literals
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.forms import inlineformset_factory
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, TemplateView
+from django.shortcuts import render
 
 from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
-from base.models import Ciiu, Estado, Municipio, Parroquia, TipoComunal
+from base.models import (
+    CaevClase, Estado, Municipio, Parroquia, TipoComunal
+    )
 
 from unidad_economica.directorio.models import Directorio
 
 from .forms import UnidadEconomicaForm
-from .models import ActividadCiiu, Franquicia, UnidadEconomica, UnidadEconomicaDirectorio
+from .models import (
+    ActividadCaev, Franquicia, UnidadEconomica, UnidadEconomicaDirectorio
+    )
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -66,6 +71,19 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         datos_iniciales['razon_social'] = datos_rif.nombre
 
         return datos_iniciales
+
+    def get_context_data(self, **kwargs):
+        buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"</i></a>'
+        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"</i></a>'
+        if 'actvidad2_tb' in self.request.POST:
+            dictionary = dict(self.request.POST.lists())
+            table = []
+            for i in range(len(dictionary['actividad2_tb'])):
+                my_list = [dictionary['actividad2_tb'][i]+'<input type="text" id="id_actividad2_tb" value="'+dictionary['actividad2_tb'][i]+'" name="actividad2_tb" hidden="true">', buttons]
+                table.append(my_list)
+            kwargs['first_table'] = table
+        kwargs['object_list'] = UnidadEconomica.objects.all()
+        return super(UnidadEconomicaCreate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
         """!
@@ -128,26 +146,28 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         franquicia.unidad_economica_rif = self.object
         franquicia.save()
 
-        ## Obtiene los datos seleccionados en Ciiu
-        ciiu = Ciiu.objects.get(pk=self.request.POST['actividad'])
+        ## Obtiene los datos seleccionados en CAEV
+        caev = CaevClase.objects.get(pk=self.request.POST['actividad'])
 
-        ## Almacena en la tabla ActividadCiiu
-        actividad_ciiu = ActividadCiiu()
-        actividad_ciiu.ciiu = ciiu
-        actividad_ciiu.unidad_economica_rif = self.object
-        actividad_ciiu.save()
+        ## Almacena en la tabla ActividadCaev
+        actividad_caev = ActividadCaev()
+        actividad_caev.caev = caev
+        actividad_caev.unidad_economica_rif = self.object
+        actividad_caev.save()
 
-        lista = dict(self.request.POST.lists())
+        dictionary = dict(self.request.POST.lists())
         
-        for i in lista['actividad2_tb']:
-            ## Obtiene los datos seleccionados en Ciiu
-            ciiu = Ciiu.objects.get(pk=i)
+        if 'actividad2_tb' in dictionary.keys():
+            for i in dictionary['actividad2_tb']:
+                ## Obtiene los datos seleccionados en Caev
+                caev = CaevClase.objects.get(pk=i)
 
-            ## Almacena en la tabla ActividadCiiu
-            actividad_ciiu = ActividadCiiu()
-            actividad_ciiu.ciiu = ciiu
-            actividad_ciiu.unidad_economica_rif = self.object
-            actividad_ciiu.save()
+                ## Almacena en la tabla ActividadCaev
+                actividad_caev = ActividadCaev()
+                actividad_caev.caev = caev
+                actividad_caev.principal = False
+                actividad_caev.unidad_economica_rif = self.object
+                actividad_caev.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
@@ -156,3 +176,18 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         print(form)
         return super(UnidadEconomicaCreate, self).form_invalid(form)        
 
+class UnidadEconomicaActividadAjax(TemplateView):
+    """Clase que permite modificar los datos seleccionados en la lista de Actividades Económicas Secundarias de la UnidadEconomica
+    
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 03-06-2016
+    @version 2.0
+    """
+    template_name = 'unidad.economica.actividad.ajax.html'
+
+    def get(self, request):
+        form = UnidadEconomicaForm(initial={'actividad2':request.GET['actividad2_tb']})
+        return render(request, self.template_name,{'form':form})
+        
+        
