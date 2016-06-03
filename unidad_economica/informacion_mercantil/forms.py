@@ -109,7 +109,7 @@ class InformacionMercantilForms(ModelForm):
     )
 
     ## Rif del accionista
-    rif_accionista = RifField()
+    rif_accionista_orig = RifField(required=False)
 
     ## Nombre del accionista
     nombre = CharField(
@@ -123,8 +123,10 @@ class InformacionMercantilForms(ModelForm):
     # País de origen del accionista
     pais_origen = ChoiceField(
         label=_("País de origen: "),
-        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()]
+        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
+        required=False
     )
+
 
     ## Porcentaje de acciones que posee el accionista
     porcentaje = CharField(
@@ -133,7 +135,36 @@ class InformacionMercantilForms(ModelForm):
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
                 'title': _("Porcentaje"), 'size': '5'
-        })
+        }), required=False
+    )
+
+    ## Campo oculto para el RIF del accionista
+    rif_accionista_tb = CharField(
+        label=_("Ingrese el R.I.F del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'value': 'rif',
+            'size': '30',
+        }),
+    )
+
+    ## Campo oculto para el nombre del accionista
+    nombre_tb = CharField(
+        widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),
+    )
+
+    ## Campo oculto para el país de origen del accionista
+    pais_origen_tb = CharField(
+        label=_("Seleccione el país del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),required=False,
+    )
+
+    ## Campo oculto para el porcentaje de acciones que posee el accionista
+    porcentaje_tb = CharField(
+        label=_("Seleccione el país del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),
     )
 
     ## Cédula de identidad del representante legal
@@ -217,7 +248,5 @@ class InformacionMercantilForms(ModelForm):
     class Meta:
         model = RepresentanteLegal
         fields = [
-            'cargo_otros'#'nombre_representante',# 'apellido_representante', 'telefono',
-            #'correo_electronico'
-            ]
-        #exclude = ['cedula_representante', 'cargo']
+            'cargo_otros'
+                ]

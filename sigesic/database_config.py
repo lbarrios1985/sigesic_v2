@@ -5,8 +5,8 @@ DATABASES_CONFIG = {
         'NAME': '<DB_NAME>',
         'USER': '<DB_USER>',
         'PASSWORD': '<DB_PASSWORD>',
-        'HOST': '<DB_HOST>',
-        'PORT': '<DB_PORT>',
+        'HOST': 'DB_HOST',
+        'PORT': 'DB_PORT',
         'ATOMIC_REQUESTS': True, # Crea transacciones en cada peticion de la vista
     }
 }

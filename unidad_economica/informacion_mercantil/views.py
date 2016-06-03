@@ -14,14 +14,10 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @version 2.0
 
 from __future__ import unicode_literals
-from django.views.generic import CreateView
-from base.classes import Seniat
+from django.views.generic import CreateView, TemplateView
 from unidad_economica.informacion_mercantil.forms import InformacionMercantilForms
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from unidad_economica.informacion_mercantil.models import Capital, Accionista, RepresentanteLegal
 from base.constant import CREATE_MESSAGE
 from unidad_economica.models import UnidadEconomica
@@ -41,22 +37,12 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
     model = UnidadEconomica
     form_class = InformacionMercantilForms
     template_name = 'informacion.mercantil.registro.html'
-    success_url = reverse_lazy('sede_administrativa')
+    success_url = reverse_lazy('sub_unidad_create')
     success_message = CREATE_MESSAGE
 
-    def get_initial(self):
-        rif = self.request.user
-        #print(rif)
-        datos_iniciales = super(MercantilCreate, self).get_initial()
-        datos_iniciales['rif_accionista'] = self.request.user.username
-
-        datos_rif = Seniat()
-        seniat = datos_rif.buscar_rif(rif)
-        datos_iniciales['nombre'] = datos_rif.nombre
-
-        return datos_iniciales
-
     def form_valid(self, form):
+
+
         """!
         Método que valida si el formulario es válido
 
@@ -87,12 +73,13 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
 
         Accionista.objects.create(
             rif_ue=unidad_economica,
-            rif_accionista=form.cleaned_data['rif_accionista'],
-            nombre=form.cleaned_data['nombre'],
-            porcentaje=form.cleaned_data['porcentaje']
+            rif_accionista=self.request.POST['rif_accionista_tb'],
+            nombre=self.request.POST['nombre_tb'],
+            pais_origen=self.request.POST['pais_origen_tb'],
+            porcentaje=self.request.POST['porcentaje_tb']
         )
 
-        """
+
         RepresentanteLegal.objects.create(
             rif_ue=unidad_economica,
             cedula_representante=form.cleaned_data['cedula_representante'],
@@ -100,9 +87,10 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
             apellido_representante=form.cleaned_data['apellido_representante'],
             correo_electronico=form.cleaned_data['correo_electronico'],
             telefono=form.cleaned_data['telefono'],
-            cargo=form.cleaned_data['cargo']
+            cargo=form.cleaned_data['cargo'],
+            cargo_otros=form.cleaned_data['cargo_otros']
         )
-        """
+
 
         return super(MercantilCreate, self).form_valid(form)
 
@@ -111,3 +99,12 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
         print(form)
         return super(MercantilCreate, self).form_invalid(form)
 
+class InformacionMercantilFormsAjax(TemplateView):
+    template_name = 'informacion.mercantil.ajax.html'
+
+    def get(self,request):
+        form = InformacionMercantilForms(
+            initial={'rif_accionista':request.GET['rif_accionista_tb'],
+                'nombre':request.GET['nombre_tb'],'pais_origen':request.GET['pais_origen_tb'],
+                'porcentaje':request.GET['porcentaje_tb']})
+        return render(request,self.template_name,{'form':form})

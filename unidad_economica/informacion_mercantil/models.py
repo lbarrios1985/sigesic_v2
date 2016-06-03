@@ -80,6 +80,11 @@ class Accionista(models.Model):
         max_length=45, help_text=_("Nombre del Accionista")
     )
 
+    ## Establece el pais de origen del accionista
+    pais_origen = models.CharField(
+        max_length=45
+    )
+
     ## Establece el porcentaje de acciones que posee el accionista
     porcentaje = models.FloatField(
         help_text=_("Porcentaje de accciones que posee el acionista")
@@ -138,7 +143,10 @@ class RepresentanteLegal(models.Model):
         ]
     )
 
-    ## Cargo del representante legal dentro de la Unidad Económica
+    ## Cargo que se selecciona en un select, del representante legal dentro de la Unidad Económica
     cargo = models.CharField(max_length=45)
+
+    ## Cargo que se introduce en un campo de texto del representante legal dentro de la Unidad Económica
+    cargo_otros = models.CharField(max_length=45)
 
 

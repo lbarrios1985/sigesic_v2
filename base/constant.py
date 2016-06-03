@@ -42,18 +42,17 @@ NATURALEZA_JURIDICA = [
     ("S.A", _("Sociedad Anónima")),
     ("C.A", _("Compañía Anónima")),
     ("S.R.L.", _("Sociedad de Responsabilidad Limitada")),
-    ("Co", _("Cooperativa")),
-    ("O",_("Otros"))
+    ("Co", _("Cooperativa"))
 ]
 
 ##Cargo del Representante Legal
 CARGO_REP = [
-    ("Ac", _("Accionista")),
-    ("Di", _("Director")),
-    ("CJ", _("Consultor Jurídico")),
-    ("P", _("Presidente")),
-    ("V", _("Vicepresidente")),
-    ("O", _("Otro"))
+    ("Accionista", _("Accionista")),
+    ("Director", _("Director")),
+    ("Consultor Jurídico", _("Consultor Jurídico")),
+    ("Presidente", _("Presidente")),
+    ("Vicepresidente", _("Vicepresidente")),
+    ("Otro", _("Otro"))
 ]
 
 ## TIPOS DE PERSONALIDAD
