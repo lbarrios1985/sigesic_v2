@@ -84,19 +84,32 @@ function seleccionar_coordenadas(title, template) {
         message: template,
         buttons: {
             success: {
-                label: BTN_REGISTRAR,
+                label: BTN_AGREGAR,
                 className: "btn btn-primary btn-sm",
                 callback: function() {
-                    //Registro de las coordenadas o actualizacion de coordenadas
+                    $("#id_coordenada_0").val($(modal).find("#inputLongitud").val());
+                    $("#id_coordenada_1").val($(modal).find("#inputLatitud").val());
                 }
             },
             main: {
                 label: BTN_CANCELAR,
                 className: "btn btn-warning btn-sm"
             }
-        }
+        },
+        show: false //Por defecto no se muestra la ventana modal al invocarla para poder cargar el mapa
     });
+    $(modal).on("shown.bs.modal", function() {
+        /* Carga el mapa cuando la ventana modal es mostrada */
+        load_map();
+    });
+    /* Muestra la ventana de dialogo modal despues de haber cargado el mapa en su correspondiente div */
+    $(modal).modal("show");
+}
 
+/**
+ * @brief Función que carga los datos del mapa a mostrar para la selección de coordenadas geográficas
+ */
+function load_map() {
     $(document).ready(function() {
         var app = {};
 
@@ -167,6 +180,8 @@ function seleccionar_coordenadas(title, template) {
 
             var geometry = (this.feature_.getGeometry());
             geometry.translate(deltaX, deltaY);
+            $("#inputLongitud").val(evt.coordinate[0]);
+            $("#inputLatitud").val(evt.coordinate[1]);
 
             this.coordinate_[0] = evt.coordinate[0];
             this.coordinate_[1] = evt.coordinate[1];
@@ -212,7 +227,26 @@ function seleccionar_coordenadas(title, template) {
             source: new ol.source.MapQuest({layer: 'osm'})
         });
 
-        var pointFeature = new ol.Feature(new ol.geom.Point([-65.0000,6.5000]).transform('EPSG:4326', 'EPSG:3857'));
+        var iconGeometry = new ol.geom.Point([-65.0000,6.5000]).transform('EPSG:4326', 'EPSG:3857');
+
+        var pointFeature = new ol.Feature({
+            geometry: iconGeometry,
+            name: 'Mark'
+        });
+
+        var iconStyle = new ol.style.Style({
+            image: new ol.style.Icon(({
+                anchor: [0.5, 15], // Posicion del icono en el eje X Y
+                anchorXUnits: 'fraction', // Unidad de medida para el posicionamiento del icon en el eje X
+                anchorYUnits: 'pixels', // Unidad de medida para el posicionamiento del icon en el eje X
+                //opacity: 0.75,
+                src: URL_STATIC_FILES+'img/mark.png',
+                // the scale factor
+                scale: 1.1 // Tamaño de la imagen de acuerdo a la escala en base al tamaño original
+            }))
+        });
+
+        pointFeature.setStyle(iconStyle);
 
         var vectorLayer = new ol.layer.Vector({
             source: new ol.source.Vector({
@@ -228,7 +262,7 @@ function seleccionar_coordenadas(title, template) {
                 center: ol.proj.transform([-65.0000,6.5000], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4
             })
-        });
+       });
 
         var mousePosition = new ol.control.MousePosition({
             coordinateFormat: ol.coordinate.createStringXY(6),
@@ -238,8 +272,11 @@ function seleccionar_coordenadas(title, template) {
         });
 
         map.on('singleclick', function(evt) {
-            console.log(evt.coordinate);
-            console.log(evt.pixel);
+            $("#inputLongitud").val(evt.coordinate[0]);
+            $("#inputLatitud").val(evt.coordinate[1]);
+            // Modifica la posición actual del marcador al hacer click sobre un punto en el mapa
+            iconGeometry.setCoordinates(evt.coordinate);
+            //console.log(evt.pixel);
         });
 
         map.addControl(mousePosition);
@@ -251,8 +288,9 @@ function seleccionar_coordenadas(title, template) {
         map.on('loadend', function() {
             cargando.hidePleaseWait();
         });
-    });
 
+        map.updateSize();
+    });
 }
 
 /**
