@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="box-header with-border">
+    <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group {% if form.actividad_caev.errors %}has-error{% endif %}">
+            <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.actividad_caev.auto_id }}">
+                {{ form.actividad_caev.label }}
+            </label>
+            <div class="col-md-6 col-xs-6 col-sm-6">
+                <div class="form-inline">{{ form.actividad_caev }}<i class="ion ion-ios-medical item-requerido"></i></div>
+            </div>
+        </div>
+    </div>
+</div>

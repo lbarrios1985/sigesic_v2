@@ -324,14 +324,14 @@ function add_field_datatable(campos, table_id){
     $.each(campos,function(index,value){
             var text = $(value).val();
             var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
-            if ($(value+" option:selected").text()) {
-                text = $(value+" option:selected").text();   
-            }
-            new_data.push(text+form);
             if((text.trim()==''))
             {
                 bool = false
             }
+            if ($(value+" option:selected").text()) {
+                text = $(value+" option:selected").text();   
+            }
+            new_data.push(text+form);
         });
     if (!bool) {
         var modal = bootbox.dialog({
@@ -340,7 +340,7 @@ function add_field_datatable(campos, table_id){
             buttons: {
                 main: {
                     label: 'Aceptar',
-                    className: "btn btn-danger btn-sm"
+                    className: "btn btn-primary btn-sm"
                 }
             }
         });
@@ -352,8 +352,8 @@ function add_field_datatable(campos, table_id){
         $.each(campos,function(index,value){
             $(value).val('');
         });
-        var buttons = '<a class="update_item"><i class="glyphicon glyphicon-pencil"></i></a>';
-        buttons += '<a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>';
+        var buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>';
+        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>';
         new_data.push(buttons);
         t.row.add(new_data).draw(false);
     }
@@ -364,9 +364,27 @@ function add_field_datatable(campos, table_id){
  * @param table_id Es un campo con el id de la tabla en la que se eliminaran los campos
  */
 function remove_field_datatable(table_id) {
-    var t = $(table_id).DataTable();
     $(table_id).on('click','.remove_item',function(){
-        t.row($(this).parent().closest('tr')).remove().draw( false );
+        var t = $(table_id).DataTable();
+        var myrow = t.row($(this).parent().closest('tr'));
+        var modal = bootbox.dialog({
+            title: 'Eliminar Campos',
+            message: "¿Está seguro que desa eliminar la fila seleccionada?",
+            buttons: {
+                success: {
+                    label: 'Aceptar',
+                    className: "btn btn-primary btn-sm",
+                    callback: function() {
+                        myrow.remove().draw( false );
+                    }
+                },
+                main: {
+                    label: BTN_CANCELAR,
+                    className: "btn btn-warning btn-sm"
+                }
+            },
+        });
+        modal.show();
     });
 }
 
@@ -389,7 +407,7 @@ function update_field_datatable(table_id,url,campos) {
             buttons: {
                 success: {
                     label: 'Actualizar',
-                    className: "btn btn-success btn-sm",
+                    className: "btn btn-primary btn-sm",
                     callback: function() {
                         var bool = true;
                         var new_data = [];
