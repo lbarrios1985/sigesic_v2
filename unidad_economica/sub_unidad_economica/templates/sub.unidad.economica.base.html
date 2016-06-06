@@ -54,14 +54,15 @@
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
-                                {{ form.tipo_sub_unidad }}
+                                {{ form.tipo_sub_unidad }}<i class="ion ion-ios-medical item-requerido"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <br>
-                
+               
+            {% include 'directorio.registro.template.html' %}
                 
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -503,7 +504,7 @@
             update_field_datatable('#mydtable','#procesos-subunidad',
                 ['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso']);
             remove_field_datatable('#caevtable');
-            update_field_datatable('#caevtable','form-actividad-ajax',['#id_actividad_caev']);
+            update_field_datatable('#caevtable','#actividad-subunidad',['#id_actividad_caev']);
             comprobar();
         });
         $('#id_tipo_sub_unidad').on('change',function(){comprobar();});

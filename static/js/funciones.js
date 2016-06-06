@@ -97,7 +97,6 @@ function seleccionar_coordenadas(title, template) {
             }
         },
         show: false //Por defecto no se muestra la ventana modal al invocarla para poder cargar el mapa
-<<<<<<< HEAD
 	    });
 	    $(modal).on("shown.bs.modal", function() {
 	        /* Carga el mapa cuando la ventana modal es mostrada */
@@ -107,17 +106,6 @@ function seleccionar_coordenadas(title, template) {
 	    $(modal).modal("show");
 	}
 	
-=======
-    });
-    $(modal).on("shown.bs.modal", function() {
-        /* Carga el mapa cuando la ventana modal es mostrada */
-        load_map();
-    });
-    /* Muestra la ventana de dialogo modal despues de haber cargado el mapa en su correspondiente div */
-    $(modal).modal("show");
-}
-
->>>>>>> aac0454116c7d67e609a6663b603385d5c5d1000
 /**
  * @brief Función que carga los datos del mapa a mostrar para la selección de coordenadas geográficas
  */

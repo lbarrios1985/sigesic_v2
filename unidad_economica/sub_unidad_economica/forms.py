@@ -126,7 +126,7 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
-        }),choices = (TIPO_SUB_UNIDAD),
+        }),choices = (('','Seleccione...'),)+(TIPO_SUB_UNIDAD),
     )
     
     ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
