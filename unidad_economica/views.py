@@ -15,16 +15,21 @@ from __future__ import unicode_literals
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from django.forms import inlineformset_factory
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, TemplateView
+from django.shortcuts import render
 
 from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
-from base.models import Ciiu, Estado, Municipio, Parroquia, TipoComunal
+from base.models import (
+    CaevClase, Estado, Municipio, Parroquia, TipoComunal
+    )
 
 from unidad_economica.directorio.models import Directorio
 
 from .forms import UnidadEconomicaForm
-from .models import ActividadCiiu, Franquicia, UnidadEconomica, UnidadEconomicaDirectorio
+from .models import (
+    ActividadCaev, Franquicia, UnidadEconomica, UnidadEconomicaDirectorio
+    )
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -67,6 +72,19 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
 
         return datos_iniciales
 
+    def get_context_data(self, **kwargs):
+        buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"</i></a>'
+        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"</i></a>'
+        if 'actvidad2_tb' in self.request.POST:
+            dictionary = dict(self.request.POST.lists())
+            table = []
+            for i in range(len(dictionary['actividad2_tb'])):
+                my_list = [dictionary['actividad2_tb'][i]+'<input type="text" id="id_actividad2_tb" value="'+dictionary['actividad2_tb'][i]+'" name="actividad2_tb" hidden="true">', buttons]
+                table.append(my_list)
+            kwargs['first_table'] = table
+        kwargs['object_list'] = UnidadEconomica.objects.all()
+        return super(UnidadEconomicaCreate, self).get_context_data(**kwargs)
+
     def form_valid(self, form):
         """!
         Método que verifica si el formulario es válido, en cuyo caso se procede a registrar los datos de la unidad económica
@@ -80,9 +98,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         """
         print("Valido..")
         print(self.request.POST)
-
-        ## Se crea un diccionario de la data recibida por POST
-        #dictionary = dict(self.request.POST.lists())
 
         ## Obtiene los datos seleccionados en Parroquia
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
@@ -117,9 +132,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.save()
 
-        ## Se llama a la función que creará las actividades economicas
-        #self.modificar_diccionario(dictionary,self.object)
-
         ## Almacena en el modelo de relación de dirección y unidad económica
         direccion = UnidadEconomicaDirectorio()
         direccion.unidad_economica = self.object
@@ -134,27 +146,28 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         franquicia.unidad_economica_rif = self.object
         franquicia.save()
 
-        """def modificar_diccionario(self, dictionary, model):
-           
-            Método que extrae los datos de la tabla de actividades económicas en un diccionario y las guarda en el modelo respectivo
-        
-            @author Rodrigo Boet (rboet at cenditel.gob.ve)
-            @copyright GNU/GPLv2
-            @date 09-05-2016
-            @param self <b>{object}</b> Objeto que instancia la clase
-            @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
-            @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
-            @return Retorna el formulario validado
-            
-            for i in range(0,len(dictionary['actividad'])):
-                ## Obtiene los datos seleccionados en Ciiu
-                ciiu = Ciiu.objects.get(pk=self.request.POST['actividad'])
+        ## Obtiene los datos seleccionados en CAEV
+        caev = CaevClase.objects.get(pk=self.request.POST['actividad'])
 
-                ## Almacena en la tabla ActividadCiiu
-                actividad_ciiu = ActividadCiiu()
-                actividad_ciiu.ciiu = ciiu
-                actividad_ciiu.unidad_economica_rif = self.object
-                actividad_ciiu.save()"""
+        ## Almacena en la tabla ActividadCaev
+        actividad_caev = ActividadCaev()
+        actividad_caev.caev = caev
+        actividad_caev.unidad_economica_rif = self.object
+        actividad_caev.save()
+
+        dictionary = dict(self.request.POST.lists())
+        
+        if 'actividad2_tb' in dictionary.keys():
+            for i in dictionary['actividad2_tb']:
+                ## Obtiene los datos seleccionados en Caev
+                caev = CaevClase.objects.get(pk=i)
+
+                ## Almacena en la tabla ActividadCaev
+                actividad_caev = ActividadCaev()
+                actividad_caev.caev = caev
+                actividad_caev.principal = False
+                actividad_caev.unidad_economica_rif = self.object
+                actividad_caev.save()
 
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
@@ -163,3 +176,18 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         print(form)
         return super(UnidadEconomicaCreate, self).form_invalid(form)        
 
+class UnidadEconomicaActividadAjax(TemplateView):
+    """Clase que permite modificar los datos seleccionados en la lista de Actividades Económicas Secundarias de la UnidadEconomica
+    
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 03-06-2016
+    @version 2.0
+    """
+    template_name = 'unidad.economica.actividad.ajax.html'
+
+    def get(self, request):
+        form = UnidadEconomicaForm(initial={'actividad2':request.GET['actividad2_tb']})
+        return render(request, self.template_name,{'form':form})
+        
+        

@@ -83,16 +83,26 @@ class UnidadEconomicaForm(DirectorioForm):
     )
 
     ## Actividad económica secundaria
-    """actividad2 = ChoiceField(
-        label=_("Actividad Económica Principal"),
-        choices=[('','Seleccione...')]+[(actividad.codigo_ciiu, actividad.descripcion) for actividad in Ciiu.objects.all()],
+    actividad2 = ChoiceField(
+        label=_("Actividad Económica Secundaria"),
         widget=Select(
             attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
             }
         ), required=False
-    )"""
+    )
+
+    ## Actividad económica secundaria (datatable)
+    actividad2_tb = forms.CharField(
+        label=_("Actividad Económica Secundaria"),
+        widget=Select(
+            attrs={
+                'class': 'form-control', 'data-toggle': 'tooltip',
+                'title': _("Seleccione la(s) Actividad(es) Economica(s) Secundaria(s) que realiza")
+            }
+        ), required=False
+    )
 
     ## Organización comunal
     orga_comunal = ChoiceField(
@@ -193,6 +203,7 @@ class UnidadEconomicaForm(DirectorioForm):
     def __init__(self, *args, **kwargs):
         super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
         self.fields['actividad'].choices = cargar_actividad()
+        self.fields['actividad2'].choices = cargar_actividad()
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
 
     def clean_nro_franquicia(self):
@@ -212,7 +223,6 @@ class UnidadEconomicaForm(DirectorioForm):
             raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
 
     class Meta(object):
-        """docstring for Meta"""
         model = UnidadEconomica
         fields = ['rif', 'razon_social', 'nombre_ue']
 
