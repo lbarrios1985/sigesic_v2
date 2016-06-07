@@ -261,18 +261,10 @@ function seleccionar_coordenadas(title, template) {
  * @param campo Campo a deshabilitar
  */
 function habilitar(opcion, campo){
-    if(opcion == "S"){
+    if((opcion == "S") || (opcion=="Otro")){
         $('#'+campo).removeAttr('disabled');
     }else{
         $('#'+campo).attr('disabled', 'disabled');
-    }
-}
-
-function habilitar1(opcion1, campo1){
-    if(opcion1 == "Otro"){
-        $('#'+campo1).removeAttr('disabled');
-    }else{
-        $('#'+campo1).attr('disabled', 'disabled');
     }
 }
 
@@ -504,4 +496,8 @@ function default_datatable_field(table_id,fields) {
     });
 }
 
+
+function porcentaje_capital_suscrito(){
+
+}
 
