@@ -1,9 +1,10 @@
 {% extends 'base.template.html' %}
+{% load static from staticfiles %}
 {% load i18n %}
 {% block contenido %}
     <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
-        <div class="box box-primary box-registro" style="padding:20px">
+        <div class="box box-primary box-registro-general" style="padding:20px">
             <div class="box-body">
                 <h4 class="titulo">{% trans 'Información General' %}</h4>
                 <hr />
@@ -45,257 +46,8 @@
                         </div>
                     </div>
                 </div>
-                <h4 class="titulo">
-                    {% trans 'Dirección Fiscal' %}
-                </h4>
-                <hr />
-                
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.estado.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.estado.auto_id }}">
-                                {{ form.estado.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">{{ form.estado }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                                {% if form.estado.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.estado.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.municipio.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.municipio.auto_id }}">
-                                {{ form.municipio.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">{{ form.municipio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.municipio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.municipio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.parroquia.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.parroquia.auto_id }}">
-                                {{ form.parroquia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">{{ form.parroquia }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                                {% if form.parroquia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.parroquia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.prefijo_uno.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_uno.auto_id }}">
-                                Seleccione:
-                            </label>
-                        </div>
-                        <div>
-                            {% for radio in form.prefijo_uno %}
-                                {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo_uno.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_uno.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.prefijo_dos.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_dos.auto_id }}">
-                                Seleccione:
-                            </label>
-                        </div>
-                        <div>
-                            {% for radio in form.prefijo_dos %}
-                                {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo_dos.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_dos.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.direccion_uno.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_uno.auto_id }}">
-                                Indique el nombre:
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.direccion_uno }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.direccion_uno.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_uno.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.direccion_dos.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_dos.auto_id }}">
-                                Indique el nombre:
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.direccion_dos }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.direccion_dos.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_dos.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="row">   
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.prefijo_tres.errors %}has-error{% endif %}">
-                            <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_tres.auto_id }}">
-                                Seleccione:
-                            </label>
-                        </div>
-                        <div>
-                            {% for radio in form.prefijo_tres %}
-                                {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo_tres.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_tres.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.prefijo_cuatro.errors %}has-error{% endif %}">
-                            <label class="col-md-6 col-xs-6 col-sm-6 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
-                                Seleccione:
-                            </label>
-                        </div>
-                        <div>
-                            {% for radio in form.prefijo_cuatro %}
-                                {{ radio }}
-                            {% endfor %}
-                            <i class="ion ion-ios-medical item-requerido"></i>
-                            {% if form.prefijo_cuatro.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_cuatro.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                    
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.direccion_tres.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_tres.auto_id }}">
-                                Indique el nombre:
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.direccion_tres }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.direccion_tres.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_tres.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.direccion_cuatro.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_cuatro.auto_id }}">
-                                Indique el nombre:
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.direccion_cuatro }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% if form.direccion_cuatro.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_cuatro.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--<div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.coordenada.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.coordenada.auto_id }}">
-                                {{ form.coordenada.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">{{ form.coordenada }}</div>
-                            </div>
-                            {% if form.coordenada.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.coordenada.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
-                      </div>
-                  </div>
-                </div>-->
-
-                
+                {% include 'directorio.registro.template.html' %}
 
                 <h4 class="titulo">
                     {% trans 'Actividad Económica' %}
@@ -307,9 +59,7 @@
                         {{ form.actividad.label }}
                     </label>
                     <div class="col-md-9">
-                        {{ form.actividad }}
-                        <!--<a id="#dtable" onclick="add_field_datatable(['#id_actividad', 'id_'],'#mydtable');">
-                        <i class="glyphicon glyphicon-plus"></i></a> --><i class="ion ion-ios-medical item-requerido"></i>
+                        {{ form.actividad }} <i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                     {% if form.actividad.errors %}
                         <p class="bg-warning">
@@ -319,42 +69,43 @@
                         </p>
                     {% endif %}
                 </div>
-                <!--
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                        <h5>{% trans 'Actividad(es) Secundaria(s)' %}</h5>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">        
-                        <table class="table table-striped table-hover display dataTable" id="mydtable">
-                            <thead>
-                                <tr>
-                                    <td>Código CIIU</td>
-                                    <td>Actividad</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-                -->
 
-                <!--<div class="form-group {% if form.actividad2.errors %}has-error{% endif %}">
+                <div class="form-group {% if form.actividad2_tb.errors %}has-error{% endif %}">
                     <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         Actividad Económica Secundaria
                     </label>
-                    <div class="col-md-9">
+                    <div class="col-md-9" onchange="mostrar('#id_actividad2','#i');">
                         {{ form.actividad2 }}
+                        <a id="#dtable" onclick="add_field_datatable(['#id_actividad2'],'#mydtable');" style="cursor: pointer">
+                        <i id="i" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria" onclick="mostrar('#i','#t');"></i></a>
                     </div>
-                    {% if form.actividad2.errors %}
-                        <p class="bg-warning">
-                            <span class="help-block msg-error">
-                                <i class="fa fa-times-circle-o"></i> {{ form.actividad2.errors.as_text|cut:'* ' }}
-                            </span>
-                        </p>
-                    {% endif %}
-                </div>-->
+                </div>
+
+                <div class="row">
+                    <div id="t" class="col-md-12 col-sm-12 col-xs-12 hidden">
+                        <h5 class="titulo text-center">{% trans 'Actividad(es) Económica(s) Secundaria(s)' %}</h5>       
+                        <table class="table table-striped table-bordered table-hover" id="mydtable">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Actividad</th>
+                                    <th class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            {% if first_table %}
+                                <tbody>
+                                {% for value in first_table %}
+                                    <tr>
+                                    {% for item in value %}                                       
+                                        <td>{{item | safe }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+                <br/>
 
                 <div class="row">
                     <div class="col-md-6">
@@ -461,25 +212,6 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.nombre_franquicia.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
-                                {{ form.nombre_franquicia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.nombre_franquicia }}
-                                </div>
-                                {% if form.nombre_franquicia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group {% if form.rif_casa_matriz.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_casa_matriz.auto_id }}">
                                 {{ form.rif_casa_matriz.label }}
@@ -492,6 +224,25 @@
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
                                             <i class="fa fa-times-circle-o"></i> {{ form.rif_casa_matriz.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.nombre_franquicia.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_franquicia.auto_id }}">
+                                {{ form.nombre_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nombre_franquicia }}
+                                </div>
+                                {% if form.nombre_franquicia.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
                                         </span>
                                     </p>
                                 {% endif %}
@@ -547,4 +298,49 @@
             </div>
         </div>
     </form>
+{% endblock %}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
+            var onchange = "validar_rif_seniat('{{ form.rif_casa_matriz.auto_id }}', '{{ form.nombre_franquicia.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
+            }
+
+            console.log($("#{{ form.nombre_franquicia.auto_id }}").text());
+
+
+            /** Función para eliminar cabecera y pie de DataTable */
+            $('#mydtable').DataTable({
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                "filter": false
+            });
+
+            remove_field_datatable('#mydtable');
+            update_field_datatable('#mydtable', 'form-actividad-ajax', ['#id_actividad2']);
+        });
+
+        /**
+         * @brief Función para habilitar una dataTable cuando al seleccionar una opción
+         * @param select Es un campo con el valor de la opción seleccionada
+         * @param element Es un campo con el id de la tabla en la que se habilitará
+         */
+        function mostrar(select, element){
+            $(element).removeClass('hidden');
+        }
+
+        /**
+         * @brief Función para deshabilitar el ítem seleccionado en la actividad económica secundaria 
+         * @param select Es un campo con el valor de la opción seleccionada
+         * @param table Es un campo con el id del ítem agregado a la tabla
+         
+        function deshabilitarSeleccionado(select, table){
+            for(var i=0, i<=3, i++){
+                if($(select).val())
+            }
+        }*/
+    </script>
 {% endblock %}

@@ -48,7 +48,7 @@ class DirectorioForm(ModelForm):
     direccion_uno = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
+            'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número o nombre')
         })
     )
 
@@ -59,9 +59,9 @@ class DirectorioForm(ModelForm):
 
     ## Segundo dato correspondiente a la dirección de Edificio, Galpón, Quinta, Casa, Local o Centro Comercial
     direccion_dos = forms.CharField(
-        label=_("Dirección"), widget=TextInput(attrs={
+        label='', widget=TextInput(attrs={
             'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
+            'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número o nombre')
         })
     )
 
@@ -72,9 +72,9 @@ class DirectorioForm(ModelForm):
 
     ## Tercer dato correspondiente a la dirección de Local, Oficina o Apartamento
     direccion_tres = forms.CharField(
-        label=_("Dirección"), widget=TextInput(attrs={
+        label='', widget=TextInput(attrs={
             'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
+            'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número')
         })
     )
 
@@ -85,9 +85,9 @@ class DirectorioForm(ModelForm):
 
     ## Cuarto dato correspondiente a la dirección de Urbanización, Sector o Zona
     direccion_cuatro = forms.CharField(
-        label=_("Dirección"), widget=TextInput(attrs={
+        label='', widget=TextInput(attrs={
             'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique el nombre"),
+            'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('nombre')
         })
     )
 

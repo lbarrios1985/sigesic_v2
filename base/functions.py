@@ -23,7 +23,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Ciiu, TipoComunal
+from .models import CaevClase, TipoComunal
 
 logger = logging.getLogger('base')
 
@@ -135,19 +135,19 @@ def calcular_diferencia_fechas(fecha_inicial, fecha_final=date_now):
 
 def cargar_actividad():
     """!
-    Función que permite cargar los datos de las actividades CIIU en una tupla
+    Función que permite cargar los datos de las actividades CAEV en una tupla
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 01-06-2016
-    @return Devuelve una tupla con las actividades CIIU registradas
+    @return Devuelve una tupla con las actividades CAEV registradas
     """
 
     lista = ('', _('Seleccione...')),
 
     try:
-        for act in Ciiu.objects.all():
-            lista += (act.codigo_ciiu, act.descripcion),
+        for act in CaevClase.objects.all():
+            lista += (act.codigo, act.descripcion),
     except Exception as e:
         pass
 

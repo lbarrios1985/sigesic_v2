@@ -19,7 +19,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
-from base.models import TipoComunal, Ciiu
+from base.models import CaevClase, TipoComunal
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -104,9 +104,9 @@ class Franquicia(models.Model):
     unidad_economica_rif = models.ForeignKey(UnidadEconomica)
 
 @python_2_unicode_compatible
-class ActividadCiiu(models.Model):
+class ActividadCaev(models.Model):
     """!
-    Clase que gestiona los datos de actividades CIIU relacionados con la Unidad Económica
+    Clase que gestiona los datos de actividades CAEV relacionados con la Unidad Económica
 
     @author Eveli Ramírez (eramirez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -114,7 +114,7 @@ class ActividadCiiu(models.Model):
     @version 2.0
     """
     ## Establece la relación con el código CIUU
-    ciiu = models.ForeignKey(Ciiu)
+    caev = models.ForeignKey(CaevClase)
 
     ## Actividad principal de la Unidad Económica
     principal = models.BooleanField(default=True)
