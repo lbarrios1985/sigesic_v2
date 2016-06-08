@@ -39,10 +39,14 @@ class Capital(models.Model):
     #naturaleza_juridica = models.CharField(max_length=45)
 
     ##Establece el capital solicitado: capital suscrito
-    capital_suscrito = models.FloatField()
+    capital_suscrito = models.CharField(
+        max_length=30,
+    )
 
     ## Establece el tipo de capital solicitado: capital pagado
-    capital_pagado = models.FloatField()
+    capital_pagado = models.CharField(
+        max_length=30,
+    )
 
     ## Establece la distribución porcentual del capital suscrito: público nacional
     publico_nacional = models.FloatField()

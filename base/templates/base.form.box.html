@@ -137,3 +137,64 @@
         </div>
     </div>
 </script>
+
+{# Formulario para actualizar los campos de la composición accionaria #}
+<script type="text/html" id="composicion-accionaria">
+    <h4 class="box-title">{% trans 'Accionistas de la Unidad Económica'%}</h4>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-xs-12 col-sm-12 control-label" for="{{ form.rif_accionista_orig.auto_id }}">
+                {{ form.rif_accionista_orig.label }}
+            </label>
+            <div class="col-md-12 col-xs-12 col-sm-12">
+                <div class="form-inline" readonly="readonly">
+                    {{ form.rif_accionista_orig }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre.auto_id }}">
+                    {{ form.nombre.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    {{ form.nombre }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.pais_origen.auto_id }}">
+                    {{ form.pais_origen.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    {{ form.pais_origen }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.porcentaje.auto_id }}">
+                    {{ form.porcentaje.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8" style="disabled:disabled">
+                    {{ form.porcentaje }}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

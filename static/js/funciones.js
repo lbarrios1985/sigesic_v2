@@ -299,7 +299,7 @@ function load_map() {
  * @param campo Campo a deshabilitar
  */
 function habilitar(opcion, campo){
-    if((opcion == "S") || (opcion == "O") || (opcion == "1")){
+    if((opcion == "S") || (opcion == "Otro") || (opcion == "1")){
         $('#'+campo).removeAttr('disabled');
     }else{
         $('#'+campo).attr('disabled', 'disabled');
