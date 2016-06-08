@@ -13,14 +13,13 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
-from unidad_economica.informacion_mercantil.views import MercantilCreate, InformacionMercantilFormsAjax
+from unidad_economica.informacion_mercantil.views import MercantilCreate
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-    url(r'^informacion-mercantil/registro', MercantilCreate.as_view(), name='informacion_mercantil'),
-    url(r'^form-ajax', InformacionMercantilFormsAjax.as_view(), name="informacion_mercantil_ajax"),
+    url(r'^informacion-mercantil/registro/$', MercantilCreate.as_view(), name='informacion_mercantil'),
 ]
 

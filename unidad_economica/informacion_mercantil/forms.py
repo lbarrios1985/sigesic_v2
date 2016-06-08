@@ -14,7 +14,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 
 from __future__ import unicode_literals
 from django.forms import (
-    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField, Select
+    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField, Select, DecimalField
 )
 from django.utils.translation import ugettext_lazy as _
 from six import python_2_unicode_compatible
@@ -23,6 +23,7 @@ from base.fields import RifField, CedulaField
 from base.models import Pais
 from unidad_economica.informacion_mercantil.models import RepresentanteLegal
 from django.core import validators
+from django.core.exceptions import ValidationError
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -39,6 +40,8 @@ class InformacionMercantilForms(ModelForm):
     @version 2.0
     """
 
+
+
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
         label=_("Naturaleza Jurídica: "),
@@ -51,34 +54,27 @@ class InformacionMercantilForms(ModelForm):
 
     ## Establece el tipo de capital solicitado: capital suscrito
     capital_suscrito = CharField(
-        label=_("Capital Social Suscrito: "), max_length=30,
-        widget=NumberInput(
-            attrs={
-                'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '28',
-                'title': _("Indique el Capital Social Suscrito")
+        label=_("Capital Social Suscrito: "),max_length=30,
+        widget=TextInput(attrs={
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
             })
     )
 
     ## Tipo de capital solicitado: capital pagado
     capital_pagado = CharField(
         label=_("Capital Social Pagado: "), max_length=30,
-        widget=NumberInput(
-            attrs={
-                'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '28',
-                'title': _("Indique el Capital Social Pagado"),
+        widget=TextInput(attrs={
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
+            }),
 
-            })
     )
 
     ## Tipo de capital solicitado: capital publico nacional
     publico_nacional = CharField(
         label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '4',
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
             })
-
     )
 
     ## Tipo de capital solicitado: capital público extranjero
@@ -86,7 +82,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Público Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '4',
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
             })
     )
 
@@ -95,7 +91,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Privado Nacional: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '4'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
             })
     )
 
@@ -104,7 +100,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Privado Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '4'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
             })
     )
 
@@ -230,7 +226,7 @@ class InformacionMercantilForms(ModelForm):
         widget=Select(
             attrs={
                 'class': 'form-control input-sm', 'size': '28',
-                'onchange': "habilitar1(this.value, 'id_cargo_otros')"
+                'onchange': "habilitar(this.value, 'id_cargo_otros')"
             })
     )
 
