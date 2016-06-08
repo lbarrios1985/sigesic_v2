@@ -7,7 +7,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 #
 # Clases, atributos, métodos y/o funciones a implementar para las vistas del módulo unidadeconomica
 # @author Eveli Ramírez (eramirez at cenditel.gob.ve)
-# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
+# (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 # @date 04-05-2016
 # @version 2.0
@@ -79,7 +80,11 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
             dictionary = dict(self.request.POST.lists())
             table = []
             for i in range(len(dictionary['actividad2_tb'])):
-                my_list = [dictionary['actividad2_tb'][i]+'<input type="text" id="id_actividad2_tb" value="'+dictionary['actividad2_tb'][i]+'" name="actividad2_tb" hidden="true">', buttons]
+                my_list = [
+                    dictionary['actividad2_tb'][i]+'<input type="text" id="id_actividad2_tb" value="'+
+                    dictionary['actividad2_tb'][i]+'" name="actividad2_tb" hidden="true">',
+                    buttons
+                ]
                 table.append(my_list)
             kwargs['first_table'] = table
         kwargs['object_list'] = UnidadEconomica.objects.all()
@@ -87,7 +92,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         """!
-        Método que verifica si el formulario es válido, en cuyo caso se procede a registrar los datos de la unidad económica
+        Método que verifica si el formulario es válido, en cuyo caso procede a registrar los datos de la unidad económica
         
         @author Eveli Ramírez (eramirez at cenditel.gob.ve)
         @copyright GNU/GPLv2
@@ -174,20 +179,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     def form_invalid(self, form):
         print('*'*10)
         print(form)
-        return super(UnidadEconomicaCreate, self).form_invalid(form)        
-
-class UnidadEconomicaActividadAjax(TemplateView):
-    """Clase que permite modificar los datos seleccionados en la lista de Actividades Económicas Secundarias de la UnidadEconomica
-    
-    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 03-06-2016
-    @version 2.0
-    """
-    template_name = 'unidad.economica.actividad.ajax.html'
-
-    def get(self, request):
-        form = UnidadEconomicaForm(initial={'actividad2':request.GET['actividad2_tb']})
-        return render(request, self.template_name,{'form':form})
+        return super(UnidadEconomicaCreate, self).form_invalid(form)
         
         

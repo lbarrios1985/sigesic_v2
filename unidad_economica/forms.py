@@ -6,7 +6,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 ## @package unidad_economica.#
 # Formularios para la identificación de la unidad económica
 # @author Eveli Ramírez (eramirez at cenditel.gob.ve)
-# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
+# (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 # @date 04-05-2016
 # @version 2.0
@@ -54,8 +55,8 @@ class UnidadEconomicaForm(DirectorioForm):
         max_length=30,
         widget=TextInput(
             attrs={
-                'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'size': '50', 'readonly': 'readonly'
+                'class': 'form-control', 'data-toggle': 'tooltip', 'size': '50',
+                'title': _("Nombre Comercial de la Unidad Económica a registrar"), 'readonly': 'readonly'
             }
         )
     )
@@ -156,8 +157,9 @@ class UnidadEconomicaForm(DirectorioForm):
         initial=0,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
-                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000', 'disabled': 'disabled' 
+                'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000',
+                'disabled': 'disabled' 
             }
         ), required=False
     )
@@ -169,7 +171,7 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=Select(attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("¿Forma parte de una Franquicia?"),
-                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id), habilitar(this.value, rif_casa_matriz_0.id), habilitar(this.value, rif_casa_matriz_1.id, habilitar(this.value, rif_casa_matriz_2.id))",
+                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id)",
             }
         )
     )
@@ -181,7 +183,9 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el país de origen de la franquicia"), 'disabled': 'disabled'
+                'title': _("Seleccione el país de origen de la franquicia"), 'disabled': 'disabled',
+                'onchange': """habilitar(this.value, rif_casa_matriz_0.id), 
+                habilitar(this.value, rif_casa_matriz_1.id), habilitar(this.value, rif_casa_matriz_2.id), deshabilitar(this.value, nombre_franquicia.id)"""
             }
         ), required=False
     )
@@ -207,13 +211,17 @@ class UnidadEconomicaForm(DirectorioForm):
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
 
     def clean_nro_franquicia(self):
+        casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
         nro_franquicia = self.cleaned_data.get('nro_franquicia')
         if nro_franquicia is None:
             return 0
-            # above can be: return 1
-            # but now it takes value from model definition
         else:
             return nro_franquicia
+
+        print(casa_matriz_franquicia, nro_franquicia)
+
+        if casa_matriz_franquicia == 'S' and nro_franquicia == '' or nro_franquicia == '0':
+            raise forms.ValidationError(_("Indique el número de franquicias"))
 
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
@@ -221,6 +229,24 @@ class UnidadEconomicaForm(DirectorioForm):
 
         if orga_comunal == 'S' and not tipo_comunal:
             raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
+        
+    def clean_situr(self):
+        orga_comunal = self.cleaned_data['orga_comunal']
+        situr = self.cleaned_data['situr']
+        if orga_comunal == 'S' and not situr:
+            raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
+
+    def clean_pais_franquicia(self):
+        franquiciado = self.cleaned_data['franquiciado']
+        pais_franquicia = self.cleaned_data['pais_franquicia']
+        if franquiciado == 'S' and not pais_franquicia:
+            raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
+
+    def clean_nombre_franquicia(self):
+        franquiciado = self.cleaned_data['franquiciado']
+        nombre_franquicia = self.cleaned_data['nombre_franquicia']
+        if franquiciado == 'S' and not nombre_franquicia:
+            raise forms.ValidationError(_("Indique nombre de la franquicia"))
 
     class Meta(object):
         model = UnidadEconomica

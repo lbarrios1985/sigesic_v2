@@ -7,7 +7,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 #
 # Clases, atributos y métodos para el modelo de datos de la unidad económica
 # @author Eveli Ramírez (eramirez at cenditel.gob.ve)
-# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres 
+# (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 # @date 04-05-2016
 # @version 2.0
@@ -113,7 +114,7 @@ class ActividadCaev(models.Model):
     @date 16-05-2016
     @version 2.0
     """
-    ## Establece la relación con el código CIUU
+    ## Establece la relación con el código CAEV
     caev = models.ForeignKey(CaevClase)
 
     ## Actividad principal de la Unidad Económica

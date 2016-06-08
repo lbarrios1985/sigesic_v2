@@ -302,7 +302,7 @@
 {% block extra_footer %}
     <script type="text/javascript">
         $(document).ready(function(){
-            /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
+            /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
             var onchange = "validar_rif_seniat('{{ form.rif_casa_matriz.auto_id }}', '{{ form.nombre_franquicia.auto_id }}', true)";
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
@@ -320,14 +320,10 @@
             });
 
             remove_field_datatable('#mydtable');
-            update_field_datatable('#mydtable', 'form-actividad-ajax', ['#id_actividad2']);
+            update_field_datatable('#mydtable', '#actividad-secundaria-unidadeconomica', ['#id_actividad2']);
         });
 
-        /**
-         * @brief Función para habilitar una dataTable cuando al seleccionar una opción
-         * @param select Es un campo con el valor de la opción seleccionada
-         * @param element Es un campo con el id de la tabla en la que se habilitará
-         */
+        /** Función para mostrar un elemento oculto del formulario */
         function mostrar(select, element){
             $(element).removeClass('hidden');
         }
@@ -342,5 +338,6 @@
                 if($(select).val())
             }
         }*/
+
     </script>
 {% endblock %}

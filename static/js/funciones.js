@@ -307,6 +307,19 @@ function habilitar(opcion, campo){
 }
 
 /**
+ * @brief Función que habilita los campos dependientes de un select
+ * @param opcion Respuesta del usuario según la pregunta
+ * @param campo Campo a deshabilitar
+ */
+function deshabilitar(opcion, campo){
+    if(opcion == "1"){
+        $('#'+campo).attr('disabled', 'disabled');
+    }else{
+        $('#'+campo).removeAttr('disabled');
+    }
+}
+
+/**
  * @brief Función para agregar campos a un datatable
  * @param campos Es un arreglo con el id de los campos a agregar en la tabla
  * @param table_id Es un campo con el id de la tabla en la que agregan los campos
@@ -423,8 +436,8 @@ function update_field_datatable(table_id,view,campos) {
                         return false;
                     }
                     else{
-                        var buttons = '<a class="update_item"><i class="glyphicon glyphicon-pencil"></i></a>';
-                        buttons += '<a class="remove_item"><i class="glyphicon glyphicon-remove"></i></a>';
+                        var buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>';
+                        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>';
                         new_data.push(buttons);
                         t.row(tr).remove().draw(false);
                         t.row.add(new_data).draw(false);
