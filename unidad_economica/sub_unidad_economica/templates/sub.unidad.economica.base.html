@@ -499,6 +499,7 @@
 {%endblock%}
 {% block extra_footer %}
     <script type="text/javascript">
+        /* Función al cargar la página */
         $(document).ready(function(){
             remove_field_datatable('#mydtable');
             update_field_datatable('#mydtable','#procesos-subunidad',
@@ -508,6 +509,7 @@
             comprobar();
         });
         $('#id_tipo_sub_unidad').on('change',function(){comprobar();});
+        /* Función para comprobar en que estado se encuentra el select de tipo de sub unidad */
         function comprobar() {
             tipo_sub_unidad = $('#id_tipo_sub_unidad').val();
             if(tipo_sub_unidad=='Pl' || tipo_sub_unidad=='Su')

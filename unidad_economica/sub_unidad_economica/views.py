@@ -213,19 +213,3 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             actividad_economica.actividad = dictionary['actividad_caev_tb'][i]
             actividad_economica.save()
             
-            
-class SubUnidadFormProcesoAjax(TemplateView):
-    template_name = 'sub.unidad.proceso.ajax.html'
-    
-    def get(self,request):
-        form = SubUnidadEconomicaForm(initial={'tipo_proceso':request.GET['tipo_proceso_tb'],
-            'nombre_proceso':request.GET['nombre_proceso_tb'],'descripcion_proceso':request.GET['descripcion_proceso_tb'],
-            'estado_proceso':request.GET['estado_proceso_tb']})
-        return render(request,self.template_name,{'form':form})
-    
-class SubUnidadFormActividadAjax(TemplateView):
-    template_name = 'sub.unidad.actividad.ajax.html'
-    
-    def get(self,request):
-        form = SubUnidadEconomicaForm(initial={'actividad_caev':request.GET['actividad_caev_tb']})
-        return render(request,self.template_name,{'form':form})
