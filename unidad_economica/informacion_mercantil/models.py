@@ -36,36 +36,29 @@ class Capital(models.Model):
     ## Establece el rif de la unidad economica
     rif_ue = models.ForeignKey(UnidadEconomica)
 
+    #naturaleza_juridica = models.CharField(max_length=45)
 
     ##Establece el capital solicitado: capital suscrito
-    capital_suscrito = models.FloatField(
-        max_length=2,
+    capital_suscrito = models.CharField(
+        max_length=30,
     )
 
     ## Establece el tipo de capital solicitado: capital pagado
-    capital_pagado = models.FloatField(
-        max_length=2
+    capital_pagado = models.CharField(
+        max_length=30,
     )
 
     ## Establece la distribución porcentual del capital suscrito: público nacional
-    publico_nacional = models.FloatField(
-        max_length=2
-    )
+    publico_nacional = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: público extranjero
-    publico_extranjero = models.FloatField(
-        max_length=2,
-    )
+    publico_extranjero = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: privado nacional
-    privado_nacional = models.FloatField(
-        max_length=2
-    )
+    privado_nacional = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: provado extranjero
-    privado_extranjero = models.FloatField(
-        max_length=2
-    )
+    privado_extranjero = models.FloatField()
 
 @python_2_unicode_compatible
 class Accionista(models.Model):
@@ -91,6 +84,11 @@ class Accionista(models.Model):
         max_length=45, help_text=_("Nombre del Accionista")
     )
 
+    ## Establece el pais de origen del accionista
+    pais_origen = models.CharField(
+        max_length=45
+    )
+
     ## Establece el porcentaje de acciones que posee el accionista
     porcentaje = models.FloatField(
         help_text=_("Porcentaje de accciones que posee el acionista")
@@ -108,16 +106,15 @@ class RepresentanteLegal(models.Model):
     @version 2.0.0
     """
 
-    # relación de RIF Unidad Económica
+    ## relación de RIF Unidad Económica
     rif_ue = models.ForeignKey(UnidadEconomica)
-
 
     ## Cédula de Identidad del representante legal
     cedula_representante = models.CharField(
-        max_length=8, help_text=_("Cédula de Identidad del usuario"),
+        max_length=15, help_text=_("Cédula de Identidad del usuario"),
         validators=[
             validators.RegexValidator(
-                r'^[\d]{7,8}+$',
+                r'^[\d]{7,15}+$',
                 _("Introduzca un número de cédula válido. Solo se permiten números y una longitud de 7 u 8 carácteres.")
             ),
         ]
@@ -138,6 +135,7 @@ class RepresentanteLegal(models.Model):
         max_length=45, help_text=("correo@dssddsd.com")
     )
 
+
     ## Número telefónico del representante legal
     telefono = models.CharField(
         max_length=20, help_text=_("Número telefónico de contacto"),
@@ -149,7 +147,10 @@ class RepresentanteLegal(models.Model):
         ]
     )
 
-    ## Cargo del representante legal dentro de la Unidad Económica
-    cargo = models.CharField(max_length=1)
+    ## Cargo que se selecciona en un select, del representante legal dentro de la Unidad Económica
+    cargo = models.CharField(max_length=45)
+
+    ## Cargo que se introduce en un campo de texto del representante legal dentro de la Unidad Económica
+    cargo_otros = models.CharField(max_length=45)
 
 

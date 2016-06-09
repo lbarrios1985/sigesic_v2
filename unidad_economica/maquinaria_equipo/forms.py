@@ -19,7 +19,7 @@ from base.constant import (
 )
 from base.models import Pais
 #from sub_unidad_economica.models import SubUnidadEconomicaProceso
-from .models import *
+from .models import mimodelo
 
 
 
@@ -37,7 +37,7 @@ class maquinaria(forms.ModelForm):
         )
 
     ## nombre del proceso productivo extraido de registro de actividad economica
-    nombre_proceso_ = forms.ChoiceField(
+    nombre_proceso = forms.ChoiceField(
         label=_("Proceso Productivo: "),#queryset=nombre_proceso.objects.all(), empty_label=_("Seleccione..."),
         choices=proceso,
         widget=forms.Select(attrs={

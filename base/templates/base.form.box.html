@@ -50,8 +50,15 @@
                 <h3>{% trans 'Seleccione su ubicacion en el mapa' %}</h3>
                 <hr>
                 <span class="help-block">
-                    {% trans 'Mueva el marcador en el mapa hasta las coordenadas de su ubicación' %}.<br>
-                    {% trans 'Para acercar la imagen del mapa, se debe hacer doble click con el raton' %}.
+                    <ul>
+                        <li>
+                            {% trans 'Para acercar la imagen del mapa, se debe hacer doble click con el raton' %}.
+                        </li>
+                        <li>
+                            {% trans 'Mueva el marcador en el mapa hasta las coordenadas de su ubicación' %},
+                            {% trans 'o bien, con el puntero del raton posicione su ubicacion y haga un solo click con el boton izquierdo' %}.
+                        </li>
+                    </ul>
                 </span>
                 <div class="form-group">
                     <div id="map" class="map" tabindex="0"></div>
@@ -65,3 +72,194 @@
         </div>
     </div>
 </script>
+
+{# Formulario para actualizar los campos de procesos del datatable de subunidad #}
+<script type="text/html" id="procesos-subunidad">
+    <div class="row">
+        <div class="form-group"> 
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                    {% trans 'Tipo de Proceso' %}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    <select class="form-control select2" id="id_tipo_proceso" name="tipo_proceso"></select>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Nombre del Proceso' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <input type="text" class="form-control" id="id_nombre_proceso" name="nombre_proceso"
+                   data-toggle="tooltip" title="{% trans 'Seleccione el nombre del proceso' %}">
+            </div>
+        </div>
+    </div><br>
+    
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Descripción del Proceso' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <input type="text" class="form-control" id="id_descripcion_proceso" name="descripcion_proceso"
+                   data-toggle="tooltip" title="{% trans 'Seleccione la descripción del proceso' %}">
+            </div>
+        </div>
+    </div><br>
+    
+    <div class="row">
+        <div class="form-group">            
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Estado del Proceso' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <select class="form-control select2" id="id_estado_proceso" name="estado_proceso"></select>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+{# Formulario para actualizar el campo de actividad secundaria del datatable de subunidad #}
+<script type="text/html" id="actividad-subunidad">
+    <div class="row">
+        <div class="form-group"> 
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Actividad Económica Secundaria de la Sub-Unidad' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <select class="form-control select2" id="id_actividad_caev" name="actividad_caev"></select>
+            </div>
+        </div>
+    </div>
+</script>
+
+{# Formulario para actualizar los campos de la composición accionaria #}
+<script type="text/html" id="composicion-accionaria">
+    <h4 class="box-title">{% trans 'Accionistas de la Unidad Económica'%}</h4>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12 col-xs-12 col-sm-12 control-label" for="{{ form.rif_accionista_orig.auto_id }}">
+                {{ form.rif_accionista_orig.label }}
+            </label>
+            <div class="col-md-12 col-xs-12 col-sm-12">
+                <div class="form-inline" readonly="readonly">
+                    {{ form.rif_accionista_orig }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre.auto_id }}">
+                    {{ form.nombre.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    {{ form.nombre }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.pais_origen.auto_id }}">
+                    {{ form.pais_origen.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    {{ form.pais_origen }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.porcentaje.auto_id }}">
+                    {{ form.porcentaje.label }}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8" style="disabled:disabled">
+                    {{ form.porcentaje }}
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+{# Formulario para actualizar el campo de actividad secundaria del datatable de unidad económica #}
+<script type="text/html" id="actividad-secundaria-unidadeconomica">
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Actividad Económica Secundaria' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <select class="form-control select2" id="id_actividad2" name="actividad_caev"></select>
+            </div>
+        </div>
+    </div>
+</script>
+
+{# Formulario para actualizar los campos de los datos del datatable de maquinaria #}
+<script type="text/html" id="mymaquinaria">
+    <div class="row">
+        <div class="form-group">
+                <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                    {% trans 'Nombre Proceso' %}
+                </label>
+                <div class="col-md-8 col-xs-8 col-sm-8">
+                    <select class="form-control select2" id="id_nombre_proceso" name="nombre_proceso"></select>
+                </div>
+            </div>
+        </div>
+    </div><br>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Nombre Maquinaria' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <input type="text" class="form-control" id="id_nombre_maquinaria" name="nombre_maquinaria"
+                   data-toggle="tooltip" title="{% trans 'Ingrese el nombre de la maquinario o equipo' %}">
+            </div>
+        </div>
+    </div><br>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Pais de Origen' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <select class="form-control select2" id="id_pais_origen" name="pais_origen"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-4 col-xs-4 col-sm-4 control-label">
+                {% trans 'Descripción de la maquinaria' %}
+            </label>
+            <div class="col-md-8 col-xs-8 col-sm-8">
+                <input type="text" class="form-control" id="id_descripcion_maquinaria" name="descripcion_maquinaria"
+                   data-toggle="tooltip" title="{% trans 'Seleccione la descripción de la maquinaria o equipo' %}">
+            </div>
+        </div>
+    </div><br>
+</script>
+

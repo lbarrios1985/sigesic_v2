@@ -7,7 +7,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 #
 # Urls del módulo unidad_economica
 # @author Eveli Ramírez (eramirez at cenditel.gob.ve)
-# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
+# (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 # @date 04-05-2016
 # @version 2.0
@@ -20,7 +21,7 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-    url(r'^informacion-general/registro/', UnidadEconomicaCreate.as_view(), name="registro_ue"),
+    url(r'^informacion-general/registro/$', UnidadEconomicaCreate.as_view(), name="registro_ue"),
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
     url(r'^sub-unidad/', include('unidad_economica.sub_unidad_economica.urls')),
     url(r'^maquinaria-equipos/', include('unidad_economica.maquinaria_equipo.urls')),

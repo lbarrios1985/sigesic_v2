@@ -126,7 +126,7 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
-        }),choices = (TIPO_SUB_UNIDAD),
+        }),choices = (('','Seleccione...'),)+(TIPO_SUB_UNIDAD),
     )
     
     ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
@@ -161,13 +161,28 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
         }), choices = ESTADO_PROCESO, required=False,
     )
     
-    ## Código CIIU
-    codigo_ciiu =  forms.ChoiceField(
-        label=_("Actividad Económica Principal"), widget=Select(attrs={
+    ## Código CAEV primaria
+    actividad_caev_primaria =  forms.ChoiceField(
+        label=_("Actividad Económica Primaria de la Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md',
-            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Principal"),
-            'required':'required',
-        }), choices = ((1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False,
+            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Primaria de la Sub-Unidad en Ramas"),
+        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False,
+    )
+    
+    ## Código CAEV
+    actividad_caev =  forms.ChoiceField(
+        label=_("Actividad Económica Secundaria de la Sub-Unidad"), widget=Select(attrs={
+            'class': 'form-control input-md',
+            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Secundaria de la Sub-Unidad en Ramas"),
+        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False,
+    )
+    
+    ## Código CAEV
+    actividad_caev_tb =  forms.ChoiceField(
+        label=_("Actividad Económica de la Sub-Unidad"), widget=Select(attrs={
+            'class': 'form-control input-md',
+            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica de la Sub-Unidad en Ramas"),
+        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")), required=False,
     )
     
     ## Capacidad instalada mensual (campo de texto)
@@ -280,6 +295,19 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
             raise forms.ValidationError(_("Este campo es obligatorio"))
         return estado_proceso_tb
     
+    def clean_actividad_caev_tb(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        actividad_caev_tb = self.cleaned_data['actividad_caev_tb']
+        if((tipo == 'Pl' or tipo == "Su") and (actividad_caev_tb=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return actividad_caev_tb
+    
+    def clean_actividad_caev_primaria(self):
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        actividad_caev_primaria = self.cleaned_data['actividad_caev_primaria']
+        if((tipo == 'Pl' or tipo == "Su") and (actividad_caev_primaria=='')):
+            raise forms.ValidationError(_("Este campo es obligatorio"))
+        return actividad_caev_primaria
     
     class Meta:
         model = SubUnidadEconomica

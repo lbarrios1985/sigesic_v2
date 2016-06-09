@@ -12581,5 +12581,61 @@
         },
         "model": "base.ciudad",
         "pk": 75
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Comunas"
+        },
+        "model": "base.tipocomunal",
+        "pk": 1
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Consejos Comunales"
+        },
+        "model": "base.tipocomunal",
+        "pk": 2
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Empresa de Propiedad Social Directa Comunal"
+        },
+        "model": "base.tipocomunal",
+        "pk": 3
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Empresa de Propiedad Social Indirecta Comunal"
+        },
+        "model": "base.tipocomunal",
+        "pk": 4
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Unidad Productiva Familiar"
+        },
+        "model": "base.tipocomunal",
+        "pk": 5
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Grupo de Intercambio Solidario"
+        },
+        "model": "base.tipocomunal",
+        "pk": 6
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Asociaciones Cooperativas"
+        },
+        "model": "base.tipocomunal",
+        "pk": 7
+    },
+    {
+    "fields": {
+        "tipo_comunal": "Productores y Productoras"
+        },
+        "model": "base.tipocomunal",
+        "pk": 8
     }
 ]

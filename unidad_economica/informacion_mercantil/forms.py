@@ -14,17 +14,16 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 
 from __future__ import unicode_literals
 from django.forms import (
-    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField, Select
+    ModelForm, TextInput, EmailInput, CharField, EmailField, NumberInput, ChoiceField, Select, DecimalField
 )
 from django.utils.translation import ugettext_lazy as _
 from six import python_2_unicode_compatible
 from base.constant import NATURALEZA_JURIDICA, CARGO_REP
 from base.fields import RifField, CedulaField
-from base.widgets import RifWidgetReadOnly
 from base.models import Pais
-from unidad_economica.models import UnidadEconomica
 from unidad_economica.informacion_mercantil.models import RepresentanteLegal
 from django.core import validators
+from django.core.exceptions import ValidationError
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -41,86 +40,72 @@ class InformacionMercantilForms(ModelForm):
     @version 2.0
     """
 
+
+
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
         label=_("Naturaleza Jurídica: "),
-        choices=NATURALEZA_JURIDICA,
+        choices=[('', 'Seleccione...')]+NATURALEZA_JURIDICA,
         widget=Select(
             attrs={
                 'class': 'form-control input-sm', 'size': '28',
-                'onchange': "habilitar1(this.value, 'id_naturaleza_juridica_otros')"
-            })
-    )
-    ## Campo para agregar la naturaleza jurídica del usuario
-    naturaleza_juridica_otros = CharField(
-        label=_("Otros: "),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
             })
     )
 
     ## Establece el tipo de capital solicitado: capital suscrito
     capital_suscrito = CharField(
-        label=_("Capital Social Suscrito: "),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '2',
-                'title': _("Indique el Capital Social Suscrito")
+        label=_("Capital Social Suscrito: "),max_length=30,
+        widget=TextInput(attrs={
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
             })
-
     )
 
     ## Tipo de capital solicitado: capital pagado
     capital_pagado = CharField(
-        label=_("Capital Social Pagado: "),
-        widget=TextInput(
-            attrs={
-                'class': 'form-control input-sm',
-                'data-toggle': 'tooltip', 'size': '2',
-                'title': _("Indique el Capital Social Pagado")
-            })
+        label=_("Capital Social Pagado: "), max_length=30,
+        widget=TextInput(attrs={
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
+            }),
+
     )
 
     ## Tipo de capital solicitado: capital publico nacional
     publico_nacional = CharField(
-        label=_("Público Nacional: "),
+        label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
             })
-
     )
 
     ## Tipo de capital solicitado: capital público extranjero
     publico_extranjero = CharField(
-        label=_("Público Extranjero: "), max_length=2,
+        label=_("Público Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
             })
     )
 
     ## Tipo de capital solicitado: capital privado nacional
     privado_nacional = CharField(
-        label=_("Privado Nacional: "), max_length=2,
+        label=_("Privado Nacional: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
-                })
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
+            })
     )
 
     ## Tipo de capital solicitado: capital privado
     privado_extranjero = CharField(
-        label=_("Privado Extranjero: "), max_length=2,
+        label=_("Privado Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'size': '2'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
             })
     )
 
     ## Rif del accionista
-    rif_accionista = RifField()
+    rif_accionista_orig = RifField(required=False)
 
     ## Nombre del accionista
     nombre = CharField(
@@ -134,18 +119,48 @@ class InformacionMercantilForms(ModelForm):
     # País de origen del accionista
     pais_origen = ChoiceField(
         label=_("País de origen: "),
-        choices=[(pais.id, pais.nombre) for pais in Pais.objects.all()]
+        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
+        required=False
     )
 
 
     ## Porcentaje de acciones que posee el accionista
     porcentaje = CharField(
-        label=_("Porcentaje de acciones: "), max_length=30,
-        widget=TextInput(
+        label=_("Porcentaje de acciones: "), max_length=3,
+        widget=NumberInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
                 'title': _("Porcentaje"), 'size': '5'
-        })
+        }), required=False
+    )
+
+    ## Campo oculto para el RIF del accionista
+    rif_accionista_tb = CharField(
+        label=_("Ingrese el R.I.F del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'value': 'rif',
+            'size': '30',
+        }),
+    )
+
+    ## Campo oculto para el nombre del accionista
+    nombre_tb = CharField(
+        widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),
+    )
+
+    ## Campo oculto para el país de origen del accionista
+    pais_origen_tb = CharField(
+        label=_("Seleccione el país del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),required=False,
+    )
+
+    ## Campo oculto para el porcentaje de acciones que posee el accionista
+    porcentaje_tb = CharField(
+        label=_("Seleccione el país del accionista"), widget=TextInput(attrs={
+            'class': 'form-control input-md', 'style': 'min-width: 0; width: auto; display: inline;', 'size': '30',
+        }),
     )
 
     ## Cédula de identidad del representante legal
@@ -153,7 +168,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Nombre del Representante Legal
     nombre_representante = CharField(
-        label=_("Nombre"),
+        label=_("Nombre: "),
         max_length=30,
         widget=TextInput(
             attrs={
@@ -165,7 +180,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Apellido del representante legal
     apellido_representante = CharField(
-        label=_("Apellido"),
+        label=_("Apellido: "),
         max_length=30,
         widget=TextInput(
             attrs={
@@ -177,7 +192,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Correo electrónico del representante legal
     correo_electronico = EmailField(
-        label=_("Correo Electrónico"),
+        label=_("Correo Electrónico: "),
         max_length=75,
         widget=EmailInput(
             attrs={
@@ -191,7 +206,7 @@ class InformacionMercantilForms(ModelForm):
 
     ## Número telefónico del representante legal
     telefono = CharField(
-        label=_("Teléfono"),
+        label=_("Teléfono: "),
         max_length=20,
         widget=TextInput(
             attrs={
@@ -207,11 +222,11 @@ class InformacionMercantilForms(ModelForm):
     ## Cargo que ejerce el representante legal dentro de la unidad económica
     cargo = ChoiceField(
         label=_("Cargo: "),
-        choices=CARGO_REP,
+        choices=[('', 'Seleccione...')]+CARGO_REP,
         widget=Select(
             attrs={
                 'class': 'form-control input-sm', 'size': '28',
-                'onchange': "habilitar1(this.value, 'id_cargo_otros')"
+                'onchange': "habilitar(this.value, 'id_cargo_otros')"
             })
     )
 
@@ -221,13 +236,13 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
-            })
+            }), required=False
     )
+
+    rif_ue = RifField(required=False)
 
     class Meta:
         model = RepresentanteLegal
         fields = [
-            'nombre_representante', 'apellido_representante', 'telefono', 'correo_electronico'
-            ]
-        exclude = ['naturaleza_juridica_otros']
-
+            'cargo_otros'
+                ]

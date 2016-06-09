@@ -112,39 +112,21 @@ class Ciudad(models.Model):
     estado = models.ForeignKey(Estado)
 
 @python_2_unicode_compatible
-class Ciiu(models.Model):
+class CaevClase(models.Model):
     """!
-    Clase que contiene el Código Industrial Internacional de Actividades Económicas
+    Clase que contiene el Código de Actividades Económicas
 
     @author Eveli Ramírez (eramirez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 17-05-2016
+    @date 2-06-2016
     @version 2.0
     """
 
-    ## Código Industrial Internacional de Actividades Económicas
-    codigo_ciiu = models.CharField(max_length=6, primary_key=True)
+    ## Código de Actividades Económicas
+    codigo = models.CharField(max_length=6, primary_key=True)
 
-    ## Descripción del Código Industrial Internacional de Actividades Económicas
+    ## Descripción del Código de Actividades Económicas
     descripcion = models.CharField(max_length=100)
-
-    ## Sección
-    seccion = models.CharField(max_length=1)
-
-    ## Descripción de la sección
-    descripcion_seccion = models.CharField(max_length=100)
-
-    ## División
-    division = models.CharField(max_length=3)
-
-    ## Descripción de la División
-    descripcion_division = models.CharField(max_length=100)
-
-    ## Grupo
-    grupo = models.CharField(max_length=4)
-
-    ## Descripción del grupo
-    descripcion_grupo = models.CharField(max_length=100)
 
 @python_2_unicode_compatible
 class TipoComunal(models.Model):

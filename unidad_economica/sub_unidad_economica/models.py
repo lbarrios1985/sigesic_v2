@@ -40,8 +40,8 @@ class SubUnidadEconomica(models.Model):
         max_length=20, help_text=_("Número telefónico de contacto con el usuario"),
     )
     
-    ## Tipo de tenencia de la sub unidad. (Se relaciona con el modelo Tenencia)
-    #tipo_tenencia_id = models.OneToOneField()
+    ## Tipo de tenencia de la sub unidad
+    tipo_tenencia = models.CharField(max_length=2)
     
     ## Tipo de subunidad
     tipo_sub_unidad = models.CharField(max_length=2)
@@ -141,3 +141,20 @@ class SubUnidadEconomicaDirectorio(models.Model):
 
     ## Establece la relación con el Directorio
     directorio = models.ForeignKey(Directorio)
+    
+class SubUnidadEconomicaActividad(models.Model):
+    """!
+    Clase que gestiona las actividades económicas de la Sub Unidad
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 18-05-2016
+    @version 2.0.0
+    """
+    
+    ## Establece la relación con la Sub Unidad Económica
+    sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
+    
+    ## actividad economica de la subunidad
+    actividad = models.CharField(max_length=2)
+    

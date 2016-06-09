@@ -2,98 +2,169 @@
 {% load static from staticfiles %}
 {% load i18n %}
 {% block contenido %}
-    <h4 class="titulo">{% trans "Información Mercantil"%}</h4>
-    <form action="{% url 'informacion_mercantil' %}" method="post" enctype="multipart/form-data" role="form">
+    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
-            <div class="box box-primary box-registro" style="padding:20px">
+            <div class="box box-primary box-registro-general" style="padding:20px">
                 <div class="box-header with-border">
                     <div class="box-body">
+                        <h3 class="titulo">{% trans "Información Mercantil"%}</h3>
+                        <hr/>
                         <h4 class="titulo">{% trans 'Distribución del Capital' %}</h4>
                         <hr/>
                         <div class="row">
+                        <div class="hidden"> {{ form.rif_ue }}</div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="form-inline">
-                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica.auto_id }}">
+                                <div class="form-group {% if form.naturaleza_juridica.errors %}has-error{% endif %}">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.naturaleza_juridica.auto_id }}">
                                         {{ form.naturaleza_juridica.label }}
                                         </label>
                                     </div>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                           {{ form.naturaleza_juridica }}
+                                            {{ form.naturaleza_juridica }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
                                         </div>
+                                        {% if form.naturaleza_juridica.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.naturaleza_juridica.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.naturaleza_juridica_otros.auto_id }}">
-                                    {{ form.naturaleza_juridica_otros.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.naturaleza_juridica_otros }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </br>
-                        </br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="col-md-6 col-xs-6 col-sm-6 control-label" >{{ form.capital_suscrito.label }}</label>
-                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.capital_suscrito}}</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="col-md-6 col-xs-6 col-sm-6 control-label"> {{ form.capital_pagado.label }}</label>
-                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.capital_pagado}}</div>
-                            </div>
-                        </div>
-                        </br>
 
+                        </br>
+                        <font color="navy">
+                            <h5>{% trans "Nota: El capital está expresado en Bolívares Fuertes (Bs.F.)."%}</h5>
+                            <h5>{% trans "Utilizar puntos (.) como separador de miles y coma (,) para decimales"%}</h5>
+                        </font>
+
+                        </br>
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="col-md-9 col-xs-9 col-sm-9 titulo">{% trans "Distribución Porcentual del capital suscrito" %} </h5>
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="form-inline col-md-12">
-                                <label class="col-md-2">{{form.publico_nacional.label}} </label>
-                                    <div class="col-md-1"> {{ form.publico_nacional }}</div>
-                                <label class="col-md-2"> {{form.publico_extranjero.label}}</label>
-                                    <div class="col-md-1">{{form.publico_extranjero}}</div>
-                                <label class="col-md-2">{{form.privado_nacional.label}}</label>
-                                    <div class="col-md-1">{{form.privado_nacional}}</div>
-                                <label class="col-md-2">{{form.privado_extranjero.label}}</label>
-                                    <div class="col-md-1"> {{form.privado_extranjero}}</div>
-                            </div>
-                        </div>
-
-                        <h4 class="titulo">{% trans "Composición Accionaria" %} </h4>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <div class="form-inline">
-                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif_accionista.auto_id }}">
-                                        {{ form.rif_accionista.label }}
+                                <div class="form-group {% if form.capital_suscrito.errors %} has-error{% endif %}">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.capital_suscrito.auto_id }}">
+                                        {{ form.capital_suscrito.label }}
                                         </label>
                                     </div>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.rif_accionista }}
+                                           {{ form.capital_suscrito }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.capital_suscrito.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.capital_suscrito.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group {% if form.capital_pagado.errors %} has-error{% endif %}">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.capital_pagado.auto_id }}">
+                                        {{ form.capital_pagado.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline" >
+                                           {{ form.capital_pagado }} <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.capital_pagado.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.capital_pagado.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </br>
+                        <div class="row">
+                            <div class="form-group {% if form.publico_nacional.errors %}has-error{% endif %}">
+                        <label class="col-md-9 col-xs-9 col-sm-9 control-label"
+                               for="{{ form.publico_nacional.auto_id }}">
+                            <h5 class="col-md-12 col-xs-12 col-sm-12 titulo">
+                                {% trans "Distribución Porcentual del capital suscrito" %}
+                                <i class="ion ion-ios-medical item-requerido"></i> </h5>
+                        </label>
+                            </div>
+                        </div>
+
+                        <font color="navy">
+                            <h5>{% trans "Nota: Medido en porcentaje (%)"%}</h5>
+                        </font>
+
+                        </br>
+                        <div class="row">
+                            <div class="form-inline col-md-12">
+                                <div class="form-group {% if form.publico_nacional.errors %}has-error{% endif %}">
+	                                <label class="col-md-2">{{form.publico_nacional.label}} </label>
+	                                    <div class="col-md-1" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                                            {{ form.publico_nacional }}</div>
+	                                <label class="col-md-2"> {{form.publico_extranjero.label}}</label>
+	                                    <div class="col-md-1" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                                            {{form.publico_extranjero}}</div>
+	                                <label class="col-md-2">{{form.privado_nacional.label}}</label>
+	                                    <div class="col-md-1" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                                            {{form.privado_nacional}}</div>
+	                                <label class="col-md-2">{{form.privado_extranjero.label}}</label>
+	                                    <div class="col-md-1" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                                            {{form.privado_extranjero}}</div>
+	                            </div>
+                                {% if form.publico_nacional.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i>
+                                            {{ form.capital_pagado.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        </br>
+                        <h4 class="titulo">{% trans "Composición Accionaria" %} </h4>
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                            for="{{ form.rif_accionista_orig.auto_id }}">
+                                                {{ form.rif_accionista_orig.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.rif_accionista_orig }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre.auto_id }}">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                        for="{{ form.nombre.auto_id }}">
                                     {{ form.nombre.label }}
                                     </label>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
@@ -104,138 +175,388 @@
                                 </div>
                             </div>
                         </div>
+
                         <br/>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group ">
                                     <div class="form-inline">
-                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.pais_origen.auto_id }}">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.pais_origen.auto_id }}">
                                         {{ form.pais_origen.label }}
                                         </label>
                                     </div>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
-                                        <div class="form-inline">
-                                            {{ form.pais_origen }}
+                                        <div class="form-inline" >
+                                            {{ form.pais_origen }} <i class="ion ion-ios-medical item-requerido"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group " >
                                     <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.porcentaje.auto_id }}">
                                     {{ form.porcentaje.label }}
                                     </label>
                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                         <div class="form-inline">
-                                            {{ form.porcentaje }}
+                                            {{ form.porcentaje }} <i class="ion ion-ios-medical item-requerido"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         </br>
-                        <div class=" text-center">
-                            <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
-                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Guardar</button>
-                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Agregar otro</button>
+                        <div class=" text-right">
+                            <button type="button" class="btn btn-primary btn-sm" id="#dtable"
+                                    onclick="add_field_datatable(['#id_rif_accionista','#id_nombre', '#id_pais_origen',
+                                    '#id_porcentaje'],'#mydtable');"
+                                    data-toggle="tooltip">Agregar Accionista
+                            </button>
+                        </div>
+
+                        <input type="text" id="id_rif_accionista" hidden="hidden">
+
+                        </br>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <table class="table table-striped table-hover display dataTable" id="mydtable">
+                                    <thead>
+                                        <tr>
+                                            <td>RIF</td>
+                                            <td>Nombre Accionista</td>
+                                            <td>País de Origen</td>
+                                            <td>Porcentaje de Acciones</td>
+                                            <td>Opciones</td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            <i class="ion ion-ios-medical item-requerido"></i>
+                            <!--
+                            {% if form.rif_accionista_tb.errors or form.nombre_tb.errors or form.pais_origen_tb.errors or form.porcentaje_tb.errors %}
+                                <p class="bg-warning">
+                                    <span class="help-block msg-error">
+                                        <i class="fa fa-times-circle-o"></i>
+                                        {% trans 'Debe agregar al menos un accionista' %}
+                                    </span>
+                                </p>
+                            {% endif %}
+                            -->
+                            </div>
+
                         </div>
 
                         <h4 class="titulo">{% trans "Representante Legal" %} </h4>
                         <hr/>
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cedula_representante.auto_id }}">
-                                    {{ form.cedula_representante.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-group {% if form.cedula_representante.errors %}has-error{% endif %}">
+                                <div class="col-md-6">
                                     <div class="form-inline">
-                                        {{ form.cedula_representante }}
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.cedula_representante.auto_id }}">
+                                            {{ form.cedula_representante.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">{{ form.cedula_representante }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.cedula_representante.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.cedula_representante.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        </br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_representante.auto_id }}">
-                                    {{ form.nombre_representante.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.nombre_represetante }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.apellido_representante.auto_id }}">
-                                    {{ form.apellido_representante.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.apellido_representante }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo_electronico.auto_id }}">
-                                    {{ form.correo_electronico.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.correo_electronico }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-inline">
-                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">
-                                    {{ form.telefono.label }}
-                                    </label>
-                                </div>
-                                <div class="col-md-9 col-xs-9 col-sm-9">
-                                    <div class="form-inline">
-                                        {{ form.telefono }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="col-md-3 col-xs-3 col-sm-3 control-label" >{{ form.cargo.label }}</label>
-                                <div class="col-md-5 col-xs-5 col-sm-5">{{ form.cargo}}</div>
                             </div>
                         </div>
 
-                            <div class=" text-right">
-                                <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
-                                <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Siguiente</button>
+                        <div class="row">
+                            <div class="form-group {% if form.nombre_representante.errors %}has-error{% endif %}">
+                                <div class="col-md-6 ">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.nombre_representante.auto_id }}">
+                                        {{ form.nombre_representante.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">{{ form.nombre_representante }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.nombre_representante.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.nombre_representante.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.apellido_representante.auto_id }}">
+                                        {{ form.apellido_representante.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">{{ form.apellido_representante }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.apellido_representante.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.apellido_representante.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        </br>
+                        <div class="row">
+                            <div class="form-group {% if form.correo_electronico.errors %}has-error{% endif %}">
+                                <div class="col-md-6">
+                                    <div class="form-inline ">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.correo_electronico.auto_id }}">
+                                        {{ form.correo_electronico.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.correo_electronico }}
+                                            <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.correo_electronico.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.correo_electronico.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.telefono.auto_id }}">
+                                        {{ form.telefono.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                            {{ form.telefono }} <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.telefono.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.telefono.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group {% if form.cargo.errors %}has-error{% endif %}">
+                                    <div class="form-inline">
+                                        <label class="col-md-3 col-xs-3 col-sm-3 control-label"
+                                               for="{{ form.cargo.auto_id }}">
+                                        {{ form.cargo.label }}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-xs-9 col-sm-9">
+                                        <div class="form-inline">
+                                           {{ form.cargo }} <i class="ion ion-ios-medical item-requerido"></i>
+                                        </div>
+                                        {% if form.cargo.errors %}
+                                            <p class="bg-warning">
+                                                <span class="help-block msg-error">
+                                                    <i class="fa fa-times-circle-o"></i>
+                                                    {{ form.cargo.errors.as_text|cut:'* ' }}
+                                                </span>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </br>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" >
+                                        {{ form.cargo_otros.label }}</label>
+                                    <div class="col-md-4 col-xs-4 col-sm-4">{{ form.cargo_otros}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        </br>
+                        <div class=" text-right">
+                            <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>
+                            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">Siguiente</button>
+                        </div>
+
                     </div>
-              </div>
+                </div>
+            </div>
         </div>
     </form>
- {%endblock%}
+{%endblock%}
 {% block extra_footer %}
     <script type="text/javascript">
         $(document).ready(function() {
             /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
-            var onchange = "validar_rif_seniat('{{ form.rif_accionista.auto_id }}', '{{ form.nombre.auto_id }}', true)";
+            var onchange = "validar_rif_seniat('{{ form.rif_accionista_orig.auto_id }}', '{{ form.nombre.auto_id }}', true)";
             for (i=0; i<=2; i++) {
-                $("#{{ form.rif_accionista.auto_id }}_"+i).attr("onchange", onchange);
+                $("#{{ form.rif_accionista_orig.auto_id }}_"+i).attr("onchange", onchange);
             }
+
+            remove_field_datatable('#mydtable','.remove_item');
+            update_field_datatable('#mydtable','#composicion-accionaria',
+                ['#id_rif_accionista_orig', '#id_nombre','#id_pais_origen', '#id_porcentaje']);
+            //rif();
+            var rif_a = $('#id_rif_accionista_orig_0');
+            var rif_b = $('#id_rif_accionista_orig_1');
+            var rif_c = $('#id_rif_accionista_orig_2');
+            rif_c.blur(function(){
+                if(rif_b.val()!='' && rif_c.val()!='')
+                {
+                    $('#id_rif_accionista').val(rif_a.val()+rif_b.val()+rif_c.val());
+                }
+            });
         });
+
+        /*function rif() {
+            var rif_a = ($('#id_rif_accionista_0').val());
+            var rif_b = ($('#id_rif_accionista_1').val());
+            var rif_c = ($('#id_rif_accionista_2').val());
+            var r = rif_a.concat(rif_b, rif_c);
+
+
+            if (rif_b == '' || rif_c == '') {
+                $('#rif_oculto').val();
+            }
+            else
+                $('#rif_oculto').val(r);
+        }*/
+
+        function porcentaje_capital_suscrito(fields){
+
+            var suma = 0;
+
+        $(fields).each(function () {
+            suma += parseFloat($(this).val()) || 0;
+        });
+
+        if(suma > 100) {
+           /* alert("El porcentaje máximo debe ser 100% " + suma);
+            return false;
+            */
+            var mensaje = bootbox.dialog({
+                title: 'Alerta',
+                message: 'El porcentaje máximo debe ser 100,00%',
+                buttons: {
+                main: {
+                    label: 'Aceptar',
+                    className: "btn btn-primary btn-sm"
+                }
+            }
+            });
+            mensaje.show();
+        }
+
+        /*if(suma <= 100) {
+            alert("Error, la suma de cada uno de los elementos de la distribución debe sumar 100%,00, por favor verifique " +suma);
+            return false;
+        }*/
+
+            var a = $('#id_publico_nacional').val();
+            var b = $('#id_publico_extranjero').val();
+            var c = $('#id_privado_nacional').val();
+            var d = $('#id_privado_extranjero').val();
+            /*
+            if (parseFloat(a) + parseFloat(b) + parseFloat(c) + parseFloat(d)  <= 100){
+                alert ("Error, la suma de cada uno de los elementos de la distribución debe sumar 100%, por favor verifique") ;
+            }
+            */
+
+            if (parseFloat(a) + parseFloat(b) + parseFloat(c) + parseFloat(d)  < 100) {
+                var error = bootbox.dialog({
+                    title: 'Alerta',
+                    message: 'Error, la suma de cada uno de los elementos de la distribución debe sumar 100,00%, por favor verifique',
+                    buttons: {
+                        main: {
+                            label: 'Aceptar',
+                            className: "btn btn-primary btn-sm"
+                        }
+                    }
+                });
+                error.show();
+            }
+        }
+
+        function separador_miles(separador, period) {
+            var romper = this.toString().split(',');
+            var numeric = romper[0];
+            var decimal = romper.length > 1 ? period + romper[1] : '';
+            var reg = /(\d+)(\d{3})/;
+            while (reg.test(numeric)) {
+                numeric = numeric.replace(reg, '$1' + separador + '$2');
+            }
+
+            if (decimal.length > 3){
+                var error = bootbox.dialog({
+                    title: 'Alerta',
+                    message: 'Sólo se aceptan dos (2) decimales ',
+                    buttons: {
+                        main: {
+                            label: 'Aceptar',
+                            className: "btn btn-primary btn-sm"
+                        }
+                    }
+                });
+                error.show();
+                d = decimal.replace(/(\d{1})/, '');
+                return numeric + d;
+            }
+            else{
+                decimal = decimal
+            }
+
+        return numeric + decimal;
+	}
+        $('#id_capital_suscrito').on('keyup', function(){
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
+        });
+        $('#id_capital_pagado').on('keyup', function(){
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
+        });
+
+
     </script>
 {% endblock %}
+
+
