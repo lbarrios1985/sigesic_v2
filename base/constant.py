@@ -184,3 +184,11 @@ FORTALEZA_CONTRASENHA = 3
 
 ## Días de caducidad para el enlace de registro de usuarios
 CADUCIDAD_LINK_REGISTRO = 1
+
+## Estado Actual de la maquinaria o el equipo
+ESTADO_ACTUAL =\
+    (
+    ('Funcionamiento', _("En Fucionamiento")),
+    ('Reparacion', _("En Reparacion")),
+    ('Dañado', _("Dañado")),
+)

@@ -76,6 +76,7 @@ PROJECT_APPS = [
     'unidad_economica',
     'unidad_economica.informacion_mercantil',
     'unidad_economica.sub_unidad_economica',
+    'unidad_economica.maquinaria_equipo'
 ]
 
 ## Listado de aplicaciones cargadas por el sistema
@@ -119,12 +120,15 @@ INFORMACION_MERCANTIL_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/infor
 ## Directorio en donde se encuentran las plantillas del módulo de Sub Unidad Económica
 SUB_UNIDAD_ECONOMICA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/sub_unidad_economica/templates")
 
+## Directorio en donde se encuentran las plantillas del módulo maquinaria_equipos
+MAQUINARIA_EQUIPO_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/maquinaria_equipos/templates")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
-            INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES,
+            INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, MAQUINARIA_EQUIPO_TEMPLATES,
         ],
         'APP_DIRS': True,
         'OPTIONS': {
