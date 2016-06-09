@@ -303,6 +303,7 @@ function habilitar(opcion, campo){
         $('#'+campo).removeAttr('disabled');
     }else{
         $('#'+campo).attr('disabled', 'disabled');
+        $('#'+campo).val("");
     }
 }
 
@@ -314,6 +315,7 @@ function habilitar(opcion, campo){
 function deshabilitar(opcion, campo){
     if(opcion == "1"){
         $('#'+campo).attr('disabled', 'disabled');
+        $('#'+campo).val("");
     }else{
         $('#'+campo).removeAttr('disabled');
     }
