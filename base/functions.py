@@ -147,7 +147,7 @@ def cargar_actividad():
 
     try:
         for act in CaevClase.objects.all():
-            lista += (act.codigo, act.descripcion),
+            lista += (act.clase, act.descripcion),
     except Exception as e:
         pass
 
