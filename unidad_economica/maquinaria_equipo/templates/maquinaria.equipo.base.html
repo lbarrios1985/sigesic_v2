@@ -1,0 +1,164 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block contenido %}
+<form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    {% csrf_token %}
+    <div class="box box-primary box-registro-general" style="padding:20px">
+        <div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Maquinaria y Equipos'%}</h1>
+        </div>
+        <div class="box-body">
+            <div id="maquinaria-equipo">
+                <div class="box-header with-border">
+                    <h4 class="" align="center">{% trans 'Registro de maquinarias y equipos'%}</h4>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.nombre_proceso.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre_proceso.auto_id }}">
+                                {{ form.nombre_proceso.label }}
+                            </label>
+                            <div class="col-md-2 col-xs-2 col-sm-2">
+                                {{ form.nombre_proceso }}
+                                {% if form.nombre_proceso.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_proceso.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.nombre_maquinaria.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre_maquinaria.auto_id }}">
+                                {{ form.nombre_maquinaria.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.nombre_maquinaria }}
+                                {% if form.nombre_maquinaria.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_maquinaria.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.pais_origen.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.pais_origen.auto_id }}">
+                                {{ form.pais_origen.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.pais_origen}}
+                                {% if form.pais_origen.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.pais_origen.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.descripcion_maquinaria.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.descripcion_maquinaria.auto_id }}">
+                                {{ form.descripcion_maquinaria.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.descripcion_maquinaria }}
+                                {% if form.descripcion_maquinaria.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.descripcion_maquinaria.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.estado_actual.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.estado_actual.auto_id }}">
+                                {{ form.estado_actual.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.estado_actual }}
+                                {% if form.estado_actual.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.estado_actual.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <label>{% trans 'Agregar Maquinaria' %}</label>
+                        <a id="#dtable" onclick="add_field_datatable(['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria'],'#mydtable');">
+                        <i class="glyphicon glyphicon-plus"></i></a>
+                        <i class="ion ion-ios-medical item-requerido"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                        <h5>{% trans 'Maquinarias y Equipos Registrados' %}</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <table class="table table-striped table-hover display dataTable" id="mydtable">
+                            <thead>
+                                <tr>
+                                    <td>Nombre Maquinaria/Equipo</td>
+                                    <td>Pais de Origen</td>
+                                    <td>Descripción de la Maquinaria/Equipo</td>
+                                    <td>Estado de la Maquinaria/Equipo</td>
+                                    <td>Año de Fabricacion</td>
+                                    <td>Año de Adquisicion</td>
+                                </tr>
+                            </thead>
+                        </table>
+                        {% if form.nombre_proceso_tb.errors or form.tipo_proceso_tb.errors or form.descripcion_proceso_tb.errors or form.estado_proceso_tb.errors%}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    {% trans 'Debe agregar al menos una Maquinaria o Equipo' %}
+                                </span>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+        <div class="box-footer">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Ingresar' %}</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</form>
+{%endblock%}
+{% block extra_footer %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            remove_field_datatable('#mydtable');
+            update_field_datatable('#mydtable','#mymaquinaria',
+                ['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria']);
+        });
+    </script>
+{% endblock %}
