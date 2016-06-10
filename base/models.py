@@ -112,6 +112,63 @@ class Ciudad(models.Model):
     estado = models.ForeignKey(Estado)
 
 @python_2_unicode_compatible
+class CaevSeccion(models.Model):
+    """!
+    Clase que contiene las secciones de Actividades Económicas
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 10-06-2016
+    @version 2.0
+    """
+
+    ## Código de la Sección
+    seccion = models.CharField(max_length=6, primary_key=True)
+
+    ## Descripción del Código de la Sección
+    descripcion = models.CharField(max_length=500)
+
+@python_2_unicode_compatible
+class CaevDivision(models.Model):
+    """!
+    Clase que contiene las divisiones de Actividades Económicas
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 10-06-2016
+    @version 2.0
+    """
+
+    ## Código de la División
+    division = models.CharField(max_length=6, primary_key=True)
+
+    ## Descripción del Código de la Divisíon
+    descripcion = models.CharField(max_length=500)
+
+    ## Establece la relación con la Sección CAEV
+    seccion = models.ForeignKey(CaevSeccion)
+
+@python_2_unicode_compatible
+class CaevGrupo(models.Model):
+    """!
+    Clase que contiene los grupos de Actividades Económicas
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 10-06-2016
+    @version 2.0
+    """
+
+    ## Código del Grupo
+    grupo = models.CharField(max_length=6, primary_key=True)
+
+    ## Descripción del Código del Grupo
+    descripcion = models.CharField(max_length=500)
+
+    ## Establece la relación con la División CAEV
+    division = models.ForeignKey(CaevDivision)
+
+@python_2_unicode_compatible
 class CaevClase(models.Model):
     """!
     Clase que contiene el Código de Actividades Económicas
@@ -122,11 +179,34 @@ class CaevClase(models.Model):
     @version 2.0
     """
 
-    ## Código de Actividades Económicas
-    codigo = models.CharField(max_length=6, primary_key=True)
+    ## Código de las Clases de Actividades Económicas
+    clase = models.CharField(max_length=6, primary_key=True)
 
-    ## Descripción del Código de Actividades Económicas
-    descripcion = models.CharField(max_length=100)
+    ## Descripción del Código de Clases de Actividades Económicas
+    descripcion = models.CharField(max_length=500)
+
+    ## Establece la relación con el Grupo CAEV
+    grupo = models.ForeignKey(CaevGrupo)
+
+@python_2_unicode_compatible
+class CaevRama(models.Model):
+    """!
+    Clase que contiene las Ramas de Actividades Económicas
+
+    @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 10-06-2016
+    @version 2.0
+    """
+
+    ## Código de la Rama
+    rama = models.CharField(max_length=6, primary_key=True)
+
+    ## Descripción del Código de la Rama
+    descripcion = models.CharField(max_length=500)
+
+    ## Establece la relación con la Clase CAEV
+    clase = models.ForeignKey(CaevClase)
 
 @python_2_unicode_compatible
 class TipoComunal(models.Model):
