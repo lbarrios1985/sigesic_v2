@@ -117,7 +117,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         directorio.direccion_tres=form.cleaned_data['direccion_tres']
         directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
         directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
-        #directorio.coordenadas = form.cleaned_data['coordenada']
+        directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.parroquia = parroquia
         directorio.activo=True
         directorio.save()
