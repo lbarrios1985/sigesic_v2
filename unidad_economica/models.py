@@ -79,7 +79,7 @@ class UnidadEconomica(models.Model):
     franquiciado = models.BooleanField(default=False)
 
     ## Código SITUR de la organización comunal
-    codigo_SITUR = models.CharField(max_length=45)
+    situr = models.CharField(max_length=45)
 
 @python_2_unicode_compatible
 class Franquicia(models.Model):
