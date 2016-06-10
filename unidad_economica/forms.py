@@ -229,25 +229,48 @@ class UnidadEconomicaForm(DirectorioForm):
 
         if orga_comunal == 'S' and not tipo_comunal:
             raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
+        return orga_comunal
         
     def clean_situr(self):
         orga_comunal = self.cleaned_data['orga_comunal']
         situr = self.cleaned_data['situr']
+        
         if orga_comunal == 'S' and not situr:
             raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
+        return situr
 
     def clean_pais_franquicia(self):
         franquiciado = self.cleaned_data['franquiciado']
         pais_franquicia = self.cleaned_data['pais_franquicia']
+        
         if franquiciado == 'S' and not pais_franquicia:
             raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
+        return pais_franquicia
+
+    def clean_rif_casa_matriz(self):
+        rif_casa_matriz = self.cleaned_data['rif_casa_matriz']
+        pais_franquicia = self.cleaned_data['pais_franquicia']
+        
+        if pais_franquicia == '1' and not rif_casa_matriz:
+            raise forms.ValidationError(_("Indique el RIF de la franquicia"))
+        return rif_casa_matriz
 
     def clean_nombre_franquicia(self):
         franquiciado = self.cleaned_data['franquiciado']
         nombre_franquicia = self.cleaned_data['nombre_franquicia']
+        
         if franquiciado == 'S' and not nombre_franquicia:
             raise forms.ValidationError(_("Indique nombre de la franquicia"))
+        return nombre_franquicia
 
+    def clean_nro_franquicia(self):
+        casa_matriz_franquicia = self.cleaned_data['casa_matriz_franquicia']
+        nro_franquicia = self.cleaned_data['nro_franquicia']
+        
+        if casa_matriz_franquicia == 'S':
+            raise forms.ValidationError(_("Indique número de franquicias"))
+        return nro_franquicia
+    
     class Meta(object):
         model = UnidadEconomica
         fields = ['rif', 'razon_social', 'nombre_ue']
