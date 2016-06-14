@@ -103,6 +103,13 @@
                                 </tbody>
                             {% endif %}
                         </table>
+                        {% if form.actividad2_tb.errors %}
+                            <p class="bg-warning">
+                                <span class="help-block msg-error">
+                                    {% trans 'Debe agregar al menos una actividad' %}
+                                </span>
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
                 <br/>
@@ -308,15 +315,12 @@
                 $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
             }
 
-            console.log($("#{{ form.nombre_franquicia.auto_id }}").text());
-
-
             /** Función para eliminar cabecera y pie de DataTable */
             $('#mydtable').DataTable({
                 "paging": false,
                 "ordering": false,
                 "info": false,
-                "filter": false
+                "filter": false,
             });
 
             remove_field_datatable('#mydtable');
@@ -327,17 +331,5 @@
         function mostrar(select, element){
             $(element).removeClass('hidden');
         }
-
-        /**
-         * @brief Función para deshabilitar el ítem seleccionado en la actividad económica secundaria 
-         * @param select Es un campo con el valor de la opción seleccionada
-         * @param table Es un campo con el id del ítem agregado a la tabla
-         
-        function deshabilitarSeleccionado(select, table){
-            for(var i=0, i<=3, i++){
-                if($(select).val())
-            }
-        }*/
-
     </script>
 {% endblock %}
