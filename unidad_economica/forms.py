@@ -95,7 +95,7 @@ class UnidadEconomicaForm(DirectorioForm):
     )
 
     ## Actividad económica secundaria (datatable)
-    actividad2_tb = forms.CharField(
+    actividad2_tb = forms.ChoiceField(
         label=_("Actividad Económica Secundaria"),
         widget=Select(
             attrs={
@@ -208,6 +208,7 @@ class UnidadEconomicaForm(DirectorioForm):
         super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
         self.fields['actividad'].choices = cargar_actividad()
         self.fields['actividad2'].choices = cargar_actividad()
+        self.fields['actividad2_tb'].choices = cargar_actividad()
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
 
     def clean_nro_franquicia(self):
@@ -218,10 +219,13 @@ class UnidadEconomicaForm(DirectorioForm):
         else:
             return nro_franquicia
 
-        print(casa_matriz_franquicia, nro_franquicia)
-
-        if casa_matriz_franquicia == 'S' and nro_franquicia == '' or nro_franquicia == '0':
+    def clean_nro_franquicia(self):
+        casa_matriz_franquicia = self.cleaned_data['casa_matriz_franquicia']
+        nro_franquicia = self.cleaned_data['nro_franquicia']
+        
+        if casa_matriz_franquicia == 'S':
             raise forms.ValidationError(_("Indique el número de franquicias"))
+        return nro_franquicia
 
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
@@ -247,6 +251,7 @@ class UnidadEconomicaForm(DirectorioForm):
             raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
         return pais_franquicia
 
+<<<<<<< HEAD
     def clean_rif_casa_matriz(self):
         rif_casa_matriz = self.cleaned_data['rif_casa_matriz']
         pais_franquicia = self.cleaned_data['pais_franquicia']
@@ -255,9 +260,13 @@ class UnidadEconomicaForm(DirectorioForm):
             raise forms.ValidationError(_("Indique el RIF de la franquicia"))
         return rif_casa_matriz
 
+=======
+>>>>>>> a3a92a005f90415bfb43e3a668c2baaf67cf391b
     def clean_nombre_franquicia(self):
         franquiciado = self.cleaned_data['franquiciado']
+        pais_franquicia = self.cleaned_data.get('pais_franquicia')
         nombre_franquicia = self.cleaned_data['nombre_franquicia']
+<<<<<<< HEAD
 
         if franquiciado == 'S' and not nombre_franquicia:
             raise forms.ValidationError(_("Indique nombre de la franquicia"))
@@ -271,6 +280,21 @@ class UnidadEconomicaForm(DirectorioForm):
             raise forms.ValidationError(_("Indique número de franquicias"))
         return nro_franquicia
 
+=======
+        
+        if franquiciado == 'S' and pais_franquicia != '1' and not nombre_franquicia:
+            raise forms.ValidationError(_("Indique nombre de la franquicia"))
+        return nombre_franquicia
+
+    def clean_rif_casa_matriz(self):
+        rif_casa_matriz = self.cleaned_data['rif_casa_matriz']
+        pais_franquicia = self.cleaned_data.get('pais_franquicia')
+        
+        if pais_franquicia == '1' and not rif_casa_matriz:
+            raise forms.ValidationError(_("Indique el RIF de la franquicia"))
+        return rif_casa_matriz
+    
+>>>>>>> a3a92a005f90415bfb43e3a668c2baaf67cf391b
     class Meta(object):
         model = UnidadEconomica
         fields = ['rif', 'razon_social', 'nombre_ue']

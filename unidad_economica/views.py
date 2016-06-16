@@ -87,7 +87,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
                 ]
                 table.append(my_list)
             kwargs['first_table'] = table
-        kwargs['object_list'] = UnidadEconomica.objects.all()
+        kwargs['object_list'] = ActividadCaev.objects.all()
         return super(UnidadEconomicaCreate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -145,9 +145,11 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
 
         ## Almacena en el modelo Franquicia
         franquicia = Franquicia()
-        franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
+        franquicia.rif_casa_matriz = "%s%s%s" % (
+                self.request.POST['rif_casa_matriz_0'], self.request.POST['rif_casa_matriz_1'], self.request.POST['rif_casa_matriz_2']
+            )
         franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
-        franquicia.rif_casa_matriz = form.cleaned_data['rif_casa_matriz']
+        franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
         franquicia.unidad_economica_rif = self.object
         franquicia.save()
 
