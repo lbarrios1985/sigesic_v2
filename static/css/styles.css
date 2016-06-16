@@ -126,6 +126,16 @@ h4.titulo, h5.titulo {
 }
 .number-item-menu {
     font-size: 14px;
+    background-color: #F3AF47 !important;
+}
+
+
+.sidebar-menu .treeview.active, .sidebar-menu > li:hover {
+    border-right: 4px solid #F39C12;
+}
+
+.sidebar-menu .treeview.active .number-item-menu, .sidebar-menu > li:hover {
+    background-color: #F39200 !important;
 }
 
 .icon-contacto {
