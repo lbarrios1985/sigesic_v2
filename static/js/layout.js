@@ -107,7 +107,12 @@ $(document).ready(function() {
         /** Instrucción que asigna el estilo select2 a los campos del formulario del tipo select */
         select.select2();
     }
+
     if (data_table.length) {
+        $.extend( $.fn.dataTableExt.oStdClasses, {
+            "sFilterInput": "form-control",
+            "sLengthSelect": "form-control select2"
+        });
         /** Inicializa los elementos del dataTable */
         data_table.dataTable({
             "language": {
@@ -117,9 +122,13 @@ $(document).ready(function() {
             "order": [[0, 'asc']],
             "bDestroy": true,
             "bPaginate": true,
-            "bInfo": true
+            "bInfo": true,
+            "initComplete": function(settings, json) {
+                $('.dataTables_length select').select2();
+            }
         });
     }
+
     if (email_mask.length) {
         /** Crea la respectiva maskara a implementar en los campos de correo electrónico */
         email_mask.mask('A', {translation: {
