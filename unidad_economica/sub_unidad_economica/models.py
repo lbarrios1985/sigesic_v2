@@ -63,6 +63,10 @@ class SubUnidadEconomica(models.Model):
 
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  models.BooleanField()
+
+    ##Metodo que retorna el nombre de la sub unidad que es usado por maquinaria_equipo
+    def __str__(self):
+        return self.nombre_sub
     
 class SubUnidadEconomicaCapacidad(models.Model):
     """!

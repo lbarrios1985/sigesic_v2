@@ -16,6 +16,23 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.sub_unidad_economica.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.sub_unidad_economica.auto_id }}">
+                                {{ form.sub_unidad_economica.label }}
+                            </label>
+                            <div class="col-md-2 col-xs-2 col-sm-2">
+                                {{ form.sub_unidad_economica }}
+                                {% if form.sub_unidad_economica.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.sub_unidad_economica.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.nombre_proceso.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre_proceso.auto_id }}">
                                 {{ form.nombre_proceso.label }}
@@ -32,9 +49,10 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.nombre_maquinaria.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.nombre_maquinaria.auto_id }}">
                                 {{ form.nombre_maquinaria.label }}
@@ -70,7 +88,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.descripcion_maquinaria.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.descripcion_maquinaria.auto_id }}">
                                 {{ form.descripcion_maquinaria.label }}
@@ -88,6 +106,61 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.date.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.date.auto_id }}">
+                                {{ form.date.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.date }}
+                                {% if form.date.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.date.errors.as_text|cut:'* '}}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.vida_util.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.vida_util.auto_id }}">
+                                {{ form.vida_util.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.vida_util }}
+                                {% if form.vida_util.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.vida_util.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="form-group {% if form.date_adquisicion.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.date_adquisicion.auto_id }}">
+                                {{ form.date_adquisicion.label }}
+                            </label>
+                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                {{ form.date_adquisicion }}
+                                {% if form.date_adquisicion.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.date_adquisicion.errors.as_text|cut:'* '}}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.estado_actual.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.estado_actual.auto_id }}">
                                 {{ form.estado_actual.label }}
@@ -97,14 +170,16 @@
                                 {% if form.estado_actual.errors %}
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.estado_actual.errors.as_text|cut:'* ' }}
+                                            <i class="fa fa-times-circle-o"></i> {{ form.estado_actual.errors.as_text|cut:'* '}}
                                         </span>
                                     </p>
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
                 </div>
+            </div>
+
+            <!--###################################################################################-->
 
                 <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
                     <div class="col-md-2 col-sm-2 col-xs-2">
@@ -117,7 +192,7 @@
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                        <h5>{% trans 'Maquinarias y Equipos Registrados' %}</h5>
+                        <h5>{% trans 'Lista Maquinarias y Equipos Registrados' %}</h5>
                     </div>
                 </div>
 
@@ -126,12 +201,15 @@
                         <table class="table table-striped table-hover display dataTable" id="mydtable">
                             <thead>
                                 <tr>
-                                    <td>Nombre Maquinaria/Equipo</td>
+                                    <td>Nombre Sub-Unidad</td>
+                                    <td>Proceso Productivo</td>
+                                    <td>Nombre Maquinaria</td>
                                     <td>Pais de Origen</td>
-                                    <td>Descripción de la Maquinaria/Equipo</td>
-                                    <td>Estado de la Maquinaria/Equipo</td>
+                                    <td>Descripción</td>
                                     <td>Año de Fabricacion</td>
+                                    <td>Vida ultil</td>
                                     <td>Año de Adquisicion</td>
+                                    <td>Estado Actual</td>
                                 </tr>
                             </thead>
                         </table>
@@ -161,4 +239,29 @@
                 ['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria']);
         });
     </script>
+
+
+     <script type="text/javascript">
+         $(function() {
+             $('.datepicker').datepicker({
+                 //disabledDates: 'date',
+                 viewMode: 'years',
+                 daysOfWeekDisabled: [0, 6],
+                 disabledMonth: true,
+                 inline: true,
+                 sideBySide: true,
+                 changeYear: true,
+                 showButtonPanel: true,
+                 dateFormat: 'yy',
+                 onClose: function(dateText, inst) {
+                     var year = $('#ui-datepicker-div .ui-datepicker-year :selected').val();
+                     $(this).datepicker('setDate', new Date(year, 1));
+                }
+            });
+        $('.datepicker').focus(function () {
+                $('.ui-datepicker-days').hide();
+                $('.ui-datepicker-month').hide();
+            });
+        });
+     </script>
 {% endblock %}
