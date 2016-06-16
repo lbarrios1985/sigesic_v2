@@ -6,7 +6,7 @@ static/tmp
 *.dot
 *.xml
 tmp/*.png
-sigesic/database_config.py
+database_config.py
 migrations
 fixtures
 *.sql

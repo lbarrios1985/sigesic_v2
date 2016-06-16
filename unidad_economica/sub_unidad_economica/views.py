@@ -17,7 +17,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
-    SubUnidadEconomicaPrincipalProceso, SubUnidadEconomicaActividad
+    SubUnidadEconomicaActividad
     )
 from base.models import Parroquia
 from .forms import SubUnidadEconomicaForm
@@ -186,13 +186,8 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             proceso.nombre_proceso = dictionary['nombre_proceso_tb'][i]
             proceso.descripcion_proceso = dictionary['descripcion_proceso_tb'][i]
             proceso.estado_proceso = int(dictionary['estado_proceso_tb'][i])
+            proceso.sub_unidad_economica = model
             proceso.save()
-            
-            ## Se crea y se guarda la tabla intermedio entre sub unidad y el proceso de la sub unidads
-            sub_unidad_proceso = SubUnidadEconomicaPrincipalProceso()
-            sub_unidad_proceso.sub_unidad_economica = model
-            sub_unidad_proceso.sub_unidad_economica_proceso = proceso
-            sub_unidad_proceso.save()
             
     def agregar_actividad(self, dictionary, model):
         """!

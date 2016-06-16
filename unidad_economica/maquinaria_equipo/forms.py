@@ -3,45 +3,55 @@ Sistema Integral de Gestión para las Industrias y el Comercio (SIGESIC)
 
 Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 """
-## @package maquinaria_equipo
-# Formularios para la obtencion de datos de la maquinaria de la sub_unidad_economica
+## @package maquinaria_equipos.forms
+#
+# Forms del módulo maquinaria_equipos
 # @author Hugo Ramírez (hramirez at cenditel.gob.ve)
-# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
+# (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-# @date 01-06-2016
+# @date 09-06-2016
 # @version 2.0
 from __future__ import unicode_literals
 from django import forms
 from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
-from base.constant import (
-    ESTADO_ACTUAL,
-)
 from base.models import Pais
-from base.functions import cargar_pais
-#from sub_unidad_economica.models import SubUnidadEconomicaProceso
-from .models import mimodelo
-
-
-
+from .models import maquinariaModel
+from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso, SubUnidadEconomicaPrincipalProceso
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-class maquinaria(forms.ModelForm):
+class maquinariaForm(forms.ModelForm):
     proceso =\
         (
             ('#', _("#")),
             ('#', _("#")),
             ('#', _("#")),
         )
+    #consulta = Model.objects.all().values('campo_relacion__nombre_campo')
 
     ## nombre del proceso productivo extraido de registro de actividad economica
-    nombre_proceso = forms.ChoiceField(
-        label=_("Proceso Productivo: "),#queryset=nombre_proceso.objects.all(), empty_label=_("Seleccione..."),
-        choices=proceso,
+    sub_unidad_economica = forms.ModelChoiceField(
+        label=_("Sub Unidad Economica: "), queryset=SubUnidadEconomica.objects.all().order_by('id'), empty_label=_("Seleccione..."),
         widget=forms.Select(attrs={
+            'placeholder':'Ingrese nombre de Sub unidad economica',
+            'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
+            'title':_("Selecione el nombre de a sub unidad economica al que pertenece la maquinaria o el equipo a registrar"),
+            'style': 'width:200px',
+            'onchange': "actualizar_combo(this.value,'unidad_economica.sub_unidad_economica','SubUnidadEconomicaPrincipalProceso','sub_unidad_economica','sub_unidad_economica_proceso__pk','sub_unidad_economica_proceso__nombre_proceso','id_nombre_proceso')"
+        }
+        )
+    )
+
+     ## nombre del proceso productivo extraido de registro de actividad economica
+    nombre_proceso = forms.ModelChoiceField(
+        label=_("Proceso Productivo: "),
+        queryset=SubUnidadEconomicaPrincipalProceso.objects.all(), empty_label=_("Seleccione..."),
+        widget=forms.Select(attrs={
+            'placeholder':'Seleccione nombre proceso productivo',
             'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
             'title':_("Selecione el nombre del proceso porductivo al que pertenece la maquinaria o el equipo a registrar"),
             'style': 'width:200px',
@@ -54,6 +64,7 @@ class maquinaria(forms.ModelForm):
         label=_("Nombre Maquinaria: "),
         widget=forms.TextInput(
             attrs={
+                   'placeholder':'Ingrese nombre de la maquinaria',
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
                 'title':_("Ingrese el nombre que posee la maquinaria o el equipo a registrar"),
                 'style': 'width:200px',
@@ -63,6 +74,7 @@ class maquinaria(forms.ModelForm):
     ## País de origen de la maquinaria o el equipo
     pais_origen = forms.ChoiceField(
         label=_("País de Origen: "),
+        choices=[('', 'Seleccione...')]+[(Pais.id, Pais.nombre) for Pais in Pais.objects.all()],
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
@@ -76,65 +88,67 @@ class maquinaria(forms.ModelForm):
         label=_("Descripción: "),
         widget=forms.Textarea(
             attrs={
-                'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+                'class': 'form-control input-md',
                 'data-toggle': 'tooltip','title': _("Indique la descripción de la Maquinaria o Equipo"),
                 'style': 'width:200px',
             })
     )
 
+    EDO_ACTUAL =\
+    (
+    ('', _("Seleccione...")),
+    ('Funcionamiento', _("En Fucionamiento")),
+    ('Reparacion', _("En Reparacion")),
+    ('Dañado', _("Dañado")),
+)
+
     ## Estado de la maquinaria o el equipo
     estado_actual = forms.ChoiceField(
-        label= _("Estado Actual: "),
-        choices= ESTADO_ACTUAL,
+        label=_("Estado Actual: "),
+        choices=EDO_ACTUAL,
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
-                'title': _("Seleccione el país de origen de la Maquinario o Equipo"),
+                'title': _("Seleccione el estado actual de la Maquinario o Equipo"),
                 'style': 'width:200px',
             }
         )
     )
-    ## test years
-    AÑO_CHOICES = ('1980', '1981', '1982')
 
     ## Año de Fabricacion
-    """año_fabricacion = ChoiceField(
-        label=_("Año de Fabricacion: "),
-        choices=AÑO_CHOICES,
-        widget=Select(
+    date =forms.DateField(
+        label=_("Año de Fabricación: "),
+        widget=forms.DateInput(
             attrs={
-                'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
-                'title':_("Seleccione el año de fabricacion de la Maquinario o equipo")
+                'class': 'datepicker', 'data-toggle': 'tooltip', 'required': 'true',
+                'title':_("Seleccione el año de fabricacion de la Maquinaria o equipo"),
+                'style': 'width:200px',
             }
         )
     )
     ## Vida Util
-    vida_util = IntegerField(
+    vida_util = forms.IntegerField(
         label=_("Vida Util: "),
-        widget=Select(
+        widget=forms.NumberInput(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
-                'title':_("Seleccione el tiempo de vida ultil de la Maquinario o equipo")
+                'title':_("Seleccione los años de vida ultil de la Maquinaria o equipo"),
+                'style': 'width:200px',
             }
         )
     )
     ## Año de Adquisicion
-    año_adquisicion = ChoiceField(
-        label=_("Año de Fabricacion: "),
-        choices=AÑO_CHOICES,
-        widget=Select(
+    date_adquisicion = forms.DateField(
+        label=_("Año de adquisición: "),
+        widget=forms.TextInput(
             attrs={
-                'class': 'form-control','data-toggle': 'tooltip', 'required': 'true',
-                'title':_("Seleccione el año de Adquisicion de la Maquinaria o Equipo")
+                'class': 'datepicker','data-toggle': 'tooltip', 'required': 'true',
+                'title':_("Seleccione el año de Adquisicion de la Maquinaria o Equipo"),
+                'style': 'width:200px',
             }
         )
-    )"""
-
-    def __init__(self, *args, **kwargs):
-        super(maquinaria, self).__init__(*args, **kwargs)
-
-        self.fields['pais_origen'].choices = cargar_pais()
+    )
 
     class Meta:
-        model = mimodelo
+        model = maquinariaModel
         fields = '__all__'
