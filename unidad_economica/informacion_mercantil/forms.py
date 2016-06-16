@@ -21,6 +21,7 @@ from six import python_2_unicode_compatible
 from base.constant import NATURALEZA_JURIDICA, CARGO_REP
 from base.fields import RifField, CedulaField
 from base.models import Pais
+from base.functions import cargar_pais
 from unidad_economica.informacion_mercantil.models import RepresentanteLegal
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -119,7 +120,6 @@ class InformacionMercantilForms(ModelForm):
     # País de origen del accionista
     pais_origen = ChoiceField(
         label=_("País de origen: "),
-        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
         required=False
     )
 
@@ -240,6 +240,11 @@ class InformacionMercantilForms(ModelForm):
     )
 
     rif_ue = RifField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(InformacionMercantilForms, self).__init__(*args, **kwargs)
+
+        self.fields['pais_origen'].choices = cargar_pais()
 
     class Meta:
         model = RepresentanteLegal

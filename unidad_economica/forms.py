@@ -25,7 +25,7 @@ from base.constant import (
 from base.fields import RifField
 from base.models import Pais
 from base.widgets import RifWidgetReadOnly
-from base.functions import cargar_actividad, cargar_tipo_comunal
+from base.functions import cargar_actividad, cargar_tipo_comunal, cargar_pais
 
 from .directorio.forms import DirectorioForm
 from .models import UnidadEconomica
@@ -179,7 +179,6 @@ class UnidadEconomicaForm(DirectorioForm):
     ## País de la Franquicia
     pais_franquicia = ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
@@ -210,6 +209,7 @@ class UnidadEconomicaForm(DirectorioForm):
         self.fields['actividad2'].choices = cargar_actividad()
         self.fields['actividad2_tb'].choices = cargar_actividad()
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
+        self.fields['pais_franquicia'].choices = cargar_pais()
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')

@@ -18,6 +18,7 @@ from base.constant import (
     ESTADO_ACTUAL,
 )
 from base.models import Pais
+from base.functions import cargar_pais
 #from sub_unidad_economica.models import SubUnidadEconomicaProceso
 from .models import mimodelo
 
@@ -62,7 +63,6 @@ class maquinaria(forms.ModelForm):
     ## País de origen de la maquinaria o el equipo
     pais_origen = forms.ChoiceField(
         label=_("País de Origen: "),
-        choices=[('', 'Seleccione...')]+[(Pais.id, Pais.nombre) for Pais in Pais.objects.all()],
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
@@ -129,6 +129,12 @@ class maquinaria(forms.ModelForm):
             }
         )
     )"""
+
+    def __init__(self, *args, **kwargs):
+        super(maquinaria, self).__init__(*args, **kwargs)
+
+        self.fields['pais_origen'].choices = cargar_pais()
+
     class Meta:
         model = mimodelo
         fields = '__all__'
