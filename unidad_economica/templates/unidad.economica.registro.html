@@ -58,9 +58,10 @@
                     <label class="col-md-3 control-label" for="{{ form.actividad.auto_id }}">
                         {{ form.actividad.label }}
                     </label>
-                    <div class="col-md-9">
-                        {{ form.actividad }} <i class="ion ion-ios-medical item-requerido"></i>
+                    <div class="col-md-8">
+                        {{ form.actividad }}
                     </div>
+                    <div class="col-md-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     {% if form.actividad.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -74,8 +75,10 @@
                     <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         Actividad Económica Secundaria
                     </label>
-                    <div class="col-md-9" onchange="mostrar('#id_actividad2','#i');">
+                    <div class="col-md-8" onchange="mostrar('#id_actividad2','#i');">
                         {{ form.actividad2 }}
+                    </div>
+                    <div class="col-md-1">
                         <a id="#dtable" onclick="add_field_datatable(['#id_actividad2'],'#mydtable');" style="cursor: pointer">
                         <i id="i" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria" onclick="mostrar('#i','#t');"></i></a>
                     </div>
