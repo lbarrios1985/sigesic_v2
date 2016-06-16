@@ -23,7 +23,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
-from .models import CaevClase, TipoComunal
+from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia
 
 logger = logging.getLogger('base')
 
@@ -169,6 +169,27 @@ def cargar_tipo_comunal():
     try:
         for comunal in TipoComunal.objects.all():
             lista += (comunal.id, comunal.tipo_comunal),
+    except Exception as e:
+        pass
+
+    return lista
+
+
+def cargar_pais():
+    """!
+    Función que permite cargar los datos de los países registrados
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-06-2016
+    @return Devuelve una tupla con los tipos comunales
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for pais in Pais.objects.all():
+            lista += (pais.id, pais.nombre),
     except Exception as e:
         pass
 
