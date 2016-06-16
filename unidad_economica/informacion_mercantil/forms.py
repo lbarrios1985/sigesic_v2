@@ -31,7 +31,7 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 @python_2_unicode_compatible
-class InformacionMercantilForms(ModelForm):
+class InformacionMercantilForm(ModelForm):
     """!
     Formulario para la gestión de la información mercantil: capital, accionistas y representante legal.
 
@@ -41,8 +41,6 @@ class InformacionMercantilForms(ModelForm):
     @version 2.0
     """
 
-
-
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
         label=_("Naturaleza Jurídica: "),
@@ -50,15 +48,16 @@ class InformacionMercantilForms(ModelForm):
         widget=Select(
             attrs={
                 'class': 'form-control input-sm', 'size': '28',
-            })
+            }
+        )
     )
 
     ## Establece el tipo de capital solicitado: capital suscrito
     capital_suscrito = CharField(
         label=_("Capital Social Suscrito: "),max_length=30,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
-            })
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28'
+        })
     )
 
     ## Tipo de capital solicitado: capital pagado
@@ -66,8 +65,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Capital Social Pagado: "), max_length=30,
         widget=TextInput(attrs={
             'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '28',
-            }),
-
+        })
     )
 
     ## Tipo de capital solicitado: capital publico nacional
@@ -75,7 +73,7 @@ class InformacionMercantilForms(ModelForm):
         label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
             'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
-            })
+        })
     )
 
     ## Tipo de capital solicitado: capital público extranjero
@@ -84,7 +82,8 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
-            })
+            }
+        )
     )
 
     ## Tipo de capital solicitado: capital privado nacional
@@ -93,7 +92,8 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
-            })
+            }
+        )
     )
 
     ## Tipo de capital solicitado: capital privado
@@ -102,7 +102,8 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
-            })
+            }
+        )
     )
 
     ## Rif del accionista
@@ -131,7 +132,8 @@ class InformacionMercantilForms(ModelForm):
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
                 'title': _("Porcentaje"), 'size': '5'
-        }), required=False
+            }
+        ), required=False
     )
 
     ## Campo oculto para el RIF del accionista
@@ -227,7 +229,8 @@ class InformacionMercantilForms(ModelForm):
             attrs={
                 'class': 'form-control input-sm', 'size': '28',
                 'onchange': "habilitar(this.value, 'id_cargo_otros')"
-            })
+            }
+        )
     )
 
     ## Campo para agregar el cargo que ejerce el representante legal en la unidad económica
@@ -236,18 +239,17 @@ class InformacionMercantilForms(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm', 'size': '28', 'disabled': 'disabled'
-            }), required=False
+            }
+        ), required=False
     )
 
     rif_ue = RifField(required=False)
 
     def __init__(self, *args, **kwargs):
-        super(InformacionMercantilForms, self).__init__(*args, **kwargs)
+        super(InformacionMercantilForm, self).__init__(*args, **kwargs)
 
         self.fields['pais_origen'].choices = cargar_pais()
 
     class Meta:
         model = RepresentanteLegal
-        fields = [
-            'cargo_otros'
-                ]
+        fields = ['cargo_otros']

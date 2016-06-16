@@ -17,7 +17,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.views.generic import CreateView, TemplateView
-from unidad_economica.informacion_mercantil.forms import InformacionMercantilForms
+from unidad_economica.informacion_mercantil.forms import InformacionMercantilForm
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from unidad_economica.informacion_mercantil.models import Capital, Accionista, RepresentanteLegal
@@ -36,7 +36,7 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
     """
 
     model = UnidadEconomica
-    form_class = InformacionMercantilForms
+    form_class = InformacionMercantilForm
     template_name = 'informacion.mercantil.registro.html'
     success_url = reverse_lazy('sub_unidad_create')
     success_message = CREATE_MESSAGE
