@@ -17,6 +17,7 @@ from django import forms
 from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from base.models import Pais
+from base.functions import cargar_pais
 from .models import maquinariaModel
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso, SubUnidadEconomicaPrincipalProceso
 
@@ -24,7 +25,7 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-class maquinariaForm(forms.ModelForm):
+class MaquinariaForm(forms.ModelForm):
     proceso =\
         (
             ('#', _("#")),
@@ -74,7 +75,6 @@ class maquinariaForm(forms.ModelForm):
     ## País de origen de la maquinaria o el equipo
     pais_origen = forms.ChoiceField(
         label=_("País de Origen: "),
-        choices=[('', 'Seleccione...')]+[(Pais.id, Pais.nombre) for Pais in Pais.objects.all()],
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'required': 'true',
@@ -148,6 +148,11 @@ class maquinariaForm(forms.ModelForm):
             }
         )
     )
+
+    def __init__(self, *args, **kwargs):
+        super(MaquinariaForm, self).__init__(*args, **kwargs)
+
+        self.fields['pais_origen'].choices = cargar_pais()
 
     class Meta:
         model = maquinariaModel
