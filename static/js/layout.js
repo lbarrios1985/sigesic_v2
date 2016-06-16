@@ -24,10 +24,10 @@ $(document).ready(function() {
     if (selector_menu.length) {
         /** Instrucciones que permiten mostrar la opción del menú seleccionada */
         selector_menu.find(".treeview").each(function () {
-            $(this).removeClass('active');
+            $(this).removeClass('active'); // Remueve la clase active para todos los elementos del menú
             var url_actual = $(location).attr('pathname');
             if (url_actual==$(this).find('a').attr('href')) {
-                $(this).addClass('active');
+                $(this).addClass('active'); // Agrega la clase active para la opción del menú seleccionada
             }
         });
     }
