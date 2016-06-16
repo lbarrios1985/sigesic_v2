@@ -110,21 +110,8 @@ class SubUnidadEconomicaProceso(models.Model):
     ## estado del proceso productivo
     estado_proceso = models.BooleanField()
     
-class SubUnidadEconomicaPrincipalProceso(models.Model):
-    """!
-    Clase que contiene la relacion entre la Sub Unidad Económica y el proceso de la Sub Unidad Económica
-
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 18-05-2016
-    @version 2.0.0
-    """
     ## Establece la relación con la Sub Unidad Económica
-    sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
-
-    ## Establece la relación con el proceso de la Sub Unidad Económica
-    sub_unidad_economica_proceso = models.ForeignKey(SubUnidadEconomicaProceso)
-    
+    sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)    
 
 class SubUnidadEconomicaDirectorio(models.Model):
     """!
