@@ -11,12 +11,24 @@ $(document).ready(function() {
         year_info_develop = $("#year-info-develop"), radio = $(".radio"),
         select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
         input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'), form_update = $('.form-update'),
-        tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
+        tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right'),
+        selector_menu = $('.sidebar-menu');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
         /** Verifica el tipo de navegador utilizado por el usuario */
         bootbox.alert(MSG_WEB_NAVIGATOR, function() {
             window.location.href = 'http://www.mozilla-europe.org/es/firefox/';
+        });
+    }
+
+    if (selector_menu.length) {
+        /** Instrucciones que permiten mostrar la opción del menú seleccionada */
+        selector_menu.find(".treeview").each(function () {
+            $(this).removeClass('active');
+            var url_actual = $(location).attr('pathname');
+            if (url_actual==$(this).find('a').attr('href')) {
+                $(this).addClass('active');
+            }
         });
     }
 
