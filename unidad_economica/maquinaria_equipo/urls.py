@@ -14,6 +14,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @version 2.0
 from __future__ import unicode_literals
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 from .views import maquinariaView
 
 __licence__ = "GNU Public License v2"
@@ -21,5 +22,5 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-    url(r'^registro/', maquinariaView.as_view(), name='maquinaria_equipos'),
+    url(r'^registro/', login_required(maquinariaView.as_view()), name='maquinaria_equipos'),
 ]
