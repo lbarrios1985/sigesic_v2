@@ -85,11 +85,18 @@ h4.titulo, h5.titulo {
     width: 98%;
 }
 
-.item-requerido {
-    margin-left: 20px;
+.item-requerido, .item-requerido-nomargin {
     font-size: 10px !important;
     color: #F56954;
     cursor: pointer;
+}
+
+.item-requerido {
+    margin-left: 20px;
+}
+
+.item-requerido-nomargin {
+    margin-left: 0;
 }
 
 /* Estilos para fortaleza de contraseña */
