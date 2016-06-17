@@ -174,3 +174,18 @@ optgroup, option, select, span.input-group-btn, .select2-container--default .sel
     height: 200px;
     width: 100%;
 }
+
+.radio-inline {
+    padding-left: 0 !important;
+}
+
+.radio-inline ul li {
+    position: relative;
+    display: inline-block;
+    width: 32.70%;
+    box-sizing: border-box;
+}
+
+.radio-inline ul li label {
+    font-weight: normal;
+}
