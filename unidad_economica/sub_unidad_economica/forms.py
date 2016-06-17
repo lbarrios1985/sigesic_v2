@@ -270,37 +270,30 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     def clean_tipo_proceso_tb(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
         tipo_proceso_tb = self.cleaned_data['tipo_proceso_tb']
-        if((tipo == 'Pl' or tipo == "Su") and (tipo_proceso_tb=='')):
+        if((tipo == 'Pl') and (tipo_proceso_tb=='')):
             raise forms.ValidationError(_("Este campo es obligatorio"))
         return tipo_proceso_tb
     
     def clean_nombre_proceso_tb(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
         nombre_proceso_tb = self.cleaned_data['nombre_proceso_tb']
-        if((tipo == 'Pl' or tipo == "Su") and (nombre_proceso_tb=='')):
+        if((tipo == 'Pl') and (nombre_proceso_tb=='')):
             raise forms.ValidationError(_("Este campo es obligatorio"))
         return nombre_proceso_tb
     
     def clean_descripcion_proceso_tb(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
         descripcion_proceso_tb = self.cleaned_data['descripcion_proceso_tb']
-        if((tipo == 'Pl' or tipo == "Su") and (descripcion_proceso_tb=='')):
+        if((tipo == 'Pl') and (descripcion_proceso_tb=='')):
             raise forms.ValidationError(_("Este campo es obligatorio"))
         return descripcion_proceso_tb
     
     def clean_estado_proceso_tb(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
         estado_proceso_tb = self.cleaned_data['estado_proceso_tb']
-        if((tipo == 'Pl' or tipo == "Su") and (estado_proceso_tb=='')):
+        if((tipo == 'Pl') and (estado_proceso_tb=='')):
             raise forms.ValidationError(_("Este campo es obligatorio"))
         return estado_proceso_tb
-    
-    def clean_actividad_caev_tb(self):
-        tipo = self.cleaned_data['tipo_sub_unidad']
-        actividad_caev_tb = self.cleaned_data['actividad_caev_tb']
-        if((tipo == 'Pl' or tipo == "Su") and (actividad_caev_tb=='')):
-            raise forms.ValidationError(_("Este campo es obligatorio"))
-        return actividad_caev_tb
     
     def clean_actividad_caev_primaria(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
