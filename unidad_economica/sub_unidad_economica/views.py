@@ -148,11 +148,13 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             directorio_subunidad.sub_unidad_economica = self.object
             directorio_subunidad.save()
             
-            ## Se llama a la función que creará los procesos
-            self.agregar_proceso(dictionary,self.object)
+            if(form.cleaned_data['tipo_sub_unidad']=='Pl'):
+                ## Se llama a la función que creará los procesos
+                self.agregar_proceso(dictionary,self.object)
             
             ## Se llama a la función que creará las actividades economicas
-            self.agregar_actividad(dictionary,self.object)
+            if('actividad_caev_tb' in dictionary):
+                self.agregar_actividad(dictionary,self.object)
             
             ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
             capacidad = SubUnidadEconomicaCapacidad()

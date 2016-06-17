@@ -212,11 +212,11 @@
                 </div>
             </div>
                
-            <div id="planta-sucursal">
                 <div class="box-header with-border">
                     <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
                 </div>
                 <br>
+            <div id="planta">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.tipo_proceso.errors %}has-error{% endif %}">
@@ -339,7 +339,9 @@
                         {% endif %}
                     </div>
                 </div>
+            </div>
                 
+            <div id="sucursal">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group {% if form.actividad_caev_primaria.errors %}has-error{% endif %}">
@@ -385,7 +387,6 @@
                         <label>{% trans 'Agregar Actividad' %}</label>
                         <a id="#dtable" onclick="add_field_datatable(['#id_actividad_caev'],'#caevtable');" style="cursor: pointer">
                         <i class="glyphicon glyphicon-plus"></i></a>
-                        <i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                 </div>
                 
@@ -410,13 +411,6 @@
                                 </tbody>
                             {% endif %}
                         </table>
-                        {% if form.actividad_caev_tb.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    {% trans 'Debe agregar al menos una actividad' %}
-                                </span>
-                            </p>
-                        {% endif %}
                     </div>
                 </div>
                 
@@ -512,13 +506,19 @@
         /* Función para comprobar en que estado se encuentra el select de tipo de sub unidad */
         function comprobar() {
             tipo_sub_unidad = $('#id_tipo_sub_unidad').val();
-            if(tipo_sub_unidad=='Pl' || tipo_sub_unidad=='Su')
+            if(tipo_sub_unidad=='Pl')
             {
-                $('#planta-sucursal').show();
+                $('#planta').show();
+                $('#sucursal').show();
+            }
+            else if (tipo_sub_unidad=='Su') {
+                $('#planta').hide();
+                $('#sucursal').show();
             }
             else
             {
-                $('#planta-sucursal').hide();    
+                $('#planta').hide();
+                $('#sucursal').hide();
             }
         }
     </script>
