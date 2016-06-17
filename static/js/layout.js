@@ -8,10 +8,10 @@
 $(document).ready(function() {
     /** Declaración de variables */
     var browserName = navigator.appName, browserVer = navigator.appVersion, date = new Date(),
-        year_info_develop = $("#year-info-develop"), radio = $(".radio"),
-        select = $('select'), data_table = $('.dataTable'), refresh_captcha = $('.js-captcha-refresh'),
-        input_captcha = $('input[name="captcha_1"]'), email_mask = $('.email-mask'), form_update = $('.form-update'),
-        tip_top = $('.tip-top'), tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
+        year_info_develop = $("#year-info-develop"), select = $('select'), data_table = $('.dataTable'),
+        refresh_captcha = $('.js-captcha-refresh'), input_captcha = $('input[name="captcha_1"]'),
+        email_mask = $('.email-mask'), form_update = $('.form-update'), tip_top = $('.tip-top'),
+        tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
         /** Verifica el tipo de navegador utilizado por el usuario */
@@ -82,25 +82,6 @@ $(document).ready(function() {
             placement: 'right'
             //delay: {show: 200, hide:1500}
         });
-    }
-
-    if (radio.length) {
-        /** Instrucción que alinea los elementos radio options */
-        $('form div ul').contents().unwrap();
-        $('form div li').contents().unwrap();
-        radio.each(function() {
-            $(this).parent().addClass('radio-inline col-md-3');
-            $(this).parent().attr('style', 'margin-left: 0;');
-        });
-
-        /** Instruccion para calcular la altura maxima de los campos del tipo radio y establecer la misma altura para
-         * todos los elementos de este tipo
-         */
-        var radio_inline = $(".radio-inline");
-        var heights = radio_inline.map(function() {
-            return $(this).height();
-        }).get(), maxHeight = Math.max.apply(null, heights);
-        radio_inline.height(maxHeight);
     }
 
     if (select.length) {
