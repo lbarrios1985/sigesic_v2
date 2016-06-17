@@ -137,11 +137,11 @@ h4.titulo, h5.titulo {
 }
 
 
-.sidebar-menu .treeview.active, .sidebar-menu > li:hover {
+.sidebar-menu .treeview.active, .sidebar-menu > li.treeview:hover {
     border-right: 4px solid #F39C12;
 }
 
-.sidebar-menu .treeview.active .number-item-menu, .sidebar-menu > li:hover {
+.sidebar-menu .treeview.active .number-item-menu, .sidebar-menu > li.treeview:hover {
     background-color: #F39200 !important;
 }
 
