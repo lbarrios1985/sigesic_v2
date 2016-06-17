@@ -14,7 +14,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django import forms
 from django.forms import (
-    CharField, ChoiceField, IntegerField, Select, TextInput)
+    CharField, ChoiceField, IntegerField, Select, TextInput, CheckboxInput, NumberInput)
 from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
@@ -108,11 +108,11 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Organización comunal
     orga_comunal = ChoiceField(
         label=_("¿Es una organización comunal?"),
-        choices=SELECCION,
-        widget=Select(attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("¿Es una organización comunal?"),
-                'onchange': "habilitar(this.value, tipo_comunal.id), habilitar(this.value, situr.id)",
+        choices=((True,''), (False,'')),
+        widget=CheckboxInput(attrs={
+                'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Es una organización comunal?"), 'value': 'S',
+                'onchange': "habilitar($(this).is(':checked'), tipo_comunal.id), habilitar($(this).is(':checked'), situr.id)",
             }
         )
     )
@@ -142,11 +142,11 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = ChoiceField(
         label=_("¿Es la casa matríz de una Franquicia?"),
-        choices=SELECCION,
-        widget=Select(attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+        choices=((True,''), (False,'')),
+        widget=CheckboxInput(attrs={
+                'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("¿Es la casa matríz de una Franquicia?"),
-                'onchange': "habilitar(this.value, nro_franquicia.id)",
+                'onchange': "habilitar($(this).is(':checked'), nro_franquicia.id)",
             }
         )
     )
@@ -155,7 +155,7 @@ class UnidadEconomicaForm(DirectorioForm):
     nro_franquicia = CharField(
         label=_("Número de Franquicias:"),
         initial=0,
-        widget=TextInput(
+        widget=NumberInput(
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000',
@@ -167,11 +167,11 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Franquiciado
     franquiciado = ChoiceField(
         label=_("¿Forma parte de una Franquicia?"),
-        choices=SELECCION,
-        widget=Select(attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+        choices=((True,''), (False,'')),
+        widget=CheckboxInput(attrs={
+                'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("¿Forma parte de una Franquicia?"),
-                'onchange': "habilitar(this.value, pais_franquicia.id), habilitar(this.value, nombre_franquicia.id)",
+                'onchange': "habilitar($(this).is(':checked'), pais_franquicia.id), habilitar($(this).is(':checked'), nombre_franquicia.id)",
             }
         )
     )
@@ -225,18 +225,26 @@ class UnidadEconomicaForm(DirectorioForm):
 
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
-        orga_comunal = self.cleaned_data['orga_comunal']
 
-        if orga_comunal == 'S' and not tipo_comunal:
-            raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
-        return orga_comunal
+        if 'orga_comunal' in self.data:
+            orga_comunal = self.data['orga_comunal']
+
+            if orga_comunal == 'S' and not tipo_comunal:
+                raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
+            return orga_comunal
+
+        return tipo_comunal
 
     def clean_situr(self):
-        orga_comunal = self.cleaned_data['orga_comunal']
         situr = self.cleaned_data['situr']
 
-        if orga_comunal == 'S' and not situr:
-            raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
+        if 'orga_comunal' in self.data:
+            orga_comunal = self.data['orga_comunal']
+
+
+            if orga_comunal == 'S' and not situr:
+                raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
+
         return situr
 
     def clean_pais_franquicia(self):
