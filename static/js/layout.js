@@ -11,7 +11,8 @@ $(document).ready(function() {
         year_info_develop = $("#year-info-develop"), select = $('select'), data_table = $('.dataTable'),
         refresh_captcha = $('.js-captcha-refresh'), input_captcha = $('input[name="captcha_1"]'),
         email_mask = $('.email-mask'), form_update = $('.form-update'), tip_top = $('.tip-top'),
-        tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right');
+        tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right'),
+        seleccion_si_no = $('input[type="checkbox"].seleccion_si_no');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
         /** Verifica el tipo de navegador utilizado por el usuario */
@@ -57,6 +58,16 @@ $(document).ready(function() {
             });
 
             return false;
+        });
+    }
+
+    /** Convierte un campo CheckBox en Switch */
+    if (seleccion_si_no.length) {
+        seleccion_si_no.bootstrapSwitch({
+            onText: 'SI', offText: 'NO', offColor: 'danger'
+        });
+        seleccion_si_no.on('switchChange.bootstrapSwitch', function (event, state) {
+            $(this).prop( "checked", state );
         });
     }
 
