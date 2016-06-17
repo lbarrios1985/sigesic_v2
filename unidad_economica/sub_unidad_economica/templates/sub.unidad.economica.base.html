@@ -16,6 +16,18 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
+                    <div class="form-group {% if form.tipo_sub_unidad.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_sub_unidad.auto_id }}">
+                            {{ form.tipo_sub_unidad.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.tipo_sub_unidad }}<i class="ion ion-ios-medical item-requerido"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
                             {{ form.rif.label }}
@@ -28,14 +40,14 @@
                     </div>
                 </div>
             </div>
-        <br>
+
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.nombre_sub.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.nombre_planta.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_planta.auto_id }}">
                             {% block nombre %}{{ form.nombre_sub.label }}{% endblock %}
                         </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
+                        <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.nombre_sub }}<i class="ion ion-ios-medical item-requerido"></i></div>
                             {% if form.nombre_sub.errors %}
                                 <p class="bg-warning">
@@ -48,29 +60,11 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.tipo_sub_unidad.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_sub_unidad.auto_id }}">
-                            {{ form.tipo_sub_unidad.label }}
-                        </label>
-                        <div class="col-md-9 col-xs-9 col-sm-9">
-                            <div class="form-inline">
-                                {{ form.tipo_sub_unidad }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-               
-            {% include 'directorio.registro.template.html' %}
-                
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.telefono.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.telefono.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">
                             {{ form.telefono.label }}
                         </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
+                        <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i></div>
                             {% if form.telefono.errors %}
                                 <p class="bg-warning">
@@ -83,6 +77,12 @@
                     </div>
                 </div>
             </div>
+
+            {% include 'directorio.registro.template.html' %}
+                
+            <div class="row">
+
+            </div>
            
             <div class="box-header with-border">
                 <h3 class="box-title">{% trans 'Actividad Física de la Sub-Unidad' %}</h3>
@@ -91,10 +91,10 @@
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.tipo_tenencia.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.tipo_tenencia.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_tenencia.auto_id }}">
                             {{ form.tipo_tenencia.label }}
                         </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
+                        <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.tipo_tenencia }}<i class="ion ion-ios-medical item-requerido"></i></div>
                             {% if form.tipo_tenencia.errors %}
                                 <p class="bg-warning">
@@ -111,13 +111,11 @@
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.m2_contruccion.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.m2_contruccion.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_contruccion.auto_id }}">
                             {{ form.m2_contruccion.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            <div class="form-inline">
-                                {{ form.m2_contruccion }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
+                            {{ form.m2_contruccion }}
                             {% if form.m2_contruccion.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -126,17 +124,16 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.m2_terreno.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.m2_terreno.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_terreno.auto_id }}">
                             {{ form.m2_terreno.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            <div class="form-inline">
-                                {{ form.m2_terreno }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
+                            {{ form.m2_terreno }}
                             {% if form.m2_terreno.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -145,6 +142,7 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
             </div>
@@ -152,13 +150,11 @@
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.autonomia_electrica.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.autonomia_electrica.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.autonomia_electrica.auto_id }}">
                             {{ form.autonomia_electrica.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            <div class="form-inline form-inline">
-                                {{ form.autonomia_electrica }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
+                            {{ form.autonomia_electrica }}
                             {% if form.autonomia_electrica.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -167,17 +163,16 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.consumo_electrico.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.consumo_electrico.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.consumo_electrico.auto_id }}">
                             {{ form.consumo_electrico.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            <div class="form-inline form-inline">
-                                {{ form.consumo_electrico }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
+                            {{ form.consumo_electrico }}
                             {% if form.consumo_electrico.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -186,6 +181,7 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
             </div>
@@ -193,13 +189,11 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.cantidad_empleados.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.cantidad_empleados.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_empleados.auto_id }}">
                             {{ form.cantidad_empleados.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            <div class="form-inline form-inline">
-                                {{ form.cantidad_empleados }}<i class="ion ion-ios-medical item-requerido"></i>
-                            </div>
+                            {{ form.cantidad_empleados }}
                             {% if form.cantidad_empleados.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -208,19 +202,18 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
             </div>
                
-                <div class="box-header with-border">
-                    <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
-                </div>
-                <br>
+            <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
+            <hr>
             <div id="planta">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="form-group {% if form.tipo_proceso.errors %}has-error{% endif %}">
-                            <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.tipo_proceso.auto_id }}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_proceso.auto_id }}">
                                 {{ form.tipo_proceso.label }}
                             </label>
                             <div class="col-md-4 col-xs-4 col-sm-4">
@@ -462,13 +455,13 @@
             </div>
                 
             <div class="row">
-                <div class="col-md-10 col-sm-10 col-xs-10">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="form-group {% if form.sede_servicio.errors %}has-error{% endif %}">
-                        <label class="col-md-2 col-xs-2 col-sm-2 control-label" for="{{ form.sede_servicio.auto_id }}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.sede_servicio.auto_id }}">
                             {% block presta_servicio %}{{ form.sede_servicio.label }}{% endblock %}
                         </label>
-                        <div class="col-md-10 col-xs-10 col-sm-10">
-                            <div class="form-inline">{{ form.sede_servicio }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                        <div class="col-md-3 col-xs-3 col-sm-3">
+                            {{ form.sede_servicio }}
                             {% if form.sede_servicio.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
@@ -477,6 +470,7 @@
                                 </p>
                             {% endif %}
                         </div>
+                        <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
             </div>

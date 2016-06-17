@@ -14,8 +14,8 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, CharField, Select, RadioSelect, Textarea, 
-    )
+    TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput
+)
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
@@ -53,7 +53,7 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
 
     ## Nombre de la sub unidad
     nombre_sub = forms.CharField(
-        label=_("Nombre de la Sub-unidad"), widget=TextInput(attrs={
+        label=_("Nombre"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el nombre"), 'size': '50', 'required':'required',
             'style': 'width: 250px;',
@@ -114,15 +114,15 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
         label=_("Presta Servicio: "),
-       widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+       widget=CheckboxInput(attrs={
+            'class': 'seleccion_si_no','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
-        }),choices = (('','Seleccione...'),(1,"Si"),(0,"No")),
+        }),choices = ((True,''), (False,'')),
     )
     
     ## Tipo de Sub Unidad Económica
     tipo_sub_unidad = forms.ChoiceField(
-       label=_("Tipo de Sub-Unidad "),
+       label=_("Tipo"),
        widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'required':'required',
