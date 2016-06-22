@@ -30,14 +30,7 @@
                                     {{ form.naturaleza_juridica }}
                                     <i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.naturaleza_juridica.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i>
-                                            {{ form.naturaleza_juridica.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.naturaleza_juridica.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -62,14 +55,7 @@
                                    {{ form.capital_suscrito }}
                                     <i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.capital_suscrito.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i>
-                                            {{ form.capital_suscrito.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.capital_suscrito.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -83,14 +69,7 @@
                                 <div class="form-inline" >
                                    {{ form.capital_pagado }} <i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.capital_pagado.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i>
-                                            {{ form.capital_pagado.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.capital_pagado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -121,14 +100,7 @@
                                 {{ form.publico_nacional }}
                             </div>
                         </div>
-                        {% if form.publico_nacional.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i>
-                                    {{ form.publico_nacional.errors.as_text|cut:'* ' }}
-                                </span>
-                            </p>
-                        {% endif %}
+                        {% include 'base.form.errors.html' with form_errors=form.publico_nacional.errors %}
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.publico_extranjero.errors %}has-error{% endif %}">
@@ -137,14 +109,7 @@
                                 {{form.publico_extranjero}}
                             </div>
                         </div>
-                        {% if form.publico_extranjero.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i>
-                                    {{ form.publico_extranjero.errors.as_text|cut:'* ' }}
-                                </span>
-                            </p>
-                        {% endif %}
+                        {% include 'base.form.errors.html' with form_errors=form.publico_extranjero.errors %}
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.privado_nacional.errors %}has-error{% endif %}">
@@ -153,14 +118,7 @@
                                 {{form.privado_nacional}}
                             </div>
                         </div>
-                        {% if form.privado_nacional.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i>
-                                    {{ form.privado_nacional.errors.as_text|cut:'* ' }}
-                                </span>
-                            </p>
-                        {% endif %}
+                        {% include 'base.form.errors.html' with form_errors=form.privado_nacional.errors %}
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.privado_extranjero.errors %}has-error{% endif %}">
@@ -169,14 +127,7 @@
                                 {{form.privado_extranjero}}
                             </div>
                         </div>
-                        {% if form.privado_extranjero.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    <i class="fa fa-times-circle-o"></i>
-                                    {{ form.privado_extranjero.errors.as_text|cut:'* ' }}
-                                </span>
-                            </p>
-                        {% endif %}
+                        {% include 'base.form.errors.html' with form_errors=form.privado_extranjero.errors %}
                     </div>
                 </div>
 
@@ -301,17 +252,12 @@
                             </label>
                             <div class="col-md-4 col-xs-4 col-sm-4 form-inline">
                                 {{ form.cedula_representante }}
-                                {% if form.cedula_representante.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i>
-                                            {{ form.cedula_representante.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido"></i>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.cedula_representante.errors %}
                             </div>
                         </div>
                     </div>
@@ -328,14 +274,9 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
-                            {% if form.nombre_representante.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.nombre_representante.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_representante.errors %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 ">
@@ -349,14 +290,9 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
-                            {% if form.apellido_representante.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.apellido_representante.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.apellido_representante.errors %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -372,18 +308,13 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
-                            {% if form.correo_electronico.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.correo_electronico.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.correo_electronico.errors %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.telefono.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.telefono.auto_id }}">
                                 {{ form.telefono.label }}
                             </label>
@@ -391,21 +322,16 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
-                            {% if form.telefono.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.telefono.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.telefono.errors %}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.cargo.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.cargo.auto_id }}">
                                 {{ form.cargo.label }}
                             </label>
@@ -413,28 +339,18 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
-                            {% if form.cargo.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.cargo.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.cargo.errors %}
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group {% if form.cargo_otros.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label">{{ form.cargo_otros.label }}</label>
                             <div class="col-md-7 col-xs-7 col-sm-7">{{ form.cargo_otros}}</div>
-                            {% if form.cargo_otros.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i>
-                                        {{ form.cargo_otros.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.cargo_otros.errors %}
+                            </div>
                         </div>
                     </div>
                 </div>
