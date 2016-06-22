@@ -264,3 +264,8 @@ optgroup, option, select, span.input-group-btn, .select2-container--default .sel
 .radio-inline ul li label {
     font-weight: normal;
 }
+
+.dataTable thead tr:first-child th {
+    text-align: center;
+    vertical-align: middle;
+}
