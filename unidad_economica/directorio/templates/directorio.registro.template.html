@@ -19,15 +19,9 @@
                 {{ form.prefijo_uno }}
             </div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
-            {% if form.prefijo_uno.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.prefijo_uno.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.prefijo_uno.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
         <div class="form-group has-feedback {% if form.direccion_uno.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_uno.auto_id }}">&#160;</label>
@@ -35,15 +29,9 @@
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
-            {% if form.direccion_uno.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3 invisible">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_uno.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.direccion_uno.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
@@ -53,15 +41,9 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_dos }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
-            {% if form.prefijo_dos.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.prefijo_dos.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.prefijo_dos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
         <div class="form-group has-feedback {% if form.direccion_dos.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_dos.auto_id }}">&#160;</label>
@@ -69,15 +51,9 @@
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
-            {% if form.direccion_dos.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3 invisible">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_dos.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.direccion_dos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
     </div>
 </div>
@@ -89,17 +65,9 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_tres }}</div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
-
-            {% if form.prefijo_tres.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.prefijo_tres.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
-
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.prefijo_tres.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
         <div class="form-group has-feedback {% if form.direccion_tres.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_tres.auto_id }}">&#160;</label>
@@ -107,15 +75,9 @@
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
-            {% if form.direccion_tres.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3 invisible">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_tres.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.direccion_tres.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
@@ -125,16 +87,9 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_cuatro }}</div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
-
-            {% if form.prefijo_cuatro.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                    <p class="bg-warning">
-                    <span class="help-block msg-error">
-                        <i class="fa fa-times-circle-o"></i> {{ form.prefijo_cuatro.errors.as_text|cut:'* ' }}
-                    </span>
-                </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.prefijo_cuatro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
         <div class="form-group has-feedback {% if form.direccion_cuatro.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_cuatro.auto_id }}">&#160;</label>
@@ -142,15 +97,9 @@
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
-            {% if form.direccion_cuatro.errors %}
-                <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3 invisible">
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.direccion_cuatro.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                </div>
-            {% endif %}
+            <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
+                {% include 'base.form.errors.html' with form_errors=form.direccion_cuatro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
         </div>
     </div>
 </div>
@@ -162,13 +111,7 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8">
                 {{ form.estado }}
-                {% if form.estado.errors %}
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.estado.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                {% endif %}
+                {% include 'base.form.errors.html' with form_errors=form.estado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
             <div class="col-md-1 col-xs-1 col-sm-1">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
@@ -182,13 +125,7 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8">
                 {{ form.municipio }}
-                {% if form.municipio.errors %}
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.municipio.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                {% endif %}
+                {% include 'base.form.errors.html' with form_errors=form.municipio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
             <div class="col-md-1 col-xs-1 col-sm-1">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
@@ -204,13 +141,7 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8">
                 {{ form.parroquia }}
-                {% if form.parroquia.errors %}
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.parroquia.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                {% endif %}
+                {% include 'base.form.errors.html' with form_errors=form.parroquia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
             <div class="col-md-1 col-xs-1 col-sm-1">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
@@ -226,13 +157,7 @@
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8 form-inline">
                 {{ form.coordenada }}
-                {% if form.coordenada.errors %}
-                    <p class="bg-warning">
-                        <span class="help-block msg-error">
-                            <i class="fa fa-times-circle-o"></i> {{ form.coordenada.errors.as_text|cut:'* ' }}
-                        </span>
-                    </p>
-                {% endif %}
+                {% include 'base.form.errors.html' with form_errors=form.coordenada.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
             <div class="col-xs-1 col-sm-1 col-md-1">
                 <i class="ionicon ion-plus-circled btn-icon" data-toggle="tooltip"
