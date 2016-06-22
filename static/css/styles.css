@@ -61,7 +61,6 @@ ul.errorlist li {
 }
 
 .oaerror {
-  width: 90%; /* Configure it fit in your design  */
   margin: 0 auto; /* Centering Stuff */
   background-color: #FFFFFF; /* Default background */
   padding: 5px;
