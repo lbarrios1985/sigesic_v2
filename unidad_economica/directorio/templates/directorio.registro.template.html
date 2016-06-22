@@ -6,7 +6,8 @@
     </div>
     <div class="col-xs-6 col-md-6 col-sm-6 text-right">
         <a href="directorio.list.html"></a>
-        <button type="button" name="directorio_add" id="directorio_add" class="btn btn-primary btn-sm">
+        <button type="button" name="directorio_add" id="directorio_add" class="btn btn-primary btn-sm"
+                onclick="listado_directorio('{% trans 'Directorio' %}', $('#list-directorio').html())">
             {% trans 'Directorio' %}<i class="ionicon ion-search" style="padding-left: 10px;"></i>
         </button>
         <hr>
