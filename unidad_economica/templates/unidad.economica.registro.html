@@ -84,20 +84,19 @@
                     <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         {{ form.actividad2.label }}
                     </label>
-                    <div class="col-md-8" onchange="mostrar('#id_actividad2','#i');">
+                    <div class="col-md-8" onchange="mostrar('#id_actividad2','#plus');">
                         {{ form.actividad2 }}
                     </div>
                     <div class="col-md-1">
-                        <a id="#dtable" onclick="add_field_datatable(['#id_actividad2'],'#mydtable');" style="cursor: pointer">
-                        <i id="i" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria"
-                           onclick="mostrar('#i','#t');"></i></a>
+                        <a id="#dtable" onclick="agregar_actividad()" style="cursor: pointer">
+                        <i id="plus" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria"></i></a>
                     </div>
                 </div>
 
                 <div class="row">
                     <div id="t" class="col-md-12 col-sm-12 col-xs-12">
                         <h5 class="titulo text-center">{% trans 'Actividad(es) Económica(s) Secundaria(s)' %}</h5>       
-                        <table class="table table-striped table-bordered table-hover dataTable" id="mydtable">
+                        <table class="table table-striped table-bordered table-hover" id="mydtable">
                             <thead>
                                 <tr>
                                     <th class="text-center col-md-11">{% trans 'Actividad' %}</th>
@@ -341,6 +340,32 @@
         /** Función para mostrar un elemento oculto del formulario */
         function mostrar(select, element){
             $(element).removeClass('hidden');
+        }
+
+        /** Función para limitar el número de actividades económicas agregadas a la tabla */
+        function actualizar_cantidad_actividad(){
+            var limite = 3;
+            var cantidad = $('#mydtable').find('tbody tr').length;
+
+            if (cantidad >= limite)
+                $('#plus').css("display", "none");
+
+            else
+                $('#plus').css("display", "block");
+        }
+
+        function agregar_actividad() {
+            if(add_field_datatable(['#id_actividad2'],'#mydtable')) {
+                actualizar_cantidad_actividad();
+                $('.remove_item').attr('onclick', "cambiar_accion_boton()");
+            }
+        }
+
+        function cambiar_accion_boton() {
+            setTimeout(function () {
+                var btn = $('.bootbox.modal .modal-footer .btn-primary');
+                btn.attr('onclick', 'setTimeout(function () {actualizar_cantidad_actividad()}, 250)');
+            }, 250);
         }
     </script>
 {% endblock %}
