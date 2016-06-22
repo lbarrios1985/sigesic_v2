@@ -19,8 +19,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from base.constant import CREATE_MESSAGE
 from .models import maquinariaModel
-from .forms import maquinariaForm
-from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso, SubUnidadEconomicaPrincipalProceso
+from .forms import MaquinariaForm
+from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso, SubUnidadEconomicaProceso
 
 # Create your views here.
 
@@ -40,7 +40,7 @@ class maquinariaView(CreateView):
     """
 
     model = maquinariaModel
-    form_class = maquinariaForm
+    form_class = MaquinariaForm
     template_name = 'maquinaria.equipo.base.html'
     success_url = reverse_lazy('equipos')
     success_message = CREATE_MESSAGE
@@ -63,6 +63,6 @@ class maquinariaView(CreateView):
     def get_initial(self):
 
         datos = super(maquinariaView, self).get_initial()
-        datos["nombre_p"] = SubUnidadEconomicaPrincipalProceso.objects.get(pk=1)
-        print(datos["nombre_p"].sub_unidad_economica_proceso.nombre_proceso)
+        #datos["nombre_p"] = SubUnidadEconomicaProceso.objects.get(pk=1)
+        #print(datos["nombre_p"].sub_unidad_economica_proceso.nombre_proceso)
         return datos
