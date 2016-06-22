@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 {% load static from staticfiles %}
 {% load i18n %}
-<html lang="es">
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:"es-ve" }}">
 	{% include 'base.head.template.html' %}
 	<body class="hold-transition skin-blue-dark sidebar-mini">
 		<div class="wrapper">

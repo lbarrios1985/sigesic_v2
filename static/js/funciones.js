@@ -74,6 +74,41 @@ function anho_registro(title, template) {
 }
 
 /**
+ * @brief Función que muestra una ventana emergente con un listado de direcciones
+ * @param title Titulo de la ventana emergente
+ * @param template Plantilla html a utilizar para mostrar el listado de direcciones
+ */
+function listado_directorio(title, template) {
+    var modal = bootbox.dialog({
+        title: title,
+        message: template,
+        buttons: {
+            main: {
+                label: BTN_CANCELAR,
+                className: "btn btn-warning btn-sm"
+            }
+        }
+    });
+    $(modal).on("shown.bs.modal", function() {
+        $(this).find('.dataTable').dataTable({
+            "language": {
+                "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            "ordering": true,
+            "order": [[0, 'asc']],
+            "bDestroy": true,
+            "bPaginate": true,
+            "bInfo": true,
+            "initComplete": function(settings, json) {
+                $('.dataTables_length select').select2();
+                //Cargar datos mediante ajax
+            }
+        });
+    });
+
+}
+
+/**
  * @brief Función que muestra una ventana emergente con un mapa para la selección de las coordenadas geográficas
  * @param title Titulo de la ventana emergente
  * @param template Plantilla html a utilizar para mostrar el formulario

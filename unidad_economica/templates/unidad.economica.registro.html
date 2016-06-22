@@ -67,13 +67,7 @@
                             </label>
                             <div class="col-md-8">
                                 {{ form.actividad }}
-                                {% if form.actividad.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.actividad.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.actividad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                             <div class="col-md-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                         </div>
@@ -115,13 +109,8 @@
                                 {% endif %}
                             </tbody>
                         </table>
-                        {% if form.actividad2_tb.errors %}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    {% trans 'Debe agregar al menos una actividad' %}
-                                </span>
-                            </p>
-                        {% endif %}
+                        {% trans 'Debe agregar al menos una actividad' as custom_msg_error_actividad2 %}
+                        {% include 'base.form.errors.html' with form_errors=form.actividad2_tb.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' custom_message_error=custom_msg_error_actividad2 %}
                     </div>
                 </div>
                 <hr>
@@ -135,13 +124,7 @@
                                 <div class="form-inline">
                                     {{ form.orga_comunal }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.orga_comunal.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.orga_comunal.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.orga_comunal.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -154,13 +137,7 @@
                                 <div class="form-inline">
                                     {{ form.tipo_comunal }}
                                 </div>
-                                {% if form.tipo_comunal.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_comunal.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_comunal.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -175,13 +152,7 @@
                                 <div class="form-inline">
                                     {{ form.situr }}
                                 </div>
-                                {% if form.situr.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.situr.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.situr.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -197,13 +168,7 @@
                                 <div class="form-inline">
                                     {{ form.franquiciado }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.franquiciado.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.franquiciado.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.franquiciado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -216,13 +181,7 @@
                                 <div class="form-inline">
                                     {{ form.pais_franquicia }}
                                 </div>
-                                {% if form.pais_franquicia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.pais_franquicia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.pais_franquicia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -238,13 +197,7 @@
                                 <div class="form-inline">
                                     {{ form.rif_casa_matriz }}
                                 </div>
-                                {% if form.rif_casa_matriz.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.rif_casa_matriz.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.rif_casa_matriz.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -257,13 +210,7 @@
                                 <div class="form-inline">
                                     {{ form.nombre_franquicia }}
                                 </div>
-                                {% if form.nombre_franquicia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_franquicia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_franquicia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -279,13 +226,7 @@
                                 <div class="form-inline">
                                     {{ form.casa_matriz_franquicia }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.casa_matriz.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.casa_matriz.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.casa_matriz.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -298,13 +239,7 @@
                                 <div class="form-inline">
                                     {{ form.nro_franquicia }}
                                 </div>
-                                {% if form.nro_franquicia.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nro_franquicia.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nro_franquicia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -324,14 +259,6 @@
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
             }
-
-            /** Función para eliminar cabecera y pie de DataTable */
-            $('#mydtable').DataTable({
-                "paging": false,
-                "ordering": false,
-                "info": false,
-                "filter": false,
-            });
 
             remove_field_datatable('#mydtable');
             update_field_datatable('#mydtable', '#actividad-secundaria-unidadeconomica', ['#id_actividad2']);
