@@ -181,10 +181,10 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'es-VE'
 
 ## Configuración para el nombre de localización por defecto
-LOCALE_NAME = 'es'
+LOCALE_NAME = 'es-ve'
 
 ## Configuración para la zona horaria por defecto
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Caracas'
 
 ## Determina si se emplea la internacionalización I18N
 USE_I18N = True
