@@ -3,14 +3,22 @@
 {% load i18n %}
 {% block box_acceso_titulo %}{% trans 'Acceso al Sistema' %}{% endblock %}
 {% block box_acceso_campos %}
-    {% include 'base.rif.input.html' %}
-    {% include 'base.clave.input.html' %}
-    {% include 'base.captcha.input.html' %}
-    <div class="form-group">
-        <a href="{% url 'olvido_clave' %}" data-toggle="tooltip"
-           title="{% trans 'Presione para generar una nueva contraseña de acceso' %}">
-            {% trans '¿Olvidó su contraseña?' %}
-        </a>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.rif.input.html' %}
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.clave.input.html' %}
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.captcha.input.html' %}
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <a href="{% url 'olvido_clave' %}" data-toggle="tooltip"
+               title="{% trans 'Presione para generar una nueva contraseña de acceso' %}">
+                {% trans '¿Olvidó su contraseña?' %}
+            </a>
+        </div>
     </div>
 {% endblock %}
 {% block box_acceso_botones %}
