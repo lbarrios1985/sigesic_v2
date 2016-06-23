@@ -264,7 +264,16 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'when': 'w6',
         'interval': 1,
         'backupCount': 52
-    }
+    },
+    'ue': {
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'level': 'DEBUG',
+        'formatter': 'std',
+        'filename': os.path.join(LOGS_PATH, 'ue.log'),
+        'when': 'w6',
+        'interval': 1,
+        'backupCount': 52
+    },
 }, loggers={
     'root': {
         'level': 'DEBUG',
@@ -279,6 +288,11 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'level': 'DEBUG',
         'handlers': ['usuario'],
         'qualname': 'usuario'
+    },
+    'ue': {
+        'level': 'DEBUG',
+        'handlers': ['ue'],
+        'qualname': 'ue'
     },
     'django.request': {
         'handlers': ['null'],
