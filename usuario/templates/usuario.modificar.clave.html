@@ -9,13 +9,7 @@
         <div class="form-inline">
             {{ form.verificar_contrasenha }}<i class="ion ion-ios-medical item-requerido"></i>
         </div>
-        {% if form.verificar_contrasenha.errors %}
-            <p class="bg-warning">
-                <span class="help-block msg-error">
-                    <i class="fa fa-times-circle-o"></i> {{ form.verificar_contrasenha.errors.as_text|cut:'* ' }}
-                </span>
-            </p>
-        {% endif %}
+        {% include 'base.form.errors.html' with form_errors=form.verificar_contrasenha.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
     </div>
     {% include 'base.captcha.input.html' %}
 {% endblock %}

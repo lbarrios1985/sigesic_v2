@@ -3,9 +3,15 @@
 {% load static from staticfiles %}
 {% block box_acceso_titulo %}{% trans 'Recuperar Contraseña' %}{% endblock %}
 {% block box_acceso_campos %}
-    {% include 'base.rif.input.html' %}
-    {% include 'base.correo.input.html' %}
-    {% include 'base.captcha.input.html' %}
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.rif.input.html' %}
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.correo.input.html' %}
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% include 'base.captcha.input.html' %}
+    </div>
 {% endblock %}
 {% block box_acceso_botones %}
     <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip"

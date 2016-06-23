@@ -21,13 +21,7 @@
                                 <div class="form-inline">
                                     {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.rif.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.rif.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -38,13 +32,7 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">{{ form.nombre_ue }}</div>
-                                {% if form.nombre_ue.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_ue.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_ue.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -65,13 +53,7 @@
                                 <div class="form-inline">
                                     {{ form.cedula }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.cedula.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cedula.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cedula.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -84,13 +66,7 @@
                                 <div class="form-inline">
                                     {{ form.cargo }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.cargo.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cargo.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cargo.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -105,13 +81,7 @@
                                 <div class="form-inline">
                                     {{ form.nombre }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.nombre.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -124,13 +94,7 @@
                                 <div class="form-inline">
                                     {{ form.apellido }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.apellido.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.apellido.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.apellido.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -146,13 +110,7 @@
                                     {{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                                 <span class="help-block">{{ form.telefono.help_text }}</span>
-                                {% if form.telefono.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.telefono.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -165,13 +123,7 @@
                                 <div class="form-inline">
                                     {{ form.correo }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.correo.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.correo.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.correo.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -190,13 +142,12 @@
                                 <div id="passwordDescription">Contraseña no introducida</div>
                                 <div id="passwordStrength" class="strength0"></div>
                                 <input type="hidden" id="passwordMeterId" name="passwordMeterId" style="display:none;">
-                                {% if form.password.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.password.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        {% include 'base.form.errors.html' with form_errors=form.password.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -210,13 +161,7 @@
                                 <div class="form-inline">
                                     {{ form.verificar_contrasenha }}<i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.verificar_contrasenha.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.verificar_contrasenha.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.verificar_contrasenha.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -235,13 +180,7 @@
                                        title="{% trans 'Presione para recargar la imagen del captcha' %}"></i>
                                     <i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
-                                {% if form.captcha.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.captcha.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.captcha.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
