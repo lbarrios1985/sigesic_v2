@@ -366,6 +366,7 @@ function add_field_datatable(campos, table_id){
     var new_data = new Array();
     var t = $(table_id).DataTable();
     var index = t.rows()[0].length;
+    var id = '';
     $.each(campos,function(index,value){
             var text = $(value).val();
             var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
@@ -391,16 +392,35 @@ function add_field_datatable(campos, table_id){
         });
         modal.show();
         new_data = [];
+
+        return false;
     }
     else
     {
+        var exists = false;
+
         $.each(campos,function(index,value){
+            id += $(value).val() + '&';
             $(value).val('');
         });
+
+        $.each($(table_id).find('input[type="hidden"]'), function(index,value){
+            if($(value).val() == id)
+                exists = true;
+        });
+
+        if(exists) {
+            alert('Ya existe');
+            return false;
+        }
+
         var buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>';
         buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>';
+        buttons += '<input type="hidden" name="id" value="' + id + '" />';
         new_data.push(buttons);
         t.row.add(new_data).draw(false);
+
+        return true;
     }
 }
 
