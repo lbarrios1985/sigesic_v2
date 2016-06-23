@@ -4,11 +4,5 @@
         {{ form.telefono }}
         {% if form.telefono.field.required %}<i class="ion ion-ios-medical item-requerido"></i>{% endif %}
     </div>
-    {% if form.telefono.errors %}
-        <p class="bg-warning">
-            <span class="help-block msg-error">
-                <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
-            </span>
-        </p>
-    {% endif %}
+    {% include 'base.form.errors.html' with form_errors=form.telefono.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
 </div>
