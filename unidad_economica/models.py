@@ -160,3 +160,16 @@ class Notificacion(models.Model):
 
     ## Establece la relación con la Unidad Económica a la cual se le envío la notificación
     unidad_economica = models.ForeignKey(UnidadEconomica)
+
+    class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase Notificacion
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 23-06-2016
+        @version 2.0.0
+        """
+        verbose_name = _("Notificación")
+        verbose_name_plural = _("Notificaciones")
+        ordering = ("unidad_economica", "estatus")
