@@ -138,6 +138,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+                "django.template.context_processors.tz",
             ],
         },
     },
@@ -178,10 +179,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 ## Configuración del código del lenguaje a utilizar por defecto
-LANGUAGE_CODE = 'es-VE'
+LANGUAGE_CODE = 'es-ve'
 
 ## Configuración para el nombre de localización por defecto
-LOCALE_NAME = 'es-ve'
+LOCALE_NAME = 'es'
 
 ## Configuración para la zona horaria por defecto
 TIME_ZONE = 'America/Caracas'
@@ -218,9 +219,9 @@ LOGIN_URL = "/login"
 LOGOUT_URL = "/logout"
 
 ## configuración que permite obtener la ruta en donde se encuentran las traducciones de la aplicación a otros lenguajes
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
+LOCALE_PATHS = [
+    #os.path.join(BASE_DIR, 'locale'),
+]
 
 ## Registro de mensajes al usuario
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
