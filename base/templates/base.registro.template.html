@@ -38,13 +38,11 @@
                                             {% else %}
                                                 <span class="help-block">{{ field.help_text }}</span>
                                             {% endif %}
-                                            {% if field.errors %}
-                                                <p class="bg-warning">
-                                                    <span class="help-block msg-error">
-                                                        <i class="fa fa-times-circle-o"></i> {{ field.errors.as_text|cut:'* ' }}
-                                                    </span>
-                                                </p>
-                                            {% endif %}
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {% include 'base.form.errors.html' with form_errors=field.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </div>
