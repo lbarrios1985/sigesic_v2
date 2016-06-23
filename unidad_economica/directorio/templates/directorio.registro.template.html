@@ -15,94 +15,94 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group has-feedback {% if form.prefijo_uno.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_uno.auto_id }}">
-                {{ form.direccion_uno.label }}
+        <div class="form-group has-feedback {% if form.tipo_vialidad.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_vialidad.auto_id }}">
+                {{ form.nombre_vialidad.label }}
             </label>
             <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">
-                {{ form.prefijo_uno }}
+                {{ form.tipo_vialidad }}
             </div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.prefijo_uno.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.tipo_vialidad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
-        <div class="form-group has-feedback {% if form.direccion_uno.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_uno.auto_id }}">&#160;</label>
-            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.direccion_uno }}</div>
+        <div class="form-group has-feedback {% if form.nombre_vialidad.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_vialidad.auto_id }}">&#160;</label>
+            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.nombre_vialidad }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.direccion_uno.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.nombre_vialidad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group has-feedback {% if form.prefijo_dos.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_dos.auto_id }}">
-                {{ form.direccion_dos.label }}
+        <div class="form-group has-feedback {% if form.tipo_edificacion.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_edificacion.auto_id }}">
+                {{ form.descripcion_edificacion.label }}
             </label>
-            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_dos }}</div>
+            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.tipo_edificacion }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.prefijo_dos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.tipo_edificacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
-        <div class="form-group has-feedback {% if form.direccion_dos.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_dos.auto_id }}">&#160;</label>
-            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.direccion_dos }}</div>
+        <div class="form-group has-feedback {% if form.descripcion_edificacion.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.descripcion_edificacion.auto_id }}">&#160;</label>
+            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.descripcion_edificacion }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.direccion_dos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.descripcion_edificacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group has-feedback {% if form.prefijo_tres.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_tres.auto_id }}">
-                {{ form.direccion_tres.label }}
+        <div class="form-group has-feedback {% if form.tipo_subedificacion.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_subedificacion.auto_id }}">
+                {{ form.descripcion_subedificacion.label }}
             </label>
-            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_tres }}</div>
+            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.tipo_subedificacion }}</div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.prefijo_tres.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.tipo_subedificacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
-        <div class="form-group has-feedback {% if form.direccion_tres.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_tres.auto_id }}">&#160;</label>
-            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.direccion_tres }}</div>
+        <div class="form-group has-feedback {% if form.descripcion_subedificacion.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.descripcion_subedificacion.auto_id }}">&#160;</label>
+            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.descripcion_subedificacion }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.direccion_tres.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.descripcion_subedificacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group has-feedback {% if form.prefijo_cuatro.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.prefijo_cuatro.auto_id }}">
-                {{ form.direccion_cuatro.label }}
+        <div class="form-group has-feedback {% if form.tipo_zonificacion.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_zonificacion.auto_id }}">
+                {{ form.nombre_zona.label }}
             </label>
-            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.prefijo_cuatro }}</div>
+            <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">{{ form.tipo_zonificacion }}</div>
             <div class="col-md-1 col-sm-1 col-xs-1"><i class="ion ion-ios-medical item-requerido-nomargin"></i></div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.prefijo_cuatro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.tipo_zonificacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
-        <div class="form-group has-feedback {% if form.direccion_cuatro.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.direccion_cuatro.auto_id }}">&#160;</label>
-            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.direccion_cuatro }}</div>
+        <div class="form-group has-feedback {% if form.nombre_zona.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_zona.auto_id }}">&#160;</label>
+            <div class="col-md-8 col-xs-8 col-sm-8">{{ form.nombre_zona }}</div>
             <div class="col-md-1 col-xs-1 col-sm-1 invisible">
                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
             </div>
             <div class="col-xs-12 col-sm-9 col-md-9 col-md-offset-3">
-                {% include 'base.form.errors.html' with form_errors=form.direccion_cuatro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                {% include 'base.form.errors.html' with form_errors=form.nombre_zona.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
         </div>
     </div>
@@ -152,8 +152,19 @@
             </div>
         </div>
     </div>
-
-
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6">
+        <div class="form-group has-feedback {% if form.tipo_coordenada.errors %}has-error{% endif %}">
+            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_coordenada.auto_id }}">
+                {{ form.tipo_coordenada.label }}
+            </label>
+            <div class="col-md-9 col-xs-9 col-sm-9 form-inline">
+                {{ form.tipo_coordenada }}
+                {% include 'base.form.errors.html' with form_errors=form.tipo_coordenada.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+            </div>
+        </div>
+    </div>
     <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="form-group has-feedback {% if form.coordenada.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.coordenada.auto_id }}">

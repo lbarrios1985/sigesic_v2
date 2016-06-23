@@ -22,7 +22,7 @@ from base.constant import (
 )
 from base.models import Estado, Municipio, Parroquia
 from base.fields import CoordenadaField
-from .models import Directorio
+from .models import TipoCoordenada, Directorio
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -40,12 +40,12 @@ class DirectorioForm(ModelForm):
     """
 
     ## Prefijo para establecer el tipo de datos de la primera dirección
-    prefijo_uno = forms.ChoiceField(
+    tipo_vialidad = forms.ChoiceField(
         widget=RadioSelect(attrs={'class': 'radio'}), choices = PREFIJO_DIRECTORIO_UNO_CHOICES,
     )
 
     ## Primer dato correspondiente a la dirección de Autopista, Avenida, Carretera, Calle, Carrera o Vereda
-    direccion_uno = forms.CharField(
+    nombre_vialidad = forms.CharField(
         label=_("Dirección"), widget=TextInput(attrs={
             'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número o nombre')
@@ -53,12 +53,12 @@ class DirectorioForm(ModelForm):
     )
 
     ## Prefijo para establecer el tipo de datos de la segunda dirección
-    prefijo_dos = forms.ChoiceField(
+    tipo_edificacion = forms.ChoiceField(
         widget=RadioSelect(attrs={'class': 'radio'}), choices = PREFIJO_DIRECTORIO_DOS_CHOICES,
     )
 
     ## Segundo dato correspondiente a la dirección de Edificio, Galpón, Quinta, Casa, Local o Centro Comercial
-    direccion_dos = forms.CharField(
+    descripcion_edificacion = forms.CharField(
         label='', widget=TextInput(attrs={
             'class': 'form-control', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número o nombre')
@@ -66,12 +66,12 @@ class DirectorioForm(ModelForm):
     )
 
     ## Prefijo para establecer el tipo de datos de la tercera dirección
-    prefijo_tres = forms.ChoiceField(
+    tipo_subedificacion = forms.ChoiceField(
         widget=RadioSelect(attrs={'class': 'radio',}), choices = PREFIJO_DIRECTORIO_TRES_CHOICES
     )
 
     ## Tercer dato correspondiente a la dirección de Local, Oficina o Apartamento
-    direccion_tres = forms.CharField(
+    descripcion_subedificacion = forms.CharField(
         label='', widget=TextInput(attrs={
             'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('número')
@@ -79,12 +79,12 @@ class DirectorioForm(ModelForm):
     )
 
     ## Prefijo para establecer el tipo de datos de la cuarta dirección
-    prefijo_cuatro = forms.ChoiceField(
+    tipo_zonificacion = forms.ChoiceField(
         widget=RadioSelect(attrs={'class': 'radio',}), choices = PREFIJO_DIRECTORIO_CUATRO_CHOICES,
     )
 
     ## Cuarto dato correspondiente a la dirección de Urbanización, Sector o Zona
-    direccion_cuatro = forms.CharField(
+    nombre_zona = forms.CharField(
         label='', widget=TextInput(attrs={
             'class': 'form-control input-sm', 'style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip', 'title': _("Indique el nombre"), 'placeholder': _('nombre')
@@ -117,6 +117,15 @@ class DirectorioForm(ModelForm):
         widget=Select(attrs={
             'class': 'form-control select2', 'data-toggle': 'tooltip', 'disabled': 'true',
             'title': _("Seleccione la parroquia en donde se encuentra ubicada")
+        })
+    )
+
+    ## Tipos de coordenadas geográficas
+    tipo_coordenada = ModelChoiceField(
+        label=_("Tipo de Coordenada"), queryset=TipoCoordenada.objects.all(), empty_label=_("Seleccione..."),
+        widget=Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': _("Seleccione el tipo de coordenada geográfica a registrar")
         })
     )
 

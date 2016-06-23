@@ -29,6 +29,31 @@ __docstring__ = "DoxyGen"
 
 
 @python_2_unicode_compatible
+class TipoCoordenada(models.Model):
+    """!
+    Clase que gestiona los tipos de coordenadas disponibles
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 23-06-2016
+    @version 2.0.0
+    """
+    tipo = models.CharField(max_length=25)
+
+    class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase TipoCoordenada
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 23-06-2016
+        @version 2.0.0
+        """
+        verbose_name = _("Tipo de Coordenada")
+        verbose_name_plural = _("Tipos de Coordenadas")
+
+
+@python_2_unicode_compatible
 class Directorio(models.Model):
     """!
     Clase que gestiona los datos del directorio de direcciones
@@ -40,34 +65,52 @@ class Directorio(models.Model):
     """
 
     ## Va a contener los prefijos Autopista, Avenida, Carretera, Calle, Carrera, Vereda
-    prefijo_uno = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_UNO_CHOICES)
+    tipo_vialidad = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_UNO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el primer prefijo
-    direccion_uno = models.CharField(max_length=20)
+    nombre_vialidad = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Edificio, Galpón, Centro Comercial, Quinta, Casa, Local 
-    prefijo_dos = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_DOS_CHOICES)
+    tipo_edificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_DOS_CHOICES)
     
     ## Va a contener la descripción de la dirección en el segundo prefijo
-    direccion_dos = models.CharField(max_length=20)
+    descripcion_edificacion = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Local, Oficina, Apartamento 
-    prefijo_tres = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_TRES_CHOICES)
+    tipo_subedificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_TRES_CHOICES)
     
     ## Va a contener la descripción de la dirección en el tercer prefijo
-    direccion_tres = models.CharField(max_length=20)
+    descripcion_subedificacion = models.CharField(max_length=20)
     
     ## Va a contener los prefijos Urbanización, Sector, Zona 
-    prefijo_cuatro = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_CUATRO_CHOICES)
+    tipo_zonificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_CUATRO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el cuarto prefijo
-    direccion_cuatro = models.CharField(max_length=20)
+    nombre_zona = models.CharField(max_length=20)
 
-    ## Coordenadas Geográficas (opcional)
-    coordenadas = models.CharField(max_length=255, null=True)  # Posteriormente modificar el tipo de campo con GeoDjango a geom = PointField()
-    
     ## Muestra si la dirección esta activa o no
     activo = models.BooleanField(default=True)
 
     ## Contiene la relación con el modelos Parroquia
     parroquia = models.ForeignKey(Parroquia)
+
+    ## Coordenadas Geográficas (opcional)
+    coordenadas = models.CharField(max_length=255, null=True)  # Posteriormente modificar el tipo de campo con GeoDjango a geom = PointField()
+
+    ## Enlace al tipo de coordenada a registrar
+    tipo_coordenada = models.ForeignKey(TipoCoordenada, null=True)
+
+    ## Enlace al usuario al cual le corresponda el directorio
+    usuario = models.ForeignKey(User)
+
+    class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase Directorio
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 23-06-2016
+        @version 2.0.0
+        """
+        verbose_name = _("Directorio")
+        verbose_name_plural = _("Directorios")
