@@ -221,3 +221,30 @@ class TipoComunal(models.Model):
 
     ## Tipo de Organización Comunal
     tipo_comunal = models.CharField(max_length=45)
+
+
+@python_2_unicode_compatible
+class AnhoRegistro(models.Model):
+    """!
+    Clase que contiene los Años solicitados para el registro de datos
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 23-06-2016
+    @version 2.0.0
+    """
+
+    ## Año a registrar
+    anho = models.CharField(max_length=4, unique=True)
+
+    class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase AnhoRegistro
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 23-06-2016
+        @version 2.0.0
+        """
+        verbose_name = _("Año de Registro")
+        verbose_name_plural = _("Años de Registros")
