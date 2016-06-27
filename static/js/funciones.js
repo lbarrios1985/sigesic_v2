@@ -102,7 +102,7 @@ function listado_directorio(title, template) {
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button class='btn btn-sm btn-primary' onclick='alert($(this).parent().parent().find(\".directorio_id\").val())'>agregar</button>"
+                "defaultContent": "<button type='button' class='btn btn-sm btn-primary' onclick='cargar_direccion($(this).parent().parent().find(\".directorio_id\").val())'>agregar</button>"
             }],
             "ordering": true,
             "order": [[0, 'asc']],
