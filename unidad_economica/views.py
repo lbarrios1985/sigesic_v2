@@ -101,8 +101,6 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado
         """
-        print("Valido..")
-        print(self.request.POST)
 
         ## Obtiene los datos seleccionados en Parroquia
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
@@ -183,6 +181,5 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
     def form_invalid(self, form):
-        print('*'*10)
-        print(form)
+
         return super(UnidadEconomicaCreate, self).form_invalid(form)
