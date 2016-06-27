@@ -52,6 +52,18 @@ class TipoCoordenada(models.Model):
         verbose_name = _("Tipo de Coordenada")
         verbose_name_plural = _("Tipos de Coordenadas")
 
+    def __str__(self):
+        """!
+        Método que muestra la información sobre el tipo de coordenada
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 27-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve el tipo de coordenada
+        """
+        return self.tipo
+
 
 @python_2_unicode_compatible
 class Directorio(models.Model):
