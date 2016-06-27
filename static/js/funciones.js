@@ -82,6 +82,7 @@ function listado_directorio(title, template) {
     var modal = bootbox.dialog({
         title: title,
         message: template,
+        size: 'large',
         buttons: {
             main: {
                 label: BTN_CANCELAR,
@@ -94,6 +95,15 @@ function listado_directorio(title, template) {
             "language": {
                 "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
+            "ajax": {
+                "processing": true,
+                "url": URL_GET_DIRECTORIO
+            },
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-sm btn-primary' onclick='alert($(this).parent().parent().find(\".directorio_id\").val())'>agregar</button>"
+            }],
             "ordering": true,
             "order": [[0, 'asc']],
             "bDestroy": true,
@@ -101,7 +111,6 @@ function listado_directorio(title, template) {
             "bInfo": true,
             "initComplete": function(settings, json) {
                 $('.dataTables_length select').select2();
-                //Cargar datos mediante ajax
             }
         });
     });
