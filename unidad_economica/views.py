@@ -109,17 +109,20 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
 
         ## Almacena en el modelo de Directorio
         directorio = Directorio()
-        directorio.prefijo_uno=form.cleaned_data['prefijo_uno']
-        directorio.direccion_uno=form.cleaned_data['direccion_uno']
-        directorio.prefijo_dos=form.cleaned_data['prefijo_dos']
-        directorio.direccion_dos=form.cleaned_data['direccion_dos']
-        directorio.prefijo_tres=form.cleaned_data['prefijo_tres']
-        directorio.direccion_tres=form.cleaned_data['direccion_tres']
-        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
-        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
-        directorio.coordenadas = form.cleaned_data['coordenada']
+        directorio.tipo_vialidad=form.cleaned_data['tipo_vialidad']
+        directorio.nombre_vialidad=form.cleaned_data['nombre_vialidad']
+        directorio.tipo_edificacion=form.cleaned_data['tipo_edificacion']
+        directorio.descripcion_edificacion=form.cleaned_data['descripcion_edificacion']
+        directorio.tipo_subedificacion=form.cleaned_data['tipo_subedificacion']
+        directorio.descripcion_subedificacion=form.cleaned_data['descripcion_subedificacion']
+        directorio.tipo_zonificacion=form.cleaned_data['tipo_zonificacion']
+        directorio.nombre_zona=form.cleaned_data['nombre_zona']
+        if form.cleaned_data['tipo_coordenada'] and form.cleaned_data['coordenada']:
+            directorio.tipo_coordenada = form.cleaned_data['tipo_coordenada']
+            directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.parroquia = parroquia
         directorio.activo=True
+        directorio.usuario = self.request.user
         directorio.save()
 
         ## Almacena en el modelo de UnidadEconomica
@@ -144,14 +147,15 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         direccion.save()
 
         ## Almacena en el modelo Franquicia
-        franquicia = Franquicia()
-        franquicia.rif_casa_matriz = "%s%s%s" % (
-                self.request.POST['rif_casa_matriz_0'], self.request.POST['rif_casa_matriz_1'], self.request.POST['rif_casa_matriz_2']
-            )
-        franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
-        franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
-        franquicia.unidad_economica_rif = self.object
-        franquicia.save()
+        if form.cleaned_data['rif_casa_matriz']:
+            franquicia = Franquicia()
+            franquicia.rif_casa_matriz = "%s%s%s" % (
+                    self.request.POST['rif_casa_matriz_0'], self.request.POST['rif_casa_matriz_1'], self.request.POST['rif_casa_matriz_2']
+                )
+            franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
+            franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
+            franquicia.unidad_economica_rif = self.object
+            franquicia.save()
 
         ## Obtiene los datos seleccionados en CAEV
         caev = CaevClase.objects.get(pk=self.request.POST['actividad'])
@@ -182,5 +186,3 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         print('*'*10)
         print(form)
         return super(UnidadEconomicaCreate, self).form_invalid(form)
-        
-        
