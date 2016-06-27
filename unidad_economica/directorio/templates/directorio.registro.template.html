@@ -10,6 +10,8 @@
                 onclick="listado_directorio('{% trans 'Directorio' %}', $('#list-directorio').html())">
             {% trans 'Directorio' %}<i class="ionicon ion-search" style="padding-left: 10px;"></i>
         </button>
+        {# Campo oculto para manipular el id del directorio cuando el mismo es agregado del listado de direcciones #}
+        {{ form.directorio }}
         <hr>
     </div>
 </div>

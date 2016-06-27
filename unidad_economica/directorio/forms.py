@@ -13,7 +13,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 
 from django import forms
 from django.forms import (
-    ModelForm, TextInput, Select, RadioSelect, ModelChoiceField)
+    ModelForm, TextInput, Select, RadioSelect, ModelChoiceField, HiddenInput, CharField
+)
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import (
@@ -131,6 +132,9 @@ class DirectorioForm(ModelForm):
 
     ## Coordenadas geográficas de Longitud y Latitud
     coordenada = CoordenadaField(required=False)
+
+    ## Id del directorio en haberse agregado una dirección existente
+    directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}))
     
     class Meta:
         model = Directorio
