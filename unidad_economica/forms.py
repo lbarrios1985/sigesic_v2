@@ -25,7 +25,7 @@ from base.constant import (
 from base.fields import RifField
 from base.models import Pais
 from base.widgets import RifWidgetReadOnly
-from base.functions import cargar_actividad, cargar_tipo_comunal
+from base.functions import cargar_actividad, cargar_tipo_comunal, cargar_pais
 
 from .directorio.forms import DirectorioForm
 from .models import UnidadEconomica
@@ -78,7 +78,8 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Seleccione la Actividad Económica Principal que realiza")
+                'title': _("Seleccione la Actividad Económica Principal que realiza"),
+                'onchange': 'deshabilitar_opcion(this.value)'
             }
         )
     )
@@ -179,7 +180,6 @@ class UnidadEconomicaForm(DirectorioForm):
     ## País de la Franquicia
     pais_franquicia = ChoiceField(
         label=_("País de Origen de la Franquicia"),
-        choices=[('', 'Seleccione...')]+[(pais.id, pais.nombre) for pais in Pais.objects.all()],
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
@@ -209,20 +209,19 @@ class UnidadEconomicaForm(DirectorioForm):
         self.fields['actividad'].choices = cargar_actividad()
         self.fields['actividad2'].choices = cargar_actividad()
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
+        self.fields['pais_franquicia'].choices = cargar_pais()
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
         nro_franquicia = self.cleaned_data.get('nro_franquicia')
+        
         if nro_franquicia is None:
             return 0
         else:
+            if casa_matriz_franquicia == 'S' and nro_franquicia == '' or nro_franquicia == '0':
+                raise forms.ValidationError(_("Indique el número de franquicias"))
             return nro_franquicia
-
-        print(casa_matriz_franquicia, nro_franquicia)
-
-        if casa_matriz_franquicia == 'S' and nro_franquicia == '' or nro_franquicia == '0':
-            raise forms.ValidationError(_("Indique el número de franquicias"))
-
+        
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
 
@@ -241,7 +240,6 @@ class UnidadEconomicaForm(DirectorioForm):
         if 'orga_comunal' in self.data:
             orga_comunal = self.data['orga_comunal']
 
-
             if orga_comunal == 'S' and not situr:
                 raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
 
@@ -249,15 +247,18 @@ class UnidadEconomicaForm(DirectorioForm):
 
     def clean_pais_franquicia(self):
         franquiciado = self.cleaned_data['franquiciado']
-        pais_franquicia = self.cleaned_data['pais_franquicia']
+        pais_franquicia = self.cleaned_data.get('pais_franquicia', False)
 
-        if franquiciado == 'S' and not pais_franquicia:
-            raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
+        if 'franquiciado' in self.data:
+            franquiciado = self.data['franquiciado']
+
+            if franquiciado == 'S' and not pais_franquicia:
+                raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
         return pais_franquicia
 
     def clean_rif_casa_matriz(self):
         rif_casa_matriz = self.cleaned_data['rif_casa_matriz']
-        pais_franquicia = self.cleaned_data['pais_franquicia']
+        pais_franquicia = self.cleaned_data.get('pais_franquicia')
 
         if pais_franquicia == '1' and not rif_casa_matriz:
             raise forms.ValidationError(_("Indique el RIF de la franquicia"))
@@ -265,19 +266,12 @@ class UnidadEconomicaForm(DirectorioForm):
 
     def clean_nombre_franquicia(self):
         franquiciado = self.cleaned_data['franquiciado']
+        pais_franquicia = self.cleaned_data.get('pais_franquicia')
         nombre_franquicia = self.cleaned_data['nombre_franquicia']
 
-        if franquiciado == 'S' and not nombre_franquicia:
+        if franquiciado == 'S' and pais_franquicia != '1' and not nombre_franquicia:
             raise forms.ValidationError(_("Indique nombre de la franquicia"))
         return nombre_franquicia
-
-    def clean_nro_franquicia(self):
-        casa_matriz_franquicia = self.cleaned_data['casa_matriz_franquicia']
-        nro_franquicia = self.cleaned_data['nro_franquicia']
-
-        if casa_matriz_franquicia == 'S':
-            raise forms.ValidationError(_("Indique número de franquicias"))
-        return nro_franquicia
 
     class Meta(object):
         model = UnidadEconomica

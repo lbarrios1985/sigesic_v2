@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-md-1">
                         <a id="#dtable" onclick="agregar_actividad()" style="cursor: pointer">
-                        <i id="plus" class="glyphicon glyphicon-plus hidden" title="Agregar actividad económica secundaria"></i></a>
+                        <i id="plus" class="ionicon ion-plus-circled btn-icon hidden" data-original-title="Agregar actividad económica secundaria"></i></a>
                     </div>
                 </div>
 
@@ -260,6 +260,14 @@
                 $("#{{ form.rif_casa_matriz.auto_id }}_"+i).attr("onchange", onchange);
             }
 
+             /** Función para eliminar cabecera y pie de DataTable */
+             $('#mydtable').DataTable({
+                 "paging": false,
+                 "ordering": false,
+                 "info": false,
+                 "filter": false,
+             });
+
             remove_field_datatable('#mydtable');
             update_field_datatable('#mydtable', '#actividad-secundaria-unidadeconomica', ['#id_actividad2']);
         });
@@ -293,6 +301,12 @@
                 var btn = $('.bootbox.modal .modal-footer .btn-primary');
                 btn.attr('onclick', 'setTimeout(function () {actualizar_cantidad_actividad()}, 250)');
             }, 250);
+        }
+
+        function deshabilitar_opcion(valor) {
+            $('#id_actividad2 option').removeAttr('disabled');
+            $('#id_actividad2 option[value="' + valor + '"]').attr('disabled', 'disabled');
+            $('#id_actividad2').select2({});
         }
     </script>
 {% endblock %}
