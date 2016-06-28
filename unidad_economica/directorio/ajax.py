@@ -76,5 +76,40 @@ def get_directorio(request):
 
     except Exception as e:
         message = e
-    print(message)
+
     return HttpResponse(json.dumps({'result': False, 'message': str(message)}))
+
+
+@login_required()
+def add_direccion(request):
+    message = _("La dirección no existe")
+
+    try:
+        if not request.is_ajax():
+            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+
+        directorio_id = request.GET.get('directorio_id', None)
+
+        if directorio_id:
+            direccion = Directorio.objects.get(pk=directorio_id)
+            tipo_coordenada = ''
+            coordenada = []
+
+            if direccion.tipo_coordenada:
+                tipo_coordenada = direccion.tipo_coordenada.pk
+                coordenada = direccion.coordenadas.split(",")
+
+            return HttpResponse(json.dumps({
+                'resultado': True, 'tipo_vialidad': direccion.tipo_vialidad, 'coordenadas': coordenada,
+                'nombre_vialidad': direccion.nombre_vialidad, 'tipo_edificacion': direccion.tipo_edificacion,
+                'descripcion_edificacion': direccion.descripcion_edificacion, 'nombre_zona': direccion.nombre_zona,
+                'tipo_subedificacion': direccion.tipo_subedificacion, 'tipo_zonificacion': direccion.tipo_zonificacion,
+                'descripcion_subedificacion': direccion.descripcion_subedificacion,
+                'estado': direccion.parroquia.municipio.estado.pk, 'municipio': direccion.parroquia.municipio.pk,
+                'parroquia': direccion.parroquia.pk, 'tipo_coordenada': tipo_coordenada
+            }))
+
+    except Exception as e:
+        message = e
+
+    return HttpResponse(json.dumps({'result': False, 'error': str(message)}))
