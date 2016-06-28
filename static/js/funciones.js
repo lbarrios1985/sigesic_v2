@@ -113,7 +113,10 @@ function listado_directorio(title, template) {
                 $('.dataTables_length select').select2();
             }
         });
+
     });
+
+
 
 }
 

@@ -193,3 +193,60 @@ function cargar_combo(app, mod, n_value, n_text, id_combo, bd) {
         console.log(MSG_PETICION_AJAX_FALLIDA + err)
     });
 }
+
+/**
+ * @param directorio_id Identificador del directorio a cargar
+ */
+function cargar_direccion(directorio_id) {
+    
+    $.getJSON(URL_ADD_DIRECCION, {directorio_id: directorio_id}, function(datos) {
+        if (datos.resultado) {
+            $('#id_directorio').val(directorio_id);
+            $("#id_tipo_vialidad").find("input[name='tipo_vialidad']").each(function() {
+                if ($(this).val() == datos.tipo_vialidad) {
+                    $(this).attr('checked', true);
+                }
+            });
+            $("#id_nombre_vialidad").val(datos.nombre_vialidad);
+
+            $("#id_tipo_edificacion").find("input[name='tipo_edificacion']").each(function() {
+                if ($(this).val() == datos.tipo_edificacion) {
+                    $(this).attr('checked', true);
+                }
+            });
+            $("#id_descripcion_edificacion").val(datos.descripcion_edificacion);
+
+            $("#id_tipo_subedificacion").find("input[name='tipo_subedificacion']").each(function() {
+                if ($(this).val() == datos.tipo_subedificacion) {
+                    $(this).attr('checked', true);
+                }
+            });
+            $("#id_descripcion_subedificacion").val(datos.descripcion_subedificacion);
+
+            $("#id_tipo_zonificacion").find("input[name='tipo_zonificacion']").each(function() {
+                if ($(this).val() == datos.tipo_zonificacion) {
+                    $(this).attr('checked', true);
+                }
+            });
+            $("#id_nombre_zona").val(datos.nombre_zona);
+            $("#id_estado").val(datos.estado).prop('selected', 'selected').change();
+            $("#id_municipio").val(datos.municipio).prop('selected', 'selected').change();
+            $("#id_parroquia").val(datos.parroquia).prop('selected', 'selected').change();
+
+            if (datos.tipo_coordenada != '') {
+                $("#id_tipo_coordenada").val(datos.tipo_coordenada).prop('selected', 'selected').change();
+                $("#id_coordenada_0").val(datos.coordenadas[0]);
+                $("#id_coordenada_1").val(datos.coordenadas[1]);
+            }
+
+        }
+        else {
+            bootbox.alert(datos.error);
+            console.log(datos.error);
+        }
+    }).fail(function(jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
+        console.log(MSG_PETICION_AJAX_FALLIDA + err)
+    })
+}
