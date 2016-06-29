@@ -163,19 +163,12 @@ class DirectorioForm(ModelForm):
 
         # Si se ha seleccionado un estado establece el listado de municipios y elimina el atributo disable
         if 'estado' in self.data and self.data['estado']:
-            self.fields['municipio'].widget=Select(attrs={
-                'class': 'form-control select2', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el municipio en donde se encuentra ubicada"),
-                'onchange': "actualizar_combo(this.value,'base','Parroquia','municipio','pk','nombre','id_parroquia')"
-            })
+            self.fields['municipio'].widget.attrs.pop('disabled')
             self.fields['municipio'].queryset=Municipio.objects.filter(estado=self.data['estado'])
 
             # Si se ha seleccionado un municipio establece el listado de parroquias y elimina el atributo disable
             if 'municipio' in self.data and self.data['municipio']:
-                self.fields['parroquia'].widget=Select(attrs={
-                    'class': 'form-control select2', 'data-toggle': 'tooltip',
-                    'title': _("Seleccione la parroquia en donde se encuentra ubicada")
-                })
+                self.fields['parroquia'].widget.attrs.pop('disabled')
                 self.fields['parroquia'].queryset=Parroquia.objects.filter(municipio=self.data['municipio'])
 
         # Si se ha seleccionado un tipo de coordenada geográfica establece el atributo de coordenada como obligatorio
