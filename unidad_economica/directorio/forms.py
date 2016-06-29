@@ -3,7 +3,7 @@ Sistema Integral de Gestión para la Industria y el Comercio (SIGESIC)
 
 Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/wiki
 """
-## @namespace unidad_economica.directorios.forms
+## @namespace unidad_economica.directorio.forms
 #
 # Contiene las clases, atributos y métodos para los formularios a implementar en el módulo de directorios
 # @author Rodrigo Boet (rboet at cenditel.gob.ve)
@@ -127,7 +127,7 @@ class DirectorioForm(ModelForm):
         widget=Select(attrs={
             'class': 'form-control select2', 'data-toggle': 'tooltip',
             'title': _("Seleccione el tipo de coordenada geográfica a registrar")
-        })
+        }), required=False
     )
 
     ## Coordenadas geográficas de Longitud y Latitud
@@ -137,5 +137,47 @@ class DirectorioForm(ModelForm):
     directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}))
     
     class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase DirectorioForm
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 23-06-2016
+        @version 2.0.0
+        """
         model = Directorio
         exclude = ['activo']
+
+    def __init__(self, *args, **kwargs):
+        """!
+        Método que inicializa los atributos de la clase DirectorioForm
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 29-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param self <b>{*args}</b> Lista de argumentos del método
+        @param self <b>{**kwargs}</b> Diccionario de argumentos del método
+        """
+        super(DirectorioForm, self).__init__(*args, **kwargs)
+
+        # Si se ha seleccionado un estado establece el listado de municipios y elimina el atributo disable
+        if 'estado' in self.data and self.data['estado']:
+            self.fields['municipio'].widget=Select(attrs={
+                'class': 'form-control select2', 'data-toggle': 'tooltip',
+                'title': _("Seleccione el municipio en donde se encuentra ubicada"),
+                'onchange': "actualizar_combo(this.value,'base','Parroquia','municipio','pk','nombre','id_parroquia')"
+            })
+            self.fields['municipio'].queryset=Municipio.objects.filter(estado=self.data['estado'])
+
+            # Si se ha seleccionado un municipio establece el listado de parroquias y elimina el atributo disable
+            if 'municipio' in self.data and self.data['municipio']:
+                self.fields['parroquia'].widget=Select(attrs={
+                    'class': 'form-control select2', 'data-toggle': 'tooltip',
+                    'title': _("Seleccione la parroquia en donde se encuentra ubicada")
+                })
+                self.fields['parroquia'].queryset=Parroquia.objects.filter(municipio=self.data['municipio'])
+
+        # Si se ha seleccionado un tipo de coordenada geográfica establece el atributo de coordenada como obligatorio
+        if 'tipo_coordenada' in self.data and self.data['tipo_coordenada']:
+            self.fields['coordenada'].required = True
