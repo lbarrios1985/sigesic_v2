@@ -14,6 +14,7 @@ from django.db import models
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 
+from unidad_economica.models import UnidadEconomica
 from unidad_economica.directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -63,6 +64,9 @@ class SubUnidadEconomica(models.Model):
 
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  models.BooleanField()
+
+    ## Establece la relación entre la sede, sucursales o plantas, y la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
 
     ##Metodo que retorna el nombre de la sub unidad que es usado por maquinaria_equipo
     def __str__(self):
@@ -148,4 +152,3 @@ class SubUnidadEconomicaActividad(models.Model):
     
     ## actividad economica de la subunidad
     actividad = models.CharField(max_length=2)
-    
