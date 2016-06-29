@@ -185,9 +185,8 @@ FORTALEZA_CONTRASENHA = 3
 CADUCIDAD_LINK_REGISTRO = 1
 
 ## Estado Actual de la maquinaria o el equipo
-ESTADO_ACTUAL =\
-    (
-    ('Funcionamiento', _("En Fucionamiento")),
-    ('Reparacion', _("En Reparacion")),
-    ('Dañado', _("Dañado")),
+ESTADO_ACTUAL_MAQUINARIA = (
+    ('FU', _("En Funcionamiento")),
+    ('RE', _("En Reparación")),
+    ('DA', _("Dañado")),
 )
