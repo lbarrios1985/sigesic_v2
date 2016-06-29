@@ -11,7 +11,7 @@
         <div class="box box-primary box-registro-general">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    <i class="glyphicon glyphicon-edit"></i>&#160;{% trans 'Datos' %}
+                    <i class="glyphicon glyphicon-edit"></i>&#160;{% trans 'Datos de las maquinarias y equipos' %}
                 </h3>
             </div>
             <div class="box-body">
@@ -98,7 +98,12 @@
                                 {{ form.date.label }}
                             </label>
                             <div class="col-md-7 col-xs-7 col-sm-7">
-                                {{ form.date }}
+                                <div class="form-inline" >
+                                    <div class="input-group">
+                                        {{ form.date }}
+                                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                                 {% include 'base.form.errors.html' with form_errors=form.date.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
@@ -129,7 +134,12 @@
                                 {{ form.date_adquisicion.label }}
                             </label>
                             <div class="col-md-7 col-xs-7 col-sm-7">
-                                {{ form.date_adquisicion }}
+                                <div class="form-inline" >
+                                    <div class="input-group">
+                                        {{ form.date_adquisicion }}
+                                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
                                 {% include 'base.form.errors.html' with form_errors=form.date_adquisicion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
