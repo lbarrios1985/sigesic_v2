@@ -55,6 +55,15 @@ class Estado(models.Model):
     pais = models.ForeignKey(Pais)
 
     def __str__(self):
+        """!
+        Método que muestra la información sobre el Estado
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 29-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve los datos del Estado
+        """
         return self.nombre
 
 
@@ -75,6 +84,18 @@ class Municipio(models.Model):
     ## Estado en donde se encuentra el Municipio
     estado = models.ForeignKey(Estado)
 
+    def __str__(self):
+        """!
+        Método que muestra la información sobre el Municipio
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 29-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve los datos del Municipio
+        """
+        return self.nombre
+
 
 @python_2_unicode_compatible
 class Parroquia(models.Model):
@@ -92,6 +113,18 @@ class Parroquia(models.Model):
 
     ## Municipio en el que se encuentra ubicada la Parroquia
     municipio = models.ForeignKey(Municipio)
+
+    def __str__(self):
+        """!
+        Método que muestra la información sobre la Parroquia
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 29-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve los datos de la Parroquia
+        """
+        return self.nombre
 
 
 @python_2_unicode_compatible
@@ -111,6 +144,19 @@ class Ciudad(models.Model):
     ## Estado en donde se encuentra ubicada la Ciudad
     estado = models.ForeignKey(Estado)
 
+    def __str__(self):
+        """!
+        Método que muestra la información sobre la Ciudad
+
+        @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 29-06-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Devuelve los datos de la Ciudad
+        """
+        return self.nombre
+
+
 @python_2_unicode_compatible
 class CaevSeccion(models.Model):
     """!
@@ -127,6 +173,7 @@ class CaevSeccion(models.Model):
 
     ## Descripción del Código de la Sección
     descripcion = models.CharField(max_length=500)
+
 
 @python_2_unicode_compatible
 class CaevDivision(models.Model):
@@ -148,6 +195,7 @@ class CaevDivision(models.Model):
     ## Establece la relación con la Sección CAEV
     seccion = models.ForeignKey(CaevSeccion)
 
+
 @python_2_unicode_compatible
 class CaevGrupo(models.Model):
     """!
@@ -167,6 +215,7 @@ class CaevGrupo(models.Model):
 
     ## Establece la relación con la División CAEV
     division = models.ForeignKey(CaevDivision)
+
 
 @python_2_unicode_compatible
 class CaevClase(models.Model):
@@ -188,6 +237,7 @@ class CaevClase(models.Model):
     ## Establece la relación con el Grupo CAEV
     grupo = models.ForeignKey(CaevGrupo)
 
+
 @python_2_unicode_compatible
 class CaevRama(models.Model):
     """!
@@ -207,6 +257,7 @@ class CaevRama(models.Model):
 
     ## Establece la relación con la Clase CAEV
     clase = models.ForeignKey(CaevClase)
+
 
 @python_2_unicode_compatible
 class TipoComunal(models.Model):
