@@ -230,14 +230,14 @@
          $(function() {
              $('.datepicker').datepicker({
                  //disabledDates: 'date',
-                 viewMode: 'years',
+                 viewMode: 2,
                  daysOfWeekDisabled: [0, 6],
                  disabledMonth: true,
                  inline: true,
                  sideBySide: true,
                  changeYear: true,
                  showButtonPanel: true,
-                 dateFormat: 'yy',
+                 dateFormat: 'yyyy',
                  onClose: function(dateText, inst) {
                      var year = $('#ui-datepicker-div .ui-datepicker-year :selected').val();
                      $(this).datepicker('setDate', new Date(year, 1));
