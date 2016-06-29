@@ -113,8 +113,8 @@ class MaquinariaForm(forms.ModelForm):
         label=_("Año de Fabricación: "),
         widget=forms.DateInput(
             attrs={
-                'class': 'datepicker form-control', 'data-toggle': 'tooltip',
-                'title':_("Seleccione el año de fabricacion de la Maquinaria o equipo"),
+                'class': 'datepicker form-control', 'data-toggle': 'tooltip', 'readonly': 'readonly',
+                'title':_("Seleccione el año de fabricacion de la Maquinaria o equipo")
             }
         )
     )
@@ -133,7 +133,7 @@ class MaquinariaForm(forms.ModelForm):
         label=_("Año de adquisición: "),
         widget=forms.TextInput(
             attrs={
-                'class': 'datepicker form-control','data-toggle': 'tooltip',
+                'class': 'datepicker form-control','data-toggle': 'tooltip', 'readonly': 'readonly',
                 'title':_("Seleccione el año de Adquisicion de la Maquinaria o Equipo"),
             }
         )
