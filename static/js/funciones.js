@@ -102,7 +102,14 @@ function listado_directorio(title, template) {
             "columnDefs": [{
                 "targets": -1,
                 "data": null,
-                "defaultContent": "<button type='button' class='btn btn-sm btn-primary' onclick='cargar_direccion($(this).parent().parent().find(\".directorio_id\").val())'>agregar</button>"
+                "className": 'text-center vertical-align',
+                "defaultContent": "<i class='ionicon ion-android-add-circle btn-icon' data-toggle='tooltip' " +
+                "                 title='Haga click en este boton para agregar la direccion al formulario' " +
+                                  "onclick='cargar_direccion($(this).parent().parent().find(\".directorio_id\").val())'></i>"
+            },
+            {
+                "targets": "_all",
+                "className": "vertical-align"
             }],
             "ordering": true,
             "order": [[0, 'asc']],
