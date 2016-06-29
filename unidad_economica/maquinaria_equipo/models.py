@@ -45,7 +45,7 @@ class maquinariaModel(models.Model):
 
     vida_util = models.IntegerField()
 
-    estado_actual = models.CharField(max_length=50)
+    estado_actual = models.CharField(max_length=2)
 
     def __str__(self):
         return self.nombre_sub

@@ -18,6 +18,7 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 from base.models import Pais
 from base.functions import cargar_pais
+from base.constant import ESTADO_ACTUAL_MAQUINARIA
 from .models import maquinariaModel
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso, SubUnidadEconomicaProceso
 
@@ -36,12 +37,18 @@ class MaquinariaForm(forms.ModelForm):
 
     ## nombre del proceso productivo extraido de registro de actividad economica
     sub_unidad_economica = forms.ModelChoiceField(
-        label=_("Sub Unidad Economica: "), queryset=SubUnidadEconomica.objects.all().order_by('id'), empty_label=_("Seleccione..."),
+        label=_("Sub Unidad Economica: "), queryset=SubUnidadEconomica.objects.all().order_by('id'),
+        empty_label=_("Seleccione..."),
         widget=forms.Select(attrs={
             'placeholder':'Ingrese nombre de Sub unidad economica',
             'class': 'form-control', 'data-toggle': 'tooltip',
-            'title':_("Selecione el nombre de a sub unidad economica al que pertenece la maquinaria o el equipo a registrar"),
-            'onchange': "actualizar_combo(this.value,'unidad_economica.sub_unidad_economica','SubUnidadEconomicaPrincipalProceso','sub_unidad_economica','sub_unidad_economica_proceso__pk','sub_unidad_economica_proceso__nombre_proceso','id_nombre_proceso')"
+            'title':_(
+                "Selecione el nombre de a sub unidad economica al que pertenece la maquinaria o el equipo a registrar"
+            ),
+            'onchange': "actualizar_combo(this.value,'unidad_economica.sub_unidad_economica',"
+                        "'SubUnidadEconomicaPrincipalProceso','sub_unidad_economica',"
+                        "'sub_unidad_economica_proceso__pk','sub_unidad_economica_proceso__nombre_proceso',"
+                        "'id_nombre_proceso')"
         })
     )
 
@@ -52,7 +59,9 @@ class MaquinariaForm(forms.ModelForm):
         widget=forms.Select(attrs={
             'placeholder':'Seleccione nombre proceso productivo',
             'class': 'form-control', 'data-toggle': 'tooltip',
-            'title':_("Selecione el nombre del proceso porductivo al que pertenece la maquinaria o el equipo a registrar"),
+            'title':_(
+                "Selecione el nombre del proceso porductivo al que pertenece la maquinaria o el equipo a registrar"
+            ),
         })
     )
 
@@ -88,18 +97,10 @@ class MaquinariaForm(forms.ModelForm):
         )
     )
 
-    EDO_ACTUAL =\
-    (
-    ('', _("Seleccione...")),
-    ('Funcionamiento', _("En Fucionamiento")),
-    ('Reparacion', _("En Reparacion")),
-    ('Dañado', _("Dañado")),
-)
-
     ## Estado de la maquinaria o el equipo
     estado_actual = forms.ChoiceField(
         label=_("Estado Actual: "),
-        choices=EDO_ACTUAL,
+        choices=ESTADO_ACTUAL_MAQUINARIA,
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
