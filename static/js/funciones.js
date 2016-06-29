@@ -352,12 +352,15 @@ function load_map() {
  * @param opcion Respuesta del usuario según la pregunta
  * @param campo Campo a deshabilitar
  */
-function habilitar(opcion, campo){
-    if(opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1")){
-        $('#'+campo).removeAttr('disabled');
-    }else{
-        $('#'+campo).attr('disabled', 'disabled');
-        $('#'+campo).val("");
+function habilitar(opcion, campo) {
+    var elemento = $("#"+campo);
+
+    if (opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1")) {
+        elemento.removeAttr('disabled');
+    }
+    else {
+        elemento.attr('disabled', 'disabled');
+        elemento.val("");
     }
 }
 
@@ -366,12 +369,15 @@ function habilitar(opcion, campo){
  * @param opcion Respuesta del usuario según la pregunta
  * @param campo Campo a deshabilitar
  */
-function deshabilitar(opcion, campo){
-    if(opcion == "1"){
-        $('#'+campo).attr('disabled', 'disabled');
-        $('#'+campo).val("");
-    }else{
-        $('#'+campo).removeAttr('disabled');
+function deshabilitar(opcion, campo) {
+    var elemento = $("#"+campo);
+
+    if (opcion == "1") {
+        elemento.attr('disabled', 'disabled');
+        elemento.val("");
+    }
+    else {
+        elemento.removeAttr('disabled');
     }
 }
 
@@ -382,29 +388,34 @@ function deshabilitar(opcion, campo){
  */
 function add_field_datatable(campos, table_id){
     var bool = true;
-    var new_data = new Array();
+    var new_data = [];
     var t = $(table_id).DataTable();
     var index = t.rows()[0].length;
     var id = '';
     $.each(campos,function(index,value){
-            var text = $(value).val();
-            var form = "<input type='text' id="+value.replace('#','')+"_tb value='"+text+"' name="+value.replace('#id_','')+"_tb hidden='true' >";
-            if((text.trim()==''))
-            {
-                bool = false
-            }
-            if ($(value+" option:selected").text()) {
-                text = $(value+" option:selected").text();
-            }
-            new_data.push(text+form);
-        });
+        var text = $(value).val();
+        
+        var form = "<input type='text' id="+value.replace('#','') + "_tb value='" + text + "' " + 
+                   "name=" + value.replace('#id_','') + "_tb hidden='true' >";
+        
+        if (text.trim()=='') {
+            bool = false
+        }
+        
+        if ($(value+" option:selected").text()) {
+            text = $(value+" option:selected").text();
+        }
+        
+        new_data.push(text + form);
+    });
+    
     if (!bool) {
         var modal = bootbox.dialog({
-            title: 'Alerta',
-            message: 'Algunos campos estan vacios',
+            title: MSG_TITLE_ALERT,
+            message: MSG_EMPTY_FIELDS,
             buttons: {
                 main: {
-                    label: 'Aceptar',
+                    label: BTN_ACEPTAR,
                     className: "btn btn-primary btn-sm"
                 }
             }
@@ -414,8 +425,7 @@ function add_field_datatable(campos, table_id){
 
         return false;
     }
-    else
-    {
+    else {
         var exists = false;
 
         $.each(campos,function(index,value){
@@ -424,12 +434,13 @@ function add_field_datatable(campos, table_id){
         });
 
         $.each($(table_id).find('input[type="hidden"]'), function(index,value){
-            if($(value).val() == id)
+            if ($(value).val() == id) {
                 exists = true;
+            }
         });
 
-        if(exists) {
-            alert('Ya existe');
+        if (exists) {
+            bootbox.alert( MSG_EXISTS_FIELD );
             return false;
         }
 
@@ -452,11 +463,11 @@ function remove_field_datatable(table_id) {
         var t = $(table_id).DataTable();
         var myrow = t.row($(this).parent().closest('tr'));
         var modal = bootbox.dialog({
-            title: 'Eliminar Campos',
-            message: "¿Está seguro que desa eliminar la fila seleccionada?",
+            title: MSG_TITLE_DELETE_FIELDS,
+            message: MSG_CONFIRM_DELETE_FIELDS,
             buttons: {
                 success: {
-                    label: 'Aceptar',
+                    label: BTN_ACEPTAR,
                     className: "btn btn-primary btn-sm",
                     callback: function() {
                         myrow.remove().draw( false );
@@ -485,11 +496,11 @@ function update_field_datatable(table_id,view,campos) {
         var t = $(table_id).DataTable();
         mensaje = $(view).html();
         var modal = bootbox.dialog({
-        title: 'Actualizar Campos',
+        title: MSG_TITLE_UPDATE_FIELDS,
         message: mensaje,
         buttons: {
             success: {
-                label: 'Actualizar',
+                label: BTN_UPDATE,
                 className: "btn btn-primary btn-sm",
                 callback: function() {
                     var bool = true;
@@ -508,7 +519,7 @@ function update_field_datatable(table_id,view,campos) {
                         new_data.push(text+form);
                     });
                     if (!bool) {
-                        alert("Algún campo esta incompleto");
+                        bootbox.alert( MSG_INCOMPLTE_FIELDS );
                         return false;
                     }
                     else{
@@ -545,4 +556,83 @@ function default_datatable_field(table_id,fields) {
        var col = t.column(value);
        col.visible(false);
     });
+}
+
+/**
+ * @brief Función que verifica la distribucion del capital suscrito
+ * @param fields Contiene el identificador del elemento a verificar
+ */
+function porcentaje_capital_suscrito(fields) {
+    var suma = 0;
+
+    $(fields).each(function () {
+        suma += parseFloat($(this).val()) || 0;
+    });
+
+    if (suma > 100) {
+        var mensaje = bootbox.dialog({
+            title: MSG_TITLE_ALERT,
+            message: MSG_ALERT_CAPITAL_SUSCRITO_EXCEDED,
+            buttons: {
+                main: {
+                    label: BTN_ACEPTAR,
+                    className: "btn btn-primary btn-sm"
+                }
+            }
+        });
+        mensaje.show();
+    }
+
+    var a = $('#id_publico_nacional').val(), b = $('#id_publico_extranjero').val(),
+        c = $('#id_privado_nacional').val(), d = $('#id_privado_extranjero').val();
+
+    if (parseFloat(a) + parseFloat(b) + parseFloat(c) + parseFloat(d)  < 100) {
+        var error = bootbox.dialog({
+            title: MSG_TITLE_ALERT,
+            message: MSG_ALERT_CAPITAL_SUSCRITO_TOTAL,
+            buttons: {
+                main: {
+                    label: BTN_ACEPTAR,
+                    className: "btn btn-primary btn-sm"
+                }
+            }
+        });
+        error.show();
+    }
+}
+
+/**
+ * 
+ * @param separador Contiene el símbolo de separación de miles
+ * @param period Contiene el símbolo de separación de decimales
+ * @returns Devuelve el monto con el separador de miles en caso de ser necesario
+ */
+function separador_miles(separador, period) {
+    var romper = this.toString().split(',');
+    var numeric = romper[0];
+    var decimal = romper.length > 1 ? period + romper[1] : '';
+    var reg = /(\d+)(\d{3})/;
+    
+    while (reg.test(numeric)) {
+        numeric = numeric.replace(reg, '$1' + separador + '$2');
+    }
+    
+    if (decimal.length > 3) {
+        var error = bootbox.dialog({
+            title: MSG_TITLE_ALERT,
+            message: MSG_MAX_DECIMAL,
+            buttons: {
+                main: {
+                    label: BTN_ACEPTAR,
+                    className: "btn btn-primary btn-sm"
+                }
+            }
+        });
+
+        error.show();
+        d = decimal.replace(/(\d{1})/, '');
+        return numeric + d;
+    }
+
+    return numeric + decimal;
 }

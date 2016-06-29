@@ -25,12 +25,14 @@
                                    for="{{ form.naturaleza_juridica.auto_id }}">
                             {{ form.naturaleza_juridica.label }}
                             </label>
-                            <div class="col-md-8 col-xs-8 col-sm-8">
+                            <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline">
                                     {{ form.naturaleza_juridica }}
-                                    <i class="ion ion-ios-medical item-requerido"></i>
                                 </div>
                                 {% include 'base.form.errors.html' with form_errors=form.naturaleza_juridica.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                            <div class="col-md-1 col-xs-1 col-sm-1">
+                                <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
                         </div>
                     </div>
@@ -50,12 +52,17 @@
                                    for="{{ form.capital_suscrito.auto_id }}">
                                 {{ form.capital_suscrito.label }}
                             </label>
-                            <div class="col-md-8 col-xs-8 col-sm-8">
+                            <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline">
-                                   {{ form.capital_suscrito }}
-                                    <i class="ion ion-ios-medical item-requerido"></i>
+                                    <div class="input-group">
+                                        {{ form.capital_suscrito }}
+                                        <div class="input-group-addon">Bs.</div>
+                                    </div>
                                 </div>
                                 {% include 'base.form.errors.html' with form_errors=form.capital_suscrito.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                            <div class="col-md-1 col-xs-1 col-sm-1">
+                                <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
                         </div>
                     </div>
@@ -65,11 +72,17 @@
                                    for="{{ form.capital_pagado.auto_id }}">
                                 {{ form.capital_pagado.label }}
                             </label>
-                            <div class="col-md-8 col-xs-8 col-sm-8">
+                            <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline" >
-                                   {{ form.capital_pagado }} <i class="ion ion-ios-medical item-requerido"></i>
+                                    <div class="input-group">
+                                        {{ form.capital_pagado }}
+                                        <div class="input-group-addon">Bs.</div>
+                                    </div>
                                 </div>
                                 {% include 'base.form.errors.html' with form_errors=form.capital_pagado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                            <div class="col-md-1 col-xs-1 col-sm-1">
+                                <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
                         </div>
                     </div>
@@ -97,7 +110,10 @@
                         <div class="form-group {% if form.publico_nacional.errors %}has-error{% endif %}">
                             <label class="col-md-7">{{form.publico_nacional.label}}</label>
                             <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
-                                {{ form.publico_nacional }}
+                                <div class="input-group">
+                                    {{ form.publico_nacional }}
+                                    <div class="input-group-addon">%</div>
+                                </div>
                             </div>
                         </div>
                         {% include 'base.form.errors.html' with form_errors=form.publico_nacional.errors %}
@@ -106,7 +122,10 @@
                         <div class="form-group {% if form.publico_extranjero.errors %}has-error{% endif %}">
                             <label class="col-md-7"> {{form.publico_extranjero.label}}</label>
                             <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
-                                {{form.publico_extranjero}}
+                                <div class="input-group">
+                                    {{ form.publico_extranjero }}
+                                    <div class="input-group-addon">%</div>
+                                </div>
                             </div>
                         </div>
                         {% include 'base.form.errors.html' with form_errors=form.publico_extranjero.errors %}
@@ -115,7 +134,10 @@
                         <div class="form-group {% if form.privado_nacional.errors %}has-error{% endif %}">
                             <label class="col-md-7">{{form.privado_nacional.label}}</label>
                             <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
-                                {{form.privado_nacional}}
+                                <div class="input-group">
+                                    {{ form.privado_nacional }}
+                                    <div class="input-group-addon">%</div>
+                                </div>
                             </div>
                         </div>
                         {% include 'base.form.errors.html' with form_errors=form.privado_nacional.errors %}
@@ -124,7 +146,10 @@
                         <div class="form-group {% if form.privado_extranjero.errors %}has-error{% endif %}">
                             <label class="col-md-7">{{form.privado_extranjero.label}}</label>
                             <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
-                                {{form.privado_extranjero}}
+                                <div class="input-group">
+                                    {{ form.privado_extranjero }}
+                                    <div class="input-group-addon">%</div>
+                                </div>
                             </div>
                         </div>
                         {% include 'base.form.errors.html' with form_errors=form.privado_extranjero.errors %}
@@ -188,10 +213,16 @@
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.porcentaje.auto_id }}">
                             {{ form.porcentaje.label }}
                             </label>
-                            <div class="col-md-8 col-xs-8 col-sm-8">
+                            <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline">
-                                    {{ form.porcentaje }} <i class="ion ion-ios-medical item-requerido"></i>
+                                    <div class="input-group">
+                                        {{ form.porcentaje }}
+                                        <div class="input-group-addon">%</div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-md-1 col-xs-1 col-sm-1">
+                                <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
                         </div>
                     </div>
@@ -385,105 +416,6 @@
             });
         });
 
-        /*function rif() {
-            var rif_a = ($('#id_rif_accionista_0').val());
-            var rif_b = ($('#id_rif_accionista_1').val());
-            var rif_c = ($('#id_rif_accionista_2').val());
-            var r = rif_a.concat(rif_b, rif_c);
-
-
-            if (rif_b == '' || rif_c == '') {
-                $('#rif_oculto').val();
-            }
-            else
-                $('#rif_oculto').val(r);
-        }*/
-
-        function porcentaje_capital_suscrito(fields){
-
-            var suma = 0;
-
-        $(fields).each(function () {
-            suma += parseFloat($(this).val()) || 0;
-        });
-
-        if(suma > 100) {
-           /* alert("El porcentaje máximo debe ser 100% " + suma);
-            return false;
-            */
-            var mensaje = bootbox.dialog({
-                title: 'Alerta',
-                message: 'El porcentaje máximo debe ser 100,00%',
-                buttons: {
-                main: {
-                    label: 'Aceptar',
-                    className: "btn btn-primary btn-sm"
-                }
-            }
-            });
-            mensaje.show();
-        }
-
-        /*if(suma <= 100) {
-            alert("Error, la suma de cada uno de los elementos de la distribución debe sumar 100%,00, por favor verifique " +suma);
-            return false;
-        }*/
-
-            var a = $('#id_publico_nacional').val();
-            var b = $('#id_publico_extranjero').val();
-            var c = $('#id_privado_nacional').val();
-            var d = $('#id_privado_extranjero').val();
-            /*
-            if (parseFloat(a) + parseFloat(b) + parseFloat(c) + parseFloat(d)  <= 100){
-                alert ("Error, la suma de cada uno de los elementos de la distribución debe sumar 100%, por favor verifique") ;
-            }
-            */
-
-            if (parseFloat(a) + parseFloat(b) + parseFloat(c) + parseFloat(d)  < 100) {
-                var error = bootbox.dialog({
-                    title: 'Alerta',
-                    message: 'Error, la suma de cada uno de los elementos de la distribución debe sumar 100,00%, por favor verifique',
-                    buttons: {
-                        main: {
-                            label: 'Aceptar',
-                            className: "btn btn-primary btn-sm"
-                        }
-                    }
-                });
-                error.show();
-            }
-        }
-
-        function separador_miles(separador, period) {
-            var romper = this.toString().split(',');
-            var numeric = romper[0];
-            var decimal = romper.length > 1 ? period + romper[1] : '';
-            var reg = /(\d+)(\d{3})/;
-            while (reg.test(numeric)) {
-                numeric = numeric.replace(reg, '$1' + separador + '$2');
-            }
-
-            if (decimal.length > 3){
-                var error = bootbox.dialog({
-                    title: 'Alerta',
-                    message: 'Sólo se aceptan dos (2) decimales ',
-                    buttons: {
-                        main: {
-                            label: 'Aceptar',
-                            className: "btn btn-primary btn-sm"
-                        }
-                    }
-                });
-                error.show();
-                d = decimal.replace(/(\d{1})/, '');
-                return numeric + d;
-            }
-            else{
-                decimal = decimal
-            }
-
-        return numeric + decimal;
-	}
         $('#id_capital_suscrito').on('keyup', function(){
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
             $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
