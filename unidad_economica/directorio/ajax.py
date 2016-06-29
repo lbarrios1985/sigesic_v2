@@ -65,7 +65,9 @@ def get_directorio(request):
             direccion += dir.nombre_vialidad + " "
             coord = _("No indicada")
             if dir.coordenadas:
-                coord = dir.coordenadas
+                coord = dir.coordenadas.split(",")
+                coord = "<span class='pull-left'>Longitud:</span> <span class='pull-right'>%s</span><br/>" \
+                        "<span class='pull-left'>Latitud:</span> <span class='pull-right'>%s</span>" % (coord[0], coord[1])
 
             datos.append([
                 dir.parroquia.municipio.estado.nombre, dir.parroquia.municipio.nombre, dir.parroquia.nombre,
