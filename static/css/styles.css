@@ -269,3 +269,7 @@ optgroup, option, select, span.input-group-btn, .select2-container--default .sel
     text-align: center;
     vertical-align: middle;
 }
+
+.vertical-align {
+    vertical-align: middle !important;
+}
