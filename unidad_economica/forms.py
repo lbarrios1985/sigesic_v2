@@ -24,7 +24,7 @@ from base.constant import (
 )
 from base.fields import RifField
 from base.models import Pais
-from base.widgets import RifWidgetReadOnly
+from base.widgets import RifWidgetReadOnly, RifWidget
 from base.functions import cargar_actividad, cargar_tipo_comunal, cargar_pais
 
 from .directorio.forms import DirectorioForm
@@ -160,7 +160,7 @@ class UnidadEconomicaForm(DirectorioForm):
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000',
-                'disabled': 'disabled'
+                'readonly': 'readonly'
             }
         ), required=False
     )
@@ -196,7 +196,7 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Nombre de la franquicia"), 'size': '40', 'disabled': 'disabled'
+                'title': _("Nombre de la franquicia"), 'size': '40', 'readonly': 'readonly'
             }
         ), required=False
     )
@@ -206,21 +206,37 @@ class UnidadEconomicaForm(DirectorioForm):
 
     def __init__(self, *args, **kwargs):
         super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
+
         self.fields['actividad'].choices = cargar_actividad()
         self.fields['actividad2'].choices = cargar_actividad()
+
+        # Si se ha indicado que es una organizacion comunal, se habilitan los atributos tipo_comunal y situr
+        if 'orga_comunal' in self.data:
+            self.fields['tipo_comunal'].widget.attrs.pop('disabled')
+            self.fields['situr'].widget.attrs.pop('disabled')
+
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
+
+        if 'franquiciado' in self.data:
+            self.fields['pais_franquicia'].widget.attrs.pop('disabled')
+            if 'pais_franquicia' in self.data and self.data['pais_franquicia']:
+                self.fields['rif_casa_matriz'].disabled=False
+            else:
+                self.fields['nombre_franquicia'].widget.attrs.pop('readonly')
+
+        if 'casa_matriz_franquicia' in self.data:
+            self.fields['nro_franquicia'].widget.attrs.pop('readonly')
+
+
         self.fields['pais_franquicia'].choices = cargar_pais()
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
         nro_franquicia = self.cleaned_data.get('nro_franquicia')
-        
-        if nro_franquicia is None:
-            return 0
-        else:
-            if casa_matriz_franquicia == 'S' and nro_franquicia == '' or nro_franquicia == '0':
-                raise forms.ValidationError(_("Indique el número de franquicias"))
-            return nro_franquicia
+
+        if casa_matriz_franquicia and nro_franquicia == '' or nro_franquicia == '0':
+            raise forms.ValidationError(_("Indique el número de franquicias"))
+        return nro_franquicia
         
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
