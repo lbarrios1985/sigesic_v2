@@ -136,6 +136,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
         self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
         self.object.franquiciado = form.cleaned_data['franquiciado']
+        self.object.user = self.request.user
         self.object.save()
 
         ## Almacena en el modelo de relación de dirección y unidad económica

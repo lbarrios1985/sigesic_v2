@@ -15,7 +15,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django.core import validators
 from django.db import models
-
+from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -80,6 +80,9 @@ class UnidadEconomica(models.Model):
 
     ## Código SITUR de la organización comunal
     situr = models.CharField(max_length=45)
+
+    ## Relación entre la Unidad Económica y el usuario
+    user = models.ForeignKey(User)
 
 @python_2_unicode_compatible
 class Franquicia(models.Model):
