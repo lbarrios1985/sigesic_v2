@@ -104,7 +104,7 @@ function listado_directorio(title, template) {
                 "data": null,
                 "className": 'text-center vertical-align',
                 "defaultContent": "<i class='ionicon ion-android-add-circle btn-icon' data-toggle='tooltip' " +
-                "                 title='Haga click en este boton para agregar la direccion al formulario' " +
+                "                 title='" + TOOLTIP_ADD_DIR + "' " +
                                   "onclick='cargar_direccion($(this).parent().parent().find(\".directorio_id\").val())'></i>"
             },
             {
