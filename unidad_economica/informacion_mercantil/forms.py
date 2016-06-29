@@ -72,7 +72,7 @@ class InformacionMercantilForm(ModelForm):
     publico_nacional = CharField(
         label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
         })
     )
 
@@ -81,7 +81,7 @@ class InformacionMercantilForm(ModelForm):
         label=_("Público Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4',
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
             }
         )
     )
@@ -91,7 +91,7 @@ class InformacionMercantilForm(ModelForm):
         label=_("Privado Nacional: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
             }
         )
     )
@@ -101,7 +101,7 @@ class InformacionMercantilForm(ModelForm):
         label=_("Privado Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
             }
         )
     )
@@ -130,8 +130,8 @@ class InformacionMercantilForm(ModelForm):
         label=_("Porcentaje de acciones: "), max_length=3,
         widget=NumberInput(
             attrs={
-                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
-                'title': _("Porcentaje"), 'size': '5'
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip', 'step': '0.01',
+                'title': _("Porcentaje"), 'size': '5', 'placeholder': '0'
             }
         ), required=False
     )
