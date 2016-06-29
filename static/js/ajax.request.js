@@ -244,6 +244,11 @@ function cargar_direccion(directorio_id) {
             bootbox.alert(datos.error);
             console.log(datos.error);
         }
+    }).done(function () {
+        /* Cierra las ventanas modales generadas despues de agregar la direccion */
+        $('.bootbox').modal('hide');
+        $("#mensaje_espera").modal('hide');
+        $('.modal-backdrop').remove();
     }).fail(function(jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
         bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
