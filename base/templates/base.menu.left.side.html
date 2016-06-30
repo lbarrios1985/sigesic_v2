@@ -1,5 +1,6 @@
 {% load static from staticfiles %}
 {% load i18n %}
+{% load base_filters %}
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 	<!-- sidebar: style can be found in sidebar.less -->
@@ -40,24 +41,7 @@
 					<span>{% trans 'Información General' %}</span>
 				</a>
 			</li>
-			<li class="treeview">
-				<a href="{% url 'informacion_mercantil' %}">
-					<i class="label label-warning number-item-menu">2</i>
-					<span>{% trans 'Información Mercantil' %}</span>
-				</a>
-			</li>
-			<li class="treeview">
-				<a href="{% url 'sub_unidad_create' %}">
-					<i class="label label-warning number-item-menu">3</i>
-					<span>{% trans 'Sub Unidad Económica' %}</span>
-				</a>
-			</li>
-            <li class="treeview">
-				<a href="{% url 'maquinaria_equipos' %}">
-					<i class="label label-warning number-item-menu">3</i>
-					<span>{% trans 'Maquianria Equipos' %}</span>
-				</a>
-			</li>
+            {% menu_left_filter request.user.username request.get_full_path %}
 		</ul>
 	</section>
 	<!-- /.sidebar -->
