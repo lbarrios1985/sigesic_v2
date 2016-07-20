@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^registro-mercantil/', include('unidad_economica.informacion_mercantil.urls')),
     url(r'^sub-unidad/', include('unidad_economica.sub_unidad_economica.urls')),
     url(r'^maquinaria-equipos/', include('unidad_economica.maquinaria_equipo.urls')),
+    url(r'^bienes-prod-comer/', include('unidad_economica.bienes_prod_comer.urls')),
 ]

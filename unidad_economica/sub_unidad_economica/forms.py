@@ -304,5 +304,5 @@ class SubUnidadEconomicaForm(DirectorioForm,TelefonoForm):
     
     class Meta:
         model = SubUnidadEconomica
-        fields = '__all__'
+        exclude = ['directorio','unidad_economica']
         

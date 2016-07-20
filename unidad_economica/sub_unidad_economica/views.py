@@ -11,7 +11,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 # (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 from django.shortcuts import render
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 
@@ -67,6 +67,17 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         return datos_iniciales
     
     def get_context_data(self, **kwargs):
+        """!
+        Metodo que permite cargar nuevos valores en los datos de contexto de la vista
+    
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param kwargs <b>{object}</b> Objeto que contiene los datos de contexto
+        @return Retorna los datos de contexto
+        """
+        
         buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>';
         buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>';
         if 'tipo_proceso_tb' in self.request.POST:
@@ -168,6 +179,10 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         
         
         return super(SubUnidadEconomicaCreate, self).form_valid(form)
+    
+    def form_invalid(self, form):
+        print(form.errors)
+        return super(SubUnidadEconomicaCreate, self).form_invalid(form)
     
     def agregar_proceso(self, dictionary, model):
         """!
