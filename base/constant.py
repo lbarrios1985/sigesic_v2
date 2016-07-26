@@ -191,6 +191,16 @@ ESTADO_ACTUAL_MAQUINARIA = (
     ('DA', _("Dañado")),
 )
 
+# Unidades de medida
+UNIDAD_MEDIDA = (
+    ('KG',_('Kilogramos')),
+    ('TN',_('Toneladas')),
+    ('LT',_('Litros')),
+    ('MT',_('Metros')),
+    ('M2',_('Metros Cuadrados')),
+    ('UV',_('Unidad de Venta al Detal')),
+)
+
 CAPACIDAD_INSTALADA_MEDIDA = (
     ('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada")
 )
