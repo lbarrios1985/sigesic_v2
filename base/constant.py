@@ -190,3 +190,7 @@ ESTADO_ACTUAL_MAQUINARIA = (
     ('RE', _("En Reparación")),
     ('DA', _("Dañado")),
 )
+
+CAPACIDAD_INSTALADA_MEDIDA = (
+    ('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada")
+)
