@@ -34,7 +34,7 @@ class SubUnidadEconomica(models.Model):
     nombre_sub = models.CharField(max_length=45)
     
     ## Rif de la subunidad
-    rif = models.CharField(max_length=45)
+    rif = models.CharField(max_length=10)
     
     ## Telefono de la sub unidad
     telefono = models.CharField(
