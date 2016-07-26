@@ -278,7 +278,7 @@ function load_map() {
         });
 
         var osm = new ol.layer.Tile({
-            source: new ol.source.MapQuest({layer: 'osm'})
+            source: new ol.source.OSM()
         });
 
         var iconGeometry = new ol.geom.Point([-65.0000,6.5000]).transform('EPSG:4326', 'EPSG:3857');
@@ -311,7 +311,7 @@ function load_map() {
         var map = new ol.Map({
             interactions: ol.interaction.defaults().extend([new app.Drag()]),
             target: 'map',
-            layers: [satellite, osm, vectorLayer],
+            layers: [osm, vectorLayer],
             view: new ol.View({
                 center: ol.proj.transform([-65.0000,6.5000], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4
