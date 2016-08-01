@@ -13,7 +13,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from __future__ import unicode_literals
 from django.conf.urls import url, patterns
 
-from .ajax import get_data_rif, validar_rif_seniat, actualizar_combo, eliminar_registro, cargar_combo
+from .ajax import get_data_rif, validar_rif_seniat, actualizar_combo, eliminar_registro, cargar_combo, anho_registro
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -33,4 +33,5 @@ urlpatterns += [
     url(r'^ajax/actualizar-combo/?$', actualizar_combo, name='actualizar_combo'),
     url(r'^ajax/eliminar-registro/$', eliminar_registro, name="eliminar_registro"),
     url(r'^ajax/cargar-combo/?$', cargar_combo, name='cargar_combo'),
+    url(r'^ajax/anho-registro/$', anho_registro, name='anho_registro'),
 ]
