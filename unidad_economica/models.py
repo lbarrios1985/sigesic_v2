@@ -20,7 +20,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
-from base.models import CaevClase, TipoComunal
+from base.models import CaevClase, TipoComunal, AnhoRegistro
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -176,3 +176,34 @@ class Notificacion(models.Model):
         verbose_name = _("Notificación")
         verbose_name_plural = _("Notificaciones")
         ordering = ("unidad_economica", "estatus")
+
+
+@python_2_unicode_compatible
+class CertificadoRegistro(models.Model):
+    """!
+    Clase que contiene los datos sobre el certificado de registro en el sistema
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 01-08-2016
+    @version 2.0.0
+    """
+
+    numero = models.CharField(max_length=32)
+    fecha = models.DateField()
+    fecha_emision = models.DateTimeField(auto_now=True)
+    anho_registro = models.ForeignKey(AnhoRegistro)
+    ue = models.ForeignKey(UnidadEconomica)
+
+    class Meta:
+        """!
+        Metaclase que permite establecer las propiedades de la clase CertificadoRegistro
+
+        @author Ing. Roldan Vargas rvargas at cenditel.gob.ve
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 01-08-2016
+        @version 2.0.0
+        """
+        verbose_name = _("Certificado de Registro")
+        verbose_name_plural = _("Certificados de Registro")
+        unique_together = [("ue", "anho_registro")]
