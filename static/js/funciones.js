@@ -66,10 +66,21 @@ function anho_registro(title, template) {
     });
 
     $(modal).find('#anhoregistro').html("<option value=''>" + SELECT_INICIAL_DATA + "</option>");
-    var anho_actual = new Date();
-    for (i=ANHO_REGISTRO_INICIAL; i<=anho_actual.getFullYear(); i++) {
-        $(modal).find('#anhoregistro').append("<option '" + i + "'>" + i + "</option>");
-    }
+    $.getJSON(URL_ANHO_REGISTRO, {}, function(datos) {
+        if (datos.resultado) {
+            for (i=0;i<datos.anhos.length;i++) {
+                $(modal).find('#anhoregistro').append("<option value='" + datos.anhos[i] + "'>" + datos.anhos[i] + "</option>");
+            }
+        }
+        else {
+            bootbox.alert(datos.error);
+            console.log(datos.error);
+        }
+    }).fail(function(jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
+        console.log(MSG_PETICION_AJAX_FALLIDA + err)
+    });
     $(modal).find('.select2').select2({});
 }
 
