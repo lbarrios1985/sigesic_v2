@@ -11,3 +11,4 @@ migrations
 fixtures
 *.sql
 *.log
+*~
