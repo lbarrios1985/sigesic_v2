@@ -22,7 +22,9 @@ from django.apps import apps
 
 from base.classes import Seniat
 from base.functions import verificar_rif
+from .models import AnhoRegistro
 from .constant import MSG_NOT_AJAX, TIPO_PERSONA_LIST
+from unidad_economica.models import CertificadoRegistro, UnidadEconomica
 
 """!
 Contiene el objeto que registra la vitacora de eventos del módulo usuario.
@@ -246,3 +248,32 @@ def eliminar_registro(request):
         return HttpResponse(json.dumps({'resultado': True}))
 
     return HttpResponse(json.dumps({'resultado': False, 'error': str(_("Registro no se puede eliminar"))}))
+
+
+@login_required()
+def anho_registro(request):
+    """!
+    Función que determina el año de registro para la Unidad Económica Actualmente autenticada en el sistema
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 01-08-2016
+    @param request <b>{object}</b> Objeto que contiene la petición
+    @return Devuelve un HttpResponse con el JSON correspondiente a los años para el registro de datos de producción
+    """
+    if not request.is_ajax():
+        return HttpResponse(json.dumps({'resultado': False, 'msg': MSG_NOT_AJAX}))
+
+    anhos = []
+    try:
+        ue = UnidadEconomica.objects.get(rif=request.user)
+
+        for ae in AnhoRegistro.objects.all().exclude(anho__in=[cert.anho_registro for cert in CertificadoRegistro.objects.filter(ue=ue)]):
+            anhos.append(ae.anho)
+    except Exception as e:
+        print(e)
+
+    if anhos:
+        return HttpResponse(json.dumps({'resultado': True, 'anhos': anhos}))
+
+    return HttpResponse(json.dumps({'resultado': False, 'error': str(_("Ya ha registrado todos los años requeridos"))}))

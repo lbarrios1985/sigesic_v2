@@ -12,7 +12,7 @@ $(document).ready(function() {
         refresh_captcha = $('.js-captcha-refresh'), input_captcha = $('input[name="captcha_1"]'),
         email_mask = $('.email-mask'), form_update = $('.form-update'), tip_top = $('.tip-top'),
         tip_bottom = $('.tip-bottom'), tip_left = $('.tip-left'), tip_right = $('.tip-right'),
-        seleccion_si_no = $('input[type="checkbox"].seleccion_si_no');
+        seleccion_si_no = $('input[type="checkbox"].seleccion_si_no'), file_input = $('input[type="file"]');
 
     if (browserName.indexOf("Internet Explorer") > -1) {
         /** Verifica el tipo de navegador utilizado por el usuario */
@@ -126,5 +126,15 @@ $(document).ready(function() {
         email_mask.mask('A', {translation: {
             "A": {pattern: /[\w@\-.+]/, recursive: true}
         }});
+    }
+
+    if (file_input.length) {
+        file_input.fileinput({
+            language: 'es',
+            mainClass: "input-group-sm",
+            browseClass: 'btn btn-primary btn-sm btn_accion',
+            browseIcon: '<i class="ion-ios-cloud-upload"></i>&nbsp;',
+            browseLabel: 'Cargar Archivo',
+        });
     }
 });

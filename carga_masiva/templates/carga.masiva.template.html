@@ -1,0 +1,35 @@
+{% load i18n %}
+<hr>
+<div class="row">
+    <div class="col-md-2 col-xs-12 col-sm-12">
+        <h4><i class="ion-android-upload"></i> {% trans 'Carga Masiva' %}</h4>
+    </div>
+    <div class="col-md-5 col-xs-12 col-sm-12">
+        <a href="#" class="btn btn-primary btn-sm btn-block"><i class="ion-ios-cloud-download"></i>&#160;{% trans 'Descargar Archivo' %}</a>
+        <span id="helpBlock" class="help-block">{% trans 'Descargue el archivo para el registro de datos' %}.</span>
+    </div>
+    <div class="col-md-5 col-xs-12 col-sm-12">
+        <input type="file" class="form-control file-loading" name="carga_masiva" id="carga_masiva"
+               data-allowed-file-extensions='["csv", "ods"]'>
+        <span id="helpBlock" class="help-block">{% trans 'Cargue el archivo con los datos a registrar' %}.</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5 col-md-offset-2 col-xs-12 col-sm-12">
+        <a href="#" class="btn btn-primary btn-sm btn-block"><i class="ion-ios-cloud-download"></i>&#160;{% trans 'Descargar Unidad de Medida' %}</a>
+        <span id="helpBlock" class="help-block">{% trans 'Descargue el archivo de apoyo con las unidades de medida disponibles' %}.</span>
+    </div>
+    <div class="col-md-5 col-xs-12 col-sm-12">
+        <a href="#" class="btn btn-primary btn-sm btn-block"><i class="ion-ios-cloud-download"></i>&#160;{% trans 'Descargar Codigo Arancelario' %}</a>
+        <span id="helpBlock" class="help-block">{% trans 'Descargue el archivo de apoyo con los códigos arancelarios disponibles' %}.</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-blue">
+        {% trans 'Complete el archivo, guardelo y cargue el archivo al sistema' %}
+    </div>
+</div>
+<hr>
+{% block extra_footer %}
+
+{% endblock %}

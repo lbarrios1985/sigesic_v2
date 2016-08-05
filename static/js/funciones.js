@@ -66,10 +66,21 @@ function anho_registro(title, template) {
     });
 
     $(modal).find('#anhoregistro').html("<option value=''>" + SELECT_INICIAL_DATA + "</option>");
-    var anho_actual = new Date();
-    for (i=ANHO_REGISTRO_INICIAL; i<=anho_actual.getFullYear(); i++) {
-        $(modal).find('#anhoregistro').append("<option '" + i + "'>" + i + "</option>");
-    }
+    $.getJSON(URL_ANHO_REGISTRO, {}, function(datos) {
+        if (datos.resultado) {
+            for (i=0;i<datos.anhos.length;i++) {
+                $(modal).find('#anhoregistro').append("<option value='" + datos.anhos[i] + "'>" + datos.anhos[i] + "</option>");
+            }
+        }
+        else {
+            bootbox.alert(datos.error);
+            console.log(datos.error);
+        }
+    }).fail(function(jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
+        console.log(MSG_PETICION_AJAX_FALLIDA + err)
+    });
     $(modal).find('.select2').select2({});
 }
 
@@ -278,7 +289,7 @@ function load_map() {
         });
 
         var osm = new ol.layer.Tile({
-            source: new ol.source.MapQuest({layer: 'osm'})
+            source: new ol.source.OSM()
         });
 
         var iconGeometry = new ol.geom.Point([-65.0000,6.5000]).transform('EPSG:4326', 'EPSG:3857');
@@ -311,7 +322,7 @@ function load_map() {
         var map = new ol.Map({
             interactions: ol.interaction.defaults().extend([new app.Drag()]),
             target: 'map',
-            layers: [satellite, osm, vectorLayer],
+            layers: [osm, vectorLayer],
             view: new ol.View({
                 center: ol.proj.transform([-65.0000,6.5000], 'EPSG:4326', 'EPSG:3857'),
                 zoom: 4

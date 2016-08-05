@@ -206,3 +206,7 @@ MONEDAS = (
     (1,'Bs'),
     (2,'$')
 )
+
+CAPACIDAD_INSTALADA_MEDIDA = (
+    ('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada")
+)

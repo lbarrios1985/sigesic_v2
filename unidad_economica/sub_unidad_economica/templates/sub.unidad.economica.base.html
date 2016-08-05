@@ -1,7 +1,7 @@
 {% extends 'base.template.html' %}
 {% load static from staticfiles %}
 {% load i18n %}
-{% block content_header_title %}{% trans 'Registro' %}{% endblock %}
+{% block content_header_title %}{% trans 'Sub Unidad Económica' %}{% endblock %}
 {% block content_header_roadmap %}
     <li><a href="{% url 'sub_unidad_create' %}">{% trans 'Sub Unidad Económica' %}</a></li>
     <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
@@ -9,9 +9,11 @@
 {% block contenido %}
 <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
     {% csrf_token %}
-    <div class="box box-primary box-registro-general" style="padding:20px">
+    <div class="box box-primary box-registro-general">
         <div class="box-header with-border">
-            <h1 class="box-title">{% trans 'Sub Unidad Económica'%}</h1>
+            <h3 class="box-title">
+                    <i class="glyphicon glyphicon-edit"></i>&#160;{% trans "Datos de sub-unidades económicas"%}
+                </h3>
         </div>
         <div class="box-body">
             <div class="row">
@@ -475,10 +477,8 @@
                 </div>
             </div>
         </div>
-        <div class="box-footer">
-            <div class="pull-right">
-                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Ingresar' %}</button>
-            </div>
+        <div class="box-footer text-right">
+            {% include 'base.form.buttons.html' %}
         </div>
         </div>
     </div>

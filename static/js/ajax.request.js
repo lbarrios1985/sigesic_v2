@@ -168,7 +168,7 @@ function actualizar_combo(opcion, app, mod, campo, n_value, n_text, combo_destin
 }
 
 /**
- *
+ * @brief Función que permite cargar los datos de un combo
  * @param app Nombre de la aplicación en la cual buscar la información a filtrar
  * @param mod Modelo del cual se van a extraer los datos filtrados según la selección
  * @param n_value Nombre del campo que contendra el valor de cada opción en el combo
