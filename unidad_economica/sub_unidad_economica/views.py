@@ -180,10 +180,6 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         
         return super(SubUnidadEconomicaCreate, self).form_valid(form)
     
-    def form_invalid(self, form):
-        print(form.errors)
-        return super(SubUnidadEconomicaCreate, self).form_invalid(form)
-    
     def agregar_proceso(self, dictionary, model):
         """!
         Metodo que extrae los datos de la tabla de procesos en un diccionario y las guarda en el modelo respectivo

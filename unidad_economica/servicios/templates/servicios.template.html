@@ -1,0 +1,410 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block content_header_title %}{% trans 'Registro' %}{% endblock %}
+{% block content_header_roadmap %}
+    <li><a href="{% url 'bienes_generales_create' %}">{% trans 'Servicios' %}</a></li>
+    <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
+{% endblock %}
+{% block contenido %}
+    <div class="box box-primary box-registro-general" style="padding:20px">
+        
+        <div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Servicios'%}</h1>
+        </div>
+        
+        <form action="{% url 'bienes_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.subunidad.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
+                            {{ form.subunidad.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.subunidad }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.subunidad.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.subunidad.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.nombre_servicio.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_servicio.auto_id }}">
+                            {{ form.nombre_servicio.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.nombre_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.nombre_servicio.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_servicio.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.tipo_servicio.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_servicio.auto_id }}">
+                            {{ form.tipo_servicio.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.tipo_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.tipo_servicio.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_servicio.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.cantidad_clientes.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_clientes.auto_id }}">
+                            {{ form.cantidad_clientes.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.cantidad_clientes }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.cantidad_clientes.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_clientes.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.caev.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.caev.auto_id }}">
+                            {{ form.caev.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.caev }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.caev.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.caev.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
+            </div>
+        </div>
+        </form>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4>{% trans 'Lista de Servicios Cargados' %}</h4>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">        
+                <table class="table table-striped table-hover display dataTable" id="servicios_list">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Servicio' %}</td>
+                            <td>{% trans 'Tipo de Servicio' %}</td>
+                            <td>{% trans 'Código CAEV' %}</td>
+                            <td>{% trans '# de Clientes' %}</td>
+                            <td>{% trans 'Sub Unidad Económica' %}</td>
+                            <td>{% trans 'Opciones' %}</td>
+                        </tr>
+                    </thead>
+                    {% if producto_list %}
+                        <tbody>
+                        {% for key,value in producto_list.items %}
+                            <tr>                                    
+                                <td>{{ value.nombre_producto | safe }}</td>
+                                <td>{{value.especificacion_tecnica | safe }}</td>
+                                <td>{{value.marca | safe }}</td>
+                                <td>{{value.caev | safe }}</td>
+                                <td>{{value.clientes | safe }}</td>
+                                <td>{{value.unidad_medida | safe }}</td>
+                                <td>
+                                    <a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+
+    <form action="{% url 'cliente_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    {% csrf_token %}
+        <div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Clientes'%}</h1>
+        </div>
+        
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.cliente_servicio.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_servicio.auto_id }}">
+                            {{ form.cliente_servicio.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.cliente_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.cliente_servicio.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_servicio.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
+                            {{ form.cliente_list.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.cliente_list }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.cliente_list.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_list.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
+                            {{ form.ubicacion_cliente.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.ubicacion_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.ubicacion_cliente.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.ubicacion_cliente.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                            {{ form.rif.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.rif.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.nombre_cliente.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_cliente.auto_id }}">
+                            {{ form.nombre_cliente.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.nombre_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.nombre_cliente.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_cliente.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.precio.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio.auto_id }}">
+                            {{ form.precio.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.precio }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.precio.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.precio.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.tipo_moneda.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_moneda.auto_id }}">
+                            {{ form.tipo_moneda.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.tipo_moneda }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.tipo_moneda.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_moneda.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.monto_facturado.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.monto_facturado.auto_id }}">
+                            {{ form.monto_facturado.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.monto_facturado }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.monto_facturado.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.monto_facturado.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.servicio_prestado.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.servicio_prestado.auto_id }}">
+                            {{ form.servicio_prestado.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.servicio_prestado }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.servicio_prestado.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.servicio_prestado.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            
+                    <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4>{% trans 'Lista de Clientes Cargados' %}</h4>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">        
+                <table class="table table-striped table-hover display dataTable" id="clientes_list">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Servicio' %}</td>
+                            <td>{% trans 'Ubicación' %}</td>
+                            <td>{% trans 'Nombre del Cliente' %}</td>
+                            <td>{% trans 'RIF' %}</td>
+                            <td>{% trans 'Precio' %}</td>
+                            <td>{% trans 'Monto Facturado' %}</td>
+                            <td>{% trans '# Servicios Prestados' %}</td>
+                            <td>{% trans 'Opciones' %}</td>
+                        </tr>
+                    </thead>
+                    {% if first_table %}
+                        <tbody>
+                        {% for value in first_table %}
+                            <tr>
+                            {% for item in value %}                                       
+                                <td>{{item | safe }}</td>
+                            {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+            
+        </div>
+        <div class="box-footer">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
+            </div>
+        </div>
+    </form>
+    </div>
+{% endblock%}

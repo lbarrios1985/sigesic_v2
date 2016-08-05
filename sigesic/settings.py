@@ -127,13 +127,16 @@ MAQUINARIA_EQUIPO_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/maquinari
 ## Directorio en donde se encuentran las plantillas del módulo de bienes producidos y comercializados
 BIENES_PROD_COMER_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/bienes_prod_comer/templates")
 
+## Directorio en donde se encuentran las plantillas del módulo de bienes producidos y comercializados
+SERVICIOS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/servicios/templates")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
             INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, MAQUINARIA_EQUIPO_TEMPLATES,
-            BIENES_PROD_COMER_TEMPLATES,
+            BIENES_PROD_COMER_TEMPLATES, SERVICIOS_TEMPLATES,
         ],
         'APP_DIRS': True,
         'OPTIONS': {

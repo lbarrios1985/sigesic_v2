@@ -200,3 +200,9 @@ UNIDAD_MEDIDA = (
     ('M2',_('Metros Cuadrados')),
     ('UV',_('Unidad de Venta al Detal')),
 )
+
+# Monedas
+MONEDAS = (
+    (1,'Bs'),
+    (2,'$')
+)

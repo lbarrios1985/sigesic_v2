@@ -52,10 +52,22 @@
 					<span>{% trans 'Sub Unidad Económica' %}</span>
 				</a>
 			</li>
+			<li class="treeview">
+				<a href="{% url 'servicio_general_create' %}">
+					<i class="label label-warning number-item-menu">4</i>
+					<span>{% trans 'Servicios' %}</span>
+				</a>
+			</li>
             <li class="treeview">
 				<a href="{% url 'maquinaria_equipos' %}">
-					<i class="label label-warning number-item-menu">3</i>
-					<span>{% trans 'Maquianria Equipos' %}</span>
+					<i class="label label-warning number-item-menu">5</i>
+					<span>{% trans 'Maquinaria Equipos' %}</span>
+				</a>
+			</li>
+			<li class="treeview">
+				<a href="{% url 'bienes_generales_create' %}">
+					<i class="label label-warning number-item-menu">6</i>
+					<span>{% trans 'Bienes Producidos y Comercializados' %}</span>
 				</a>
 			</li>
 		</ul>
