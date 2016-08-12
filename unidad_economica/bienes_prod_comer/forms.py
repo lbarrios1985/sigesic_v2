@@ -607,5 +607,5 @@ class ClientesForm(forms.ModelForm):
     
     class Meta:
         model = Cliente
-        exclude = ['produccion','pais','nombre']
+        exclude = ['produccion','pais','nombre','cliente_list']
         

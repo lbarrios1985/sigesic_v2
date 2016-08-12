@@ -277,3 +277,23 @@ def anho_registro(request):
         return HttpResponse(json.dumps({'resultado': True, 'anhos': anhos}))
 
     return HttpResponse(json.dumps({'resultado': False, 'error': str(_("Ya ha registrado todos los años requeridos"))}))
+
+@login_required()
+def client_data(request):
+    """!
+    Función que permite cargar un párametro de un modelo en una aplicación pasados por GET
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 19-07-2016
+    @param request <b>{object}</b> Objeto que contiene la petición a la función
+    @return Devuelve un json con el resultado de la búsqueda
+    """
+    
+    app = request.GET['aplicacion']
+    model = request.GET['model']
+    argument = request.GET['argument']
+    value = request.GET['value']
+    modelo = apps.get_model(app, model)
+    search = modelo.objects.filter(id=argument).values_list(value,flat=True)
+    return HttpResponse(json.dumps({'resultado': True, 'model': json.dumps(search[0])}))
