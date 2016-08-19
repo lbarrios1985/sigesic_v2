@@ -5,7 +5,9 @@
         <h4><i class="ion-android-upload"></i> {% trans 'Carga Masiva' %}</h4>
     </div>
     <div class="col-md-5 col-xs-12 col-sm-12">
-        <a href="#" class="btn btn-primary btn-sm btn-block"><i class="ion-ios-cloud-download"></i>&#160;{% trans 'Descargar Archivo' %}</a>
+        <button type="button" class="btn btn-primary btn-sm btn-block"  onclick="cm_descargar_archivo('maquinaria_equipo','maquinariaModel')">
+            <i class="ion-ios-cloud-download"></i>&#160;{% trans 'Descargar Archivo' %}
+        </button>
         <span id="helpBlock" class="help-block">{% trans 'Descargue el archivo para el registro de datos' %}.</span>
     </div>
     <div class="col-md-5 col-xs-12 col-sm-12">
@@ -30,6 +32,3 @@
     </div>
 </div>
 <hr>
-{% block extra_footer %}
-
-{% endblock %}

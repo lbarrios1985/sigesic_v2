@@ -178,6 +178,12 @@ LOGOUT_SECURITY_MESSAGE = _("Por su seguridad usted a sido desautenticado del si
 MSG_NOT_AJAX = _("No se puede procesar la petición. "
                  "Verifique que posea las opciones javascript habilitadas e intente nuevamente.")
 
+## Mensaje de error al descargar archivos
+MSG_NOT_DOWNLOAD_FILE = _("No ha proporcionado los datos para la descarga del archivo. Verifique!!!")
+
+## Mensaje de error al cargar archivos
+MSG_NOT_UPLOAD_FILE = _("No ha proporcionado los datos para cargar la información. Verifique!!!")
+
 ## Determina el nivel mínimo de validación para la fortaleza de la contraseña. Los valores permitidos son del 0 al 5
 FORTALEZA_CONTRASENHA = 3
 

@@ -198,7 +198,7 @@ function cargar_combo(app, mod, n_value, n_text, id_combo, bd) {
  * @param directorio_id Identificador del directorio a cargar
  */
 function cargar_direccion(directorio_id) {
-    
+
     $.getJSON(URL_ADD_DIRECCION, {directorio_id: directorio_id}, function(datos) {
         if (datos.resultado) {
             var directorio = $("#id_directorio"), tipo_vial = $("#id_tipo_vialidad"),
@@ -265,4 +265,23 @@ function cargar_direccion(directorio_id) {
         bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
         console.log(MSG_PETICION_AJAX_FALLIDA + err)
     })
+}
+
+function cm_descargar_archivo(app, mod, anho, rel_id) {
+    anho = typeof anho !== 'undefined' ? anho : '';
+    rel_id = typeof rel_id !== 'undefined' ? rel_id : '';
+    $.getJSON(URL_DESCARGAR_ARCHIVO_CM, {app:app, mod:mod, anho:anho, rel_id:rel_id}, function(datos) {
+        if (datos.resultado) {
+            bootbox.alert(datos.message);
+            window.open(datos.archivo);
+        }
+        else {
+            bootbox.alert(datos.error);
+            console.log(datos.error);
+        }
+    }).fail(function(jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        bootbox.alert( MSG_PETICION_AJAX_FALLIDA + err );
+        console.log(MSG_PETICION_AJAX_FALLIDA + err)
+    });
 }
