@@ -228,7 +228,7 @@
         </div>
         
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">        
+            <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">        
                 <table class="table table-striped table-hover display dataTable" id="bienes_list">
                     <thead>
                         <tr>
@@ -480,7 +480,7 @@
         </div>
         
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">        
+            <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">        
                 <table class="table table-striped table-hover display dataTable" id="clientes_list">
                     <thead>
                         <tr>
@@ -522,7 +522,7 @@
     <script type="text/javascript">
         $('#id_cliente_producto').change(function(){
             var attr = $(this).val();
-            /*$.ajax({url:'ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion','argument':attr,'value':'cantidad_clientes'},type:'get',
+            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion','argument':attr,'value':'cantidad_clientes'},type:'get',
                 success:function(data){
                     data = JSON.parse(data)
                     $('#id_cliente_list').html('');
@@ -539,7 +539,7 @@
                 {
                     console.log(error);
                 },
-            });*/
+            });
         });
         $('#id_ubicacion_cliente').change(function(){
             if($('#id_ubicacion_cliente option:selected').text()=="Venezuela")

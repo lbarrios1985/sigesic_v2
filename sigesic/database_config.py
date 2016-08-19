@@ -3,7 +3,7 @@ DATABASES_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'sigesic_v2',
-        'USER': 'admin',
+        'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
