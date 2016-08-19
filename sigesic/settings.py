@@ -135,6 +135,8 @@ SERVICIOS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/servicios/templat
 ## Directorio en donde se encuentran los templates de carga masiva
 CARGA_MASIVA = os.path.join(BASE_DIR, "carga_masiva/templates")
 
+CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "carga_masiva/files")
+
 
 TEMPLATES = [
     {
@@ -288,6 +290,15 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'interval': 1,
         'backupCount': 52
     },
+    'carga_masiva': {
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'level': 'DEBUG',
+        'formatter': 'std',
+        'filename': os.path.join(LOGS_PATH, 'carga_masiva.log'),
+        'when': 'w6',
+        'interval': 1,
+        'backupCount': 52
+    },
 }, loggers={
     'root': {
         'level': 'DEBUG',
@@ -307,6 +318,11 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'level': 'DEBUG',
         'handlers': ['ue'],
         'qualname': 'ue'
+    },
+    'carga_masiva': {
+        'level': 'DEBUG',
+        'handlers': ['carga_masiva'],
+        'qualname': 'carga_masiva'
     },
     'django.request': {
         'handlers': ['null'],
