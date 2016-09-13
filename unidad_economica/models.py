@@ -43,16 +43,16 @@ class UnidadEconomica(models.Model):
     rif = models.CharField(max_length=10)
 
     ## Nombre Comercial de la Unidad Económica
-    nombre_ue = models.CharField(max_length=30)
+    nombre_ue = models.CharField(max_length=255)
 
     ## Razón Social
-    razon_social = models.CharField(max_length=45)
+    razon_social = models.CharField(max_length=255)
 
     ## Número de Seguro Social
-    ivss = models.CharField(max_length=10)
+    ivss = models.CharField(max_length=20)
 
     ## Número de contrato social
-    snc = models.CharField(max_length=10)
+    snc = models.CharField(max_length=20)
 
     ## Organización comunal
     orga_comunal = models.BooleanField(default=False)
