@@ -31,7 +31,7 @@ class SubUnidadEconomica(models.Model):
     @version 2.0.0
     """
     ## Nombre de la subunidad económica
-    nombre_sub = models.CharField(max_length=45)
+    nombre_sub = models.CharField(max_length=255)
     
     ## Rif de la subunidad
     rif = models.CharField(max_length=10)
