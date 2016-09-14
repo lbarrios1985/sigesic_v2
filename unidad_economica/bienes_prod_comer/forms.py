@@ -179,11 +179,20 @@ class BienesGeneralForm(forms.ModelForm):
         }),required = False,
     )
     
-    ## Precio de venta
-    precio_venta = forms.CharField(
-        label=_("Precio de venta por unidad"), widget=TextInput(attrs={
+    ## Precio de venta (Bs)
+    precio_venta_bs = forms.CharField(
+        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad"), 'size': '50',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
+            'style': 'width: 250px;',
+        }),required = False,
+    )
+    
+    ## Precio de venta (Usd)
+    precio_venta_usd = forms.CharField(
+        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
             'style': 'width: 250px;',
         }),required = False,
     )
@@ -203,7 +212,7 @@ class BienesGeneralForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
             'style': 'width: 250px;',
-        }), required = False,
+        }),required = False,
     )
     
     ## Unidad de medida de la cantidad producida
@@ -370,11 +379,20 @@ class BienesForm(forms.ModelForm):
         }),required = False,
     )
     
-    ## Precio de venta
-    precio_venta = forms.CharField(
-        label=_("Precio de venta por unidad"), widget=TextInput(attrs={
+    ## Precio de venta (Bs)
+    precio_venta_bs = forms.CharField(
+        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad"), 'size': '50',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
+            'style': 'width: 250px;',
+        }),required = False,
+    )
+    
+    ## Precio de venta (Usd)
+    precio_venta_usd = forms.CharField(
+        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
             'style': 'width: 250px;',
         }),required = False,
     )
@@ -394,7 +412,7 @@ class BienesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
             'style': 'width: 250px;',
-        }), required = False,
+        }),required = False,
     )
     
     ## Unidad de medida de la cantidad producida
@@ -404,6 +422,15 @@ class BienesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
             'style': 'width: 250px;',
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
+    )
+    
+    ## Cantidad producida
+    anho_venta = forms.CharField(
+        label=_("Año de Venta"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el año de venta"), 'size': '50',
+            'style': 'width: 250px;',
+        }), required = False,
     )
     
     class Meta:
@@ -561,11 +588,20 @@ class ClientesForm(forms.ModelForm):
         }),
     )
     
-    ## Precio de venta
-    precio_venta = forms.CharField(
-        label=_("Precio de venta por unidad"), widget=TextInput(attrs={
+    ## Precio de venta (Bs)
+    precio_venta_bs = forms.CharField(
+        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad"), 'size': '50',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
+            'style': 'width: 250px;',
+        }),
+    )
+    
+    ## Precio de venta (Usd)
+    precio_venta_usd = forms.CharField(
+        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
             'style': 'width: 250px;',
         }),
     )
@@ -595,6 +631,15 @@ class ClientesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
             'style': 'width: 250px;',
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
+    )
+    
+    ## Cantidad producida
+    anho_venta = forms.CharField(
+        label=_("Año de Venta"), widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Indique el año de venta"), 'size': '50',
+            'style': 'width: 250px;',
+        }),
     )
     
     """def clean_rif(self):

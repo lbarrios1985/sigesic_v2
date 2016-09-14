@@ -197,7 +197,7 @@ ESTADO_ACTUAL_MAQUINARIA = (
     ('DA', _("Dañado")),
 )
 
-# Unidades de medida
+## Unidades de medida
 UNIDAD_MEDIDA = (
     ('KG',_('Kilogramos')),
     ('TN',_('Toneladas')),
@@ -207,10 +207,10 @@ UNIDAD_MEDIDA = (
     ('UV',_('Unidad de Venta al Detal')),
 )
 
-# Monedas
+## Monedas
 MONEDAS = (
-    (1,'Bs'),
-    (2,'$')
+    ('bsf',_('Bolívares')),
+    ('usd',_('Dólares'))
 )
 
 CAPACIDAD_INSTALADA_MEDIDA = (

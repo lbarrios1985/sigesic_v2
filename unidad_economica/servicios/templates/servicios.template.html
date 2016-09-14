@@ -127,6 +127,8 @@
         </div>
         </form>
         
+        {% include 'carga.masiva.template.html' with app='servicios' mod='Servicio' anho='2016' %}
+        
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                 <h4>{% trans 'Lista de Servicios Cargados' %}</h4>
@@ -361,9 +363,9 @@
                 </div>
             </div>
             
-
+        {% include 'carga.masiva.template.html' with app='servicios' mod='ServicioCliente' anho='2016' rel_id='3' %}
             
-                    <div class="row">
+        <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                 <h4>{% trans 'Lista de Clientes Cargados' %}</h4>
             </div>
@@ -444,6 +446,40 @@
                 $('#id_rif_1').attr('readonly',true);
                 $('#id_rif_2').attr('readonly',true);
             }
+        });
+        $(document).ready(function(){
+            $('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var models = ''
+                var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
+                var file = '';
+                var nombre = acccion.split(',')[1];
+                nombre = nombre.replace(/\'/g,'');
+                if (nombre=='Servicio') {
+                    models = '?app=servicios&mod=Servicio&anho=2016&father_id=3';
+                    var file =$('#carga_masiva-Servicio')[0];
+                }
+                else if (nombre=='ServicioCliente') {
+                    var models = '?app=servicios&mod=ServicioCliente&anho=2016&father_id=3';
+                    var file = $('#carga_masiva-ServicioCliente')[0];
+                }
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });        
         });
     </script>
 {% endblock %}

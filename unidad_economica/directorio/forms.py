@@ -134,7 +134,7 @@ class DirectorioForm(ModelForm):
     coordenada = CoordenadaField(required=False)
 
     ## Id del directorio en haberse agregado una dirección existente
-    directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}))
+    directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}),required=False)
     
     class Meta:
         """!

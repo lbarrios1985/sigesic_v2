@@ -78,6 +78,7 @@ PROJECT_APPS = [
     'unidad_economica.sub_unidad_economica',
     'unidad_economica.maquinaria_equipo',
     'unidad_economica.bienes_prod_comer',
+    'unidad_economica.servicios',
     #Aplicación de carga masiva debe colocarse después de las aplicaciones de producción
     'carga_masiva',
 ]
@@ -136,6 +137,7 @@ SERVICIOS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/servicios/templat
 CARGA_MASIVA = os.path.join(BASE_DIR, "carga_masiva/templates")
 
 CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "carga_masiva/files")
+
 
 
 TEMPLATES = [
