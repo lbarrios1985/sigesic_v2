@@ -48,10 +48,10 @@ class SubUnidadEconomica(models.Model):
     tipo_sub_unidad = models.CharField(max_length=2)
     
     ## Metros cuadrados de la construcción
-    m2_contruccion = models.DecimalField(max_digits=20,decimal_places=5)
+    m2_construccion = models.DecimalField(max_digits=20,decimal_places=5)
     
     ## Metros cuadrados del terreno
-    m2_terreno = models.DecimalField(max_digits=20,decimal_places=5)
+    m2_terreno = models.DecimalField(max_digits=25,decimal_places=5)
     
     ## Autonomía Eléctrica en porcentaje
     autonomia_electrica = models.DecimalField(max_digits=20,decimal_places=5)
