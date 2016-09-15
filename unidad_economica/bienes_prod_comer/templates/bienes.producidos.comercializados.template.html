@@ -221,6 +221,8 @@
         </div>
         </form>
         
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' anho='2016' %}
+        
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                 <h4>{% trans 'Lista de Productos Cargados' %}</h4>
@@ -377,17 +379,17 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group {% if form.precio_venta.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta.auto_id }}">
-                            {{ form.precio_venta.label }}
+                    <div class="form-group {% if form.precio_venta_bs.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_bs.auto_id }}">
+                            {{ form.precio_venta_bs.label }}
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
-                                {{ form.precio_venta }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.precio_venta.errors %}
+                                {{ form.precio_venta_bs }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.precio_venta_bs.errors %}
                                     <p class="bg-warning">
                                         <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.precio_venta.errors.as_text|cut:'* ' }}
+                                            <i class="fa fa-times-circle-o"></i> {{ form.precio_venta_bs.errors.as_text|cut:'* ' }}
                                         </span>
                                     </p>
                                 {% endif %}
@@ -398,6 +400,25 @@
             </div>
             
             <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.precio_venta_usd.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_usd.auto_id }}">
+                            {{ form.precio_venta_usd.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.precio_venta_usd }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% if form.precio_venta_usd.errors %}
+                                    <p class="bg-warning">
+                                        <span class="help-block msg-error">
+                                            <i class="fa fa-times-circle-o"></i> {{ form.precio_venta_usd.errors.as_text|cut:'* ' }}
+                                        </span>
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group {% if form.tipo_cambio.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio.auto_id }}">
@@ -471,9 +492,9 @@
                 </div>
             </div>
             
-
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' anho='2016' %}
             
-                    <div class="row">
+        <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                 <h4>{% trans 'Lista de Clientes Cargados' %}</h4>
             </div>
@@ -488,19 +509,31 @@
                             <td>{% trans 'Ubicación' %}</td>
                             <td>{% trans 'Nombre del Cliente' %}</td>
                             <td>{% trans 'RIF' %}</td>
-                            <td>{% trans 'Tipo de Cambio' %}</td>
                             <td>{% trans 'Cantidades Vendidas' %}</td>
                             <td>{% trans 'Unidad de Medida' %}</td>
+                            <td>{% trans 'Precio de Venta(Bs)' %}</td>
+                            <td>{% trans 'Precio de Venta(USD)' %}</td>
+                            <td>{% trans 'Tipo de Cambio' %}</td>
                             <td>{% trans 'Opciones' %}</td>
                         </tr>
                     </thead>
-                    {% if first_table %}
+                    {% if facturacion_list %}
                         <tbody>
-                        {% for value in first_table %}
-                            <tr>
-                            {% for item in value %}                                       
-                                <td>{{item | safe }}</td>
-                            {% endfor %}
+                        {% for key,value in facturacion_list.items %}
+                            <tr>                                    
+                                <td>{{ value.nombre_producto | safe }}</td>
+                                <td>{{value.ubicacion | safe }}</td>
+                                <td>{{value.nombre_cliente | safe }}</td>
+                                <td>{{value.rif | safe }}</td>
+                                <td>{{value.cantidad_vendida | safe }}</td>
+                                <td>{{value.unidad_medida | safe }}</td>
+                                <td>{{value.precio_venta_bs | safe }}</td>
+                                <td>{{value.precio_venta_usd | safe }}</td>
+                                <td>{{value.tipo_cambio | safe }}</td>
+                                <td>
+                                    <a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -554,6 +587,40 @@
                 $('#id_rif_1').attr('readonly',true);
                 $('#id_rif_2').attr('readonly',true);
             }
+        });
+        
+        $(document).ready(function(){
+            $('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var models = '';
+                var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
+                var nombre = acccion.split(',')[1];
+                nombre = nombre.replace(/\'/g,'');
+                if (nombre=='Produccion') {
+                    models = '?app=bienes_prod_comer&mod=Produccion&anho=2016&father_id=3&rel_app=bienes_prod_comer&rel_mod=Producto';
+                    var file = $('#carga_masiva-Produccion')[0];
+                }
+                else if (nombre=='FacturacionCliente') {
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho=2016&father_id=3&rel_app=bienes_prod_comer&rel_mod=Cliente';
+                    var file = $('#carga_masiva-FacturacionCliente')[0];
+                }
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });    
         });
     </script>
 {% endblock %}

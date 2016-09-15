@@ -19,7 +19,7 @@ from django import forms
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
-from .models import Producto, Produccion, Cliente, ProduccionCliente
+from .models import Producto, Produccion, Cliente, FacturacionCliente
 from .forms import BienesGeneralForm,BienesForm, ClientesForm
 from base.constant import CREATE_MESSAGE
 from base.models import CaevClase, Pais
@@ -53,6 +53,20 @@ class BienesGeneralesCreate(SuccessMessageMixin,CreateView):
             data[item.id]["cantidad"] = item.cantidad_produccion
             data[item.id]["unidad_medida"] = item.unidad_de_medida
         kwargs['producto_list'] = data
+        facturacion = {}
+        for item in FacturacionCliente.objects.all():
+            facturacion[item.id] = {}
+            facturacion[item.id]["nombre_producto"] = item.producto.nombre_producto
+            facturacion[item.id]["ubicacion"] = item.cliente.pais.nombre
+            facturacion[item.id]["nombre_cliente"] = item.cliente.nombre
+            facturacion[item.id]["rif"] = item.cliente.rif
+            facturacion[item.id]["cantidad_vendida"] = item.cantidad_produccion
+            facturacion[item.id]["unidad_medida"] = item.unidad_de_medida
+            facturacion[item.id]["precio_venta_bs"] = item.precio_venta_bs
+            facturacion[item.id]["precio_venta_usd"] = item.precio_venta_usd
+            facturacion[item.id]["tipo_cambio"] = item.tipo_cambio
+        kwargs['facturacion_list'] = facturacion
+            
         return super(BienesGeneralesCreate, self).get_context_data(**kwargs)
     
     def get_form_kwargs(self):
@@ -140,7 +154,7 @@ class BienesCreate(CreateView):
         produccion = Produccion()
         produccion.cantidad_produccion = form.cleaned_data['cantidad_produccion']
         produccion.unidad_de_medida = form.cleaned_data['unidad_de_medida']
-        produccion.anho_produccion = 2016
+        produccion.anho_registro = 2016
         produccion.cantidad_clientes = form.cleaned_data['cantidad_clientes']
         produccion.cantidad_insumos = form.cleaned_data['cantidad_insumos']
         produccion.producto = self.object
@@ -226,14 +240,17 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         self.object.produccion = produccion
         self.object.save()
         
-        ## Se crea y se guarda el modelo de produccion del cliente
-        produccion = ProduccionCliente()
-        produccion.cantidad_produccion = form.cleaned_data['cantidad_vendida']
-        produccion.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
-        produccion.precio_venta = form.cleaned_data['precio_venta']
-        produccion.tipo_cambio = form.cleaned_data['tipo_cambio']
-        produccion.cliente = self.object
-        produccion.save()
+        ## Se crea y se guarda el modelo de facturacion del cliente
+        facturacion = FacturacionCliente()
+        facturacion.cantidad_produccion = form.cleaned_data['cantidad_vendida']
+        facturacion.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
+        facturacion.precio_venta_bs = form.cleaned_data['precio_venta_bs']
+        facturacion.precio_venta_usd = form.cleaned_data['precio_venta_usd']
+        facturacion.tipo_cambio = form.cleaned_data['tipo_cambio']
+        facturacion.anho_venta = form.cleaned_data['anho_venta']
+        facturacion.cliente = self.object
+        facturacion.produccion = produccion
+        facturacion.save()
         
         return super(ClientesCreate, self).form_valid(form)
     

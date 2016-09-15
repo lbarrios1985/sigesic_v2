@@ -6,9 +6,10 @@ static/tmp
 *.dot
 *.xml
 tmp/*.png
-database_config.py
+sigesic/database_config.py
 migrations
 fixtures
 *.sql
 *.log
 *~
+carga_masiva/files/

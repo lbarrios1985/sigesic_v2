@@ -177,7 +177,7 @@
                     </div>
                 </div>
 
-                {% include 'carga.masiva.template.html' %}
+                {% include 'carga.masiva.template.html' with app='maquinaria_equipo' mod='maquinariaModel' %}
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -224,7 +224,31 @@
             remove_field_datatable('#mydtable');
             update_field_datatable('#mydtable','#mymaquinaria',
                 ['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria']);
+            
+            $('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var file = $('#carga_masiva-maquinariaModel')[0];
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                //var models = '?app=maquinaria_equipo&mod=maquinariaModel&anho=2016&rel_id=1&rel_app=sub_unidad_economica&rel_mod=SubUnidadEconomicaProceso';
+                var models = '?app=maquinaria_equipo&mod=maquinariaModel&anho=2016&father_id=1';
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });
         });
+        
     </script>
 
 
