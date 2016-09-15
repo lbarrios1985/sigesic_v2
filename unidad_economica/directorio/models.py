@@ -80,25 +80,25 @@ class Directorio(models.Model):
     tipo_vialidad = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_UNO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el primer prefijo
-    nombre_vialidad = models.CharField(max_length=20)
+    nombre_vialidad = models.CharField(max_length=54)
     
     ## Va a contener los prefijos Edificio, Galpón, Centro Comercial, Quinta, Casa, Local 
     tipo_edificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_DOS_CHOICES)
     
     ## Va a contener la descripción de la dirección en el segundo prefijo
-    descripcion_edificacion = models.CharField(max_length=20)
+    descripcion_edificacion = models.CharField(max_length=54)
     
     ## Va a contener los prefijos Local, Oficina, Apartamento 
     tipo_subedificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_TRES_CHOICES)
     
     ## Va a contener la descripción de la dirección en el tercer prefijo
-    descripcion_subedificacion = models.CharField(max_length=20)
+    descripcion_subedificacion = models.CharField(max_length=54)
     
     ## Va a contener los prefijos Urbanización, Sector, Zona 
     tipo_zonificacion = models.CharField(max_length=2, choices=PREFIJO_DIRECTORIO_CUATRO_CHOICES)
     
     ## Va a contener la descripción de la dirección en el cuarto prefijo
-    nombre_zona = models.CharField(max_length=20)
+    nombre_zona = models.CharField(max_length=54)
 
     ## Muestra si la dirección esta activa o no
     activo = models.BooleanField(default=True)
