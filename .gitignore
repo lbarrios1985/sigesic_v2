@@ -1,6 +1,5 @@
 *.pyc
 .idea
-.gitignore
 static/tmp
 *.db
 *.dot
