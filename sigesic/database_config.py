@@ -7,6 +7,6 @@ DATABASES_CONFIG = {
         'PASSWORD': '<DB_PASSWORD>',
         'HOST': 'localhost',
         'PORT': '5432',
-	      'ATOMIC_REQUESTS': True, # Crea transacciones en cada peticion de la vista
-	    }
-	}
+        'ATOMIC_REQUESTS': True, # Crea transacciones en cada peticion de la vista
+    }
+}
