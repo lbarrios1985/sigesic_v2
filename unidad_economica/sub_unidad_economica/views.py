@@ -19,7 +19,7 @@ from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
     SubUnidadEconomicaActividad
     )
-from base.models import Parroquia
+from base.models import Parroquia, CaevClase
 from .forms import SubUnidadEconomicaForm
 from unidad_economica.directorio.models import Directorio
 from unidad_economica.models import UnidadEconomica
@@ -147,12 +147,13 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         self.object.telefono = form.cleaned_data['telefono']
         self.object.tipo_sub_unidad = form.cleaned_data['tipo_sub_unidad']
         self.object.tipo_tenencia = form.cleaned_data['tipo_tenencia']
-        self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
+        self.object.m2_construccion = form.cleaned_data['m2_construccion']
         self.object.m2_terreno = form.cleaned_data['m2_terreno']
         self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
         self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
         self.object.cantidad_empleados = form.cleaned_data['cantidad_empleados']
-        self.object.sede_servicio = form.cleaned_data['sede_servicio']
+        if(form.cleaned_data['sede_servicio']==True):
+            self.object.sede_servicio = form.cleaned_data['sede_servicio']
         self.object.unidad_economica = unidad_economica
         self.object.save()
         
@@ -173,10 +174,10 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             if('actividad_caev_tb' in dictionary):
                 self.agregar_actividad(dictionary,self.object)
             
+            caev = CaevClase.objects.get(pk=form.cleaned_data['actividad_caev_primaria'])
             ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
             capacidad = SubUnidadEconomicaCapacidad()
-            #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
-            #capacidad.actividad_primaria = form.cleaned_data['actividad_caev_primaria']
+            capacidad.caev = caev
             capacidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
             capacidad.capacidad_instalada_medida = form.cleaned_data['capacidad_instalada_medida']
             capacidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
@@ -187,7 +188,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         return super(SubUnidadEconomicaCreate, self).form_valid(form)
     
     def form_invalid(self, form):
-        print(form)
+        print(form.errors)
         return super(SubUnidadEconomicaCreate, self).form_invalid(form)
     
     
@@ -229,6 +230,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             ## Se crea y se guarda en el modelo del proceso de la sub-unidad
             actividad_economica = SubUnidadEconomicaActividad()
             actividad_economica.sub_unidad_economica = model
-            actividad_economica.actividad = dictionary['actividad_caev_tb'][i]
+            caev = CaevClase.objects.get(pk=dictionary['actividad_caev_tb'][i])
+            actividad_economica.caev = caev
             actividad_economica.save()
             

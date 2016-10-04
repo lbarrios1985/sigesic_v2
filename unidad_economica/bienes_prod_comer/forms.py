@@ -19,7 +19,7 @@ from django.forms import (
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
-from base.models import *
+from base.models import CaevClase
 from base.constant import UNIDAD_MEDIDA
 from base.widgets import RifWidgetReadOnly, RifWidget
 from base.functions import cargar_actividad, cargar_pais
@@ -226,7 +226,7 @@ class BienesGeneralForm(forms.ModelForm):
     
     class Meta:
         model = Producto
-        fields = '__all__'
+        exclude = ['subunidad','caev']
     
 @python_2_unicode_compatible
 class BienesForm(forms.ModelForm):

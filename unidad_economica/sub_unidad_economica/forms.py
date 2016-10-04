@@ -21,9 +21,10 @@ from django.forms import (
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
-from base.constant import TIPO_SUB_UNIDAD
+from base.constant import TIPO_SUB_UNIDAD, TIPO_TENENCIA, ESTADO_PROCESO, TIPO_PROCESO
 from base.fields import RifField
 from base.models import *
+from base.functions import cargar_actividad
 from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
@@ -31,13 +32,6 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 CAPACIDAD_INSTALADA_MEDIDA = (('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada"))
-
-TIPO_TENENCIA = (('','Seleccione...'),(1, "Ocupación"),(2,"Arrendada"),(3,"Comodato"),(4,"Propia"),(5,"Otra"))
-
-TIPO_PROCESO = (('','Seleccione...'),("LN", "Lineas"),("ET","Estaciones de Trabajo"))
-
-ESTADO_PROCESO = (('','Seleccione...'),(1, "Activo"),(0,"Inactivo"))
-
 
 @python_2_unicode_compatible
 class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
@@ -49,6 +43,14 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     @date 04-05-2016
     @version 2.0.0
     """
+    
+    def __init__(self, *args, **kwargs):
+        super(SubUnidadEconomicaForm, self).__init__(*args, **kwargs)
+
+        self.fields['actividad_caev_primaria'].choices = cargar_actividad()
+        self.fields['actividad_caev'].choices = cargar_actividad()
+        self.fields['actividad_caev_tb'].choices = cargar_actividad()
+        
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
     rif.widget = RifWidgetReadOnly()
@@ -63,11 +65,12 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Tipo de tenencia de la sub unidad
     tipo_tenencia = forms.ChoiceField(
-        label=_("Tipo de Tenencia"), widget=Select(attrs={'class': 'form-control select2'}), choices = TIPO_TENENCIA
+        label=_("Tipo de Tenencia"), widget=Select(attrs={'class': 'form-control select2'}),
+        choices = (('','Seleccione...'),) + TIPO_TENENCIA
     )
 
     ## Metros cuadrados de la construcción
-    m2_contruccion = forms.DecimalField(
+    m2_construccion = forms.DecimalField(
         label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25',
@@ -113,8 +116,8 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
         label=_("Presta Servicio: "),
-        widget=CheckboxInput(attrs={'class': 'seleccion_si_no', 'required':'required'}),
-        choices = ((True,''), (False,'')),
+        widget=CheckboxInput(attrs={'class': 'seleccion_si_no',}),
+        choices = ((True,'Si'), (False,'No')),
     )
 
     ## Tipo de Sub Unidad Económica
@@ -129,7 +132,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         label=_("Tipo de Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md',
             'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo")
-        }), choices = TIPO_PROCESO, required=False
+        }), choices = (('','Seleccione...'),)+ TIPO_PROCESO, required=False
     )
 
     ## nombre del proceso productivo
@@ -152,23 +155,25 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         label=_("Estado del Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md', 'data-toggle': 'tooltip',
             'title': _("Indique el estado del proceso productivo")
-        }), choices = ESTADO_PROCESO, required=False
+        }), choices = (('','Seleccione...'),) + ESTADO_PROCESO, required=False
     )
 
     ## Código CAEV primaria
     actividad_caev_primaria =  forms.ChoiceField(
         label=_("Actividad Económica Primaria de la Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md',
-            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Primaria de la Sub-Unidad en Ramas")
-        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False
+            'data-toggle': 'tooltip','title': _("Indique la Actividad Económica Primaria de la Sub-Unidad en Ramas"),
+            'onchange': 'deshabilitar_opcion(this.value,"#id_actividad_caev")'
+        }), required=False
     )
 
     ## Código CAEV
     actividad_caev =  forms.ChoiceField(
         label=_("Actividad Económica Secundaria de la Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'data-toggle': 'tooltip',
-            'title': _("Indique la Actividad Económica Secundaria de la Sub-Unidad en Ramas")
-        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")),  required=False
+            'title': _("Indique la Actividad Económica Secundaria de la Sub-Unidad en Ramas"),
+            'onchange': 'deshabilitar_opcion(this.value,"#id_actividad_caev_tb")'
+        }), required=False
     )
 
     ## Código CAEV
@@ -176,7 +181,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         label=_("Actividad Económica de la Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'data-toggle': 'tooltip',
             'title': _("Indique la Actividad Económica de la Sub-Unidad en Ramas")
-        }), choices = (('','Seleccione...'),(1,"Primera Opcion"),(2,"Segunda Opcion")), required=False
+        }), required=False
     )
 
     ## Capacidad instalada mensual (campo de texto)
@@ -190,7 +195,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     
     ## Capacidad instalada mensual (Unidad de Medida)
     capacidad_instalada_medida = forms.ChoiceField(
-        widget=Select(attrs={'class': 'form-control input-md', 'required':'required'}),
+        widget=Select(attrs={'class': 'form-control input-md'}),
         choices = CAPACIDAD_INSTALADA_MEDIDA,  required=False
     )
 

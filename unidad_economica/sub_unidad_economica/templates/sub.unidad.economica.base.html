@@ -112,16 +112,16 @@
              
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.m2_contruccion.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_contruccion.auto_id }}">
-                            {{ form.m2_contruccion.label }}
+                    <div class="form-group {% if form.m2_construccion.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_construccion.auto_id }}">
+                            {{ form.m2_construccion.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            {{ form.m2_contruccion }}
-                            {% if form.m2_contruccion.errors %}
+                            {{ form.m2_construccion }}
+                            {% if form.m2_construccion.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_contruccion.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_construccion.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -306,7 +306,7 @@
                         <table class="table table-striped table-hover display dataTable" id="mydtable">
                             <thead>
                                 <tr>
-                                    <td>Tipo deeee Proceso</td>
+                                    <td>Tipo de Proceso</td>
                                     <td>Nombre del Proceso</td>
                                     <td>Descripción del Proceso</td>
                                     <td>Estado del Proceso</td>

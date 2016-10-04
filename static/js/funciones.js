@@ -365,11 +365,12 @@ function load_map() {
  */
 function habilitar(opcion, campo) {
     var elemento = $("#"+campo);
-
     if (opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1")) {
+        elemento.removeAttr('readonly');
         elemento.removeAttr('disabled');
     }
     else {
+        elemento.attr('readonly', 'readonly');
         elemento.attr('disabled', 'disabled');
         elemento.val("");
     }
@@ -384,11 +385,11 @@ function deshabilitar(opcion, campo) {
     var elemento = $("#"+campo);
 
     if (opcion == "1") {
-        elemento.attr('disabled', 'disabled');
+        elemento.attr('readonly', 'readonly');
         elemento.val("");
     }
     else {
-        elemento.removeAttr('disabled');
+        elemento.removeAttr('readonly');
     }
 }
 
@@ -646,4 +647,14 @@ function separador_miles(separador, period) {
     }
 
     return numeric + decimal;
+}
+/**
+ * @brief Función para desahbilitar un valor seleccionado de una lista en otra
+ * @param valor Contiene el id del valor que se desahabilitar
+ * @param nombre Recibe un str con el nombre del select
+ */
+function deshabilitar_opcion(valor, nombre) {
+    $(nombre+' option').removeAttr('disabled');
+    $(nombre+' option[value="' + valor + '"]').attr('disabled', 'disabled');
+    $(nombre).select2({});
 }

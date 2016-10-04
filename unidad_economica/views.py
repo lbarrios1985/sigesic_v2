@@ -22,7 +22,7 @@ from django.shortcuts import render
 from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
 from base.models import (
-    CaevClase, Estado, Municipio, Parroquia, TipoComunal
+    CaevClase, Estado, Municipio, Parroquia, TipoComunal, Pais
     )
 
 from unidad_economica.directorio.models import Directorio
@@ -128,14 +128,16 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.rif = form.cleaned_data['rif']
         self.object.nombre_ue = form.cleaned_data['nombre_ue']
         self.object.razon_social = form.cleaned_data['razon_social']
-        self.object.orga_comunal = form.cleaned_data['orga_comunal']
-        if form.cleaned_data['orga_comunal'] == 'S':
+        if form.cleaned_data['orga_comunal'] == 'True':
+            self.object.orga_comunal = form.cleaned_data['orga_comunal']
             tipo_comunal = TipoComunal.objects.get(pk=self.request.POST['tipo_comunal'])
             self.object.tipo_comunal = tipo_comunal
-        self.object.situr = form.cleaned_data['situr']
-        self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
+            self.object.situr = form.cleaned_data['situr']
+        if form.cleaned_data['casa_matriz_franquicia'] == 'True':
+            self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
         self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
-        self.object.franquiciado = form.cleaned_data['franquiciado']
+        if form.cleaned_data['franquiciado'] == 'True':
+            self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.user = self.request.user
         self.object.save()
 
@@ -146,13 +148,15 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         direccion.save()
 
         ## Almacena en el modelo Franquicia
-        if form.cleaned_data['rif_casa_matriz']:
+        if form.cleaned_data['franquiciado'] == 'True':
             franquicia = Franquicia()
-            franquicia.rif_casa_matriz = "%s%s%s" % (
-                    self.request.POST['rif_casa_matriz_0'], self.request.POST['rif_casa_matriz_1'], self.request.POST['rif_casa_matriz_2']
-                )
+            if form.cleaned_data['rif_casa_matriz']:
+                franquicia.rif_casa_matriz = "%s%s%s" % (
+                        self.request.POST['rif_casa_matriz_0'], self.request.POST['rif_casa_matriz_1'], self.request.POST['rif_casa_matriz_2']
+                    )
+            pais = Pais.objects.get(pk=form.cleaned_data['pais_franquicia'])
             franquicia.nombre_franquicia = form.cleaned_data['nombre_franquicia']
-            franquicia.pais_franquicia = form.cleaned_data['pais_franquicia']
+            franquicia.pais_franquicia = pais
             franquicia.unidad_economica_rif = self.object
             franquicia.save()
 
@@ -182,5 +186,5 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         return super(UnidadEconomicaCreate, self).form_valid(form)
 
     def form_invalid(self, form):
-
+        #print(form.errors)
         return super(UnidadEconomicaCreate, self).form_invalid(form)

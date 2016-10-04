@@ -52,7 +52,6 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Nombre Comercial de la Unidad Económica
     nombre_ue = CharField(
         label=_("Nombre Comercial: "),
-        max_length=30,
         widget=TextInput(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip', 'size': '50',
@@ -79,7 +78,7 @@ class UnidadEconomicaForm(DirectorioForm):
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("Seleccione la Actividad Económica Principal que realiza"),
-                'onchange': 'deshabilitar_opcion(this.value)'
+                'onchange': 'deshabilitar_opcion(this.value,"#id_actividad2")'
             }
         )
     )
@@ -135,7 +134,7 @@ class UnidadEconomicaForm(DirectorioForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
-                'title': _("Código SITUR de la organización comunal"), 'size': '40', 'disabled': 'disabled'
+                'title': _("Código SITUR de la organización comunal"), 'size': '40', 'readonly': 'readonly'
             }
         ), required=False
     )
@@ -213,7 +212,7 @@ class UnidadEconomicaForm(DirectorioForm):
         # Si se ha indicado que es una organizacion comunal, se habilitan los atributos tipo_comunal y situr
         if 'orga_comunal' in self.data:
             self.fields['tipo_comunal'].widget.attrs.pop('disabled')
-            self.fields['situr'].widget.attrs.pop('disabled')
+            self.fields['situr'].widget.attrs.pop('readonly')
 
         self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
 
@@ -234,30 +233,24 @@ class UnidadEconomicaForm(DirectorioForm):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
         nro_franquicia = self.cleaned_data.get('nro_franquicia')
 
-        if casa_matriz_franquicia and nro_franquicia == '' or nro_franquicia == '0':
+        if(casa_matriz_franquicia=='True' and (nro_franquicia == '' or nro_franquicia == '0')):
             raise forms.ValidationError(_("Indique el número de franquicias"))
         return nro_franquicia
         
     def clean_tipo_comunal(self):
         tipo_comunal = self.cleaned_data['tipo_comunal']
-
-        if 'orga_comunal' in self.data:
-            orga_comunal = self.data['orga_comunal']
-
-            if orga_comunal == 'S' and not tipo_comunal:
-                raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
-            return orga_comunal
+        orga_comunal = self.cleaned_data['orga_comunal']
+        if orga_comunal=='True' and not tipo_comunal:
+            raise forms.ValidationError(_("Seleccione un tipo de organización comunal"))
 
         return tipo_comunal
 
     def clean_situr(self):
         situr = self.cleaned_data['situr']
+        orga_comunal = self.cleaned_data['orga_comunal']
 
-        if 'orga_comunal' in self.data:
-            orga_comunal = self.data['orga_comunal']
-
-            if orga_comunal == 'S' and not situr:
-                raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
+        if orga_comunal == 'True' and not situr:
+            raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
 
         return situr
 
@@ -265,11 +258,8 @@ class UnidadEconomicaForm(DirectorioForm):
         franquiciado = self.cleaned_data['franquiciado']
         pais_franquicia = self.cleaned_data.get('pais_franquicia', False)
 
-        if 'franquiciado' in self.data:
-            franquiciado = self.data['franquiciado']
-
-            if franquiciado == 'S' and not pais_franquicia:
-                raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
+        if franquiciado == 'True' and not pais_franquicia:
+            raise forms.ValidationError(_("Indique el país de origen de la franquicia"))
         return pais_franquicia
 
     def clean_rif_casa_matriz(self):
@@ -285,7 +275,7 @@ class UnidadEconomicaForm(DirectorioForm):
         pais_franquicia = self.cleaned_data.get('pais_franquicia')
         nombre_franquicia = self.cleaned_data['nombre_franquicia']
 
-        if franquiciado == 'S' and pais_franquicia != '1' and not nombre_franquicia:
+        if franquiciado == 'True' and  pais_franquicia == '1' and not nombre_franquicia:
             raise forms.ValidationError(_("Indique nombre de la franquicia"))
         return nombre_franquicia
 

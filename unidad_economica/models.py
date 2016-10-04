@@ -20,7 +20,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
-from base.models import CaevClase, TipoComunal, AnhoRegistro
+from base.models import CaevClase, TipoComunal, AnhoRegistro, Pais
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -102,7 +102,7 @@ class Franquicia(models.Model):
     nombre_franquicia = models.CharField(max_length=45)
 
     ## País de origen de la franquicia
-    pais_franquicia = models.CharField(max_length=50)
+    pais_franquicia = models.ForeignKey(Pais)
 
     ## Establece la relación con la Unidad Económica
     unidad_economica_rif = models.ForeignKey(UnidadEconomica)

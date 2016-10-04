@@ -35,6 +35,12 @@
 					<span>{% trans 'Entrada' %}</span>
 				</a>
 			</li>
+			<li class="treeview">
+				<a href="{% url 'registro_ue' %}">
+          <i class="label label-warning number-item-menu">1</i>
+					<span>{% trans 'Unidad Económica' %}</span>
+				</a>
+			</li>
             {% menu_left_filter request.user.username request.get_full_path %}
 		</ul>
 	</section>

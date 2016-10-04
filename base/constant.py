@@ -213,6 +213,28 @@ MONEDAS = (
     ('usd',_('Dólares'))
 )
 
+## Capacidad Instalada
 CAPACIDAD_INSTALADA_MEDIDA = (
     ('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada")
+)
+
+## Tipo de Tenencia
+TIPO_TENENCIA = (
+    (1, _("Ocupación")),
+    (2,_("Arrendada")),
+    (3,_("Comodato")),
+    (4,_("Propia")),
+    (5,_("Otra"))
+)
+
+## Estado del proceso
+ESTADO_PROCESO = (
+    (1,_("Activo")),
+    (0,_("Inactivo"))
+)
+
+## Tipo de Proceso
+TIPO_PROCESO = (
+    ("LN", _("Lineas")),
+    ("ET",_("Estaciones de Trabajo"))
 )

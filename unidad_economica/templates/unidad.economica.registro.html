@@ -302,11 +302,5 @@
                 btn.attr('onclick', 'setTimeout(function () {actualizar_cantidad_actividad()}, 250)');
             }, 250);
         }
-
-        function deshabilitar_opcion(valor) {
-            $('#id_actividad2 option').removeAttr('disabled');
-            $('#id_actividad2 option[value="' + valor + '"]').attr('disabled', 'disabled');
-            $('#id_actividad2').select2({});
-        }
     </script>
 {% endblock %}
