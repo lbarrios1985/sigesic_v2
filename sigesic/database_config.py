@@ -2,11 +2,11 @@
 DATABASES_CONFIG = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sigesic_v2',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
+        'NAME': '<DB_NAME>',
+        'USER': '<DB_USER>',
+        'PASSWORD': '<DB_PASSWORD>',
         'HOST': 'localhost',
         'PORT': '5432',
-        'ATOMIC_REQUESTS': True, # Crea transacciones en cada peticion de la vista
-    }
-}
+	      'ATOMIC_REQUESTS': True, # Crea transacciones en cada peticion de la vista
+	    }
+	}
