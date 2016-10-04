@@ -65,7 +65,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Tipo de tenencia de la sub unidad
     tipo_tenencia = forms.ChoiceField(
-        label=_("Tipo de Tenencia"), widget=Select(attrs={'class': 'form-control select2'}),
+        label=_("Tipo de Tenencia"), widget=Select(attrs={'class': 'form-control select2', 'required':'required'}),
         choices = (('','Seleccione...'),) + TIPO_TENENCIA
     )
 
