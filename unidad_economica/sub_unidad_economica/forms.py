@@ -98,17 +98,17 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Consumo eléctrico promedio en el mes
     consumo_electrico = forms.DecimalField(
-        label=_("Consumo Eléctrico"), widget=TextInput(attrs={
+        label=_("Consumo Eléctrico Anual"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
-            'data-toggle': 'tooltip', 'title': _("Indique el consumo promedio mensual en Kw/h"), 'size': '25',
+            'data-toggle': 'tooltip', 'title': _("Indique el consumo promedio anual en Kw/h"), 'size': '25',
             'type':'number', 'step':'0.01'
         }), max_digits=20, decimal_places=5
     )
 
     cantidad_empleados = forms.IntegerField(
-        label=_("Cantidad de empleados"), widget=TextInput(attrs={
+        label=_("Número de trabajadores"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
-            'data-toggle': 'tooltip', 'title': _("Indique la cantidad de empleados"), 'size': '25',
+            'data-toggle': 'tooltip', 'title': _("Indique el número de trabajadores"), 'size': '25',
             'type':'number', 'min':'1', 'step': '1'
         })
     )

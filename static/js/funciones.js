@@ -648,6 +648,7 @@ function separador_miles(separador, period) {
 
     return numeric + decimal;
 }
+
 /**
  * @brief Función para desahbilitar un valor seleccionado de una lista en otra
  * @param valor Contiene el id del valor que se desahabilitar
@@ -657,4 +658,37 @@ function deshabilitar_opcion(valor, nombre) {
     $(nombre+' option').removeAttr('disabled');
     $(nombre+' option[value="' + valor + '"]').attr('disabled', 'disabled');
     $(nombre).select2({});
+}
+
+/**
+ * @brief Función para inicializar una DataTable con datos de ajax
+ * @param nombre Contiene el nombre del id de la tabla
+ * @param url Contiene la url de donde hara el ajax
+ */
+function init_datatable_ajax(nombre,url) {
+    $('#'+nombre).dataTable({
+        "language": {
+            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
+        "ordering": true,
+        "order": [[0, 'asc']],
+        "bDestroy": true,
+        "bPaginate": true,
+        "bInfo": true,
+        "ajax": url
+    });
+}
+
+/**
+ * @brief Función para cargar una url que reciba algun párametro
+ * @param nombre Contiene el nombre del id de la tabla
+ * @param url Contiene la url de donde hara el ajax
+ * @param parameter_name Contiene el nombre del párametro
+ * @param parameter Contiene el valor del párametro
+ */
+function before_init_datatable(nombre,url,parameter_name,parameter) {
+    if (parameter!='' && parameter_name!='') {
+      url += "?" +parameter_name + "=" + parameter;
+      init_datatable_ajax(nombre,url);
+    }
 }

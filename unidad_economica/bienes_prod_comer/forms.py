@@ -19,7 +19,6 @@ from django.forms import (
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
-from base.models import CaevClase
 from base.constant import UNIDAD_MEDIDA
 from base.widgets import RifWidgetReadOnly, RifWidget
 from base.functions import cargar_actividad, cargar_pais
@@ -30,204 +29,7 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 CAPACIDAD_INSTALADA_MEDIDA = (('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada"))
-
-@python_2_unicode_compatible
-class BienesGeneralForm(forms.ModelForm):
-    """!
-    Clase que muestra el formulario de ingreso de la sub-unidad económica
-
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 13-07-2016
-    @version 2.0.0
-    """
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
-        super(BienesGeneralForm, self).__init__(*args, **kwargs)
-        self.fields['caev'].choices = cargar_actividad()
-        self.fields['ubicacion_cliente'].choices = cargar_pais()
-        #Se carga una lista con todas las subunidades relacionadas al usuario
-        lista = [('','Selecione...')]
-        for l in SubUnidadEconomica.objects.filter(rif=user.username).values_list('id','nombre_sub'):
-            lista.append(l)
-        self.fields['subunidad'].choices = lista
-        #Se carga una lista con todos los productos relacionados a una subunidad
-        prod = [('','Selecione...')]
-        for p in Producto.objects.filter(subunidad_id__rif=user.username).values_list('id','nombre_producto'):
-            prod.append(p)
-        self.fields['cliente_producto'].choices = prod
-
-    ## Listado de las subunidades disponibles
-    subunidad =  forms.ChoiceField(
-        label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
-            'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-        }), required = False,
-    )
-
-    ## Nombre del producto
-    nombre_producto = forms.CharField(
-        label=_("Nombre del Producto"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el nombre del producto"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## Especificación técnica del producto
-    especificacion_tecnica = forms.CharField(
-        label=_("Especificación Técnica"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la especificación técnica"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Marca del producto
-    marca = forms.CharField(
-        label=_("Marca"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la marca"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## Cantidad de clientes
-    cantidad_clientes =  forms.CharField(
-        label=_("Número de Clientes"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el número de clientes"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-
-    ## Cantidad de insumos
-    cantidad_insumos = forms.CharField(
-        label=_("Número de Insumos"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el número de insumos"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## Cantidad producida
-    cantidad_produccion = forms.CharField(
-        label=_("Producción"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## Unidad de medida de la cantidad producida
-    unidad_de_medida = forms.ChoiceField(
-        label=_("Unidad de Medida"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
-            'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
-    )
-    
-    ## Listado del código caev
-    caev = forms.ChoiceField(
-        label=_("Código CAEV"),
-        widget=Select(
-            attrs={
-                'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el código Caev"),
-            }
-        ), choices = CaevClase.objects.values_list('clase','descripcion'), required = False,
-    )
-    
-    ## Lista con los productos
-    cliente_producto = forms.ChoiceField(
-        label=_("Producto"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Seleccione el producto"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## Lista con los clientes del producto
-    cliente_list = forms.ChoiceField(
-        label=_("Cliente"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Seleccione el cliente"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False, choices = [('','Seleccione...'), ("1","algo")],
-    )
-    
-    ## Ubicación del cliente
-    ubicacion_cliente = forms.ChoiceField(
-        label=_("Ubicación del Cliente"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Seleccione la ubicación del cliente"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
-    ## R.I.F. del cliente
-    rif = RifField(required = False)
-    rif.widget = RifWidgetReadOnly()
-    
-    ## Nombre del cliente
-    nombre_cliente = forms.CharField(
-        label=_("Nombre del Cliente"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el nombre del cliente"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Precio de venta (Bs)
-    precio_venta_bs = forms.CharField(
-        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Precio de venta (Usd)
-    precio_venta_usd = forms.CharField(
-        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Tipo de cambio
-    tipo_cambio = forms.CharField(
-        label=_("Tipo de cambio"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el tipo de cambio"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Cantidad producida
-    cantidad_vendida = forms.CharField(
-        label=_("Cantidades Vendidas"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False,
-    )
-    
-    ## Unidad de medida de la cantidad producida
-    unidad_de_medida_cliente = forms.ChoiceField(
-        label=_("Unidad de Medida"), widget=Select(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
-            'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
-    )
-    
-    class Meta:
-        model = Producto
-        exclude = ['subunidad','caev']
-    
+ 
 @python_2_unicode_compatible
 class BienesForm(forms.ModelForm):
     """!
@@ -247,7 +49,7 @@ class BienesForm(forms.ModelForm):
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
-        for l in SubUnidadEconomica.objects.filter(rif=user.username).values_list('id','nombre_sub'):
+        for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
             lista.append(l)
         self.fields['subunidad'].choices = lista
         #Se carga una lista con todos los productos relacionados a una subunidad
@@ -262,6 +64,7 @@ class BienesForm(forms.ModelForm):
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+            'onchange':'before_init_datatable("bienes_list","ajax/produccion_data","subunidad_id",$(this).val())'
         }),
     )
 
@@ -336,7 +139,15 @@ class BienesForm(forms.ModelForm):
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el código Caev"), 'required':'required',
             }
-        ), choices = CaevClase.objects.values_list('clase','descripcion'),
+        ),
+    )
+    
+    ## Listado de las subunidades disponibles
+    subunidad_cliente =  forms.ChoiceField(
+        label=_("Sub-Unidad"), widget=Select(attrs={
+            'class': 'form-control input-md', 'required':'required',
+            'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+        }),required = False,
     )
     
     ## Lista con los productos
@@ -349,12 +160,12 @@ class BienesForm(forms.ModelForm):
     )
     
     ## Lista con los clientes del producto
-    cliente_list = forms.ChoiceField(
-        label=_("Cliente"), widget=Select(attrs={
+    cliente_list = forms.CharField(
+        label=_("Cliente"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el cliente"), 'size': '50',
-            'style': 'width: 250px;',
-        }),required = False, choices = [('','Seleccione...'), ("1","algo")],
+            'style': 'width: 250px;', 'readonly':'readonly',
+        }), required = False
     )
     
     ## Ubicación del cliente
@@ -471,6 +282,7 @@ class ClientesForm(forms.ModelForm):
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+            'onchange':'before_init_datatable("bienes_list","ajax/produccion_data","subunidad_id",$(this).val())'
         }), required = False,
     )
 
@@ -545,7 +357,15 @@ class ClientesForm(forms.ModelForm):
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el código Caev"),
             }
-        ), choices = CaevClase.objects.values_list('clase','descripcion'), required = False,
+        ), required = False,
+    )
+    
+    ## Listado de las subunidades disponibles
+    subunidad_cliente =  forms.ChoiceField(
+        label=_("Sub-Unidad"), widget=Select(attrs={
+            'class': 'form-control input-md', 'required':'required',
+            'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+        }),
     )
     
     ## Lista con los productos
@@ -558,12 +378,12 @@ class ClientesForm(forms.ModelForm):
     )
     
     ## Lista con los clientes del producto
-    cliente_list = forms.ChoiceField(
-        label=_("Cliente"), widget=Select(attrs={
+    cliente_list = forms.CharField(
+        label=_("Cliente"), widget=TextInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el cliente"), 'size': '50',
-            'style': 'width: 250px;',
-        }), choices = [('','Seleccione...'), ("1","algo")],
+            'style': 'width: 250px;', 'readonly':'readonly',
+        }),
     )
     
     ## Ubicación del cliente

@@ -109,9 +109,6 @@ class Directorio(models.Model):
     ## Coordenadas Geográficas (opcional)
     coordenadas = models.CharField(max_length=255, null=True)  # Posteriormente modificar el tipo de campo con GeoDjango a geom = PointField()
 
-    ## Enlace al tipo de coordenada a registrar
-    tipo_coordenada = models.ForeignKey(TipoCoordenada, null=True)
-
     ## Enlace al usuario al cual le corresponda el directorio
     usuario = models.ForeignKey(User)
 

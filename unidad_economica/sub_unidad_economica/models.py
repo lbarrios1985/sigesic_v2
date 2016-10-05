@@ -43,7 +43,7 @@ class SubUnidadEconomica(models.Model):
     )
     
     ## Tipo de tenencia de la sub unidad
-    tipo_tenencia = models.CharField(max_length=2)
+    tipo_tenencia = models.IntegerField()
     
     ## Tipo de subunidad
     tipo_sub_unidad = models.CharField(max_length=2)

@@ -14,6 +14,8 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
+from django.http import JsonResponse, HttpResponse
+from django.core import serializers
 
 from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
@@ -24,7 +26,7 @@ from .forms import SubUnidadEconomicaForm
 from unidad_economica.directorio.models import Directorio
 from unidad_economica.models import UnidadEconomica
 from django.contrib.auth.models import User
-from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD
+from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD, TIPO_TENENCIA
 from base.classes import Seniat
 
 __licence__ = "GNU Public License v2"
@@ -152,7 +154,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
         self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
         self.object.cantidad_empleados = form.cleaned_data['cantidad_empleados']
-        if(form.cleaned_data['sede_servicio']==True):
+        if(form.cleaned_data['sede_servicio']=='True'):
             self.object.sede_servicio = form.cleaned_data['sede_servicio']
         self.object.unidad_economica = unidad_economica
         self.object.save()
@@ -233,4 +235,31 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             caev = CaevClase.objects.get(pk=dictionary['actividad_caev_tb'][i])
             actividad_economica.caev = caev
             actividad_economica.save()
+            
+            
+def subunidad_get_data(request):
+    """!
+    Metodo que extrae los datos de la subunidad relacionada con el usuario y la muestra en una url ajax como json
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright GNU/GPLv2
+    @date 04-10-2016
+    @param request <b>{object}</b> Recibe la peticion
+    @return Retorna el json con las subunidades que consiguió
+    """
+    datos = {'data':[]}
+    dic_ten = dict(TIPO_TENENCIA)
+    dic_sub = dict(TIPO_SUB_UNIDAD)
+    for subunidad in SubUnidadEconomica.objects.filter(unidad_economica_id__user_id=request.user.id).all():
+        lista = []
+        lista.append(subunidad.nombre_sub)
+        lista.append(subunidad.rif)
+        lista.append(subunidad.telefono)
+        lista.append(str(dic_ten.get(subunidad.tipo_tenencia)))
+        lista.append(str(dic_sub.get(subunidad.tipo_sub_unidad)))
+        lista.append(subunidad.cantidad_empleados)
+        lista.append("Si" if subunidad.sede_servicio else "No")
+        datos['data'].append(lista)
+    
+    return JsonResponse(datos,safe=False)
             

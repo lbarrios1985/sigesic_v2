@@ -24,6 +24,7 @@
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.rif }}
+                                    {% include 'base.form.errors.html' with form_errors=form.rif.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                                 </div>
                             </div>
                         </div>

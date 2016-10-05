@@ -44,6 +44,10 @@ class UnidadEconomicaForm(DirectorioForm):
     @date 04-05-2016
     @version 2.0
     """
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
 
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
@@ -278,6 +282,12 @@ class UnidadEconomicaForm(DirectorioForm):
         if franquiciado == 'True' and  pais_franquicia == '1' and not nombre_franquicia:
             raise forms.ValidationError(_("Indique nombre de la franquicia"))
         return nombre_franquicia
+    
+    def clean_rif(self):
+        rif = self.cleaned_data['rif']
+        if(UnidadEconomica.objects.filter(rif=rif).get()):
+            raise forms.ValidationError(_("Este RIF ya se encuentra registrado"))
+        return rif
 
     class Meta(object):
         model = UnidadEconomica

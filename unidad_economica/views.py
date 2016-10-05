@@ -51,7 +51,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     template_name = "unidad.economica.registro.html"
     success_url = reverse_lazy('informacion_mercantil')
     success_message = CREATE_MESSAGE
-
+    
     def get_initial(self):
         """!
         Método usado para extraer los datos del usuario logeado en el sistema
