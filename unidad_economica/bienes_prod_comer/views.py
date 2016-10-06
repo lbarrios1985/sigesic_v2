@@ -19,8 +19,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from .models import Producto, Produccion, Cliente, FacturacionCliente
 from .forms import BienesForm, ClientesForm
-from base.constant import CREATE_MESSAGE
-from base.models import CaevClase, Pais
+from base.constant import CREATE_MESSAGE, UNIDAD_MEDIDA
+from base.models import CaevClase, Pais, AnhoRegistro
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
     
 class BienesCreate(CreateView):
@@ -35,7 +35,7 @@ class BienesCreate(CreateView):
     model = Producto
     form_class = BienesForm
     template_name = "bienes.producidos.comercializados.template.html"
-    success_url = reverse_lazy('bienes_generales_create')
+    success_url = reverse_lazy('bienes_registro_create')
     success_message = CREATE_MESSAGE
     
     def get_form_kwargs(self):
@@ -74,12 +74,17 @@ class BienesCreate(CreateView):
         self.object.subunidad = subunidad
         self.object.caev = caev
         self.object.save()
-        
+
+        prod = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=self.request.user.username).first()
+        if(prod):
+            anho = AnhoRegistro.objects.filter(anho=prod.anho_registro.anho).get()
+        else: 
+            anho = AnhoRegistro.objects.filter(anho=form.cleaned_data['anho_registro']).get()
         ## Se crea y se guarda el modelo de produccion
         produccion = Produccion()
         produccion.cantidad_produccion = form.cleaned_data['cantidad_produccion']
         produccion.unidad_de_medida = form.cleaned_data['unidad_de_medida']
-        produccion.anho_registro = 2016
+        produccion.anho_registro = anho
         produccion.cantidad_clientes = form.cleaned_data['cantidad_clientes']
         produccion.cantidad_insumos = form.cleaned_data['cantidad_insumos']
         produccion.producto = self.object
@@ -99,6 +104,7 @@ def produccion_get_data(request):
     @return Retorna el json con las subunidades que consiguió
     """
     datos = {'data':[]}
+    dic_um = dict(UNIDAD_MEDIDA)
     # Recibe por get el id de subunidad
     subid = request.GET.get('subunidad_id', None)
     if(subid):
@@ -111,7 +117,7 @@ def produccion_get_data(request):
             lista.append(prod.cantidad_clientes)
             lista.append(prod.cantidad_insumos)
             lista.append(prod.cantidad_produccion)
-            lista.append(prod.unidad_de_medida)
+            lista.append(str(dic_um.get(prod.unidad_de_medida)))
             datos['data'].append(lista)
         
         return JsonResponse(datos,safe=False)
@@ -130,7 +136,7 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
     model = Cliente
     form_class = ClientesForm
     template_name = "bienes.producidos.comercializados.template.html"
-    success_url = reverse_lazy('bienes_generales_create')
+    success_url = reverse_lazy('cliente_registro_create')
     success_message = CREATE_MESSAGE
     
     def get_form_kwargs(self):
@@ -158,28 +164,30 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado
         """
-        
-        produccion = Produccion.objects.get(pk=form.cleaned_data['cliente_producto'])
+
+        produccion = Produccion.objects.get(producto__subunidad_id=form.cleaned_data['subunidad_cliente'])
         pais = Pais.objects.get(pk=form.cleaned_data['ubicacion_cliente'])
+        producto = Producto.objects.get(pk=form.cleaned_data['cliente_producto'])
         
         ## Se crea y se guarda el modelo de cliente
         self.object = form.save(commit=False)
-        self.object.nombre = form.cleaned_data['nombre_producto']
-        self.object.rif = form.cleaned_data['especificacion_tecnica']
+        self.object.nombre = form.cleaned_data['nombre_cliente']
+        self.object.rif = form.cleaned_data['rif']
         self.object.pais = pais
         self.object.produccion = produccion
         self.object.save()
         
+        anho = AnhoRegistro.objects.filter(anho=produccion.anho_registro.anho).get()
         ## Se crea y se guarda el modelo de facturacion del cliente
         facturacion = FacturacionCliente()
-        facturacion.cantidad_produccion = form.cleaned_data['cantidad_vendida']
+        facturacion.cantidad_vendida = form.cleaned_data['cantidad_vendida']
         facturacion.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
         facturacion.precio_venta_bs = form.cleaned_data['precio_venta_bs']
         facturacion.precio_venta_usd = form.cleaned_data['precio_venta_usd']
         facturacion.tipo_cambio = form.cleaned_data['tipo_cambio']
-        facturacion.anho_venta = form.cleaned_data['anho_venta']
+        facturacion.anho_registro = anho
         facturacion.cliente = self.object
-        facturacion.produccion = produccion
+        facturacion.producto = producto
         facturacion.save()
         
         return super(ClientesCreate, self).form_valid(form)
@@ -187,4 +195,36 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
     def form_invalid(self,form):
         print(form.errors)
         return super(ClientesCreate, self).form_invalid(form)
+    
+    
+def clientes_get_data(request):
+    """!
+    Metodo que extrae los datos de los clientes relacionados con el producto y la muestra en una url ajax como json
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright GNU/GPLv2
+    @date 05-10-2016
+    @param request <b>{object}</b> Recibe la peticion
+    @return Retorna el json con las subunidades que consiguió
+    """
+    datos = {'data':[]}
+    dic_um = dict(UNIDAD_MEDIDA)
+    # Recibe por get el id del producto
+    prodid = request.GET.get('producto_id', None)
+    if(prodid):
+        for fact in FacturacionCliente.objects.filter(producto_id=prodid).all():
+            lista = []
+            lista.append(fact.producto.nombre_producto)
+            lista.append(fact.cliente.nombre)
+            lista.append(fact.cliente.pais.nombre)
+            lista.append(fact.cliente.rif)
+            lista.append(fact.cantidad_vendida)
+            lista.append(str(dic_um.get(fact.unidad_de_medida)))
+            lista.append(fact.precio_venta_bs)
+            lista.append(fact.precio_venta_usd)
+            lista.append(fact.tipo_cambio)
+            datos['data'].append(lista)
+        
+        return JsonResponse(datos,safe=False)
+    return JsonResponse("No se envío el id del producto",safe=False)
     

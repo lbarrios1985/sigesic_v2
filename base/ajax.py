@@ -191,7 +191,7 @@ def actualizar_combo(request):
         bd = request.GET.get('bd', 'default')
 
         filtro = {}
-
+        
         if app and mod and campo and n_value and n_text and bd:
             modelo = apps.get_model(app, mod)
             if cod:
@@ -293,7 +293,36 @@ def client_data(request):
     app = request.GET['aplicacion']
     model = request.GET['model']
     argument = request.GET['argument']
+    field = request.GET['field']
     value = request.GET['value']
     modelo = apps.get_model(app, model)
-    search = modelo.objects.filter(id=argument).values_list(value,flat=True)
-    return HttpResponse(json.dumps({'resultado': True, 'model': json.dumps(search[0])}))
+    a = {}
+    a[field] = argument
+    search = modelo.objects.filter(**a).values_list(value,flat=True)
+    if(len(search)>0):
+        return HttpResponse(json.dumps({'resultado': True, 'model': json.dumps(search[0])}))
+    return HttpResponse(json.dumps({'resultado': False, 'model': "No se encontraron resultados"}))
+
+
+@login_required()
+def count_model(request):
+    """!
+    Función que permite mostrar la cantidad de registros de un modelo en una aplicación pasados por GET
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 05-10-2016
+    @param request <b>{object}</b> Objeto que contiene la petición a la función
+    @return Devuelve un json con el resultado de la búsqueda
+    """
+    
+    app = request.GET['aplicacion']
+    model = request.GET['model']
+    argument = request.GET['argument']
+    field = request.GET['field']
+    modelo = apps.get_model(app, model)
+    a = {}
+    a[field] = argument
+    search = len(modelo.objects.filter(**a).all())
+    
+    return HttpResponse(json.dumps({'resultado': True, 'cantidad': search}))

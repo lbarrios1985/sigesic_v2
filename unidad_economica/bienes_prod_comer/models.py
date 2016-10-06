@@ -246,8 +246,8 @@ class FacturacionCliente(models.Model):
     @version 2.0
     """
     
-    ## Cantidad Producida
-    cantidad_produccion = models.IntegerField()
+    ## Cantidad Vendida
+    cantidad_vendida = models.IntegerField()
     
     ## Unidad de medida del producto
     unidad_de_medida = models.CharField(max_length=2)

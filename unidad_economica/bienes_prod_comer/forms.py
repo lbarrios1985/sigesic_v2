@@ -21,8 +21,8 @@ from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
 from base.constant import UNIDAD_MEDIDA
 from base.widgets import RifWidgetReadOnly, RifWidget
-from base.functions import cargar_actividad, cargar_pais
-from .models import Producto, Cliente
+from base.functions import cargar_actividad, cargar_pais, cargar_anho
+from .models import *
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -47,24 +47,55 @@ class BienesForm(forms.ModelForm):
         super(BienesForm, self).__init__(*args, **kwargs)
         self.fields['caev'].choices = cargar_actividad()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
+        
+        self.fields['anho_registro'].choices = cargar_anho()
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
         for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
             lista.append(l)
         self.fields['subunidad'].choices = lista
+        self.fields['subunidad_cliente'].choices = lista
         #Se carga una lista con todos los productos relacionados a una subunidad
         prod = [('','Selecione...')]
-        for p in Producto.objects.filter(subunidad_id__rif=user.username).values_list('id','nombre_producto'):
+        for p in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
+        
+        # Si se ha seleccionado una subunidad_cliente establece el listado de municipios y elimina el atributo disable
+        if 'subunidad_cliente' in self.data and self.data['subunidad_cliente']:
+            self.fields['cliente_producto'].widget.attrs.pop('disabled')
+            self.fields['cliente_producto'].queryset=Municipio.objects.filter(estado=self.data['estado'])
+        
+        #Se cuentan si existen bienes ya con registrados
+        bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
+        #Si existen bienes se cambia al campo a uno de texto con el valor inicial del año
+        """if(len(bienes)>0):
+            self.fields['anho_registro'].widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip','title': _("Año de registro"), 'size': '50', 'required':'required',
+            'style': 'width: 250px;','readonly':'readonly'}, )
+            self.fields["anho_registro"].initial =  bienes[0].anho_registro.pk
+        else:
+            #Se carga el año de registro
+            self.fields['anho_registro'].choices = cargar_anho()"""
+            
 
 
+
+    ## Año registro
+    anho_registro =  forms.ChoiceField(
+        label=_("Año de Registro"), widget=Select(attrs={
+            'class': 'form-control input-md', 'required':'required',
+            'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+        }),
+    )
+    
     ## Listado de las subunidades disponibles
     subunidad =  forms.ChoiceField(
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
-            'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange':'before_init_datatable("bienes_list","ajax/produccion_data","subunidad_id",$(this).val())'
+            'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"), 'style': 'width: 250px;',
+            'onchange':'before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val())'
         }),
     )
 
@@ -145,8 +176,9 @@ class BienesForm(forms.ModelForm):
     ## Listado de las subunidades disponibles
     subunidad_cliente =  forms.ChoiceField(
         label=_("Sub-Unidad"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
+            'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto')"
         }),required = False,
     )
     
@@ -155,7 +187,8 @@ class BienesForm(forms.ModelForm):
         label=_("Producto"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el producto"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'disabled':'disabled',
+            'onchange':'before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())'
         }),required = False,
     )
     
@@ -235,15 +268,7 @@ class BienesForm(forms.ModelForm):
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
     )
     
-    ## Cantidad producida
-    anho_venta = forms.CharField(
-        label=_("Año de Venta"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el año de venta"), 'size': '50',
-            'style': 'width: 250px;',
-        }), required = False,
-    )
-    
+   
     class Meta:
         model = Producto
         exclude = ['subunidad','caev']
@@ -266,23 +291,38 @@ class ClientesForm(forms.ModelForm):
         super(ClientesForm, self).__init__(*args, **kwargs)
         self.fields['caev'].choices = cargar_actividad()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
+        #Se cargar el año de registro
+        self.fields['anho_registro'].choices = cargar_anho()
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
-        for l in SubUnidadEconomica.objects.filter(rif=user.username).values_list('id','nombre_sub'):
+        for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
             lista.append(l)
         self.fields['subunidad'].choices = lista
+        self.fields['subunidad_cliente'].choices = lista
         #Se carga una lista con todos los productos relacionados a una subunidad
         prod = [('','Selecione...')]
-        for p in Producto.objects.filter(subunidad_id__rif=user.username).values_list('id','nombre_producto'):
+        for p in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
+        
+        # Si se ha indicado la sub-unidad se le quita el disabled a producto
+        if 'subunidad_cliente' in self.data:
+            self.fields['cliente_producto'].widget.attrs.pop('disabled')
 
-     ## Listado de las subunidades disponibles
+    ## Año registro
+    anho_registro =  forms.ChoiceField(
+        label=_("Año de Registro"), widget=Select(attrs={
+            'class': 'form-control input-md', 'required':'required',
+            'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+        }), required = False,
+    )
+    
+    ## Listado de las subunidades disponibles
     subunidad =  forms.ChoiceField(
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
+            'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange':'before_init_datatable("bienes_list","ajax/produccion_data","subunidad_id",$(this).val())'
+            'onchange':'before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val())'
         }), required = False,
     )
 
@@ -363,8 +403,9 @@ class ClientesForm(forms.ModelForm):
     ## Listado de las subunidades disponibles
     subunidad_cliente =  forms.ChoiceField(
         label=_("Sub-Unidad"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
+            'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto')"
         }),
     )
     
@@ -373,7 +414,8 @@ class ClientesForm(forms.ModelForm):
         label=_("Producto"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el producto"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'disabled':'disabled',
+            'onchange':'before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())',
         }), 
     )
     
@@ -453,15 +495,16 @@ class ClientesForm(forms.ModelForm):
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
     )
     
-    ## Cantidad producida
-    anho_venta = forms.CharField(
-        label=_("Año de Venta"), widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el año de venta"), 'size': '50',
-            'style': 'width: 250px;',
-        }),
-    )
     
+    def clean_cliente_list(self):
+        producto = self.cleaned_data['cliente_producto']
+        cliente_list = self.cleaned_data['cliente_list']
+        prod = Produccion.objects.filter(producto_id=producto).first()
+        clientes = FacturacionCliente.objects.filter(producto_id=producto).all()
+        if(prod.cantidad_clientes==len(clientes)):
+            raise forms.ValidationError(_("No se pueden ingresar más clientes"))
+        return cliente_list
+
     """def clean_rif(self):
         rif = self.cleaned_data['rif']
         ubicacion = self.cleaned_data['ubicacion_cliente']

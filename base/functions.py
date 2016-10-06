@@ -23,7 +23,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
-from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia
+from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro
 
 logger = logging.getLogger('base')
 
@@ -190,6 +190,26 @@ def cargar_pais():
     try:
         for pais in Pais.objects.all():
             lista += (pais.id, pais.nombre),
+    except Exception as e:
+        pass
+
+    return lista
+
+def cargar_anho():
+    """!
+    Función que permite cargar el año de registro
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 06-10-2016
+    @return Devuelve una tupla con años de registro
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for anho in AnhoRegistro.objects.all():
+            lista += (anho.id, anho.anho),
     except Exception as e:
         pass
 

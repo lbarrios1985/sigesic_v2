@@ -666,16 +666,12 @@ function deshabilitar_opcion(valor, nombre) {
  * @param url Contiene la url de donde hara el ajax
  */
 function init_datatable_ajax(nombre,url) {
-    $('#'+nombre).dataTable({
-        "language": {
-            "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-        },
-        "ordering": true,
-        "order": [[0, 'asc']],
-        "bDestroy": true,
-        "bPaginate": true,
-        "bInfo": true,
-        "ajax": url
+    table = $('#'+nombre).DataTable();
+    table.rows().draw();
+    $.get(url,function(data){
+        $.each(data.data,function(index,value){
+            table.row.add(value).draw(false);
+        });
     });
 }
 
@@ -690,5 +686,35 @@ function before_init_datatable(nombre,url,parameter_name,parameter) {
     if (parameter!='' && parameter_name!='') {
       url += "?" +parameter_name + "=" + parameter;
       init_datatable_ajax(nombre,url);
+      $('.modal-backdrop').remove();
     }
+    else{
+        table = $('#'+nombre).DataTable();
+        table.rows().remove().draw();
+    }
+}
+
+/**
+ * @brief Función consultar un ajax que cuenta los registros de un modelo
+ * @param aplicacion Contiene el nombre de la aplicación
+ * @param modelo Contiene el nombre del modelo a consultar
+ * @param argumento Contiene el valor por el que se filtrará
+ * @param campo Contiene el nombre del campo por el que se filtrará el argumento
+ * @return Regresa los datos
+ */
+function contar_modelo(aplicacion,modelo,argumento,campo) {
+    var datos;
+    $.ajax({url:'/ajax/count-model',data:{'aplicacion':aplicacion,'model':modelo,
+           'argument':argumento,'field':campo},type:'get',
+        success:function(data){
+            data = JSON.parse(data);
+            datos = data.cantidad;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            datos = error;
+        },
+    });
+    return datos;
 }

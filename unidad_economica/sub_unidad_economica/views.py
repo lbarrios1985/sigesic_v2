@@ -145,7 +145,6 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         ## Se crea y se guarda el modelo de sub_unidad_economica
         self.object = form.save(commit=False)
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
-        self.object.rif = form.cleaned_data['rif']
         self.object.telefono = form.cleaned_data['telefono']
         self.object.tipo_sub_unidad = form.cleaned_data['tipo_sub_unidad']
         self.object.tipo_tenencia = form.cleaned_data['tipo_tenencia']
@@ -253,7 +252,6 @@ def subunidad_get_data(request):
     for subunidad in SubUnidadEconomica.objects.filter(unidad_economica_id__user_id=request.user.id).all():
         lista = []
         lista.append(subunidad.nombre_sub)
-        lista.append(subunidad.rif)
         lista.append(subunidad.telefono)
         lista.append(str(dic_ten.get(subunidad.tipo_tenencia)))
         lista.append(str(dic_sub.get(subunidad.tipo_sub_unidad)))
