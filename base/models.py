@@ -299,3 +299,23 @@ class AnhoRegistro(models.Model):
         """
         verbose_name = _("Año de Registro")
         verbose_name_plural = _("Años de Registros")
+
+@python_2_unicode_compatible
+class Cliente(models.Model):
+    """!
+    Clase que gestiona los datos para el registro de los Clientes en los Bienes Producidos y comercializados
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 13-07-2016
+    @version 2.0
+    """
+    
+    ## Nombre del Cliente
+    nombre = models.CharField(max_length=45)
+    
+    ## Rif del ciente
+    rif = models.CharField(max_length=10)
+    
+    ## Establece la relación con el país
+    pais = models.ForeignKey(Pais)

@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-3">{{ form.anho }}</div>
             </div>
                         
             <div class="row">
@@ -187,7 +187,7 @@
         </div>
         </form>
         
-        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' anho='2016' %}
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' anho='2016' rel_id='3' %}
         
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -401,7 +401,7 @@
                 </div>
             </div>
             
-        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' anho='2016' %}
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' anho='2016' rel_id='3' %}
             
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -486,6 +486,9 @@
             {
                 before_init_datatable("clientes_list","{% url 'clientes_data' %}","producto_id",$('#id_cliente_producto').val());
             }
+            if ($('#id_anho_registro').val()=='') {
+              $('#id_anho_registro').val($('#id_anho').val()).change()
+            }
             $('.fileinput-upload-button').click(function(event){
                 event.preventDefault();
                 var models = '';
@@ -497,7 +500,7 @@
                     var file = $('#carga_masiva-Produccion')[0];
                 }
                 else if (nombre=='FacturacionCliente') {
-                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho=2016&father_id=3&rel_app=bienes_prod_comer&rel_mod=Cliente';
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho=2016&father_id=3&rel_app=base&rel_mod=Cliente';
                     var file = $('#carga_masiva-FacturacionCliente')[0];
                 }
                 var fdata = new FormData();

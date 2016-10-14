@@ -48,7 +48,7 @@ class ServiciosGeneralForm(forms.ModelForm):
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
-        for l in SubUnidadEconomica.objects.filter(rif=user.username,sede_servicio=True).values_list('id','nombre_sub'):
+        for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username,sede_servicio=True).values_list('id','nombre_sub'):
             lista.append(l)
         self.fields['subunidad'].choices = lista
         #Se carga una lista con todos los productos relacionados a una subunidad
@@ -60,8 +60,9 @@ class ServiciosGeneralForm(forms.ModelForm):
     ## Listado de las subunidades disponibles
     subunidad =  forms.ChoiceField(
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
+            'class': 'form-control input-md', 'required':'required', 
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
+            'style': 'width: 250px;',
         }), required = False,
     )
 

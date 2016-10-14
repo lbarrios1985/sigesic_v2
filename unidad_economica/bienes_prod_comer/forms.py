@@ -69,24 +69,30 @@ class BienesForm(forms.ModelForm):
         #Se cuentan si existen bienes ya con registrados
         bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
         #Si existen bienes se cambia al campo a uno de texto con el valor inicial del año
-        """if(len(bienes)>0):
-            self.fields['anho_registro'].widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Año de registro"), 'size': '50', 'required':'required',
-            'style': 'width: 250px;','readonly':'readonly'}, )
-            self.fields["anho_registro"].initial =  bienes[0].anho_registro.pk
+        if(len(bienes)>0):
+            self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
+            self.fields['anho_registro'].required = False
+            self.initial['anho_registro'] = bienes[0].anho_registro.pk
+            self.initial['anho'] = bienes[0].anho_registro.pk
+            #self.fields["anho_registro"].initial =  bienes[0].anho_registro.pk
+            #self.fields["anho"].initial =  bienes[0].anho_registro.pk
         else:
             #Se carga el año de registro
-            self.fields['anho_registro'].choices = cargar_anho()"""
-            
-
-
+            self.fields['anho_registro'].choices = cargar_anho()
 
     ## Año registro
     anho_registro =  forms.ChoiceField(
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+        }),
+    )
+    
+    ## Año (para el campo anho_registro deshabilitado)
+    anho =  forms.CharField(
+        widget=TextInput(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
+            'data-toggle': 'tooltip', 'size': '50', 'readonly':'readonly', 'style':'display:none',
         }),
     )
     
@@ -268,6 +274,18 @@ class BienesForm(forms.ModelForm):
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
     )
     
+    def clean(self):
+        cleaned_data = super(BienesForm, self).clean()
+        nombre_producto = self.cleaned_data['nombre_producto']
+        anho_registro = self.cleaned_data['anho']
+        subunidad = self.cleaned_data['subunidad']
+        print(subunidad," ",anho_registro)
+        prod = Produccion.objects.filter(anho_registro_id=anho_registro,producto__subunidad_id=subunidad,producto__nombre_producto=nombre_producto)
+        if(prod):
+            msg =_("Ya registró la producción de ese producto en el año correspondiente")
+            
+        self.add_error('nombre_producto', msg)
+        
    
     class Meta:
         model = Producto

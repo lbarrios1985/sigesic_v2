@@ -687,6 +687,7 @@ function before_init_datatable(nombre,url,parameter_name,parameter) {
       url += "?" +parameter_name + "=" + parameter;
       init_datatable_ajax(nombre,url);
       $('.modal-backdrop').remove();
+      $('body').removeAttr('style')
     }
     else{
         table = $('#'+nombre).DataTable();
@@ -717,4 +718,13 @@ function contar_modelo(aplicacion,modelo,argumento,campo) {
         },
     });
     return datos;
+}
+
+/**
+ * @brief Función para clonar el valor de un elemento en otro
+ * @param valor Contiene el valor que se insertará
+ * @param campo Contiene el id/clase del formulario donde se colocará el valor
+ */
+function clone_value(valor,campo) {
+  $(campo).val(valor);
 }

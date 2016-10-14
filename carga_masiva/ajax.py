@@ -201,6 +201,7 @@ def cargar_datos(request):
                                 if('ambigous' in datos['cabecera'][j]):
                                     filtro = {}
                                     filtro[datos['cabecera'][j]['amb_filter']] = getattr(model_dep,datos['cabecera'][j]['amb_field'])
+                                    print(filtro)
                                     model_amb = apps.get_model(datos['cabecera'][j]['amb_app'], datos['cabecera'][j]['amb_model'])
                                     model_amb = model_amb.objects.filter(**filtro).get()
                                     setattr(modelo, datos['cabecera'][j]['field'], model_amb)
@@ -234,6 +235,8 @@ def cargar_datos(request):
                             else:
                                 setattr(modelo, datos['cabecera'][j]['field'], load_file[i,j])
                 # Se comprueba quien es el hijo del padre (si el modelo o el relacionado)
+                print(rel_model.__dict__)
+                print(mod)
                 if(datos['relation']['padre']['child']==mod):
                     setattr(modelo, datos['relation']['padre']['field'], datos['relation']['padre']['instance'])
                 elif(rel_model):
@@ -246,7 +249,9 @@ def cargar_datos(request):
                     setattr(modelo, datos['relation']['relation_model']['field'], rel_model)
                 modelo.save()
             default_storage.delete(path)
-            return HttpResponse(json.dumps({'resultado': True, 'message': 'Se cargó éxitosamente'}))
+            return HttpResponse(json.dumps({
+                'resultado': True, 'message': "El archivo se cargó éxitosamente'"
+            }))
 
         return HttpResponse(json.dumps({'resultado': False, 'error': MSG_NOT_UPLOAD_FILE}))
     except Exception as e:

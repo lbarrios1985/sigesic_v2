@@ -15,7 +15,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
-from base.models import CaevClase, Pais, AnhoRegistro
+from base.models import CaevClase, Pais, AnhoRegistro, Cliente
 from base.constant import MONEDAS
 
 class TipoServicio(models.Model):
@@ -166,11 +166,8 @@ class ServicioCliente(models.Model):
     @version 2.0
     """
     
-    ## Nombre del Cliente
-    nombre = models.CharField(max_length=45)
-    
-    ## Rif del ciente
-    rif = models.CharField(max_length=10)
+    ## Establece la relación con los datos del cliente
+    cliente = models.ForeignKey(Cliente)
     
     ## Año de registro de la producción
     anho_registro = models.ForeignKey(AnhoRegistro)

@@ -15,7 +15,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
-from base.models import CaevClase, Pais, AnhoRegistro
+from base.models import CaevClase, Pais, AnhoRegistro, Cliente
 from base.constant import UNIDAD_MEDIDA
 
 class Producto(models.Model):
@@ -194,9 +194,9 @@ class Produccion(models.Model):
                 codigo = str(prod.producto_id)+" "+str(prod.pk)
                 datos.append([
                     codigo, prod.producto.nombre_producto, prod.producto.especificacion_tecnica, prod.producto.marca,
-                    prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_insumos,
-                    prod.cantidad_produccion, unidad_medida
+                    prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_produccion, unidad_medida
                 ])
+            print(datos)
             relation = {
                 'padre':{
                     'app':'sub_unidad_economica',
@@ -212,30 +212,7 @@ class Produccion(models.Model):
                 },
             }
         return {'cabecera': fields, 'datos': datos, 'output': 'bienes_prod_comer_produccion', 'relation':relation}
-
-    
-class Cliente(models.Model):
-    """!
-    Clase que gestiona los datos para el registro de los Clientes en los Bienes Producidos y comercializados
-
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 13-07-2016
-    @version 2.0
-    """
-    
-    ## Nombre del Cliente
-    nombre = models.CharField(max_length=45)
-    
-    ## Rif del ciente
-    rif = models.CharField(max_length=10)
-    
-    ## Establece la relación con el país
-    pais = models.ForeignKey(Pais)
-    
-    ## Establece la relación con la producción
-    produccion = models.ForeignKey(Produccion)
-    
+ 
 class FacturacionCliente(models.Model):
     """!
     Clase que gestiona los datos para el registro de la Produccion que se necesita del cliente en los Bienes Producidos y comercializados
@@ -264,11 +241,11 @@ class FacturacionCliente(models.Model):
     ## Año de registro de la producción
     anho_registro = models.ForeignKey(AnhoRegistro)
     
-    ## Establece la relación con el producto 
+    ## Establece la relación con el cliente 
     cliente = models.ForeignKey(Cliente)
     
-    ## Establece la relación con el producto
-    producto = models.ForeignKey(Producto)
+    ## Establece la relación con la producción
+    produccion = models.ForeignKey(Produccion)
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -303,7 +280,7 @@ class FacturacionCliente(models.Model):
                 'type': 'string'
             },
             {
-                'field': 'producto',
+                'field': 'produccion',
                 'title': str(_("Nombre del Producto")),
                 'max_length': 45,
                 'null': False,
@@ -315,9 +292,9 @@ class FacturacionCliente(models.Model):
                 'filtro':'producto__nombre_producto',
                 'ambigous':True,
                 'amb_app':'bienes_prod_comer',
-                'amb_model':'Producto',
+                'amb_model':'Produccion',
                 'amb_filter':'pk',
-                'amb_field':'producto_id',
+                'amb_field':'pk',
                 'type': 'string'
             },
             {
@@ -340,6 +317,7 @@ class FacturacionCliente(models.Model):
                 'null': False,
                 'related':True,
                 'depend':False,
+                'related_app':'base',
                 'related_model':'Cliente',
                 'type': 'string'
             },
@@ -354,7 +332,7 @@ class FacturacionCliente(models.Model):
                 'type': 'string'
             },
             {
-                'field': 'cantidad_produccion',
+                'field': 'cantidad_vendida',
                 'title': str(_("Unidades Vendidas")),
                 'max_length': 3,
                 'null': False,
@@ -410,7 +388,7 @@ class FacturacionCliente(models.Model):
             ## Agrega los datos para el año y sub unidad solicitada
             dic_um = dict(UNIDAD_MEDIDA)
             for prod in Produccion.objects.filter(anho_registro__anho=anho,producto__subunidad_id=rel_id):
-                fact = FacturacionCliente.objects.filter(producto=prod.pk)
+                fact = FacturacionCliente.objects.filter(produccion_id=prod.pk,anho_registro__anho=anho).get()
                 for item in range(prod.cantidad_clientes):
                     #codigo = str(fact.producto_id)+" "+str(fact.pk)
                     if fact:
@@ -434,7 +412,7 @@ class FacturacionCliente(models.Model):
                     'instance':''
                 },
                 'relation_model':{
-                    'app':'bienes_prod_comer',
+                    'app':'base',
                     'mod':'Cliente',
                     'field':'cliente'
                 },

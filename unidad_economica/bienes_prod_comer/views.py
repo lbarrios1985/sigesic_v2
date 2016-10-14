@@ -20,10 +20,10 @@ from django.core.urlresolvers import reverse_lazy
 from .models import Producto, Produccion, Cliente, FacturacionCliente
 from .forms import BienesForm, ClientesForm
 from base.constant import CREATE_MESSAGE, UNIDAD_MEDIDA
-from base.models import CaevClase, Pais, AnhoRegistro
+from base.models import CaevClase, Pais, AnhoRegistro, Cliente
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
     
-class BienesCreate(CreateView):
+class BienesCreate(SuccessMessageMixin, CreateView):
     """!
     Clase que registra los bienes
 
@@ -74,12 +74,12 @@ class BienesCreate(CreateView):
         self.object.subunidad = subunidad
         self.object.caev = caev
         self.object.save()
-
+        anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
         prod = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=self.request.user.username).first()
         if(prod):
             anho = AnhoRegistro.objects.filter(anho=prod.anho_registro.anho).get()
         else: 
-            anho = AnhoRegistro.objects.filter(anho=form.cleaned_data['anho_registro']).get()
+            anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
         ## Se crea y se guarda el modelo de produccion
         produccion = Produccion()
         produccion.cantidad_produccion = form.cleaned_data['cantidad_produccion']
@@ -91,6 +91,10 @@ class BienesCreate(CreateView):
         produccion.save()
         
         return super(BienesCreate, self).form_valid(form)
+    
+    def form_invalid(self,form):
+        print(form.errors)
+        return super(BienesCreate, self).form_invalid(form)
     
     
 def produccion_get_data(request):
@@ -165,15 +169,20 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         @return Retorna el formulario validado
         """
 
-        produccion = Produccion.objects.get(producto__subunidad_id=form.cleaned_data['subunidad_cliente'])
+        produccion = Produccion.objects.filter(producto__subunidad_id=form.cleaned_data['subunidad_cliente'],producto_id=form.cleaned_data['cliente_producto']).get()
         pais = Pais.objects.get(pk=form.cleaned_data['ubicacion_cliente'])
         producto = Producto.objects.get(pk=form.cleaned_data['cliente_producto'])
         
         ## Se crea y se guarda el modelo de cliente
+        cliente = Cliente()
+        cliente.nombre = form.cleaned_data['nombre_cliente']
+        cliente.rif = form.cleaned_data['rif']
+        cliente.pais = pais
+        cliente.save()
+        
+        ## Se crea y se guarda el modelo de cliente bien
         self.object = form.save(commit=False)
-        self.object.nombre = form.cleaned_data['nombre_cliente']
-        self.object.rif = form.cleaned_data['rif']
-        self.object.pais = pais
+        self.object.cliente = cliente
         self.object.produccion = produccion
         self.object.save()
         
@@ -186,7 +195,7 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         facturacion.precio_venta_usd = form.cleaned_data['precio_venta_usd']
         facturacion.tipo_cambio = form.cleaned_data['tipo_cambio']
         facturacion.anho_registro = anho
-        facturacion.cliente = self.object
+        facturacion.cliente_bien = self.object
         facturacion.producto = producto
         facturacion.save()
         
