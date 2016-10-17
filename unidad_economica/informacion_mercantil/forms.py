@@ -25,6 +25,7 @@ from base.functions import cargar_pais
 from unidad_economica.informacion_mercantil.models import RepresentanteLegal
 from django.core import validators
 from django.core.exceptions import ValidationError
+from base.widgets import RifWidgetReadOnly, RifWidget
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -40,6 +41,10 @@ class InformacionMercantilForm(ModelForm):
     @date 04-05-2016
     @version 2.0
     """
+
+    ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
+    rif = RifField()
+    rif.widget = RifWidgetReadOnly()
 
     ## Naturaleza Jurídica
     naturaleza_juridica = ChoiceField(
@@ -72,7 +77,8 @@ class InformacionMercantilForm(ModelForm):
     publico_nacional = CharField(
         label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
-            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
+            'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0',
+            'value': '0',
         })
     )
 
@@ -81,7 +87,8 @@ class InformacionMercantilForm(ModelForm):
         label=_("Público Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0',
+                'value': '0',
             }
         )
     )
@@ -91,7 +98,8 @@ class InformacionMercantilForm(ModelForm):
         label=_("Privado Nacional: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0',
+                'value': '0',
             }
         )
     )
@@ -101,7 +109,8 @@ class InformacionMercantilForm(ModelForm):
         label=_("Privado Extranjero: "), max_length=6,
         widget=TextInput(
             attrs={
-                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0'
+                'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0',
+                'value': '0',
             }
         )
     )

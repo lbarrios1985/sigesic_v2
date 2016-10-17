@@ -23,6 +23,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from unidad_economica.informacion_mercantil.models import Capital, Accionista, RepresentanteLegal
 from base.constant import CREATE_MESSAGE
 from unidad_economica.models import UnidadEconomica
+from base.classes import Seniat
+
 
 
 class MercantilCreate(SuccessMessageMixin, CreateView):
@@ -40,6 +42,25 @@ class MercantilCreate(SuccessMessageMixin, CreateView):
     template_name = 'informacion.mercantil.registro.html'
     success_url = reverse_lazy('sub_unidad_create')
     success_message = CREATE_MESSAGE
+
+    def get_initial(self):
+        """!
+        Método usado para extraer los datos del usuario logeado en el sistema
+
+        @author Eveli Ramírez (eramirez at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 09-05-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna los datos del rif
+        """
+        rif = self.request.user
+        datos_iniciales = super(MercantilCreate, self).get_initial()
+        datos_iniciales['rif'] = self.request.user.username
+
+        datos_rif = Seniat()
+        seniat = datos_rif.buscar_rif(rif)
+
+        return datos_iniciales
 
     def form_valid(self, form):
 

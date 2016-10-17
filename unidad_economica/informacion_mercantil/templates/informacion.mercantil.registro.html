@@ -18,8 +18,13 @@
                 <h4>{% trans 'Distribución del Capital' %}</h4>
                 <hr/>
                 <div class="row">
-                <div class="hidden"> {{ form.rif_ue }}</div>
+
                     <div class="col-md-6">
+                        <div class="hidden">
+                            <div class="form-inline">
+                                {{ form.rif }}
+                            </div>
+                        </div>
                         <div class="form-group {% if form.naturaleza_juridica.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label"
                                    for="{{ form.naturaleza_juridica.auto_id }}">
@@ -400,21 +405,44 @@
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif_accionista_orig.auto_id }}_"+i).attr("onchange", onchange);
             }
+            });
 
             remove_field_datatable('#mydtable','.remove_item');
             update_field_datatable('#mydtable','#composicion-accionaria',
                 ['#id_rif_accionista_orig', '#id_nombre','#id_pais_origen', '#id_porcentaje']);
-            //rif();
+
+            var rif_0 = $('#id_rif_0').val();
+            var rif_1 = $('#id_rif_1').val();
+            var rif_2 = $('#id_rif_2').val();
+
+
             var rif_a = $('#id_rif_accionista_orig_0');
             var rif_b = $('#id_rif_accionista_orig_1');
             var rif_c = $('#id_rif_accionista_orig_2');
+
             rif_c.blur(function(){
                 if(rif_b.val()!='' && rif_c.val()!='')
                 {
                     $('#id_rif_accionista').val(rif_a.val()+rif_b.val()+rif_c.val());
                 }
+
+                var rif_ue = rif_0+rif_1+rif_2;
+                var rif_ac = $('#id_rif_accionista');
+
+                if (rif_ac.val() == rif_ue){
+                    var error = bootbox.dialog({
+                        title: MSG_TITLE_ALERT,
+                        message: MSG_ALERT_RIF_ACC_DUPLICIDAD,
+                        buttons: {
+                                main: {
+                                    label: BTN_ACEPTAR,
+                                    className: "btn btn-primary btn-sm"
+                                }
+                            }
+                        });
+                        error.show();
+                    }
             });
-        });
 
         $('#id_capital_suscrito').on('keyup', function(){
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
@@ -423,6 +451,19 @@
         $('#id_capital_pagado').on('keyup', function(){
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
             $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
+        });
+
+        $('#id_publico_nacional').on('keyup', function() {
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+        });
+        $('#id_publico_extranjero').on('keyup', function() {
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+        });
+        $('#id_privado_nacional').on('keyup', function() {
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+        });
+        $('#id_privado_extranjero').on('keyup', function() {
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
         });
 
 

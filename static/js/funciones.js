@@ -618,6 +618,7 @@ function porcentaje_capital_suscrito(fields) {
  * @param period Contiene el símbolo de separación de decimales
  * @returns Devuelve el monto con el separador de miles en caso de ser necesario
  */
+
 function separador_miles(separador, period) {
     var romper = this.toString().split(',');
     var numeric = romper[0];
