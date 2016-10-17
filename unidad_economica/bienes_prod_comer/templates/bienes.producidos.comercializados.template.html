@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block content_header_title %}{% trans 'Registro' %}{% endblock %}
 {% block content_header_roadmap %}
-    <li><a href="{% url 'bienes_generales_create' %}">{% trans 'Bienes Producidos y Comercializados' %}</a></li>
+    <li><a href="{% url 'bienes_registro_create' %}">{% trans 'Bienes Producidos y Comercializados' %}</a></li>
     <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
 {% endblock %}
 {% block contenido %}
@@ -16,6 +16,26 @@
         <form action="{% url 'bienes_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box-body">
+            
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.anho_registro.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
+                            {{ form.anho_registro.label }}
+                            <hr>
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.anho_registro }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.anho_registro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">{{ form.anho }}</div>
+            </div>
+                        
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.subunidad.errors %}has-error{% endif %}">
@@ -25,13 +45,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.subunidad }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.subunidad.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.subunidad.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.subunidad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -44,13 +58,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.nombre_producto }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.nombre_producto.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_producto.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_producto.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -65,13 +73,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.especificacion_tecnica }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.especificacion_tecnica.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.especificacion_tecnica.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.especificacion_tecnica.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -84,13 +86,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.marca }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.marca.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.marca.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.marca.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -105,13 +101,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cantidad_clientes }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cantidad_clientes.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_clientes.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cantidad_clientes.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -124,13 +114,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cantidad_insumos }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cantidad_insumos.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_insumos.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cantidad_insumos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -156,13 +140,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cantidad_produccion }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cantidad_produccion.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_produccion.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cantidad_produccion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -175,13 +153,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.unidad_de_medida }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.unidad_de_medida.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.unidad_de_medida.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.unidad_de_medida.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -197,13 +169,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.caev }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.caev.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.caev.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.caev.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -217,6 +183,8 @@
             </div>
         </div>
         </form>
+        
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' anho='2016' rel_id='3' %}
         
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -237,29 +205,8 @@
                             <td>{% trans '# de Insumos' %}</td>
                             <td>{% trans 'Unidades Producidas' %}</td>
                             <td>{% trans 'Unidad de medida' %}</td>
-                            <td>{% trans 'Opciones' %}</td>
                         </tr>
                     </thead>
-                    {% if producto_list %}
-                        <tbody>
-                        {% for key,value in producto_list.items %}
-                            <tr>                                    
-                                <td>{{ value.nombre_producto | safe }}</td>
-                                <td>{{value.especificacion_tecnica | safe }}</td>
-                                <td>{{value.marca | safe }}</td>
-                                <td>{{value.caev | safe }}</td>
-                                <td>{{value.clientes | safe }}</td>
-                                <td>{{value.insumos | safe }}</td>
-                                <td>{{value.cantidad | safe }}</td>
-                                <td>{{value.unidad_medida | safe }}</td>
-                                <td>
-                                    <a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endif %}
                 </table>
             </div>
         </div>
@@ -273,6 +220,30 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
+                    <div class="form-group {% if form.subunidad_cliente.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad_cliente.auto_id }}">
+                            {{ form.subunidad_cliente.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.subunidad_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.subunidad_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-12"><br>
+                    <span style="color: blue;" id="nota">
+
+                    </span>
+                </div>
+            </div><br>
+                
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group {% if form.cliente_producto.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_producto.auto_id }}">
                             {{ form.cliente_producto.label }}
@@ -280,13 +251,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cliente_producto }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cliente_producto.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_producto.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cliente_producto.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -299,13 +264,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cliente_list }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cliente_list.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_list.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cliente_list.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -321,13 +280,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.ubicacion_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.ubicacion_cliente.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.ubicacion_cliente.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.ubicacion_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -340,13 +293,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.rif.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.rif.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -362,38 +309,39 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.nombre_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.nombre_cliente.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_cliente.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group {% if form.precio_venta.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta.auto_id }}">
-                            {{ form.precio_venta.label }}
+                    <div class="form-group {% if form.precio_venta_bs.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_bs.auto_id }}">
+                            {{ form.precio_venta_bs.label }}
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
-                                {{ form.precio_venta }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.precio_venta.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.precio_venta.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {{ form.precio_venta_bs }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.precio_venta_bs.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.precio_venta_usd.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_usd.auto_id }}">
+                            {{ form.precio_venta_usd.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.precio_venta_usd }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.precio_venta_usd.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group {% if form.tipo_cambio.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio.auto_id }}">
@@ -402,13 +350,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.tipo_cambio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.tipo_cambio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_cambio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_cambio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -435,13 +377,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cantidad_vendida }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cantidad_vendida.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_vendida.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cantidad_vendida.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -454,22 +390,16 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.unidad_de_medida_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.unidad_de_medida_cliente.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.unidad_de_medida_cliente.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.unidad_de_medida_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-
+        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' anho='2016' rel_id='3' %}
             
-                    <div class="row">
+        <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                 <h4>{% trans 'Lista de Clientes Cargados' %}</h4>
             </div>
@@ -484,23 +414,13 @@
                             <td>{% trans 'Ubicación' %}</td>
                             <td>{% trans 'Nombre del Cliente' %}</td>
                             <td>{% trans 'RIF' %}</td>
-                            <td>{% trans 'Tipo de Cambio' %}</td>
                             <td>{% trans 'Cantidades Vendidas' %}</td>
                             <td>{% trans 'Unidad de Medida' %}</td>
-                            <td>{% trans 'Opciones' %}</td>
+                            <td>{% trans 'Precio de Venta(Bs)' %}</td>
+                            <td>{% trans 'Precio de Venta(USD)' %}</td>
+                            <td>{% trans 'Tipo de Cambio' %}</td>
                         </tr>
                     </thead>
-                    {% if first_table %}
-                        <tbody>
-                        {% for value in first_table %}
-                            <tr>
-                            {% for item in value %}                                       
-                                <td>{{item | safe }}</td>
-                            {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endif %}
                 </table>
             </div>
         </div>
@@ -518,17 +438,18 @@
     <script type="text/javascript">
         $('#id_cliente_producto').change(function(){
             var attr = $(this).val();
-            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion','argument':attr,'value':'cantidad_clientes'},type:'get',
+            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion',
+                   'argument':attr,'field':'producto_id','value':'cantidad_clientes'},type:'get',
                 success:function(data){
-                    data = JSON.parse(data)
-                    $('#id_cliente_list').html('');
-                    $('#id_cliente_list').append($('<option>', {value: '',text: 'Seleccione...'}));
-                    for(var i=1;i<=data.model;i++)
-                    {
-                        $('#id_cliente_list').append($('<option>', {
-                            value: i,
-                            text: 'Cliente '+i
-                        }));
+                    data = JSON.parse(data);
+                    var contar = contar_modelo('bienes_prod_comer','FacturacionCliente',attr,'producto_id');
+                    if (parseInt(contar)<parseInt(data.model)) {
+                        $('#nota').text('');    
+                        $('#id_cliente_list').val("Cliente # "+(contar+1));
+                        $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
+                    }
+                    else{
+                        $('#nota').text("No debe ingresar más clientes");
                     }
                 },
                 error:function(error)
@@ -550,6 +471,51 @@
                 $('#id_rif_1').attr('readonly',true);
                 $('#id_rif_2').attr('readonly',true);
             }
+        });
+        
+        $(document).ready(function(){
+            if($('#id_subunidad').val()!='')
+            {
+                before_init_datatable("bienes_list","{% url 'produccion_data' %}","subunidad_id",$('#id_subunidad').val());
+            }
+            if($('#id_cliente_producto').val()!='')
+            {
+                before_init_datatable("clientes_list","{% url 'clientes_data' %}","producto_id",$('#id_cliente_producto').val());
+            }
+            if ($('#id_anho_registro').val()=='') {
+              $('#id_anho_registro').val($('#id_anho').val()).change()
+            }
+            $('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var models = '';
+                var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
+                var nombre = acccion.split(',')[1];
+                nombre = nombre.replace(/\'/g,'');
+                if (nombre=='Produccion') {
+                    models = '?app=bienes_prod_comer&mod=Produccion&anho=2016&father_id=3&rel_app=bienes_prod_comer&rel_mod=Producto';
+                    var file = $('#carga_masiva-Produccion')[0];
+                }
+                else if (nombre=='FacturacionCliente') {
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho=2016&father_id=3&rel_app=base&rel_mod=Cliente';
+                    var file = $('#carga_masiva-FacturacionCliente')[0];
+                }
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });    
         });
     </script>
 {% endblock %}

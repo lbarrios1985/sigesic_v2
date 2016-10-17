@@ -142,6 +142,7 @@ CARGA_MASIVA = os.path.join(BASE_DIR, "carga_masiva/templates")
 CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "carga_masiva/files")
 
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

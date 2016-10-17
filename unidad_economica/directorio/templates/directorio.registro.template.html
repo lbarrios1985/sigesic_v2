@@ -157,17 +157,6 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-6">
-        <div class="form-group has-feedback {% if form.tipo_coordenada.errors %}has-error{% endif %}">
-            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_coordenada.auto_id }}">
-                {{ form.tipo_coordenada.label }}
-            </label>
-            <div class="col-md-9 col-xs-9 col-sm-9 form-inline">
-                {{ form.tipo_coordenada }}
-                {% include 'base.form.errors.html' with form_errors=form.tipo_coordenada.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-6">
         <div class="form-group has-feedback {% if form.coordenada.errors %}has-error{% endif %}">
             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.coordenada.auto_id }}">
                 {{ form.coordenada.label }}

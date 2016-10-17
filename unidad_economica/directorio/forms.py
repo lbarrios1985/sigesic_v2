@@ -39,7 +39,7 @@ class DirectorioForm(ModelForm):
     @date 05-05-2016
     @version 2.0.0
     """
-
+        
     ## Prefijo para establecer el tipo de datos de la primera dirección
     tipo_vialidad = forms.ChoiceField(
         widget=RadioSelect(attrs={'class': 'radio'}), choices = PREFIJO_DIRECTORIO_UNO_CHOICES,
@@ -121,20 +121,11 @@ class DirectorioForm(ModelForm):
         })
     )
 
-    ## Tipos de coordenadas geográficas
-    tipo_coordenada = ModelChoiceField(
-        label=_("Tipo de Coordenada"), queryset=TipoCoordenada.objects.all(), empty_label=_("Seleccione..."),
-        widget=Select(attrs={
-            'class': 'form-control select2', 'data-toggle': 'tooltip',
-            'title': _("Seleccione el tipo de coordenada geográfica a registrar")
-        }), required=False
-    )
-
     ## Coordenadas geográficas de Longitud y Latitud
     coordenada = CoordenadaField(required=False)
 
     ## Id del directorio en haberse agregado una dirección existente
-    directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}))
+    directorio = CharField(widget=HiddenInput(attrs={'class': 'hide', 'readonly': 'readonly'}),required=False)
     
     class Meta:
         """!

@@ -197,7 +197,7 @@ ESTADO_ACTUAL_MAQUINARIA = (
     ('DA', _("Dañado")),
 )
 
-# Unidades de medida
+## Unidades de medida
 UNIDAD_MEDIDA = (
     ('KG',_('Kilogramos')),
     ('TN',_('Toneladas')),
@@ -207,12 +207,34 @@ UNIDAD_MEDIDA = (
     ('UV',_('Unidad de Venta al Detal')),
 )
 
-# Monedas
+## Monedas
 MONEDAS = (
-    (1,'Bs'),
-    (2,'$')
+    ('bsf',_('Bolívares')),
+    ('usd',_('Dólares'))
 )
 
+## Capacidad Instalada
 CAPACIDAD_INSTALADA_MEDIDA = (
     ('','Seleccione...'),("GR","Gramo"),("KG","Kilogramo"),("TN","Tonelada")
+)
+
+## Tipo de Tenencia
+TIPO_TENENCIA = (
+    (1, _("Ocupación")),
+    (2,_("Arrendada")),
+    (3,_("Comodato")),
+    (4,_("Propia")),
+    (5,_("Otra"))
+)
+
+## Estado del proceso
+ESTADO_PROCESO = (
+    (1,_("Activo")),
+    (0,_("Inactivo"))
+)
+
+## Tipo de Proceso
+TIPO_PROCESO = (
+    ("LN", _("Lineas")),
+    ("ET",_("Estaciones de Trabajo"))
 )

@@ -365,11 +365,12 @@ function load_map() {
  */
 function habilitar(opcion, campo) {
     var elemento = $("#"+campo);
-
     if (opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1")) {
+        elemento.removeAttr('readonly');
         elemento.removeAttr('disabled');
     }
     else {
+        elemento.attr('readonly', 'readonly');
         elemento.attr('disabled', 'disabled');
         elemento.val("");
     }
@@ -384,11 +385,11 @@ function deshabilitar(opcion, campo) {
     var elemento = $("#"+campo);
 
     if (opcion == "1") {
-        elemento.attr('disabled', 'disabled');
+        elemento.attr('readonly', 'readonly');
         elemento.val("");
     }
     else {
-        elemento.removeAttr('disabled');
+        elemento.removeAttr('readonly');
     }
 }
 
@@ -647,4 +648,84 @@ function separador_miles(separador, period) {
     }
 
     return numeric + decimal;
+}
+
+/**
+ * @brief Función para desahbilitar un valor seleccionado de una lista en otra
+ * @param valor Contiene el id del valor que se desahabilitar
+ * @param nombre Recibe un str con el nombre del select
+ */
+function deshabilitar_opcion(valor, nombre) {
+    $(nombre+' option').removeAttr('disabled');
+    $(nombre+' option[value="' + valor + '"]').attr('disabled', 'disabled');
+    $(nombre).select2({});
+}
+
+/**
+ * @brief Función para inicializar una DataTable con datos de ajax
+ * @param nombre Contiene el nombre del id de la tabla
+ * @param url Contiene la url de donde hara el ajax
+ */
+function init_datatable_ajax(nombre,url) {
+    table = $('#'+nombre).DataTable();
+    table.rows().draw();
+    $.get(url,function(data){
+        $.each(data.data,function(index,value){
+            table.row.add(value).draw(false);
+        });
+    });
+}
+
+/**
+ * @brief Función para cargar una url que reciba algun párametro
+ * @param nombre Contiene el nombre del id de la tabla
+ * @param url Contiene la url de donde hara el ajax
+ * @param parameter_name Contiene el nombre del párametro
+ * @param parameter Contiene el valor del párametro
+ */
+function before_init_datatable(nombre,url,parameter_name,parameter) {
+    if (parameter!='' && parameter_name!='') {
+      url += "?" +parameter_name + "=" + parameter;
+      init_datatable_ajax(nombre,url);
+      $('.modal-backdrop').remove();
+      $('body').removeAttr('style')
+    }
+    else{
+        table = $('#'+nombre).DataTable();
+        table.rows().remove().draw();
+    }
+}
+
+/**
+ * @brief Función consultar un ajax que cuenta los registros de un modelo
+ * @param aplicacion Contiene el nombre de la aplicación
+ * @param modelo Contiene el nombre del modelo a consultar
+ * @param argumento Contiene el valor por el que se filtrará
+ * @param campo Contiene el nombre del campo por el que se filtrará el argumento
+ * @return Regresa los datos
+ */
+function contar_modelo(aplicacion,modelo,argumento,campo) {
+    var datos;
+    $.ajax({url:'/ajax/count-model',data:{'aplicacion':aplicacion,'model':modelo,
+           'argument':argumento,'field':campo},type:'get',
+        success:function(data){
+            data = JSON.parse(data);
+            datos = data.cantidad;
+        },
+        error:function(error)
+        {
+            console.log(error);
+            datos = error;
+        },
+    });
+    return datos;
+}
+
+/**
+ * @brief Función para clonar el valor de un elemento en otro
+ * @param valor Contiene el valor que se insertará
+ * @param campo Contiene el id/clase del formulario donde se colocará el valor
+ */
+function clone_value(valor,campo) {
+  $(campo).val(valor);
 }

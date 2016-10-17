@@ -112,16 +112,16 @@
              
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="form-group {% if form.m2_contruccion.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_contruccion.auto_id }}">
-                            {{ form.m2_contruccion.label }}
+                    <div class="form-group {% if form.m2_construccion.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.m2_construccion.auto_id }}">
+                            {{ form.m2_construccion.label }}
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
-                            {{ form.m2_contruccion }}
-                            {% if form.m2_contruccion.errors %}
+                            {{ form.m2_construccion }}
+                            {% if form.m2_construccion.errors %}
                                 <p class="bg-warning">
                                     <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_contruccion.errors.as_text|cut:'* ' }}
+                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_construccion.errors.as_text|cut:'* ' }}
                                     </span>
                                 </p>
                             {% endif %}
@@ -256,13 +256,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 {{ form.descripcion_proceso }}
-                                {% if form.descripcion_proceso.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.descripcion_proceso.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.descripcion_proceso.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -273,13 +267,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 {{ form.estado_proceso }}
-                                {% if form.estado_proceso.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.estado_proceso.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.estado_proceso.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -306,7 +294,7 @@
                         <table class="table table-striped table-hover display dataTable" id="mydtable">
                             <thead>
                                 <tr>
-                                    <td>Tipo deeee Proceso</td>
+                                    <td>Tipo de Proceso</td>
                                     <td>Nombre del Proceso</td>
                                     <td>Descripción del Proceso</td>
                                     <td>Estado del Proceso</td>
@@ -345,13 +333,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 <div class="form-inline">{{ form.actividad_caev_primaria }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                                {% if form.actividad_caev_primaria.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.actividad_caev_primaria.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.actividad_caev_primaria.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -365,13 +347,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 <div class="form-inline">{{ form.actividad_caev }}</div>
-                                {% if form.actividad_caev.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.actividad_caev.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.actividad_caev.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -417,13 +393,7 @@
                             </label>
                             <div class="col-md-6 col-xs-6 col-sm-6">
                                 <div class="form-inline">{{ form.capacidad_instalada_texto }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                                {% if form.capacidad_instalada_texto.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.capacidad_instalada_texto.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.capacidad_instalada_texto.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -443,13 +413,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 <div class="form-inline">{{ form.capacidad_utilizada }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                                {% if form.capacidad_utilizada.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.capacidad_utilizada.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.capacidad_utilizada.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -464,19 +428,32 @@
                         </label>
                         <div class="col-md-3 col-xs-3 col-sm-3">
                             {{ form.sede_servicio }}
-                            {% if form.sede_servicio.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.sede_servicio.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.sede_servicio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">        
+                <table class="table table-striped table-hover display dataTable" id="subunidadtable">
+                    <thead>
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Teléfono</td>
+                            <td>Tipo Tenencia</td>
+                            <td>Tipo de Subunidad</td>
+                            <td>Número de Empleados</td>
+                            <td>¿Presta Servicio?</td>
+                        </tr>
+                    </thead>
+                    
+                </table>
+            </div>
+        </div>
+                
         <div class="box-footer text-right">
             {% include 'base.form.buttons.html' %}
         </div>
@@ -495,6 +472,7 @@
             remove_field_datatable('#caevtable');
             update_field_datatable('#caevtable','#actividad-subunidad',['#id_actividad_caev']);
             comprobar();
+            init_datatable_ajax("subunidadtable","{% url 'subunidad_data' %}");
         });
         $('#id_tipo_sub_unidad').on('change',function(){comprobar();});
         /* Función para comprobar en que estado se encuentra el select de tipo de sub unidad */

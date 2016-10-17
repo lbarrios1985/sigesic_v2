@@ -41,9 +41,9 @@ class maquinariaModel(models.Model):
 
     descripcion_maquinaria = models.CharField(max_length=200)
 
-    years_fab = models.DateField()
+    years_fab = models.IntegerField()
 
-    date = models.DateField(blank=False)
+    date = models.IntegerField()
 
     vida_util = models.IntegerField()
 
@@ -52,9 +52,9 @@ class maquinariaModel(models.Model):
     anho_registro = models.ForeignKey(AnhoRegistro)
 
     def __str__(self):
-        return self.nombre_sub
+        return self.nombre_maquinaria
 
-    def carga_masiva_init(self, anho=None, rel_id=None):
+    def carga_masiva_init(self, anho=None, rel_id= None):
         """!
         Método que establece los parámetros a mostrar con su rerspectiva información en los archivos de carga masiva
 
@@ -63,8 +63,15 @@ class maquinariaModel(models.Model):
         @date 11-08-2016
         @param self <b>{object}</b> Objeto que instancia la clase
         @param anho <b>anho</b> Condición que evalúa si extraer los datos del modelo para un año en partícular
-        @param rel_id <b>rel_id</b> Entero que contiene el identificador del modelo asociado
+        @param rel_id <b>rel_id</b> Tiene el id de la relación del padre
         @return Devuelve los campos del archivo de carga masiva
+            {
+                'field': 'id',
+                'title': str(_("Etiqueta")),
+                'max_length': 0,
+                'null': False,
+                'type': 'string'
+            },
         """
 
         ## Define los campos y validaciones necesarias para el archivo de carga masiva
@@ -74,6 +81,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Etiqueta")),
                 'max_length': 0,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'string'
             },
             {
@@ -81,6 +90,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Nombre de la Maquinaria")),
                 'max_length': 100,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'string'
             },
             {
@@ -88,6 +99,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Descripción")),
                 'max_length': 200,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'string'
             },
             {
@@ -95,6 +108,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("País de Fabricación")),
                 'max_length': 100,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'string'
             },
             {
@@ -102,6 +117,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Año de Fabricación")),
                 'max_length': 4,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'year'
             },
             {
@@ -109,6 +126,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Año de Adquisición")),
                 'max_length': 4,
                 'null': True,
+                'related':False,
+                'depend':False,
                 'type': 'year'
             },
             {
@@ -116,6 +135,8 @@ class maquinariaModel(models.Model):
                 'title': str(_("Vida util")),
                 'max_length': 2,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'integer'
             },
             {
@@ -123,15 +144,18 @@ class maquinariaModel(models.Model):
                 'title': str(_("Estado Actual")),
                 'max_length': 2,
                 'null': False,
+                'related':False,
+                'depend':False,
                 'type': 'string'
             }
         ]
 
         datos = []
-
+        relation = {}
+        
         if not anho is None and not rel_id is None:
             ## Agrega los datos para el año y sub unidad solicitada
-            for maq in self.objects.filter(anho_registro__anho=anho, proceso_sub_unidad__pk=rel_id):
+            for maq in maquinariaModel.objects.filter(anho_registro__anho=anho, proceso_sub_unidad__pk=rel_id):
                 estado_actual = ''
                 for em in ESTADO_ACTUAL_MAQUINARIA:
                     if em[0] == maq.estado_actual:
@@ -141,5 +165,13 @@ class maquinariaModel(models.Model):
                     maq.pk, maq.nombre_maquinaria, maq.descripcion_maquinaria, maq.pais_origen, maq.years_fab,
                     maq.date, maq.vida_util, estado_actual
                 ])
-
-        return {'cabecera': fields, 'datos': datos, 'output': 'maquinaria_equipo'}
+            relation = {
+                'padre':{
+                    'app':'sub_unidad_economica',
+                    'mod':'SubUnidadEconomicaProceso',
+                    'field':'proceso_sub_unidad',
+                    'child':'maquinariaModel',
+                    'instance':SubUnidadEconomicaProceso.objects.get(pk=rel_id)
+                },
+            }
+        return {'cabecera': fields, 'datos': datos, 'output': 'maquinaria_equipo', 'relation':relation}

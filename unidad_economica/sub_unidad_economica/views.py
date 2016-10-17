@@ -14,15 +14,19 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
+from django.http import JsonResponse, HttpResponse
+from django.core import serializers
 
 from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
     SubUnidadEconomicaActividad
     )
-from base.models import Parroquia
+from base.models import Parroquia, CaevClase
 from .forms import SubUnidadEconomicaForm
 from unidad_economica.directorio.models import Directorio
-from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD
+from unidad_economica.models import UnidadEconomica
+from django.contrib.auth.models import User
+from base.constant import CREATE_MESSAGE, TIPO_SUB_UNIDAD, TIPO_TENENCIA
 from base.classes import Seniat
 
 __licence__ = "GNU Public License v2"
@@ -120,34 +124,38 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         dictionary = dict(self.request.POST.lists())
         
         parroquia = Parroquia.objects.get(pk=self.request.POST['parroquia'])
+        #user = User.objects.get(self.request.user);
+        unidad_economica = UnidadEconomica.objects.filter(user_id=self.request.user.id).get()
 
         ## Se crea y se guarda el modelo de directorio
         directorio = Directorio()
-        directorio.prefijo_uno=form.cleaned_data['prefijo_uno']
-        directorio.direccion_uno=form.cleaned_data['direccion_uno']
-        directorio.prefijo_dos=form.cleaned_data['prefijo_dos']
-        directorio.direccion_dos=form.cleaned_data['direccion_dos']
-        directorio.prefijo_tres=form.cleaned_data['prefijo_tres']
-        directorio.direccion_tres=form.cleaned_data['direccion_tres']
-        directorio.prefijo_cuatro=form.cleaned_data['prefijo_cuatro']
-        directorio.direccion_cuatro=form.cleaned_data['direccion_cuatro']
+        directorio.tipo_vialidad = form.cleaned_data['tipo_vialidad']
+        directorio.nombre_vialidad = form.cleaned_data['nombre_vialidad']
+        directorio.tipo_edificacion = form.cleaned_data['tipo_edificacion']
+        directorio.descripcion_edificacion = form.cleaned_data['descripcion_edificacion']
+        directorio.tipo_subedificacion = form.cleaned_data['tipo_subedificacion']
+        directorio.descripcion_subedificacion = form.cleaned_data['descripcion_subedificacion']
+        directorio.tipo_zonificacion = form.cleaned_data['tipo_zonificacion']
+        directorio.nombre_zona = form.cleaned_data['nombre_zona']
         directorio.parroquia = parroquia
+        directorio.usuario = self.request.user
         #directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.save()
         
         ## Se crea y se guarda el modelo de sub_unidad_economica
         self.object = form.save(commit=False)
         self.object.nombre_sub = form.cleaned_data['nombre_sub']
-        self.object.rif = form.cleaned_data['rif']
         self.object.telefono = form.cleaned_data['telefono']
         self.object.tipo_sub_unidad = form.cleaned_data['tipo_sub_unidad']
         self.object.tipo_tenencia = form.cleaned_data['tipo_tenencia']
-        self.object.m2_contruccion = form.cleaned_data['m2_contruccion']
+        self.object.m2_construccion = form.cleaned_data['m2_construccion']
         self.object.m2_terreno = form.cleaned_data['m2_terreno']
         self.object.autonomia_electrica = form.cleaned_data['autonomia_electrica']
         self.object.consumo_electrico = form.cleaned_data['consumo_electrico']
         self.object.cantidad_empleados = form.cleaned_data['cantidad_empleados']
-        self.object.sede_servicio = int(form.cleaned_data['sede_servicio'])
+        if(form.cleaned_data['sede_servicio']=='True'):
+            self.object.sede_servicio = form.cleaned_data['sede_servicio']
+        self.object.unidad_economica = unidad_economica
         self.object.save()
         
         ## Si el tipo de sub unidad es distinto de sede
@@ -167,10 +175,10 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             if('actividad_caev_tb' in dictionary):
                 self.agregar_actividad(dictionary,self.object)
             
+            caev = CaevClase.objects.get(pk=form.cleaned_data['actividad_caev_primaria'])
             ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
             capacidad = SubUnidadEconomicaCapacidad()
-            #proceso.codigo_ciiu = form.cleaned_data['codigo_ciiu_id']
-            #capacidad.actividad_primaria = form.cleaned_data['actividad_caev_primaria']
+            capacidad.caev = caev
             capacidad.capacidad_instalada_texto = form.cleaned_data['capacidad_instalada_texto']
             capacidad.capacidad_instalada_medida = form.cleaned_data['capacidad_instalada_medida']
             capacidad.capacidad_utilizada = form.cleaned_data['capacidad_utilizada']
@@ -179,6 +187,11 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         
         
         return super(SubUnidadEconomicaCreate, self).form_valid(form)
+    
+    def form_invalid(self, form):
+        print(form.errors)
+        return super(SubUnidadEconomicaCreate, self).form_invalid(form)
+    
     
     def agregar_proceso(self, dictionary, model):
         """!
@@ -218,6 +231,33 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             ## Se crea y se guarda en el modelo del proceso de la sub-unidad
             actividad_economica = SubUnidadEconomicaActividad()
             actividad_economica.sub_unidad_economica = model
-            actividad_economica.actividad = dictionary['actividad_caev_tb'][i]
+            caev = CaevClase.objects.get(pk=dictionary['actividad_caev_tb'][i])
+            actividad_economica.caev = caev
             actividad_economica.save()
+            
+            
+def subunidad_get_data(request):
+    """!
+    Metodo que extrae los datos de la subunidad relacionada con el usuario y la muestra en una url ajax como json
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright GNU/GPLv2
+    @date 04-10-2016
+    @param request <b>{object}</b> Recibe la peticion
+    @return Retorna el json con las subunidades que consiguió
+    """
+    datos = {'data':[]}
+    dic_ten = dict(TIPO_TENENCIA)
+    dic_sub = dict(TIPO_SUB_UNIDAD)
+    for subunidad in SubUnidadEconomica.objects.filter(unidad_economica_id__user_id=request.user.id).all():
+        lista = []
+        lista.append(subunidad.nombre_sub)
+        lista.append(subunidad.telefono)
+        lista.append(str(dic_ten.get(subunidad.tipo_tenencia)))
+        lista.append(str(dic_sub.get(subunidad.tipo_sub_unidad)))
+        lista.append(subunidad.cantidad_empleados)
+        lista.append("Si" if subunidad.sede_servicio else "No")
+        datos['data'].append(lista)
+    
+    return JsonResponse(datos,safe=False)
             

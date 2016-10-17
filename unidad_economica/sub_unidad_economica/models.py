@@ -16,6 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from unidad_economica.models import UnidadEconomica
 from unidad_economica.directorio.models import Directorio
+from base.models import CaevClase
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -31,10 +32,7 @@ class SubUnidadEconomica(models.Model):
     @version 2.0.0
     """
     ## Nombre de la subunidad económica
-    nombre_sub = models.CharField(max_length=45)
-    
-    ## Rif de la subunidad
-    rif = models.CharField(max_length=10)
+    nombre_sub = models.CharField(max_length=255)
     
     ## Telefono de la sub unidad
     telefono = models.CharField(
@@ -42,16 +40,16 @@ class SubUnidadEconomica(models.Model):
     )
     
     ## Tipo de tenencia de la sub unidad
-    tipo_tenencia = models.CharField(max_length=2)
+    tipo_tenencia = models.IntegerField()
     
     ## Tipo de subunidad
     tipo_sub_unidad = models.CharField(max_length=2)
     
     ## Metros cuadrados de la construcción
-    m2_contruccion = models.DecimalField(max_digits=20,decimal_places=5)
+    m2_construccion = models.DecimalField(max_digits=20,decimal_places=5)
     
     ## Metros cuadrados del terreno
-    m2_terreno = models.DecimalField(max_digits=20,decimal_places=5)
+    m2_terreno = models.DecimalField(max_digits=25,decimal_places=5)
     
     ## Autonomía Eléctrica en porcentaje
     autonomia_electrica = models.DecimalField(max_digits=20,decimal_places=5)
@@ -63,7 +61,7 @@ class SubUnidadEconomica(models.Model):
     cantidad_empleados = models.IntegerField()
 
     ## Pregunta si la unidad económica presta un servicio
-    sede_servicio =  models.BooleanField()
+    sede_servicio =  models.BooleanField(default=False)
 
     ## Establece la relación entre la sede, sucursales o plantas, y la Unidad Económica
     unidad_economica = models.ForeignKey(UnidadEconomica)
@@ -81,8 +79,8 @@ class SubUnidadEconomicaCapacidad(models.Model):
     @date 16-05-2016
     @version 2.0.0
     """        
-    ## Código CIIU (Se relaciona con el modelo CIIU)
-    #codigo_ciiu_id =  models.OneToOneField()
+    ## Establece la relación con el código CAEV
+    caev = models.ForeignKey(CaevClase)
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_instalada_texto = models.DecimalField(max_digits=20,decimal_places=5,)
@@ -150,5 +148,5 @@ class SubUnidadEconomicaActividad(models.Model):
     ## Establece la relación con la Sub Unidad Económica
     sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
     
-    ## actividad economica de la subunidad
-    actividad = models.CharField(max_length=2)
+    ## Establece la relación con el código CAEV
+    caev = models.ForeignKey(CaevClase)

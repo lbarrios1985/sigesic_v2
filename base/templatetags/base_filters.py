@@ -75,5 +75,9 @@ def menu_left_filter(user, url_path):
         # Si existe al menos una sub unidad económica del tipo planta registrada
         if SubUnidadEconomica.objects.filter(unidad_economica=ue, tipo_sub_unidad='Pl'):
             menu_left += opcion % (reverse('maquinaria_equipos'), _("4"), _("Maquinaria y Equipos"))
+            
+        # Si existe al menos una sub unidad económica que presta servicio
+        if SubUnidadEconomica.objects.filter(unidad_economica=ue, sede_servicio=True):
+            menu_left += opcion % (reverse('servicio_general_create'), _("5"), _("Servicios"))
 
     return mark_safe(menu_left)
