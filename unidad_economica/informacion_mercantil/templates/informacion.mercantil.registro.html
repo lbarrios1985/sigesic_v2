@@ -6,7 +6,7 @@
     <li class="active">{% trans "Información Mercantil"%}</li>
 {% endblock %}
 {% block contenido %}
-    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    <form action="" id="myForm" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box box-primary box-registro-general">
             <div class="box-header with-border">
@@ -168,7 +168,6 @@
                     </div>
                 </div>
 
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group ">
@@ -262,7 +261,7 @@
                                 </tr>
                             </thead>
                         </table>
-                    <!--
+
                     {% if form.rif_accionista_tb.errors or form.nombre_tb.errors or form.pais_origen_tb.errors or form.porcentaje_tb.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
@@ -271,7 +270,6 @@
                             </span>
                         </p>
                     {% endif %}
-                    -->
                     </div>
 
                 </div>
@@ -440,8 +438,10 @@
                                 }
                             }
                         });
-                        error.show();
+                    document.getElementById("myForm").reset();
+                    error.show()
                     }
+
             });
 
         $('#id_capital_suscrito').on('keyup', function(){
