@@ -235,8 +235,6 @@ def cargar_datos(request):
                             else:
                                 setattr(modelo, datos['cabecera'][j]['field'], load_file[i,j])
                 # Se comprueba quien es el hijo del padre (si el modelo o el relacionado)
-                print(rel_model.__dict__)
-                print(mod)
                 if(datos['relation']['padre']['child']==mod):
                     setattr(modelo, datos['relation']['padre']['field'], datos['relation']['padre']['instance'])
                 elif(rel_model):
@@ -250,10 +248,10 @@ def cargar_datos(request):
                 modelo.save()
             default_storage.delete(path)
             return HttpResponse(json.dumps({
-                'resultado': True, 'message': "El archivo se cargó éxitosamente'"
+                'result': True, 'message': "El archivo se cargó éxitosamente'"
             }))
 
-        return HttpResponse(json.dumps({'resultado': False, 'error': MSG_NOT_UPLOAD_FILE}))
+        return HttpResponse(json.dumps({'result': False, 'error': MSG_NOT_UPLOAD_FILE}))
     except Exception as e:
         message = e
 

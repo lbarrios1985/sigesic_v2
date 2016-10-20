@@ -285,7 +285,7 @@ class UnidadEconomicaForm(DirectorioForm):
     
     def clean_rif(self):
         rif = self.cleaned_data['rif']
-        if(UnidadEconomica.objects.filter(rif=rif).get()):
+        if(UnidadEconomica.objects.filter(rif=rif)):
             raise forms.ValidationError(_("Este RIF ya se encuentra registrado"))
         return rif
 

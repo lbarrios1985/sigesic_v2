@@ -438,25 +438,27 @@
     <script type="text/javascript">
         $('#id_cliente_producto').change(function(){
             var attr = $(this).val();
-            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion',
-                   'argument':attr,'field':'producto_id','value':'cantidad_clientes'},type:'get',
-                success:function(data){
-                    data = JSON.parse(data);
-                    var contar = contar_modelo('bienes_prod_comer','FacturacionCliente',attr,'producto_id');
-                    if (parseInt(contar)<parseInt(data.model)) {
-                        $('#nota').text('');    
-                        $('#id_cliente_list').val("Cliente # "+(contar+1));
-                        $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
-                    }
-                    else{
-                        $('#nota').text("No debe ingresar más clientes");
-                    }
-                },
-                error:function(error)
-                {
-                    console.log(error);
-                },
-            });
+            if (attr!='') {
+                $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion',
+                       'argument':attr,'field':'producto_id','value':'cantidad_clientes'},type:'get',
+                    success:function(data){
+                        data = JSON.parse(data);
+                        var contar = contar_modelo('bienes_prod_comer','FacturacionCliente',attr,'produccion__producto_id');
+                        if (parseInt(contar)<parseInt(data.model)) {
+                            $('#nota').text('');    
+                            $('#id_cliente_list').val("Cliente # "+(contar+1));
+                            $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
+                        }
+                        else{
+                            $('#nota').text("No debe ingresar más clientes");
+                        }
+                    },
+                    error:function(error)
+                    {
+                        console.log(error);
+                    },
+                });
+            }
         });
         $('#id_ubicacion_cliente').change(function(){
             if($('#id_ubicacion_cliente option:selected').text()=="Venezuela")
@@ -471,7 +473,7 @@
                 $('#id_rif_1').attr('readonly',true);
                 $('#id_rif_2').attr('readonly',true);
             }
-        });
+        });      
         
         $(document).ready(function(){
             if($('#id_subunidad').val()!='')
@@ -485,6 +487,15 @@
             if ($('#id_anho_registro').val()=='') {
               $('#id_anho_registro').val($('#id_anho').val()).change()
             }
+            /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
+            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_cliente.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
+            }
+            /**     Se válida el rif del usuario    */
+            $('#id_rif_2').blur(function(){
+                duplicate_rif("#id_rif","#id_nombre_cliente");
+                });
             $('.fileinput-upload-button').click(function(event){
                 event.preventDefault();
                 var models = '';

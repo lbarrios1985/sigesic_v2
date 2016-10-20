@@ -51,11 +51,6 @@ class ServiciosGeneralForm(forms.ModelForm):
         for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username,sede_servicio=True).values_list('id','nombre_sub'):
             lista.append(l)
         self.fields['subunidad'].choices = lista
-        #Se carga una lista con todos los productos relacionados a una subunidad
-        """prod = [('','Selecione...')]
-        for p in Producto.objects.filter(subunidad_id__rif=user.username).values_list('id','nombre_producto'):
-            prod.append(p)
-        self.fields['cliente_producto'].choices = prod"""
 
     ## Listado de las subunidades disponibles
     subunidad =  forms.ChoiceField(
@@ -63,6 +58,7 @@ class ServiciosGeneralForm(forms.ModelForm):
             'class': 'form-control input-md', 'required':'required', 
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'style': 'width: 250px;',
+            'onchange':'before_init_datatable("servicios_list","ajax/servicios-data","subunidad_id",$(this).val())'
         }), required = False,
     )
 

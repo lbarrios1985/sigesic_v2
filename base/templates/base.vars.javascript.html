@@ -127,6 +127,12 @@
 
     /// Título del mensaje para la actualización de campos
     var MSG_TITLE_UPDATE_FIELDS = "{% trans 'Actualizar Campos' %}";
+    
+    /// Mensaje de alerta en el registro de rif de los accionistas de la Unidad Economica para evitar duplicidad
+    var MSG_ALERT_RIF_ACC_DUPLICIDAD = "{% trans 'El Rif del Accionista no puede ser igual al de la Unidad Economica verifique...' %}"
+    
+    /// Mensaje que avisa sobre un RIF igual en el input con respecto al del usuario logeado
+    var MSG_DUAL_RIF = "{% trans 'No puede insertar su Rif propio en este campo' %}";
 
     /// Tooltip para el botón agregar en el listado de direcciones
     var TOOLTIP_ADD_DIR = "{% trans 'Haga click aquí para agregar la dirección al formulario' %}";
@@ -151,7 +157,9 @@
 
     /// Ruta de imagen para el marcador de coordenadas
     var IMG_MARK_GIS = "{% static 'img/mark.png' %}";
-
-    /// Mensaje de alerta en el registro de rif de los accionistas de la Unidad Economica para evitar duplicidad
-    var MSG_ALERT_RIF_ACC_DUPLICIDAD = "{% trans 'El Rif del Accionista no puede ser igual al de la Unidad Economica verifique...' %}"
+    
+    /// Si el usuario se logeo se guarda el RIF
+    "{% if request.user.is_authenticated %}"
+      var RIF = "{{ request.user.username }}";
+    "{% endif %}"
 </script>

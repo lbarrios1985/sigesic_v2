@@ -365,7 +365,7 @@ function load_map() {
  */
 function habilitar(opcion, campo) {
     var elemento = $("#"+campo);
-    if (opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1")) {
+    if (opcion === true || (opcion == "S") || (opcion == "Otro") || (opcion == "1") || (opcion!='')) {
         elemento.removeAttr('readonly');
         elemento.removeAttr('disabled');
     }
@@ -669,6 +669,7 @@ function deshabilitar_opcion(valor, nombre) {
 function init_datatable_ajax(nombre,url) {
     table = $('#'+nombre).DataTable();
     table.rows().draw();
+    table.rows().remove().draw();
     $.get(url,function(data){
         $.each(data.data,function(index,value){
             table.row.add(value).draw(false);
@@ -688,7 +689,6 @@ function before_init_datatable(nombre,url,parameter_name,parameter) {
       url += "?" +parameter_name + "=" + parameter;
       init_datatable_ajax(nombre,url);
       $('.modal-backdrop').remove();
-      $('body').removeAttr('style')
     }
     else{
         table = $('#'+nombre).DataTable();
@@ -728,4 +728,36 @@ function contar_modelo(aplicacion,modelo,argumento,campo) {
  */
 function clone_value(valor,campo) {
   $(campo).val(valor);
+}
+
+/**
+ * @brief Función para validar si el rif ingresado no es el del usuario loegeado
+ * @param id_rif Recibe el id del rif que se desea comprobar
+ * @param id_text Recibe el id del campo de texto (si se desea) que se limpiará
+ */
+function duplicate_rif(id_rif,id_text='') {
+    var rif_text = '';
+    for (i=0; i<=2; i++) {
+        rif_text+= $(id_rif+"_"+i).val();
+    }
+    if (rif_text == RIF){
+        var error = bootbox.dialog({
+            title: MSG_TITLE_ALERT,
+            message: MSG_DUAL_RIF,
+            buttons: {
+                    main: {
+                        label: BTN_ACEPTAR,
+                        className: "btn btn-primary btn-sm"
+                    }
+                }
+            });
+        error.show()
+        //Se limpian los valores
+        for (i=1; i<=2; i++) {
+            rif_text+= $(id_rif+"_"+i).val("");
+        }
+        if (id_text!='') {
+          $(id_text).val('');
+        }
+    }
 }

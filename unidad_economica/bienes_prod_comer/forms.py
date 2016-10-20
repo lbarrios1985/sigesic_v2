@@ -19,8 +19,8 @@ from django.forms import (
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
+from base.widgets import RifWidget
 from base.constant import UNIDAD_MEDIDA
-from base.widgets import RifWidgetReadOnly, RifWidget
 from base.functions import cargar_actividad, cargar_pais, cargar_anho
 from .models import *
 
@@ -60,11 +60,6 @@ class BienesForm(forms.ModelForm):
         for p in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
-        
-        # Si se ha seleccionado una subunidad_cliente establece el listado de municipios y elimina el atributo disable
-        if 'subunidad_cliente' in self.data and self.data['subunidad_cliente']:
-            self.fields['cliente_producto'].widget.attrs.pop('disabled')
-            self.fields['cliente_producto'].queryset=Municipio.objects.filter(estado=self.data['estado'])
         
         #Se cuentan si existen bienes ya con registrados
         bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
@@ -194,7 +189,9 @@ class BienesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el producto"), 'size': '50',
             'style': 'width: 250px;', 'disabled':'disabled',
-            'onchange':'before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())'
+            'onchange':"""
+            habilitar(this.value, ubicacion_cliente.id),
+            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())"""
         }),required = False,
     )
     
@@ -212,13 +209,14 @@ class BienesForm(forms.ModelForm):
         label=_("Ubicación del Cliente"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la ubicación del cliente"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'disabled':'disabled',
+            'onchange':"""habilitar(this.value, rif_0.id),habilitar(this.value, rif_1.id),habilitar(this.value, rif_2.id),
+            deshabilitar(this.value, nombre_cliente.id)"""
         }), required = False,
     )
     
     ## R.I.F. del cliente
-    rif = RifField(required = False)
-    rif.widget = RifWidgetReadOnly()
+    rif = RifField(disabled=True, required=False)
     
     ## Nombre del cliente
     nombre_cliente = forms.CharField(
@@ -302,7 +300,7 @@ class ClientesForm(forms.ModelForm):
     @date 13-07-2016
     @version 2.0.0
     """
-
+    
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         # now kwargs doesn't contain 'place_user', so we can safely pass it to the base class method
@@ -323,9 +321,12 @@ class ClientesForm(forms.ModelForm):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
         
-        # Si se ha indicado la sub-unidad se le quita el disabled a producto
+        # Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
         if 'subunidad_cliente' in self.data:
             self.fields['cliente_producto'].widget.attrs.pop('disabled')
+            self.fields['ubicacion_cliente'].widget.attrs.pop('disabled')
+            if (self.data['ubicacion_cliente']=='1'):
+                self.fields['rif'].disabled = False
 
     ## Año registro
     anho_registro =  forms.ChoiceField(
@@ -433,8 +434,10 @@ class ClientesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el producto"), 'size': '50',
             'style': 'width: 250px;', 'disabled':'disabled',
-            'onchange':'before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())',
-        }), 
+            'onchange':"""
+            habilitar(this.value, ubicacion_cliente.id),
+            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())"""
+        }),
     )
     
     ## Lista con los clientes del producto
@@ -451,13 +454,13 @@ class ClientesForm(forms.ModelForm):
         label=_("Ubicación del Cliente"), widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la ubicación del cliente"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'disabled':'disabled',
+            'onchange':'habilitar(this.value, rif_0.id),habilitar(this.value, rif_1.id),habilitar(this.value, rif_2.id),'
         }),
     )
     
     ## R.I.F. del cliente
-    rif = RifField(required = False)
-    rif.widget = RifWidgetReadOnly()
+    rif = RifField(disabled=True, required=False)
     
     ## Nombre del cliente
     nombre_cliente = forms.CharField(
@@ -513,23 +516,23 @@ class ClientesForm(forms.ModelForm):
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
     )
     
-    
     def clean_cliente_list(self):
         producto = self.cleaned_data['cliente_producto']
         cliente_list = self.cleaned_data['cliente_list']
         prod = Produccion.objects.filter(producto_id=producto).first()
-        clientes = FacturacionCliente.objects.filter(producto_id=producto).all()
+        clientes = FacturacionCliente.objects.filter(produccion__producto_id=producto).all()
         if(prod.cantidad_clientes==len(clientes)):
             raise forms.ValidationError(_("No se pueden ingresar más clientes"))
         return cliente_list
 
-    """def clean_rif(self):
+    
+    def clean(self):
+        cleaned_data = super(ClientesForm, self).clean()
         rif = self.cleaned_data['rif']
-        ubicacion = self.cleaned_data['ubicacion_cliente']
-        if((ubicacion == 'Venezuela') and (rif=='')):
-            raise forms.ValidationError(_("Este campo es obligatorio"))
-            rif.widget = RifWidget
-        return rif"""
+        ubicacion_cliente = self.cleaned_data['ubicacion_cliente']
+        if((ubicacion_cliente == '1') and (rif=='')):
+            msg =_("Este campo es obligatorio")
+        self.add_error('rif', msg)
     
     class Meta:
         model = Cliente

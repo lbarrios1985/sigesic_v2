@@ -25,13 +25,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.subunidad }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.subunidad.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.subunidad.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.subunidad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -44,13 +38,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.nombre_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.nombre_servicio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_servicio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_servicio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}  
                             </div>
                         </div>
                     </div>
@@ -66,13 +54,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.tipo_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.tipo_servicio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_servicio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_servicio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -85,13 +67,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cantidad_clientes }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cantidad_clientes.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cantidad_clientes.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cantidad_clientes.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -107,13 +83,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.caev }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.caev.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.caev.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.caev.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -145,27 +115,8 @@
                             <td>{% trans 'Código CAEV' %}</td>
                             <td>{% trans '# de Clientes' %}</td>
                             <td>{% trans 'Sub Unidad Económica' %}</td>
-                            <td>{% trans 'Opciones' %}</td>
                         </tr>
                     </thead>
-                    {% if producto_list %}
-                        <tbody>
-                        {% for key,value in producto_list.items %}
-                            <tr>                                    
-                                <td>{{ value.nombre_producto | safe }}</td>
-                                <td>{{value.especificacion_tecnica | safe }}</td>
-                                <td>{{value.marca | safe }}</td>
-                                <td>{{value.caev | safe }}</td>
-                                <td>{{value.clientes | safe }}</td>
-                                <td>{{value.unidad_medida | safe }}</td>
-                                <td>
-                                    <a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endif %}
                 </table>
             </div>
         </div>
@@ -186,13 +137,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cliente_servicio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cliente_servicio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_servicio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cliente_servicio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -205,13 +150,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.cliente_list }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.cliente_list.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.cliente_list.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.cliente_list.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -227,13 +166,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.ubicacion_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.ubicacion_cliente.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.ubicacion_cliente.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.ubicacion_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -246,13 +179,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.rif.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.rif.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.rif.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -268,13 +195,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.nombre_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.nombre_cliente.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_cliente.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -290,13 +211,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.precio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.precio.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.precio.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.precio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -309,13 +224,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.tipo_moneda }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.tipo_moneda.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_moneda.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_moneda.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -331,13 +240,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.monto_facturado }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.monto_facturado.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.monto_facturado.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.monto_facturado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -350,13 +253,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.servicio_prestado }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% if form.servicio_prestado.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.servicio_prestado.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {{% include 'base.form.errors.html' with form_errors=form.servicio_prestado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>

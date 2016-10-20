@@ -115,8 +115,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         directorio.descripcion_subedificacion=form.cleaned_data['descripcion_subedificacion']
         directorio.tipo_zonificacion=form.cleaned_data['tipo_zonificacion']
         directorio.nombre_zona=form.cleaned_data['nombre_zona']
-        if form.cleaned_data['tipo_coordenada'] and form.cleaned_data['coordenada']:
-            directorio.tipo_coordenada = form.cleaned_data['tipo_coordenada']
+        if form.cleaned_data['coordenada']:
             directorio.coordenadas = form.cleaned_data['coordenada']
         directorio.parroquia = parroquia
         directorio.activo=True

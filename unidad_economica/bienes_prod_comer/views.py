@@ -221,9 +221,9 @@ def clientes_get_data(request):
     # Recibe por get el id del producto
     prodid = request.GET.get('producto_id', None)
     if(prodid):
-        for fact in FacturacionCliente.objects.filter(producto_id=prodid).all():
+        for fact in FacturacionCliente.objects.filter(produccion__producto_id=prodid).all():
             lista = []
-            lista.append(fact.producto.nombre_producto)
+            lista.append(fact.produccion.producto.nombre_producto)
             lista.append(fact.cliente.nombre)
             lista.append(fact.cliente.pais.nombre)
             lista.append(fact.cliente.rif)

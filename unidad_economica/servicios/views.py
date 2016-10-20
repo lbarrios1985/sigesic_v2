@@ -13,7 +13,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 import json
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.apps import apps
 from django import forms
 from django.views.generic import CreateView
@@ -68,3 +68,30 @@ class ServiciosGeneralesCreate(SuccessMessageMixin,CreateView):
         kwargs = super(ServiciosGeneralesCreate, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+    
+    
+def servicios_get_data(request):
+    """!
+    Metodo que extrae los datos de los servicios relacionados con la subunidad y la muestra en una url ajax como json
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright GNU/GPLv2
+    @date 20-10-2016
+    @param request <b>{object}</b> Recibe la peticion
+    @return Retorna el json con las subunidades que consiguió
+    """
+    datos = {'data':[]}
+    # Recibe por get el id del producto
+    subid = request.GET.get('subunidad_id', None)
+    if(subid):
+        for serv in Servicio.objects.filter(subunidad_id=subid).all():
+            lista = []
+            lista.append(serv.nombre_servicio)
+            lista.append(serv.tipo_servicio.nombre)
+            lista.append(serv.caev.pk)
+            lista.append(serv.cantidad_clientes)
+            lista.append(serv.subunidad.nombre_sub)
+            datos['data'].append(lista)
+        
+        return JsonResponse(datos,safe=False)
+    return JsonResponse("No se envío el id de la subunidad",safe=False)
