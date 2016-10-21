@@ -17,7 +17,7 @@ from django import forms
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
-from .models import Producto, Produccion, Cliente, FacturacionCliente
+from .models import Producto, Produccion, FacturacionCliente
 from .forms import BienesForm, ClientesForm
 from base.constant import CREATE_MESSAGE, UNIDAD_MEDIDA
 from base.models import CaevClase, Pais, AnhoRegistro, Cliente
@@ -137,7 +137,7 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
     @date 13-07-2016
     @version 2.0.0
     """
-    model = Cliente
+    model = FacturacionCliente
     form_class = ClientesForm
     template_name = "bienes.producidos.comercializados.template.html"
     success_url = reverse_lazy('cliente_registro_create')
@@ -173,36 +173,38 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         pais = Pais.objects.get(pk=form.cleaned_data['ubicacion_cliente'])
         producto = Producto.objects.get(pk=form.cleaned_data['cliente_producto'])
         
-        ## Se crea y se guarda el modelo de cliente
-        cliente = Cliente()
-        cliente.nombre = form.cleaned_data['nombre_cliente']
-        cliente.rif = form.cleaned_data['rif']
-        cliente.pais = pais
-        cliente.save()
+        if(form.cleaned_data['rif']):
+            ## Se busca el cliente si ya existe
+            cliente = Cliente.objects.filter(rif=form.cleaned_data['rif'])
+            if cliente:
+                cliente = cliente.get()  
+            else:
+                ## Se crea y se guarda el modelo de cliente
+                cliente = Cliente()
+                cliente.nombre = form.cleaned_data['nombre_cliente']
+                #Si es venezuela se toma en cuenta el rif
+                if(pais.pk==1):
+                    cliente.rif = form.cleaned_data['rif']
+                cliente.pais = pais
+                cliente.save()
         
-        ## Se crea y se guarda el modelo de cliente bien
+        anho = AnhoRegistro.objects.filter(anho=produccion.anho_registro.anho).get()
+        ## Se crea y se guarda el modelo de facturacion del cliente
         self.object = form.save(commit=False)
+        self.object.cantidad_vendida = form.cleaned_data['cantidad_vendida']
+        self.object.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
+        self.object.precio_venta_bs = form.cleaned_data['precio_venta_bs']
+        self.object.precio_venta_usd = form.cleaned_data['precio_venta_usd']
+        self.object.tipo_cambio = form.cleaned_data['tipo_cambio']
+        self.object.anho_registro = anho
         self.object.cliente = cliente
         self.object.produccion = produccion
         self.object.save()
         
-        anho = AnhoRegistro.objects.filter(anho=produccion.anho_registro.anho).get()
-        ## Se crea y se guarda el modelo de facturacion del cliente
-        facturacion = FacturacionCliente()
-        facturacion.cantidad_vendida = form.cleaned_data['cantidad_vendida']
-        facturacion.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
-        facturacion.precio_venta_bs = form.cleaned_data['precio_venta_bs']
-        facturacion.precio_venta_usd = form.cleaned_data['precio_venta_usd']
-        facturacion.tipo_cambio = form.cleaned_data['tipo_cambio']
-        facturacion.anho_registro = anho
-        facturacion.cliente_bien = self.object
-        facturacion.producto = producto
-        facturacion.save()
-        
         return super(ClientesCreate, self).form_valid(form)
     
     def form_invalid(self,form):
-        print(form.errors)
+        print(form.fields['cliente'])
         return super(ClientesCreate, self).form_invalid(form)
     
     

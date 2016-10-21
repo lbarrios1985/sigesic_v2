@@ -69,8 +69,6 @@ class BienesForm(forms.ModelForm):
             self.fields['anho_registro'].required = False
             self.initial['anho_registro'] = bienes[0].anho_registro.pk
             self.initial['anho'] = bienes[0].anho_registro.pk
-            #self.fields["anho_registro"].initial =  bienes[0].anho_registro.pk
-            #self.fields["anho"].initial =  bienes[0].anho_registro.pk
         else:
             #Se carga el año de registro
             self.fields['anho_registro'].choices = cargar_anho()
@@ -321,12 +319,25 @@ class ClientesForm(forms.ModelForm):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
         
+        #Se cuentan si existen bienes ya con registrados
+        bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
+        #Si existen bienes se cambia al campo a uno de texto con el valor inicial del año
+        if(len(bienes)>0):
+            self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
+            self.fields['anho_registro'].required = False
+            self.initial['anho_registro'] = bienes[0].anho_registro.pk
+            self.initial['anho'] = bienes[0].anho_registro.pk
+        else:
+            #Se carga el año de registro
+            self.fields['anho_registro'].choices = cargar_anho()
+        
         # Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
         if 'subunidad_cliente' in self.data:
             self.fields['cliente_producto'].widget.attrs.pop('disabled')
             self.fields['ubicacion_cliente'].widget.attrs.pop('disabled')
             if (self.data['ubicacion_cliente']=='1'):
                 self.fields['rif'].disabled = False
+                self.fields['nombre_cliente'].widget.attrs['readonly'] = 'readonly'
 
     ## Año registro
     anho_registro =  forms.ChoiceField(
@@ -446,7 +457,7 @@ class ClientesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione el cliente"), 'size': '50',
             'style': 'width: 250px;', 'readonly':'readonly',
-        }),
+        }), required = False
     )
     
     ## Ubicación del cliente
@@ -455,7 +466,8 @@ class ClientesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la ubicación del cliente"), 'size': '50',
             'style': 'width: 250px;', 'disabled':'disabled',
-            'onchange':'habilitar(this.value, rif_0.id),habilitar(this.value, rif_1.id),habilitar(this.value, rif_2.id),'
+            'onchange':"""habilitar(this.value, rif_0.id),habilitar(this.value, rif_1.id),habilitar(this.value, rif_2.id),
+            deshabilitar(this.value, nombre_cliente.id)"""
         }),
     )
     
@@ -532,9 +544,9 @@ class ClientesForm(forms.ModelForm):
         ubicacion_cliente = self.cleaned_data['ubicacion_cliente']
         if((ubicacion_cliente == '1') and (rif=='')):
             msg =_("Este campo es obligatorio")
-        self.add_error('rif', msg)
+            self.add_error('rif', msg)
     
     class Meta:
-        model = Cliente
-        exclude = ['produccion','pais','nombre','cliente_list']
+        model = FacturacionCliente
+        exclude = ['produccion','pais','cliente','cliente_list']
         
