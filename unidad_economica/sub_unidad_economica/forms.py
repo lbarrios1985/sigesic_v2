@@ -66,7 +66,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     ## Tipo de tenencia de la sub unidad
     tipo_tenencia = forms.ChoiceField(
         label=_("Tipo de Tenencia"), widget=Select(attrs={'class': 'form-control select2', 'required':'required'}),
-        choices = (('','Seleccione...'),) + TIPO_TENENCIA
+        choices = (('',_('Seleccione...')),) + TIPO_TENENCIA
     )
 
     ## Metros cuadrados de la construcción
@@ -124,7 +124,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     tipo_sub_unidad = forms.ChoiceField(
         label=_("Tipo"),
         widget=Select(attrs={'class': 'form-control input-md', 'required':'required'}),
-        choices = (('','Seleccione...'),) + (TIPO_SUB_UNIDAD)
+        choices = (('',_('Seleccione...')),) + (TIPO_SUB_UNIDAD)
     )
 
     ## tipo de proceso productivo que se lleva a cabo en la sub unidad economica
@@ -132,7 +132,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         label=_("Tipo de Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md',
             'data-toggle': 'tooltip','title': _("Indique el Tipo de Proceso Productivo")
-        }), choices = (('','Seleccione...'),)+ TIPO_PROCESO, required=False
+        }), choices = (('',_('Seleccione...')),)+ TIPO_PROCESO, required=False
     )
 
     ## nombre del proceso productivo
@@ -155,7 +155,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         label=_("Estado del Proceso Productivo"), widget=Select(attrs={
             'class': 'form-control input-md', 'data-toggle': 'tooltip',
             'title': _("Indique el estado del proceso productivo")
-        }), choices = (('','Seleccione...'),) + ESTADO_PROCESO, required=False
+        }), choices = (('',_('Seleccione...')),) + ESTADO_PROCESO, required=False
     )
 
     ## Código CAEV primaria

@@ -238,3 +238,15 @@ TIPO_PROCESO = (
     ("LN", _("Lineas")),
     ("ET",_("Estaciones de Trabajo"))
 )
+
+## Tipo de Servicio
+TIPO_SERVICIO = (
+    ("TN",_("Transporte")),
+    ("AL",_("Almacenamiento")),
+    ("SE",_("Servicios de Educación")),
+    ("SS",_("Servicios de Salud")),
+    ("SH",_("Servicios Hoteleros y Turísticos")),
+    ("SF",_("Servicios Financieros")),
+    ("SC",_("Servicios Sociales y Comunales")),
+    ("OT",_("Otros")),
+)

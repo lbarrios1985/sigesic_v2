@@ -13,9 +13,10 @@
             <h1 class="box-title">{% trans 'Servicios'%}</h1>
         </div>
         
-        <form action="{% url 'bienes_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        <form action="{% url 'servicio_general_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box-body">
+            
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.subunidad.errors %}has-error{% endif %}">
@@ -121,7 +122,7 @@
             </div>
         </div>
 
-    <form action="{% url 'cliente_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+    <form action="{% url 'servicio_cliente_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
     {% csrf_token %}
         <div class="box-header with-border">
             <h1 class="box-title">{% trans 'Clientes'%}</h1>
@@ -129,6 +130,38 @@
         
         <div class="box-body">
             <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group {% if form.anho_registro.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
+                            {{ form.anho_registro.label }}
+                            <hr>
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.anho_registro }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.anho_registro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="display:none;">{{ form.anho }}</div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group {% if form.subunidad_cliente.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad_cliente.auto_id }}">
+                            {{ form.subunidad_cliente.label }}
+                        </label>
+                        <div class="col-md-9 col-xs-9 col-sm-9">
+                            <div class="form-inline">
+                                {{ form.subunidad_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.subunidad_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group {% if form.cliente_servicio.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_servicio.auto_id }}">
@@ -142,6 +175,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-12"><br>
+                    <span style="color: blue;" id="nota">
+
+                    </span>
+                </div>
+            </div><br>
+            
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
@@ -155,9 +199,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
@@ -171,6 +212,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
@@ -184,9 +228,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.nombre_cliente.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_cliente.auto_id }}">
@@ -253,7 +294,7 @@
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
                                 {{ form.servicio_prestado }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {{% include 'base.form.errors.html' with form_errors=form.servicio_prestado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                {% include 'base.form.errors.html' with form_errors=form.servicio_prestado.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -278,22 +319,11 @@
                             <td>{% trans 'Nombre del Cliente' %}</td>
                             <td>{% trans 'RIF' %}</td>
                             <td>{% trans 'Precio' %}</td>
+                            <td>{% trans 'Tipo de Moneda' %}</td>
                             <td>{% trans 'Monto Facturado' %}</td>
                             <td>{% trans '# Servicios Prestados' %}</td>
-                            <td>{% trans 'Opciones' %}</td>
                         </tr>
                     </thead>
-                    {% if first_table %}
-                        <tbody>
-                        {% for value in first_table %}
-                            <tr>
-                            {% for item in value %}                                       
-                                <td>{{item | safe }}</td>
-                            {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    {% endif %}
                 </table>
             </div>
         </div>
@@ -311,17 +341,18 @@
     <script type="text/javascript">
         $('#id_cliente_servicio').change(function(){
             var attr = $(this).val();
-            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'servicios','model':'Servicio','argument':attr,'value':'cantidad_clientes'},type:'get',
+            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'servicios','model':'Servicio','argument':attr,
+                   'field':'pk','value':'cantidad_clientes'},type:'get',
                 success:function(data){
                     data = JSON.parse(data)
-                    $('#id_cliente_list').html('');
-                    $('#id_cliente_list').append($('<option>', {value: '',text: 'Seleccione...'}));
-                    for(var i=1;i<=data.model;i++)
-                    {
-                        $('#id_cliente_list').append($('<option>', {
-                            value: i,
-                            text: 'Cliente '+i
-                        }));
+                    var contar = contar_modelo('servicios','ServicioCliente',attr,'servicio_id');
+                    if (parseInt(contar)<parseInt(data.model)) {
+                        $('#nota').text('');    
+                        $('#id_cliente_list').val("Cliente # "+(contar+1));
+                        $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
+                    }
+                    else{
+                        $('#nota').text("No debe ingresar más clientes");
                     }
                 },
                 error:function(error)
@@ -345,6 +376,16 @@
             }
         });
         $(document).ready(function(){
+            /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
+            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_cliente.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
+            }
+            /**     Se válida el rif del usuario    */
+            $('#id_rif_2').blur(function(){
+                duplicate_rif("#id_rif","#id_nombre_cliente");
+            });
+            
             $('.fileinput-upload-button').click(function(event){
                 event.preventDefault();
                 var models = ''

@@ -107,8 +107,8 @@ function listado_directorio(title, template) {
                 "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             },
             "ajax": {
-                "processing": true,
-                "url": URL_GET_DIRECTORIO
+                "processing": false,
+                "url": URL_GET_DIRECTORIO,
             },
             "columnDefs": [{
                 "targets": -1,
@@ -727,7 +727,8 @@ function contar_modelo(aplicacion,modelo,argumento,campo) {
  * @param campo Contiene el id/clase del formulario donde se colocará el valor
  */
 function clone_value(valor,campo) {
-  $(campo).val(valor);
+    console.log(valor+" "+campo);
+    $(campo).val(valor).change();
 }
 
 /**

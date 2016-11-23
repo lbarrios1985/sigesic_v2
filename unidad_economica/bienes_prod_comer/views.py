@@ -75,11 +75,6 @@ class BienesCreate(SuccessMessageMixin, CreateView):
         self.object.caev = caev
         self.object.save()
         anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
-        prod = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=self.request.user.username).first()
-        if(prod):
-            anho = AnhoRegistro.objects.filter(anho=prod.anho_registro.anho).get()
-        else: 
-            anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
         ## Se crea y se guarda el modelo de produccion
         produccion = Produccion()
         produccion.cantidad_produccion = form.cleaned_data['cantidad_produccion']
@@ -187,6 +182,11 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
                     cliente.rif = form.cleaned_data['rif']
                 cliente.pais = pais
                 cliente.save()
+        else:
+            cliente = Cliente()
+            cliente.nombre = form.cleaned_data['nombre_cliente']
+            cliente.pais = pais
+            cliente.save()
         
         anho = AnhoRegistro.objects.filter(anho=produccion.anho_registro.anho).get()
         ## Se crea y se guarda el modelo de facturacion del cliente
@@ -204,7 +204,6 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         return super(ClientesCreate, self).form_valid(form)
     
     def form_invalid(self,form):
-        print(form.fields['cliente'])
         return super(ClientesCreate, self).form_invalid(form)
     
     

@@ -105,7 +105,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
                 buttons]
                 table.append(my_list)
             kwargs['second_table'] = table
-        kwargs['object_list'] = SubUnidadEconomicaProceso.objects.all()
+        kwargs['sub_object'] = SubUnidadEconomica.objects.filter(unidad_economica__rif=self.request.user.username).first()
         return super(SubUnidadEconomicaCreate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):

@@ -21,7 +21,8 @@ from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
 from base.widgets import RifWidget
 from base.constant import UNIDAD_MEDIDA
-from base.functions import cargar_actividad, cargar_pais, cargar_anho
+from base.functions import cargar_actividad, cargar_pais
+from unidad_economica.utils import anho_pendiente, validar_anho
 from .models import *
 
 __licence__ = "GNU Public License v2"
@@ -47,8 +48,8 @@ class BienesForm(forms.ModelForm):
         super(BienesForm, self).__init__(*args, **kwargs)
         self.fields['caev'].choices = cargar_actividad()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
-        
-        self.fields['anho_registro'].choices = cargar_anho()
+        self.fields['anho_registro'].choices = anho_pendiente(user.username)
+        self.fields['anho'].choices = self.fields['anho_registro'].choices
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
         for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
@@ -60,32 +61,41 @@ class BienesForm(forms.ModelForm):
         for p in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
-        
-        #Se cuentan si existen bienes ya con registrados
-        bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
-        #Si existen bienes se cambia al campo a uno de texto con el valor inicial del año
-        if(len(bienes)>0):
+        #Se crea un arreglo con los años
+        anhos = [item for item,key in self.fields['anho_registro'].choices if item!='']
+        #Se definen los filtros
+        filtros_prod = {'anho_registro_id__in':anhos,'producto__subunidad__unidad_economica__user__username':user.username}
+        filtros_serv = {'anho_registro_id__in':anhos,'servicio__subunidad__unidad_economica__user__username':user.username}
+        #Se obtiene la validacion por produccion
+        validacion_prod = validar_anho('bienes_prod_comer','Produccion',**filtros_prod)
+        #Se obtiene la validacion por servicios
+        validacion_serv = validar_anho('servicios','ServicioCliente',**filtros_serv)
+        #Si se cumple la validacion se llenan los campos con el valor y se deshabilitan
+        if(validacion_prod['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
             self.fields['anho_registro'].required = False
-            self.initial['anho_registro'] = bienes[0].anho_registro.pk
-            self.initial['anho'] = bienes[0].anho_registro.pk
-        else:
-            #Se carga el año de registro
-            self.fields['anho_registro'].choices = cargar_anho()
+            self.initial['anho_registro'] = validacion_prod['anho_registro'].pk
+            self.initial['anho'] = validacion_prod['anho_registro'].pk
+        elif(validacion_serv['validacion']):
+            self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
+            self.fields['anho_registro'].required = False
+            self.initial['anho_registro'] = validacion_serv['anho_registro'].pk
+            self.initial['anho'] = validacion_serv['anho_registro'].pk
 
     ## Año registro
     anho_registro =  forms.ChoiceField(
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+            'onchange':'clone_value($(this).val(),"#id_anho")',
         }),
     )
     
     ## Año (para el campo anho_registro deshabilitado)
-    anho =  forms.CharField(
-        widget=TextInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'size': '50', 'readonly':'readonly', 'style':'display:none',
+    anho =  forms.ChoiceField(
+        widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto;',
+            'data-toggle': 'tooltip', 'size': '50',
         }),
     )
     
@@ -158,7 +168,7 @@ class BienesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50', 'required':'required',
             'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
+        }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA,
     )
     
     ## Listado del código caev
@@ -267,7 +277,7 @@ class BienesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
             'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
+        }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA, required = False,
     )
     
     def clean(self):
@@ -275,12 +285,10 @@ class BienesForm(forms.ModelForm):
         nombre_producto = self.cleaned_data['nombre_producto']
         anho_registro = self.cleaned_data['anho']
         subunidad = self.cleaned_data['subunidad']
-        print(subunidad," ",anho_registro)
         prod = Produccion.objects.filter(anho_registro_id=anho_registro,producto__subunidad_id=subunidad,producto__nombre_producto=nombre_producto)
         if(prod):
-            msg =_("Ya registró la producción de ese producto en el año correspondiente")
-            
-        self.add_error('nombre_producto', msg)
+            msg =_("Ya registró la producción de ese producto en el año correspondiente")    
+            self.add_error('nombre_producto', msg)
         
    
     class Meta:
@@ -306,7 +314,8 @@ class ClientesForm(forms.ModelForm):
         self.fields['caev'].choices = cargar_actividad()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         #Se cargar el año de registro
-        self.fields['anho_registro'].choices = cargar_anho()
+        self.fields['anho_registro'].choices = anho_pendiente(user.username)
+        self.fields['anho'].choices = self.fields['anho_registro'].choices
         #Se carga una lista con todas las subunidades relacionadas al usuario
         lista = [('','Selecione...')]
         for l in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
@@ -318,18 +327,26 @@ class ClientesForm(forms.ModelForm):
         for p in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             prod.append(p)
         self.fields['cliente_producto'].choices = prod
-        
-        #Se cuentan si existen bienes ya con registrados
-        bienes = Produccion.objects.filter(producto__subunidad__unidad_economica__user__username=user.username).all()
-        #Si existen bienes se cambia al campo a uno de texto con el valor inicial del año
-        if(len(bienes)>0):
+        #Se crea un arreglo con los años
+        anhos = [item for item,key in self.fields['anho_registro'].choices if item!='']
+        #Se definen los filtros
+        filtros_prod = {'anho_registro_id__in':anhos,'producto__subunidad__unidad_economica__user__username':user.username}
+        filtros_serv = {'anho_registro_id__in':anhos,'servicio__subunidad__unidad_economica__user__username':user.username}
+        #Se obtiene la validacion por produccion
+        validacion_prod = validar_anho('bienes_prod_comer','Produccion',**filtros_prod)
+        #Se obtiene la validacion por servicios
+        validacion_serv = validar_anho('servicios','ServicioCliente',**filtros_serv)
+        #Si se cumple la validacion se llenan los campos con el valor y se deshabilitan
+        if(validacion_prod['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
             self.fields['anho_registro'].required = False
-            self.initial['anho_registro'] = bienes[0].anho_registro.pk
-            self.initial['anho'] = bienes[0].anho_registro.pk
-        else:
-            #Se carga el año de registro
-            self.fields['anho_registro'].choices = cargar_anho()
+            self.initial['anho_registro'] = validacion_prod['anho_registro'].pk
+            self.initial['anho'] = validacion_prod['anho_registro'].pk
+        elif(validacion_serv['validacion']):
+            self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
+            self.fields['anho_registro'].required = False
+            self.initial['anho_registro'] = validacion_serv['anho_registro'].pk
+            self.initial['anho'] = validacion_serv['anho_registro'].pk
         
         # Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
         if 'subunidad_cliente' in self.data:
@@ -344,6 +361,15 @@ class ClientesForm(forms.ModelForm):
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+            'onchange':'clone_value($(this).val(),"#id_anho")',
+        }), required = False,
+    )
+    
+    ## Año (para el campo anho_registro deshabilitado)
+    anho =  forms.ChoiceField(
+        widget=Select(attrs={
+            'class': 'form-control input-md','style': 'min-width: 0; width: auto;',
+            'data-toggle': 'tooltip', 'size': '50',
         }), required = False,
     )
     
@@ -416,7 +442,7 @@ class ClientesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
             'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required = False,
+        }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA, required = False,
     )
     
     ## Listado del código caev
@@ -525,7 +551,7 @@ class ClientesForm(forms.ModelForm):
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Seleccione la unidad de medida"), 'size': '50',
             'style': 'width: 250px;',
-        }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
+        }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA,
     )
     
     def clean_cliente_list(self):
@@ -536,8 +562,7 @@ class ClientesForm(forms.ModelForm):
         if(prod.cantidad_clientes==len(clientes)):
             raise forms.ValidationError(_("No se pueden ingresar más clientes"))
         return cliente_list
-
-    
+  
     def clean(self):
         cleaned_data = super(ClientesForm, self).clean()
         rif = self.cleaned_data['rif']

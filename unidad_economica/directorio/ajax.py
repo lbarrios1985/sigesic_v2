@@ -49,21 +49,19 @@ def get_directorio(request):
     """
 
     message = _("No existen direcciones registradas aún")
-
     try:
         if not request.is_ajax():
             return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
 
         datos = []
         direccion = ''
-
         for dir in Directorio.objects.filter(usuario=request.user):
             direccion += '<input class="directorio_id" type="hidden" value="%s" readonly="readonly" disabled="disabled" style="display:none">' % dir.pk
             for tv in PREFIJO_DIRECTORIO_UNO_CHOICES:
                 if dir.tipo_vialidad in tv[0]:
                     direccion += tv[1] + " "
             direccion += dir.nombre_vialidad + " "
-            coord = _("No indicada")
+            coord = str(_("No indicada"))
             if dir.coordenadas:
                 coord = dir.coordenadas.split(",")
                 coord = "<span class='pull-left'>Longitud:</span> <span class='pull-right'>%s</span><br/>" \
@@ -73,8 +71,7 @@ def get_directorio(request):
                 dir.parroquia.municipio.estado.nombre, dir.parroquia.municipio.nombre, dir.parroquia.nombre,
                 direccion, coord
             ])
-
-            return HttpResponse(json.dumps({'data': datos}))
+        return HttpResponse(json.dumps({'data': datos}))
 
     except Exception as e:
         message = e
@@ -97,10 +94,8 @@ def add_direccion(request):
             tipo_coordenada = ''
             coordenada = []
 
-            if direccion.tipo_coordenada:
-                tipo_coordenada = direccion.tipo_coordenada.pk
+            if direccion.coordenadas:
                 coordenada = direccion.coordenadas.split(",")
-
             return HttpResponse(json.dumps({
                 'resultado': True, 'tipo_vialidad': direccion.tipo_vialidad, 'coordenadas': coordenada,
                 'nombre_vialidad': direccion.nombre_vialidad, 'tipo_edificacion': direccion.tipo_edificacion,
@@ -108,7 +103,7 @@ def add_direccion(request):
                 'tipo_subedificacion': direccion.tipo_subedificacion, 'tipo_zonificacion': direccion.tipo_zonificacion,
                 'descripcion_subedificacion': direccion.descripcion_subedificacion,
                 'estado': direccion.parroquia.municipio.estado.pk, 'municipio': direccion.parroquia.municipio.pk,
-                'parroquia': direccion.parroquia.pk, 'tipo_coordenada': tipo_coordenada
+                'parroquia': direccion.parroquia.pk
             }))
 
     except Exception as e:

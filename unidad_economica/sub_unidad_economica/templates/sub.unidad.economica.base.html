@@ -455,7 +455,11 @@
         </div>
                 
         <div class="box-footer text-right">
-            {% include 'base.form.buttons.html' %}
+            <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Limpiar' %}</button>
+            <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Guardar' %}</button>
+            {% if sub_object %}
+                <a type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" href="{% url 'maquinaria_equipos' %}">{% trans 'Siguiente' %}</a>
+            {% endif %}
         </div>
         </div>
     </div>

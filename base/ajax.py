@@ -49,7 +49,7 @@ def get_data_rif(request):
     """
     try:
         if not request.is_ajax():
-            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+            return HttpResponse(json.dumps({'result': False, 'message': str(MSG_NOT_AJAX)}))
 
         rif = request.GET.get('rif', None)
         agente_retencion = request.GET.get('agente_retencion', None)
@@ -87,7 +87,7 @@ def validar_rif_seniat(request):
     message = _("No se ha indicado un número de RIF a consultar")
     try:
         if not request.is_ajax():
-            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+            return HttpResponse(json.dumps({'result': False, 'message': str(MSG_NOT_AJAX)}))
 
         rif = request.GET.get('rif', None)
 
@@ -121,7 +121,7 @@ def cargar_combo(request):
     """
     try:
         if not request.is_ajax():
-            return HttpResponse(json.dumps({'resultado': False, 'error': MSG_NOT_AJAX}))
+            return HttpResponse(json.dumps({'resultado': False, 'error': str(MSG_NOT_AJAX)}))
 
         ## Nombre de la aplicación o módulo
         app = request.GET.get('app', None)
@@ -167,7 +167,7 @@ def actualizar_combo(request):
     """
     try:
         if not request.is_ajax():
-            return HttpResponse(json.dumps({'resultado': False, 'error': MSG_NOT_AJAX}))
+            return HttpResponse(json.dumps({'resultado': False, 'error': str(MSG_NOT_AJAX)}))
 
         ## Valor del campo que ejecuta la acción
         cod = request.GET.get('opcion', None)
@@ -177,7 +177,7 @@ def actualizar_combo(request):
 
         ## Nombre del modelo en el cual se va a buscar la información a mostrar
         mod = request.GET.get('mod', None)
-
+        
         ## Atributo por el cual se va a filtrar la información
         campo = request.GET.get('campo', None)
 
@@ -194,6 +194,7 @@ def actualizar_combo(request):
         
         if app and mod and campo and n_value and n_text and bd:
             modelo = apps.get_model(app, mod)
+            
             if cod:
                 filtro = {campo: cod}
 
@@ -231,7 +232,7 @@ def eliminar_registro(request):
     @return Devuelve un HttpResponse con el JSON correspondiente a los resultados de la eliminación de datos
     """
     if not request.is_ajax():
-        return HttpResponse(json.dumps({'resultado': False, 'msg': MSG_NOT_AJAX}))
+        return HttpResponse(json.dumps({'resultado': False, 'msg': str(MSG_NOT_AJAX)}))
 
     app_label = request.GET.get('app_label', None)
     modelo = request.GET.get('modelo', None)
@@ -262,7 +263,7 @@ def anho_registro(request):
     @return Devuelve un HttpResponse con el JSON correspondiente a los años para el registro de datos de producción
     """
     if not request.is_ajax():
-        return HttpResponse(json.dumps({'resultado': False, 'msg': MSG_NOT_AJAX}))
+        return HttpResponse(json.dumps({'resultado': False, 'msg': str(MSG_NOT_AJAX)}))
 
     anhos = []
     try:

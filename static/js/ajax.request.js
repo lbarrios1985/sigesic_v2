@@ -206,7 +206,7 @@ function cargar_direccion(directorio_id) {
                 desc_edif = $("#id_descripcion_edificacion"), tipo_subedif = $("#id_tipo_subedificacion"),
                 desc_subedif = $("#id_descripcion_subedificacion"), tipo_zona = $("#id_tipo_zonificacion"),
                 nombre_zona = $("#id_nombre_zona"), estado = $("#id_estado"), municipio = $("#id_municipio"),
-                parroquia = $("#id_parroquia"), tipo_coor = $("#id_tipo_coordenada"), coor_0 = $("#id_coordenada_0"),
+                parroquia = $("#id_parroquia"), coor_0 = $("#id_coordenada_0"),
                 coor_1 = $("#id_coordenada_1");
             directorio.val(directorio_id);
             tipo_vial.find("input[name='tipo_vialidad']").each(function() {
@@ -244,8 +244,7 @@ function cargar_direccion(directorio_id) {
             parroquia.parent().find('.error-notice').remove();
             parroquia.parent().parent().removeClass('has-error');
 
-            if (datos.tipo_coordenada != '') {
-                tipo_coor.val(datos.tipo_coordenada).prop('selected', 'selected').change();
+            if (datos.coordenadas[0]!='' || datos.coordenadas[1]) {
                 coor_0.val(datos.coordenadas[0]);
                 coor_1.val(datos.coordenadas[1]);
             }

@@ -18,19 +18,6 @@ from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.models import CaevClase, Pais, AnhoRegistro, Cliente
 from base.constant import MONEDAS
 
-class TipoServicio(models.Model):
-    """!
-    Clase que gestiona los datos para los tipos de servicios
-
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 05-08-2016
-    @version 2.0
-    """
-    
-    ## Nombre del tipo  Servicio
-    nombre = models.CharField(max_length=45)
-
 class Servicio(models.Model):
     """!
     Clase que gestiona los datos para el registro de los Servicios
@@ -44,8 +31,8 @@ class Servicio(models.Model):
     ## Nombre del Servicio
     nombre_servicio = models.CharField(max_length=45)
     
-    ## Establece la relación con el código del tipo de servicio
-    tipo_servicio = models.ForeignKey(TipoServicio)
+    ## Tipo de Servicio
+    tipo_servicio = models.CharField(max_length=2)
     
     ## Establece la relación con el código CAEV
     caev = models.ForeignKey(CaevClase)
@@ -183,9 +170,6 @@ class ServicioCliente(models.Model):
     
     ## Monto facturado del servicio
     monto_facturado = models.DecimalField(max_digits=20,decimal_places=5)
-    
-    ## Establece la relación con el país
-    pais = models.ForeignKey(Pais)
     
     ## Establece la relación con la producción
     servicio = models.ForeignKey(Servicio)
