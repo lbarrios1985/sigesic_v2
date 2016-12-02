@@ -236,7 +236,8 @@ ESTADO_PROCESO = (
 ## Tipo de Proceso
 TIPO_PROCESO = (
     ("LN", _("Lineas")),
-    ("ET",_("Estaciones de Trabajo"))
+    ("ET",_("Estaciones de Trabajo")),
+    ("OT",_("Otras"))
 )
 
 ## Tipo de Servicio

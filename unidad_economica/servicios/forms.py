@@ -14,7 +14,7 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput
+    TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput, NumberInput
 )
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
@@ -86,10 +86,10 @@ class ServiciosGeneralForm(forms.ModelForm):
     ## Año registro
     anho_registro =  forms.ChoiceField(
         label=_("Año de Registro"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
-            'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+            'class': 'form-control input-md', 'data-toggle': 'tooltip',
+            'title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
             'onchange':'clone_value($(this).val(),"#id_anho")',
-        }),
+        }), required = False
     )
     
     ## Año (para el campo anho_registro deshabilitado)
@@ -97,7 +97,7 @@ class ServiciosGeneralForm(forms.ModelForm):
         widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto;',
             'data-toggle': 'tooltip', 'size': '50',
-        }),
+        }), required = False
     )
     
     ## Listado de las subunidades disponibles
@@ -130,10 +130,10 @@ class ServiciosGeneralForm(forms.ModelForm):
         
     ## Cantidad de clientes
     cantidad_clientes =  forms.CharField(
-        label=_("Número de Clientes"), widget=TextInput(attrs={
+        label=_("Número de Clientes"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de clientes"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     
@@ -203,10 +203,10 @@ class ServiciosGeneralForm(forms.ModelForm):
     
     ## Precio de venta
     precio = forms.CharField(
-        label=_("Precio"), widget=TextInput(attrs={
+        label=_("Precio"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'0.1'
         }),required = False,
     )
     
@@ -221,19 +221,19 @@ class ServiciosGeneralForm(forms.ModelForm):
     
     ## Monto Facturado
     monto_facturado = forms.CharField(
-        label=_("Monto Facturado"), widget=TextInput(attrs={
+        label=_("Monto Facturado"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el monto facturado"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'0.1'
         }),required = False,
     )
     
     ## Servicios prestados
     servicio_prestado = forms.CharField(
-        label=_("Número de Servicios Prestados"), widget=TextInput(attrs={
+        label=_("Número de Servicios Prestados"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de servicios prestados"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }), required = False,
     )
     
@@ -280,6 +280,7 @@ class ServiciosClienteForm(forms.ModelForm):
         validacion_prod = validar_anho('bienes_prod_comer','Produccion',**filtros_prod)
         #Se obtiene la validacion por servicios
         validacion_serv = validar_anho('servicios','ServicioCliente',**filtros_serv)
+        print(validacion_serv)
         #Si se cumple la validacion se llenan los campos con el valor y se deshabilitan
         if(validacion_prod['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
@@ -304,10 +305,10 @@ class ServiciosClienteForm(forms.ModelForm):
     ## Año registro
     anho_registro =  forms.ChoiceField(
         label=_("Año de Registro"), widget=Select(attrs={
-            'class': 'form-control input-md', 'required':'required',
-            'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
+            'class': 'form-control input-md', 'data-toggle': 'tooltip',
+            'title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
             'onchange':'clone_value($(this).val(),"#id_anho")',
-        }), required = False,
+        }),
     )
     
     ## Año (para el campo anho_registro deshabilitado)
@@ -315,7 +316,7 @@ class ServiciosClienteForm(forms.ModelForm):
         widget=Select(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto;',
             'data-toggle': 'tooltip', 'size': '50',
-        }), required = False,
+        }),
     )
     
     ## Listado de las subunidades disponibles
@@ -348,10 +349,10 @@ class ServiciosClienteForm(forms.ModelForm):
         
     ## Cantidad de clientes
     cantidad_clientes =  forms.CharField(
-        label=_("Número de Clientes"), widget=TextInput(attrs={
+        label=_("Número de Clientes"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de clientes"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }), required = False,
     )
     
@@ -421,10 +422,10 @@ class ServiciosClienteForm(forms.ModelForm):
     
     ## Precio de venta
     precio = forms.CharField(
-        label=_("Precio"), widget=TextInput(attrs={
+        label=_("Precio"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'0.1'
         }),
     )
     
@@ -439,19 +440,19 @@ class ServiciosClienteForm(forms.ModelForm):
     
     ## Monto Facturado
     monto_facturado = forms.CharField(
-        label=_("Monto Facturado"), widget=TextInput(attrs={
+        label=_("Monto Facturado"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el monto facturado"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'0.1'
         }),
     )
     
     ## Servicios prestados
     servicio_prestado = forms.CharField(
-        label=_("Número de Servicios Prestados"), widget=TextInput(attrs={
+        label=_("Número de Servicios Prestados"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de servicios prestados"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     

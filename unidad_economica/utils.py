@@ -56,6 +56,7 @@ def validar_anho(app,mod,**filtro):
     mensaje = {}
     modelo = apps.get_model(app, mod)
     model = modelo.objects.filter(**filtro)
+    print(modelo)
     if(model):
         model = model.first()
         mensaje['validacion'] = True

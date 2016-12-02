@@ -191,7 +191,7 @@ def actualizar_combo(request):
         bd = request.GET.get('bd', 'default')
 
         filtro = {}
-        
+
         if app and mod and campo and n_value and n_text and bd:
             modelo = apps.get_model(app, mod)
             

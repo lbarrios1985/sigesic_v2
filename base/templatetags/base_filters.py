@@ -62,6 +62,9 @@ def menu_left_filter(user, url_path):
     # Si existen datos registrados en la opción de Información General, se habilitan las opciones asociadas a la
     # Unidad Economica
     if UnidadEconomica.objects.filter(user=usuario):
+        
+        #Variable para mantener control de la maquinaria
+        maquinaria = False
 
         ## Unidad Economica registrada por el usuario
         ue = UnidadEconomica.objects.get(user=usuario)
@@ -71,13 +74,25 @@ def menu_left_filter(user, url_path):
 
         #Opción para el registro de Sub Unidad Economica
         menu_left += opcion % (reverse('sub_unidad_create'), _("3"), _("Sub Unidad Económica"))
-
-        # Si existe al menos una sub unidad económica del tipo planta registrada
-        if SubUnidadEconomica.objects.filter(unidad_economica=ue, tipo_sub_unidad='Pl'):
-            menu_left += opcion % (reverse('maquinaria_equipos'), _("4"), _("Maquinaria y Equipos"))
             
+        ## Sub Unidades correspondientes al usuario
+        sub_unidad = SubUnidadEconomica.objects.filter(unidad_economica=ue)
+        
         # Si existe al menos una sub unidad económica que presta servicio
-        if SubUnidadEconomica.objects.filter(unidad_economica=ue, sede_servicio=True):
-            menu_left += opcion % (reverse('servicio_general_create'), _("5"), _("Servicios"))
+        if sub_unidad.filter(sede_servicio=True):
+            menu_left += opcion % (reverse('servicio_general_create'), _("4"), _("Servicios"))
+        
+        # Si existe al menos una sub unidad económica que es sede y presta servicio
+        if sub_unidad.exclude(tipo_sub_unidad='Se'):
+            menu_left += opcion % (reverse('bienes_registro_create'), _("5"), _("Bienes Producidos"))
+            menu_left += opcion % (reverse('insumos_proveedores'), _("6"), _("Insumo Proveedor"))
+            if(not maquinaria):
+                menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
+                maquinaria = True
+            
+        # Si existe al menos una sub unidad económica que es sede y presta servicio
+        if sub_unidad.filter(sede_servicio=True,tipo_sub_unidad='Se') and not maquinaria:
+            menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
+            maquinaria = True
 
     return mark_safe(menu_left)

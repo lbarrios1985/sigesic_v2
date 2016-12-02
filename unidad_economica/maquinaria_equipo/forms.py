@@ -45,10 +45,8 @@ class MaquinariaForm(forms.ModelForm):
             'title':_(
                 "Selecione el nombre de a sub unidad economica al que pertenece la maquinaria o el equipo a registrar"
             ),
-            'onchange': "actualizar_combo(this.value,'unidad_economica.sub_unidad_economica',"
-                        "'SubUnidadEconomicaPrincipalProceso','sub_unidad_economica',"
-                        "'sub_unidad_economica_proceso__pk','sub_unidad_economica_proceso__nombre_proceso',"
-                        "'id_nombre_proceso')"
+            'onchange': """actualizar_combo(this.value,'sub_unidad_economica','SubUnidadEconomicaProceso','sub_unidad_economica',
+                        'pk','nombre_proceso','id_nombre_proceso')"""
         })
     )
 

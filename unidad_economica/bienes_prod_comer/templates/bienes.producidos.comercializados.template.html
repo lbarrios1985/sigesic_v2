@@ -17,25 +17,25 @@
         {% csrf_token %}
         <div class="box-body">
             
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <div class="form-group {% if form.anho_registro.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
-                            {{ form.anho_registro.label }}
-                            <hr>
-                        </label>
-                        <div class="col-md-9 col-xs-9 col-sm-9">
-                            <div class="form-inline">
-                                {{ form.anho_registro }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% include 'base.form.errors.html' with form_errors=form.anho_registro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
-                            </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="form-group {% if form.anho_registro.errors %}has-error{% endif %}">
+                    <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
+                        {{ form.anho_registro.label }}
+                        <hr>
+                    </label>
+                    <div class="col-md-9 col-xs-9 col-sm-9">
+                        <div class="form-inline">
+                            {{ form.anho_registro }}<i class="ion ion-ios-medical item-requerido"></i>
+                            {% include 'base.form.errors.html' with form_errors=form.anho_registro.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3" style="display:none;">{{ form.anho }}</div>
             </div>
-                        
+            <div class="col-md-3" style="display:none;">{{ form.anho }}</div>
+        </div>
+                                  
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.subunidad.errors %}has-error{% endif %}">
@@ -232,17 +232,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row text-center">
-                <div class="col-md-12"><br>
-                    <span style="color: blue;" id="nota">
-
-                    </span>
-                </div>
-            </div><br>
-                
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.cliente_producto.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_producto.auto_id }}">
@@ -256,6 +245,17 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-12"><br>
+                    <span style="color: blue;" id="nota">
+
+                    </span>
+                </div>
+            </div><br>
+                
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
@@ -269,9 +269,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
@@ -285,6 +282,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
@@ -298,9 +298,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.nombre_cliente.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_cliente.auto_id }}">
@@ -314,6 +311,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.precio_venta_bs.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_bs.auto_id }}">
@@ -327,8 +327,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.precio_venta_usd.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_venta_usd.auto_id }}">
@@ -342,6 +340,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group {% if form.tipo_cambio.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio.auto_id }}">

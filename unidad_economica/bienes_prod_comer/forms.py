@@ -14,7 +14,7 @@ from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput
+    TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput, NumberInput
 )
 from unidad_economica.directorio.forms import DirectorioForm
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
@@ -137,10 +137,10 @@ class BienesForm(forms.ModelForm):
     
     ## Cantidad de clientes
     cantidad_clientes =  forms.CharField(
-        label=_("Número de Clientes"), widget=TextInput(attrs={
+        label=_("Número de Clientes"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de clientes"), 'size': '50', 'required':'required',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
 
@@ -155,10 +155,10 @@ class BienesForm(forms.ModelForm):
     
     ## Cantidad producida
     cantidad_produccion = forms.CharField(
-        label=_("Producción"), widget=TextInput(attrs={
+        label=_("Producción"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50', 'required':'required',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     
@@ -237,37 +237,37 @@ class BienesForm(forms.ModelForm):
     
     ## Precio de venta (Bs)
     precio_venta_bs = forms.CharField(
-        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
+        label=_("Precio de venta por unidad(bs)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),required = False,
     )
     
     ## Precio de venta (Usd)
     precio_venta_usd = forms.CharField(
-        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
+        label=_("Precio de venta por unidad(usd)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),required = False,
     )
     
     ## Tipo de cambio
     tipo_cambio = forms.CharField(
-        label=_("Tipo de cambio"), widget=TextInput(attrs={
+        label=_("Tipo de cambio"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el tipo de cambio"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),required = False,
     )
     
     ## Cantidad producida
     cantidad_vendida = forms.CharField(
-        label=_("Cantidades Vendidas"), widget=TextInput(attrs={
+        label=_("Cantidades Vendidas"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),required = False,
     )
     
@@ -289,7 +289,6 @@ class BienesForm(forms.ModelForm):
         if(prod):
             msg =_("Ya registró la producción de ese producto en el año correspondiente")    
             self.add_error('nombre_producto', msg)
-        
    
     class Meta:
         model = Producto
@@ -411,28 +410,28 @@ class ClientesForm(forms.ModelForm):
     
     ## Cantidad de clientes
     cantidad_clientes =  forms.CharField(
-        label=_("Número de Clientes"), widget=TextInput(attrs={
+        label=_("Número de Clientes"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de clientes"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }), required = False,
     )
 
     ## Cantidad de insumos
     cantidad_insumos = forms.CharField(
-        label=_("Número de Insumos"), widget=TextInput(attrs={
+        label=_("Número de Insumos"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de insumos"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }), required = False,
     )
     
     ## Cantidad producida
     cantidad_produccion = forms.CharField(
-        label=_("Producción"), widget=TextInput(attrs={
+        label=_("Producción"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }), required = False,
     )
     
@@ -511,37 +510,37 @@ class ClientesForm(forms.ModelForm):
     
     ## Precio de venta (Bs)
     precio_venta_bs = forms.CharField(
-        label=_("Precio de venta por unidad(bs)"), widget=TextInput(attrs={
+        label=_("Precio de venta por unidad(bs)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(bs)"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     
     ## Precio de venta (Usd)
     precio_venta_usd = forms.CharField(
-        label=_("Precio de venta por unidad(usd)"), widget=TextInput(attrs={
+        label=_("Precio de venta por unidad(usd)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     
     ## Tipo de cambio
     tipo_cambio = forms.CharField(
-        label=_("Tipo de cambio"), widget=TextInput(attrs={
+        label=_("Tipo de cambio"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el tipo de cambio"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     
     ## Cantidad producida
     cantidad_vendida = forms.CharField(
-        label=_("Cantidades Vendidas"), widget=TextInput(attrs={
+        label=_("Cantidades Vendidas"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique la cantidad de producción"), 'size': '50',
-            'style': 'width: 250px;',
+            'style': 'width: 250px;', 'step':'1'
         }),
     )
     

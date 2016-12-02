@@ -105,7 +105,9 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
                 buttons]
                 table.append(my_list)
             kwargs['second_table'] = table
-        kwargs['sub_object'] = SubUnidadEconomica.objects.filter(unidad_economica__rif=self.request.user.username).first()
+        sub_object = SubUnidadEconomica.objects.filter(unidad_economica__rif=self.request.user.username)
+        sub_object = sub_object.exclude(tipo_sub_unidad='Se',sede_servicio=False).first()
+        kwargs['sub_object'] = sub_object
         return super(SubUnidadEconomicaCreate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -158,6 +160,10 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         self.object.unidad_economica = unidad_economica
         self.object.save()
         
+        # Si el objeto creado presta servicio, se crea un proceso llamado servicio
+        if(self.object.sede_servicio):
+            self.crear_servicio(self.object)
+        
         ## Si el tipo de sub unidad es distinto de sede
         if(form.cleaned_data['tipo_sub_unidad']!='Se'):
         
@@ -203,7 +209,6 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         @param self <b>{object}</b> Objeto que instancia la clase
         @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
         @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
-        @return Retorna el formulario validado
         """
         for i in range(0,len(dictionary['nombre_proceso_tb'])):
             ## Se crea y se guarda en el modelo del proceso de la sub-unidad
@@ -215,6 +220,27 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             proceso.sub_unidad_economica = model
             proceso.save()
             
+    def crear_servicio(self, model):
+        """!
+        Metodo que crea como servicio un proceso
+    
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 30-11-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
+        @return Retorna el formulario validado
+        """
+        
+        ## Se crea y se guarda en el modelo del proceso de la sub-unidad
+        proceso = SubUnidadEconomicaProceso()
+        proceso.tipo_proceso = "OT"
+        proceso.nombre_proceso = "Servicio"
+        proceso.descripcion_proceso = "Prestación de un servicio"
+        proceso.estado_proceso = 1
+        proceso.sub_unidad_economica = model
+        proceso.save()
+            
     def agregar_actividad(self, dictionary, model):
         """!
         Metodo que extrae los datos de la tabla de actividades economicas en un diccionario y las guarda en el modelo respectivo
@@ -225,7 +251,6 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
         @param self <b>{object}</b> Objeto que instancia la clase
         @param dictionary <b>{object}</b> Objeto que contiene el diccionario a procesar
         @param model <b>{object}</b> Objeto que contiene el modelo al que se hace la referencia
-        @return Retorna el formulario validado
         """
         for i in range(0,len(dictionary['actividad_caev_tb'])):
             ## Se crea y se guarda en el modelo del proceso de la sub-unidad

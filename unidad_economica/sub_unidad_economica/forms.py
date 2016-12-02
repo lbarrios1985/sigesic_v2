@@ -16,7 +16,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.forms import (
-    TextInput, Select, Textarea, CheckboxInput
+    TextInput, Select, Textarea, CheckboxInput, NumberInput
 )
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
@@ -71,45 +71,45 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Metros cuadrados de la construcción
     m2_construccion = forms.DecimalField(
-        label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
+        label=_("Metros Cuadrados de la Construcción"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25',
-            'type':'number', 'step':'0.01',
+            'step':'0.01',
         }), max_digits=20, decimal_places=5
     )
 
     ## Metros cuadrados del terreno
     m2_terreno = forms.DecimalField(
-        label=_("Metros Cuadrados de Terreno"), widget=TextInput(attrs={
+        label=_("Metros Cuadrados de Terreno"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique lo metros cuadrados del terreno"), 'size': '25',
-            'type':'number', 'step':'0.01'
+            'step':'0.01'
         }), max_digits=20, decimal_places=5
     )
 
     ## Autonomía Eléctrica en porcentaje
     autonomia_electrica = forms.DecimalField(
-        label=_("Porcentaje de Autonomía Eléctrica"), widget=TextInput(attrs={
+        label=_("Porcentaje de Autonomía Eléctrica"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25',
-            'type':'number', 'step':'0.01'
+            'step':'0.01'
         }), max_digits=20, decimal_places=5
     )
 
     ## Consumo eléctrico promedio en el mes
     consumo_electrico = forms.DecimalField(
-        label=_("Consumo Eléctrico Anual"), widget=TextInput(attrs={
+        label=_("Consumo Eléctrico Anual"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique el consumo promedio anual en Kw/h"), 'size': '25',
-            'type':'number', 'step':'0.01'
+            'step':'0.01'
         }), max_digits=20, decimal_places=5
     )
 
     cantidad_empleados = forms.IntegerField(
-        label=_("Número de trabajadores"), widget=TextInput(attrs={
+        label=_("Número de trabajadores"), widget=NumberInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique el número de trabajadores"), 'size': '25',
-            'type':'number', 'min':'1', 'step': '1'
+            'min':'1', 'step': '1'
         })
     )
 

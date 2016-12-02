@@ -4,7 +4,7 @@ from .views import BienesCreate, ClientesCreate, produccion_get_data, clientes_g
 
 urlpatterns = [
     url(r'^registro$', login_required(BienesCreate.as_view()) ,name="bienes_registro_create"),
-    url(r'^registro_cliente$', login_required(ClientesCreate.as_view()) ,name="cliente_registro_create"),
+    url(r'^registro-cliente$', login_required(ClientesCreate.as_view()) ,name="cliente_registro_create"),
 ]
 
 # Urls usadas para ajax
