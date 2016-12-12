@@ -16,7 +16,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.models import CaevClase, Pais, AnhoRegistro, Cliente
-from base.constant import MONEDAS
+from base.constant import MONEDAS, TIPO_SERVICIO
 
 class Servicio(models.Model):
     """!
@@ -51,7 +51,6 @@ class Servicio(models.Model):
         @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
         @date 11-08-2016
         @param self <b>{object}</b> Objeto que instancia la clase
-        @param anho <b>anho</b> Condición que evalúa si extraer los datos del modelo para un año en partícular
         @param rel_id <b>rel_id</b> Tiene el id de la relación del padre
         @return Devuelve los campos del archivo de carga masiva
             {
@@ -122,11 +121,12 @@ class Servicio(models.Model):
         datos = []
         relation = {}
         
-        if not anho is None and not rel_id is None:
-            ## Agrega los datos para el año y sub unidad solicitada
-            for serv in Servicio.objects.filter(anho_registro__anho=anho,subunidad__id=rel_id):
+        if not rel_id is None:
+            dic_ts = dict(TIPO_SERVICIO)
+            ## Agrega los datos para la sub unidad solicitada
+            for serv in Servicio.objects.filter(subunidad__id=rel_id):
                 datos.append([
-                    '', serv.nombre_servicio, serv.tipo_servicio.nombre, serv.caev.clase,
+                    '', serv.nombre_servicio, str(dic_ts.get(serv.tipo_servicio)), serv.caev.clase,
                     serv.cantidad_clientes
                 ])
                         
@@ -297,19 +297,33 @@ class ServicioCliente(models.Model):
             ## Agrega los datos para el año y sub unidad solicitada
             dic_um = dict(MONEDAS)
             for serv in Servicio.objects.filter(subunidad__id=rel_id):
-                serv_cli = ServicioCliente.objects.filter(servicio=serv.pk)
-                for item in range(serv.cantidad_clientes):
-                    #codigo = str(fact.producto_id)+" "+str(fact.pk)
-                    if serv_cli:
-                        unidad_medida = str(dic_um.get(fact.unidad_de_medida))
-                        """datos.append([
-                            '', prod.producto.nombre_producto, prod.producto.especificacion_tecnica, prod.producto.marca,
-                            prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_insumos,
-                            prod.cantidad_produccion, unidad_medida
-                        ])"""
-                    else:
+                serv_cli = ServicioCliente.objects.filter(servicio=serv.pk).all()
+                if not serv_cli:
+                    for item in range(serv.cantidad_clientes):
                         datos.append([
-                            '', serv.nombre_servicio, '' ,'', '', '', '','','',''
+                            '', serv.nombre_servicio, '' ,'', '', '', '','',''
+                        ])
+                ## Si los hay igual cantidades de registros con lo que se marcó inicialmente
+                ## se llena normalmente
+                elif(len(serv_cli)==serv.cantidad_clientes):
+                    for item in serv_cli:
+                        datos.append([
+                            '', serv.nombre_servicio, item.cliente.pais.nombre, item.cliente.nombre,
+                            item.cliente.rif,item.precio, str(dic_um.get(item.tipo_moneda)), item.monto_facturado,
+                            item.servicio_prestado
+                        ])
+                ## Si la cantidad de registros es distinta a lo que se marcó inicialmente
+                ## se llena con los registros que existan, y se llena con campos vacios lo faltante
+                elif(len(serv_cli)!=serv.cantidad_clientes):
+                    for item in serv_cli:
+                        datos.append([
+                            '', serv.nombre_servicio, item.cliente.pais.nombre, item.cliente.nombre,
+                            item.cliente.rif,item.precio, str(dic_um.get(item.tipo_moneda)), item.monto_facturado,
+                            item.servicio_prestado
+                        ])
+                    for item in range(serv.cantidad_clientes-len(serv_cli)):
+                        datos.append([
+                            '', serv.nombre_servicio, '' ,'', '', '', '','',''
                         ])
                         
             relation = {

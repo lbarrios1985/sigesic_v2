@@ -87,7 +87,8 @@ class BienesForm(forms.ModelForm):
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
-            'onchange':'clone_value($(this).val(),"#id_anho")',
+            'onchange':"""clone_value($(this).val(),"#id_anho"),
+            mostrar_carga($('#id_subunidad').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")""",
         }),
     )
     
@@ -104,7 +105,9 @@ class BienesForm(forms.ModelForm):
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"), 'style': 'width: 250px;',
-            'onchange':'before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val())'
+            'onchange':"""before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val()),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")
+            """
         }),
     )
 
@@ -199,7 +202,9 @@ class BienesForm(forms.ModelForm):
             'style': 'width: 250px;', 'disabled':'disabled',
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
-            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())"""
+            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
+            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            """
         }),required = False,
     )
     
@@ -377,7 +382,10 @@ class ClientesForm(forms.ModelForm):
         label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange':'before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val())'
+            'onchange':"""
+            before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val()),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")
+            """
         }), required = False,
     )
 
@@ -472,7 +480,9 @@ class ClientesForm(forms.ModelForm):
             'style': 'width: 250px;', 'disabled':'disabled',
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
-            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val())"""
+            before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
+            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            """
         }),
     )
     

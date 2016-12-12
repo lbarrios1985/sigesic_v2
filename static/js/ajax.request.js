@@ -272,7 +272,9 @@ function cm_descargar_archivo(app, mod, anho, rel_id) {
     $.getJSON(URL_DESCARGAR_ARCHIVO_CM, {app:app, mod:mod, anho:anho, rel_id:rel_id}, function(datos) {
         if (datos.resultado) {
             bootbox.alert(datos.message);
-            window.open(datos.archivo);
+            filename = URL_RETORNAR_ARCHIVO_CM+'?nombre='+datos.archivo+'.xls';
+            window.location = filename;
+            //window.open(datos.archivo);
         }
         else {
             bootbox.alert(datos.error);

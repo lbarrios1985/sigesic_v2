@@ -106,7 +106,10 @@ class ServiciosGeneralForm(forms.ModelForm):
             'class': 'form-control input-md', 'required':'required', 
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'style': 'width: 250px;',
-            'onchange':'before_init_datatable("servicios_list","ajax/servicios-data","subunidad_id",$(this).val())'
+            'onchange':"""
+            before_init_datatable("servicios_list","ajax/servicios-data","subunidad_id",$(this).val()),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"servicios","Servicio","#carga_template_servicios")
+            """
         }),
     )
 
@@ -165,7 +168,9 @@ class ServiciosGeneralForm(forms.ModelForm):
             'style': 'width: 250px;', 'disabled':'disabled',
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
-            before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val())"""
+            before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val()),
+            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"servicios","ServicioCliente","#carga_template_clientes")
+            """
         }), required = False,
     )
     
@@ -280,7 +285,6 @@ class ServiciosClienteForm(forms.ModelForm):
         validacion_prod = validar_anho('bienes_prod_comer','Produccion',**filtros_prod)
         #Se obtiene la validacion por servicios
         validacion_serv = validar_anho('servicios','ServicioCliente',**filtros_serv)
-        print(validacion_serv)
         #Si se cumple la validacion se llenan los campos con el valor y se deshabilitan
         if(validacion_prod['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}

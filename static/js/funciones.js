@@ -762,3 +762,27 @@ function duplicate_rif(id_rif,id_text='') {
         }
     }
 }
+
+/**
+ * @brief Función para mostrar el formulario de carga masiva y modificar el boton de descargar archivo
+ * @param father_id Contiene el id del padre
+ * @param anho_registro_id contiene el id del año de registro
+ * @param app Contiene el nombre de la aplicación
+ * @param model Contiene el nombre del modelo
+ * @param element_show Contiene el nombre del contenedor que se mostrará
+ */
+function mostrar_carga(father_id,anho_registro_id,app,model,element_show) {
+    var element = $(element_show);
+    if (father_id!='' && anho_registro_id!='') {
+        $('#descargar_archivo-'+model).attr("onclick","cm_descargar_archivo('"+app+"','"+model+"','"+anho_registro_id+"','"+father_id+"')");
+        if (element.attr('style')=='display: none;') {
+            element.show();
+        }
+    }
+    else if (father_id!='' || anho_registro_id!='') {
+        if (element.attr('style')!='display: none;') {
+            element.hide();
+        }
+    }
+    
+}

@@ -184,7 +184,9 @@
         </div>
         </form>
         
-        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' anho='2016' rel_id='3' %}
+        <div id='carga_template_produccion' style='display: none;'>
+            {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='Produccion' %}
+        </div>
         
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -397,7 +399,9 @@
                 </div>
             </div>
             
-        {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' anho='2016' rel_id='3' %}
+        <div id='carga_template_clientes' style='display: none;'>
+            {% include 'carga.masiva.template.html' with app='bienes_prod_comer' mod='FacturacionCliente' %}
+        </div>
             
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -496,18 +500,21 @@
             $('#id_rif_2').blur(function(){
                 duplicate_rif("#id_rif","#id_nombre_cliente");
                 });
+            //Se crea la acción para subir archivos por carga masiva
             $('.fileinput-upload-button').click(function(event){
                 event.preventDefault();
                 var models = '';
                 var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
                 var nombre = acccion.split(',')[1];
+                var padre = $('#id_subunidad_cliente').val();
+                var anho = $('#id_anho_registro option:selected').text();
                 nombre = nombre.replace(/\'/g,'');
                 if (nombre=='Produccion') {
-                    models = '?app=bienes_prod_comer&mod=Produccion&anho=2016&father_id=3&rel_app=bienes_prod_comer&rel_mod=Producto';
+                    models = '?app=bienes_prod_comer&mod=Produccion&anho='+anho+'&father_id='+padre+'&rel_app=bienes_prod_comer&rel_mod=Producto';
                     var file = $('#carga_masiva-Produccion')[0];
                 }
                 else if (nombre=='FacturacionCliente') {
-                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho=2016&father_id=3&rel_app=base&rel_mod=Cliente';
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho='+anho+'&father_id='+padre+'&rel_app=base&rel_mod=Cliente';
                     var file = $('#carga_masiva-FacturacionCliente')[0];
                 }
                 var fdata = new FormData();
@@ -526,7 +533,7 @@
                         console.log(error);
                     }
                 });
-            });    
+            });
         });
     </script>
 {% endblock %}

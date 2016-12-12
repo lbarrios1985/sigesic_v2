@@ -88,13 +88,14 @@ def descargar_archivo(request):
                         sheet.write(i, j, datos['datos'][i-1][j])
                         
 
-
-            archivo = "%s/%s.xls" % (settings.CARGA_MASIVA_FILES, datos['output'])
+            nombre = rel_id+"_"+datos['output']
+            
+            archivo = "%s/%s.xls" % (settings.CARGA_MASIVA_FILES, nombre)
 
             workbook.save(archivo)
 
             return HttpResponse(json.dumps({
-                'resultado': True, 'archivo': archivo, 'message': "El archivo fue generado correctamente"
+                'resultado': True, 'archivo': nombre, 'message': "El archivo fue generado correctamente"
             }))
 
         return HttpResponse(json.dumps({'resultado': False, 'error': str(MSG_NOT_DOWNLOAD_FILE)}))
@@ -134,7 +135,46 @@ def descargar_archivo_apoyo(request):
 
 
 @login_required
+def retornar_archivo(request):
+    """!
+    Función que retorna un archivo en la respuesta (si existe)
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 12-12-2016
+    @param request <b>{object}</b> Objeto que contiene la petición
+    @return Devuelve un HttpResponse con el JSON correspondiente al archivo de apoyo a descargar
+    """
+    try:
+        if not request.is_ajax():
+            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+        
+        filename = request.GET.get('nombre', None)
+        if(filename):
+            open_file = settings.CARGA_MASIVA_FILES+filename
+            response = HttpResponse()
+            response['Content-Disposition'] = 'attachment; filename=%s' % filename
+            response['X-Sendfile'] = open_file
+            return response
+        return HttpResponse(False)
+    
+    except Exception as e:
+        message = e
+
+    return HttpResponse(json.dumps({'result': False, 'message': str(message)}))
+
+
+@login_required
 def cargar_datos(request):
+    """!
+    Función para cargar los datos de carga masiva
+
+    @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)/ Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 11-08-2016
+    @param request <b>{object}</b> Objeto que contiene la petición
+    @return Devuelve un HttpResponse con el JSON correspondiente al estado de la petición
+    """
     try:
         if not request.is_ajax():
             return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
@@ -201,7 +241,6 @@ def cargar_datos(request):
                                 if('ambigous' in datos['cabecera'][j]):
                                     filtro = {}
                                     filtro[datos['cabecera'][j]['amb_filter']] = getattr(model_dep,datos['cabecera'][j]['amb_field'])
-                                    print(filtro)
                                     model_amb = apps.get_model(datos['cabecera'][j]['amb_app'], datos['cabecera'][j]['amb_model'])
                                     model_amb = model_amb.objects.filter(**filtro).get()
                                     setattr(modelo, datos['cabecera'][j]['field'], model_amb)

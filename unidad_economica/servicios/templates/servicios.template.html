@@ -98,7 +98,9 @@
         </div>
         </form>
         
-        {% include 'carga.masiva.template.html' with app='servicios' mod='Servicio' anho='2016' %}
+        <div id='carga_template_servicios' style='display: none;'>
+            {% include 'carga.masiva.template.html' with app='servicios' mod='Servicio'%}
+        </div>
         
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -301,7 +303,9 @@
                 </div>
             </div>
             
-        {% include 'carga.masiva.template.html' with app='servicios' mod='ServicioCliente' anho='2016' rel_id='3' %}
+        <div id='carga_template_clientes' style='display: none;'>
+            {% include 'carga.masiva.template.html' with app='servicios' mod='ServicioCliente' %}
+        </div>
             
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -341,25 +345,27 @@
     <script type="text/javascript">
         $('#id_cliente_servicio').change(function(){
             var attr = $(this).val();
-            $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'servicios','model':'Servicio','argument':attr,
-                   'field':'pk','value':'cantidad_clientes'},type:'get',
-                success:function(data){
-                    data = JSON.parse(data)
-                    var contar = contar_modelo('servicios','ServicioCliente',attr,'servicio_id');
-                    if (parseInt(contar)<parseInt(data.model)) {
-                        $('#nota').text('');    
-                        $('#id_cliente_list').val("Cliente # "+(contar+1));
-                        $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
-                    }
-                    else{
-                        $('#nota').text("No debe ingresar más clientes");
-                    }
-                },
-                error:function(error)
-                {
-                    console.log(error);
-                },
-            });
+            if (attr!='') {
+                $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'servicios','model':'Servicio','argument':attr,
+                       'field':'pk','value':'cantidad_clientes'},type:'get',
+                    success:function(data){
+                        data = JSON.parse(data)
+                        var contar = contar_modelo('servicios','ServicioCliente',attr,'servicio_id');
+                        if (parseInt(contar)<parseInt(data.model)) {
+                            $('#nota').text('');    
+                            $('#id_cliente_list').val("Cliente # "+(contar+1));
+                            $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
+                        }
+                        else{
+                            $('#nota').text("No debe ingresar más clientes");
+                        }
+                    },
+                    error:function(error)
+                    {
+                        console.log(error);
+                    },
+                });
+            }
         });
         $('#id_ubicacion_cliente').change(function(){
             if($('#id_ubicacion_cliente option:selected').text()=="Venezuela")
@@ -393,12 +399,14 @@
                 var file = '';
                 var nombre = acccion.split(',')[1];
                 nombre = nombre.replace(/\'/g,'');
+                var padre = $('#id_subunidad_cliente').val();
+                var anho = $('#id_anho_registro option:selected').text();
                 if (nombre=='Servicio') {
-                    models = '?app=servicios&mod=Servicio&anho=2016&father_id=3';
+                    models = '?app=servicios&mod=Servicio&anho='+anho+'&father_id='+padre;
                     var file =$('#carga_masiva-Servicio')[0];
                 }
                 else if (nombre=='ServicioCliente') {
-                    var models = '?app=servicios&mod=ServicioCliente&anho=2016&father_id=3';
+                    var models = '?app=servicios&mod=ServicioCliente&anho='+anho+'&father_id='+padre;
                     var file = $('#carga_masiva-ServicioCliente')[0];
                 }
                 var fdata = new FormData();

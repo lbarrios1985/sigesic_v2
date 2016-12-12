@@ -13,7 +13,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from __future__ import unicode_literals
 from django.conf.urls import url
 
-from .ajax import descargar_archivo, descargar_archivo_apoyo, cargar_datos
+from .ajax import descargar_archivo, descargar_archivo_apoyo, cargar_datos, retornar_archivo
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^ajax/descargar_archivo/?$', descargar_archivo, name='cm_descargar_archivo'),
     url(r'^ajax/descargar_archivo_apoyo/?$', descargar_archivo_apoyo, name='cm_descargar_archivo_apoyo'),
     url(r'^ajax/cargar_datos/?$', cargar_datos, name='cm_cargar_datos'),
+    url(r'^ajax/retornar_archivo/?$', retornar_archivo, name='cm_retornar_archivo'),
 ]

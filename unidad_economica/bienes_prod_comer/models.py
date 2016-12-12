@@ -197,7 +197,6 @@ class Produccion(models.Model):
                     codigo, prod.producto.nombre_producto, prod.producto.especificacion_tecnica, prod.producto.marca,
                     prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_produccion, unidad_medida
                 ])
-            print(datos)
             relation = {
                 'padre':{
                     'app':'sub_unidad_economica',
@@ -389,17 +388,34 @@ class FacturacionCliente(models.Model):
             ## Agrega los datos para el año y sub unidad solicitada
             dic_um = dict(UNIDAD_MEDIDA)
             for prod in Produccion.objects.filter(anho_registro__anho=anho,producto__subunidad_id=rel_id):
-                fact = FacturacionCliente.objects.filter(produccion_id=prod.pk,anho_registro__anho=anho).get()
-                for item in range(prod.cantidad_clientes):
-                    #codigo = str(fact.producto_id)+" "+str(fact.pk)
-                    if fact:
-                        unidad_medida = str(dic_um.get(fact.unidad_de_medida))
+                fact = FacturacionCliente.objects.filter(produccion_id=prod.pk,anho_registro__anho=anho).all()
+                ## Si no hay datos devuelve el archivo para llenar
+                if not fact:
+                    for item in range(prod.cantidad_clientes):
                         datos.append([
-                            '', prod.producto.nombre_producto, prod.producto.especificacion_tecnica, prod.producto.marca,
-                            prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_insumos,
-                            prod.cantidad_produccion, unidad_medida
+                            '', prod.producto.nombre_producto, '' ,'', '', '', '','','',''
                         ])
-                    else:
+                ## Si los hay igual cantidades de registros con lo que se marcó inicialmente
+                ## se llena normalmente
+                elif(len(fact)==prod.cantidad_clientes):
+                    for item in fact:
+                        unidad_medida = str(dic_um.get(item.unidad_de_medida))
+                        datos.append([
+                            '', prod.producto.nombre_producto, item.cliente.pais.nombre, item.cliente.nombre,
+                            item.cliente.rif,item.cantidad_vendida, unidad_medida, item.precio_venta_bs,
+                            item.precio_venta_usd, item.tipo_cambio
+                        ])
+                ## Si la cantidad de registros es distinta a lo que se marcó inicialmente
+                ## se llena con los registros que existan, y se llena con campos vacios lo faltante
+                elif(len(fact)!=prod.cantidad_clientes):
+                    for item in fact:
+                        unidad_medida = str(dic_um.get(item.unidad_de_medida))
+                        datos.append([
+                            '', prod.producto.nombre_producto, item.cliente.pais.nombre, item.cliente.nombre,
+                            item.cliente.rif,item.cantidad_vendida, unidad_medida, item.precio_venta_bs,
+                            item.precio_venta_usd, item.tipo_cambio
+                        ])
+                    for item in range(prod.cantidad_clientes-len(fact)):
                         datos.append([
                             '', prod.producto.nombre_producto, '' ,'', '', '', '','','',''
                         ])

@@ -21,7 +21,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
 from .models import Servicio, ServicioCliente
 from .forms import ServiciosGeneralForm, ServiciosClienteForm
-from base.constant import CREATE_MESSAGE
+from base.constant import CREATE_MESSAGE, TIPO_SERVICIO
 from base.models import CaevClase, Pais, Cliente, AnhoRegistro
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 
@@ -98,11 +98,12 @@ def servicios_get_data(request):
     datos = {'data':[]}
     # Recibe por get el id del producto
     subid = request.GET.get('subunidad_id', None)
+    dic_ts = dict(TIPO_SERVICIO)
     if(subid):
         for serv in Servicio.objects.filter(subunidad_id=subid).all():
             lista = []
             lista.append(serv.nombre_servicio)
-            lista.append(serv.tipo_servicio.nombre)
+            lista.append(str(dic_ts.get(serv.tipo_servicio)))
             lista.append(serv.caev.pk)
             lista.append(serv.cantidad_clientes)
             lista.append(serv.subunidad.nombre_sub)
