@@ -176,8 +176,10 @@
                         </a>
                     </div>
                 </div>
-
-                {% include 'carga.masiva.template.html' with app='maquinaria_equipo' mod='maquinariaModel' %}
+                
+                <div id='carga_template_maquinaria' style='display: none;'>
+                    {% include 'carga.masiva.template.html' with app='maquinaria_equipo' mod='maquinariaModel' %}
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 text-center">

@@ -14,9 +14,11 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @version 2.0
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.models import CaevClase, Pais, AnhoRegistro, Cliente
 from base.constant import MONEDAS, TIPO_SERVICIO
+import pyexcel
 
 class Servicio(models.Model):
     """!
@@ -32,7 +34,7 @@ class Servicio(models.Model):
     nombre_servicio = models.CharField(max_length=45)
     
     ## Tipo de Servicio
-    tipo_servicio = models.CharField(max_length=2)
+    tipo_servicio = models.CharField(max_length=2,choices=TIPO_SERVICIO)
     
     ## Establece la relación con el código CAEV
     caev = models.ForeignKey(CaevClase)
@@ -69,52 +71,30 @@ class Servicio(models.Model):
                 'title': str(_("Etiqueta")),
                 'max_length': 0,
                 'null': False,
-                'related':True,
-                'depend':False,
-                'related_model':'Cliente',
-                'type': 'string'
             },
             {
                 'field': 'nombre_servicio',
                 'title': str(_("Nombre del Servicio")),
                 'max_length': 45,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'string'
             },
             {
                 'field': 'tipo_servicio',
                 'title': str(_("Tipo de Servicio")),
                 'max_length': 45,
                 'null': False,
-                'related':False,
-                'depend':True,
-                'related_app':'servicios',
-                'related_model':'TipoServicio',
-                'need_object':True,
-                'filtro':'nombre',
-                'type': 'string'
             },
             {
                 'field': 'caev',
                 'title': str(_("Código")),
                 'max_length': 5,
                 'null': False,
-                'related':False,
-                'depend':True,
-                'related_app':'base',
-                'related_model':'CaevClase',
-                'type': 'string'
             },
             {
                 'field': 'cantidad_clientes',
                 'title': str(_("Cantidad de Clientes")),
                 'max_length': 5,
                 'null': True,
-                'related':False,
-                'depend':False,
-                'type': 'string'
             },
         ]
 
@@ -122,25 +102,54 @@ class Servicio(models.Model):
         relation = {}
         
         if not rel_id is None:
-            dic_ts = dict(TIPO_SERVICIO)
             ## Agrega los datos para la sub unidad solicitada
             for serv in Servicio.objects.filter(subunidad__id=rel_id):
                 datos.append([
-                    '', serv.nombre_servicio, str(dic_ts.get(serv.tipo_servicio)), serv.caev.clase,
+                    '', serv.nombre_servicio, serv.tipo_servicio, serv.caev.clase,
                     serv.cantidad_clientes
                 ])
-                        
-            relation = {
-                'padre':{
-                    'app':'sub_unidad_economica',
-                    'mod':'SubUnidadEconomica',
-                    'field':'subunidad',
-                    'child':'Servicio',
-                    'instance':SubUnidadEconomica.objects.get(pk=rel_id)
-                },
-            }
 
-        return {'cabecera': fields, 'datos': datos, 'output': 'servicios', 'relation':relation}
+        return {'cabecera': fields, 'datos': datos, 'output': 'servicios'}
+    
+    def carga_masiva_load(self,path=None, anho=None, rel_id=None):
+        """!
+        Método para realizar la carga masiva
+
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 19-12-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param path <b>path</b> Recibe la ruta del archivo para abrir
+        @param anho <b>anho</b> Condición que evalúa si extraer los datos del modelo para un año en partícular
+        @param rel_id <b>rel_id</b> Tiene el id de la relación del padre
+        @return Devuelve el mensaje
+        """
+        
+        load_file = pyexcel.get_sheet(file_name=path)
+        ## Se instancia la subunidad
+        subunidad = SubUnidadEconomica.objects.get(pk=rel_id)
+        ## Se define un arreglo para los errores
+        error = []
+        for i in range(1,len(load_file.row_range())):
+            ## Se intancia el caev
+            caev = CaevClase.objects.get(pk=load_file[i,3])
+            ## Se crea el servicio
+            servicio = Servicio()
+            servicio.nombre_servicio = load_file[i,1]
+            servicio.tipo_servicio = load_file[i,2]
+            servicio.caev = caev
+            servicio.cantidad_clientes = load_file[i,4]
+            servicio.subunidad = subunidad
+            try:
+                servicio.full_clean()
+                servicio.save()
+            except ValidationError as e:
+                error.append((i,e.message_dict))
+        ## Si no se registraron errores devuelve el mensaje de los errores
+        if(len(error)==0):
+            return {'validacion':True,'message':str(_("Se realizó la carga con éxito"))}
+        ## En caso contrario retorna los errores
+        return {'validacion':False,'message':error} 
     
         
 class ServicioCliente(models.Model):
@@ -166,7 +175,7 @@ class ServicioCliente(models.Model):
     precio = models.DecimalField(max_digits=20,decimal_places=5)
     
     ## Tipo de moneda
-    tipo_moneda = models.CharField(max_length=3)
+    tipo_moneda = models.CharField(max_length=3,choices=MONEDAS)
     
     ## Monto facturado del servicio
     monto_facturado = models.DecimalField(max_digits=20,decimal_places=5)
@@ -201,54 +210,30 @@ class ServicioCliente(models.Model):
                 'title': str(_("Etiqueta")),
                 'max_length': 0,
                 'null': False,
-                'related':True,
-                'depend':False,
-                'related_model':'Servicio',
-                'type': 'string'
             },
             {
                 'field': 'servicio',
                 'title': str(_("Nombre del Servicio")),
                 'max_length': 45,
                 'null': False,
-                'related':False,
-                'depend':True,
-                'related_app':'servicios',
-                'related_model':'Servicio',
-                'need_object':True,
-                'filtro':'nombre_servicio',
-                'type': 'string'
             },
             {
                 'field': 'pais',
                 'title': str(_("Ubicación")),
                 'max_length': 45,
                 'null': False,
-                'related':False,
-                'depend':True,
-                'related_app':'base',
-                'related_model':'Pais',
-                'need_object':True,
-                'filtro':'nombre',
-                'type': 'string'
             },
             {
                 'field': 'nombre',
                 'title': str(_("Nombre del Cliente")),
                 'max_length': 45,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'string'
             },
             {
                 'field': 'rif',
                 'title': str(_("Rif")),
                 'max_length': 10,
                 'null': True,
-                'related':False,
-                'depend':False,
-                'type': 'string'
             },
             {
                 'field': 'precio',
@@ -256,18 +241,12 @@ class ServicioCliente(models.Model):
                 'max_length': 3,
                 'decimal_places':5,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'double'
             },
             {
                 'field': 'tipo_moneda',
                 'title': str(_("Tipo de Moneda")),
                 'max_length': 3,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'string'
             },
             {
                 'field': 'monto_facturado',
@@ -275,18 +254,12 @@ class ServicioCliente(models.Model):
                 'max_length': 20,
                 'decimal_places':5,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'double'
             },
             {
                 'field': 'servicio_prestado',
                 'title': str(_("# Servicios Prestados")),
                 'max_length': 20,
                 'null': False,
-                'related':False,
-                'depend':False,
-                'type': 'integer'
             },
         ]
 
@@ -295,7 +268,6 @@ class ServicioCliente(models.Model):
 
         if not anho is None and not rel_id is None:
             ## Agrega los datos para el año y sub unidad solicitada
-            dic_um = dict(MONEDAS)
             for serv in Servicio.objects.filter(subunidad__id=rel_id):
                 serv_cli = ServicioCliente.objects.filter(servicio=serv.pk).all()
                 if not serv_cli:
@@ -309,7 +281,7 @@ class ServicioCliente(models.Model):
                     for item in serv_cli:
                         datos.append([
                             '', serv.nombre_servicio, item.cliente.pais.nombre, item.cliente.nombre,
-                            item.cliente.rif,item.precio, str(dic_um.get(item.tipo_moneda)), item.monto_facturado,
+                            item.cliente.rif,item.precio, item.tipo_moneda, item.monto_facturado,
                             item.servicio_prestado
                         ])
                 ## Si la cantidad de registros es distinta a lo que se marcó inicialmente
@@ -318,7 +290,7 @@ class ServicioCliente(models.Model):
                     for item in serv_cli:
                         datos.append([
                             '', serv.nombre_servicio, item.cliente.pais.nombre, item.cliente.nombre,
-                            item.cliente.rif,item.precio, str(dic_um.get(item.tipo_moneda)), item.monto_facturado,
+                            item.cliente.rif,item.precio, item.tipo_moneda, item.monto_facturado,
                             item.servicio_prestado
                         ])
                     for item in range(serv.cantidad_clientes-len(serv_cli)):
@@ -326,13 +298,62 @@ class ServicioCliente(models.Model):
                             '', serv.nombre_servicio, '' ,'', '', '', '','',''
                         ])
                         
-            relation = {
-                'padre':{
-                    'app':'sub_unidad_economica',
-                    'mod':'SubUnidadEconomica',
-                    'field':'subunidad',
-                    'child':'Servicio',
-                    'instance':SubUnidadEconomica.objects.get(pk=rel_id)
-                },
-            }
-        return {'cabecera': fields, 'datos': datos, 'output': 'servicios_cliente', 'relation':relation}
+        return {'cabecera': fields, 'datos': datos, 'output': 'servicios_cliente'}
+    
+    def carga_masiva_load(self,path=None, anho=None, rel_id=None):
+        """!
+        Método para realizar la carga masiva
+
+        @author Rodrigo Boet (rboet at cenditel.gob.ve)
+        @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+        @date 20-12-2016
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param path <b>path</b> Recibe la ruta del archivo para abrir
+        @param anho <b>anho</b> Condición que evalúa si extraer los datos del modelo para un año en partícular
+        @param rel_id <b>rel_id</b> Tiene el id de la relación del padre
+        @return Devuelve el mensaje
+        """
+        
+        load_file = pyexcel.get_sheet(file_name=path)
+        ## Se instancia la subunidad
+        subunidad = SubUnidadEconomica.objects.get(pk=rel_id)
+        ## Se intancia el año de registro
+        anho_registro = AnhoRegistro.objects.filter(anho=anho).get()
+        ## Se define un arreglo para los errores
+        error = []
+        for i in range(1,len(load_file.row_range())):
+            ## Se busca el servicio
+            servicio = Servicio.objects.filter(subunidad_id=rel_id,nombre_servicio=load_file[i,1]).get()
+            ## Se busca el cliente
+            cliente = Cliente.objects.filter(rif=load_file[i,4])
+            if cliente:
+                cliente = cliente.get()
+            else:
+                pais = Pais.objects.filter(nombre=load_file[i,2]).get()
+                ## Se crea y se guarda el modelo de cliente
+                cliente = Cliente()
+                cliente.nombre = load_file[i,3]
+                #Si es venezuela se toma en cuenta el rif
+                if(load_file[i,2]=="Venezuela"):
+                    cliente.rif = load_file[i,4]
+                cliente.pais = pais
+                cliente.save()
+            ## Se crea el servicio del cliente
+            servicio_cliente = ServicioCliente()
+            servicio_cliente.precio = load_file[i,5]
+            servicio_cliente.tipo_moneda = load_file[i,6]
+            servicio_cliente.monto_facturado = load_file[i,7]
+            servicio_cliente.servicio_prestado = load_file[i,8]
+            servicio_cliente.anho_registro = anho_registro
+            servicio_cliente.cliente = cliente
+            servicio_cliente.servicio = servicio
+            try:
+                servicio_cliente.full_clean()
+                servicio_cliente.save()
+            except ValidationError as e:
+                error.append((i,e.message_dict))
+        ## Si no se registraron errores devuelve el mensaje de los errores
+        if(len(error)==0):
+            return {'validacion':True,'message':str(_("Se realizó la carga con éxito"))}
+        ## En caso contrario retorna los errores
+        return {'validacion':False,'message':error} 

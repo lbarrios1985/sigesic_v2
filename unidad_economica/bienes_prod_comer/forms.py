@@ -149,7 +149,7 @@ class BienesForm(forms.ModelForm):
 
     ## Cantidad de insumos
     cantidad_insumos = forms.CharField(
-        label=_("Número de Insumos"), widget=TextInput(attrs={
+        label=_("Número de Insumos"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el número de insumos"), 'size': '50', 'required':'required',
             'style': 'width: 250px;',
@@ -190,7 +190,10 @@ class BienesForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto')"
+            'onchange': """
+            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto'),
+            mostrar_carga(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            """
         }),required = False,
     )
     
@@ -203,7 +206,7 @@ class BienesForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
-            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","FacturacionCliente","produccion__producto_id","cliente")
             """
         }),required = False,
     )
@@ -254,15 +257,6 @@ class BienesForm(forms.ModelForm):
         label=_("Precio de venta por unidad(usd)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
-            'style': 'width: 250px;', 'step':'1'
-        }),required = False,
-    )
-    
-    ## Tipo de cambio
-    tipo_cambio = forms.CharField(
-        label=_("Tipo de cambio"), widget=NumberInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el tipo de cambio"), 'size': '50',
             'style': 'width: 250px;', 'step':'1'
         }),required = False,
     )
@@ -468,7 +462,10 @@ class ClientesForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto')"
+            'onchange': """
+            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto'),
+            mostrar_carga(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            """
         }),
     )
     
@@ -481,7 +478,7 @@ class ClientesForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
-            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","FacturacionCliente","produccion__producto_id","cliente")
             """
         }),
     )
@@ -532,15 +529,6 @@ class ClientesForm(forms.ModelForm):
         label=_("Precio de venta por unidad(usd)"), widget=NumberInput(attrs={
             'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
             'data-toggle': 'tooltip','title': _("Indique el precio de venta por unidad(usd)"), 'size': '50',
-            'style': 'width: 250px;', 'step':'1'
-        }),
-    )
-    
-    ## Tipo de cambio
-    tipo_cambio = forms.CharField(
-        label=_("Tipo de cambio"), widget=NumberInput(attrs={
-            'class': 'form-control input-md','style': 'min-width: 0; width: auto; display: inline;',
-            'data-toggle': 'tooltip','title': _("Indique el tipo de cambio"), 'size': '50',
             'style': 'width: 250px;', 'step':'1'
         }),
     )

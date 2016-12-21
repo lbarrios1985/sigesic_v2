@@ -78,6 +78,7 @@ PROJECT_APPS = [
     'unidad_economica.sub_unidad_economica',
     'unidad_economica.maquinaria_equipo',
     'unidad_economica.bienes_prod_comer',
+    'unidad_economica.insumo_proveedor',
     'unidad_economica.servicios',
     #Aplicación de carga masiva debe colocarse después de las aplicaciones de producción
     'carga_masiva',

@@ -343,21 +343,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group {% if form.tipo_cambio.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio.auto_id }}">
-                            {{ form.tipo_cambio.label }}
-                        </label>
-                        <div class="col-md-9 col-xs-9 col-sm-9">
-                            <div class="form-inline">
-                                {{ form.tipo_cambio }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% include 'base.form.errors.html' with form_errors=form.tipo_cambio.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             
             <div class="row text-center">
                 <div class="col-md-12"><br>
@@ -422,7 +407,6 @@
                             <td>{% trans 'Unidad de Medida' %}</td>
                             <td>{% trans 'Precio de Venta(Bs)' %}</td>
                             <td>{% trans 'Precio de Venta(USD)' %}</td>
-                            <td>{% trans 'Tipo de Cambio' %}</td>
                         </tr>
                     </thead>
                 </table>
@@ -440,30 +424,6 @@
 {% endblock%}
 {% block extra_footer %}
     <script type="text/javascript">
-        $('#id_cliente_producto').change(function(){
-            var attr = $(this).val();
-            if (attr!='') {
-                $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':'bienes_prod_comer','model':'Produccion',
-                       'argument':attr,'field':'producto_id','value':'cantidad_clientes'},type:'get',
-                    success:function(data){
-                        data = JSON.parse(data);
-                        var contar = contar_modelo('bienes_prod_comer','FacturacionCliente',attr,'produccion__producto_id');
-                        if (parseInt(contar)<parseInt(data.model)) {
-                            $('#nota').text('');    
-                            $('#id_cliente_list').val("Cliente # "+(contar+1));
-                            $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' cliente(s)');
-                        }
-                        else{
-                            $('#nota').text("No debe ingresar más clientes");
-                        }
-                    },
-                    error:function(error)
-                    {
-                        console.log(error);
-                    },
-                });
-            }
-        });
         $('#id_ubicacion_cliente').change(function(){
             if($('#id_ubicacion_cliente option:selected').text()=="Venezuela")
             {
@@ -506,15 +466,16 @@
                 var models = '';
                 var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
                 var nombre = acccion.split(',')[1];
-                var padre = $('#id_subunidad_cliente').val();
                 var anho = $('#id_anho_registro option:selected').text();
                 nombre = nombre.replace(/\'/g,'');
                 if (nombre=='Produccion') {
-                    models = '?app=bienes_prod_comer&mod=Produccion&anho='+anho+'&father_id='+padre+'&rel_app=bienes_prod_comer&rel_mod=Producto';
+                    var padre = $('#id_subunidad').val();
+                    models = '?app=bienes_prod_comer&mod=Produccion&anho='+anho+'&father_id='+padre;
                     var file = $('#carga_masiva-Produccion')[0];
                 }
                 else if (nombre=='FacturacionCliente') {
-                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho='+anho+'&father_id='+padre+'&rel_app=base&rel_mod=Cliente';
+                    var padre = $('#id_subunidad_cliente').val();
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho='+anho+'&father_id='+padre;
                     var file = $('#carga_masiva-FacturacionCliente')[0];
                 }
                 var fdata = new FormData();

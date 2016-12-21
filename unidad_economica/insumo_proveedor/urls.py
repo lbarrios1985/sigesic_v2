@@ -15,7 +15,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from .views import InsumoProveedorCreate
+from .views import *
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -23,7 +23,12 @@ __docstring__ = "DoxyGen"
 
 
 urlpatterns = [
-    url(r'^registro$', login_required(InsumoProveedorCreate.as_view()) ,name="insumos_proveedores"),
-    #url(r'^registro_$', login_required(.as_view()) ,name="bienes_registro_create"),
-    #url(r'^registro_$', login_required(.as_view()) ,name="cliente_registro_create"),
+    url(r'^registro$', login_required(InsumoCreate.as_view()) ,name="insumo_create"),
+    url(r'^registro_proveedor$', login_required(InsumoProveedorCreate.as_view()) ,name="proveedor_create"),
+]
+
+# Urls usadas para ajax
+urlpatterns += [
+    url(r'^ajax/insumo-data$', login_required(insumo_get_data) ,name="insumo_data"),
+    url(r'^ajax/clientes-data$', login_required(proveedor_get_data) ,name="proveedor_data"),
 ]

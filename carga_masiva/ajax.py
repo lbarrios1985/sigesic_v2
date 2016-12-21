@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.db import transaction
 from django.apps import apps
 from django.conf import settings
 from base.models import AnhoRegistro
@@ -146,13 +147,14 @@ def retornar_archivo(request):
     @return Devuelve un HttpResponse con el JSON correspondiente al archivo de apoyo a descargar
     """
     try:
-        if not request.is_ajax():
-            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+        #if not request.is_ajax():
+        #    return HttpResponse(json.dumps({'result': False, 'message': str(MSG_NOT_AJAX)}))
         
         filename = request.GET.get('nombre', None)
         if(filename):
             open_file = settings.CARGA_MASIVA_FILES+filename
-            response = HttpResponse()
+            #response = HttpResponse()
+            response = HttpResponse(content_type='application/ms-excel')
             response['Content-Disposition'] = 'attachment; filename=%s' % filename
             response['X-Sendfile'] = open_file
             return response
@@ -165,6 +167,7 @@ def retornar_archivo(request):
 
 
 @login_required
+@transaction.atomic
 def cargar_datos(request):
     """!
     Función para cargar los datos de carga masiva
@@ -177,7 +180,7 @@ def cargar_datos(request):
     """
     try:
         if not request.is_ajax():
-            return HttpResponse(json.dumps({'result': False, 'message': MSG_NOT_AJAX}))
+            return HttpResponse(json.dumps({'result': False, 'message': str(MSG_NOT_AJAX)}))
 
         ## Nombre de la aplicación o módulo
         app = request.GET.get('app', None)
@@ -188,12 +191,6 @@ def cargar_datos(request):
         ## Año para el que se esta solicitando el registro de datos
         anho = request.GET.get('anho', None)
         
-        ## Aplicación de la Relación
-        rel_app = request.GET.get('rel_app', None)
-        
-        ## Modelo de la relación
-        rel_mod = request.GET.get('rel_mod', None)
-        
         ## Modelo padre
         father_id = request.GET.get('father_id', None)
         
@@ -201,96 +198,22 @@ def cargar_datos(request):
         archivo = request.FILES['file']
 
         if app and mod and anho and archivo and father_id:
-            anho_registro = AnhoRegistro.objects.filter(anho=anho).get()
             instance = apps.get_model(app, mod)
             modelo = instance()
             datos = modelo.carga_masiva_init(anho=anho, rel_id=father_id)
-            rel_model = None
             ruta = 'carga_masiva/files/'+str(archivo)
             path = default_storage.save(ruta, ContentFile(archivo.read()))
-            load_file = pyexcel.get_sheet(file_name=path)
+            resultado = modelo.carga_masiva_load(path,anho,father_id)
 
-            for i in range(1,len(load_file.row_range())):
-                modelo = instance()
-                if(rel_app and rel_mod):
-                    instance_rel = apps.get_model(rel_app, rel_mod)
-                    rel_model = instance_rel()
-                for j in range(len(datos['cabecera'])):
-                    if(load_file[0,j]==datos['cabecera'][j]['title']):
-                        # Se comprueba si viene algo en la columna id
-                        if(datos['cabecera'][j]['title']=='Etiqueta' and load_file[i,j]==''):
-                            pass
-                        # Se comprueba si el modelo tiene relación
-                        elif(datos['cabecera'][j]['related']):
-                            # Si tiene una relación con otro modelo
-                            if(datos['cabecera'][j]['depend'] and not 'need_object' in datos['cabecera'][j]):
-                                model_dep = apps.get_model(datos['cabecera'][j]['related_app'], datos['cabecera'][j]['related_model'])
-                                model_dep = model_dep.objects.get(pk=load_file[i,j])
-                                setattr(rel_model, datos['cabecera'][j]['field'], model_dep)
-                            #Si se requieren modelos externos
-                            elif(datos['cabecera'][j]['depend'] and 'need_object' in datos['cabecera'][j]):
-                                filtro = {}
-                                filtro[datos['cabecera'][j]['filtro']] = load_file[i,j]
-                                model_dep = apps.get_model(datos['cabecera'][j]['related_app'], datos['cabecera'][j]['related_model'])
-                                model_dep = model_dep.objects.filter(**filtro).get()
-                                if(datos['relation']['padre']['mod'] == datos['cabecera'][j]['related_model']):
-                                    datos['relation']['padre']['instance'] = model_dep          
-                                else:
-                                    setattr(rel_model, datos['cabecera'][j]['field'], model_dep)
-                                #Si existe una relación doble
-                                if('ambigous' in datos['cabecera'][j]):
-                                    filtro = {}
-                                    filtro[datos['cabecera'][j]['amb_filter']] = getattr(model_dep,datos['cabecera'][j]['amb_field'])
-                                    model_amb = apps.get_model(datos['cabecera'][j]['amb_app'], datos['cabecera'][j]['amb_model'])
-                                    model_amb = model_amb.objects.filter(**filtro).get()
-                                    setattr(modelo, datos['cabecera'][j]['field'], model_amb)
-                            # Si la relación es solo con el padre
-                            else:
-                                setattr(rel_model, datos['cabecera'][j]['field'], load_file[i,j])
-                        else:
-                            # Si tiene una relación con otro modelo
-                            if(datos['cabecera'][j]['depend'] and not 'need_object' in datos['cabecera'][j]):
-                                model_dep = apps.get_model(datos['cabecera'][j]['related_app'], datos['cabecera'][j]['related_model'])
-                                model_dep = model_dep.objects.get(pk=load_file[i,j])
-                                setattr(modelo, datos['cabecera'][j]['field'], model_dep) 
-                            #Si se requieren modelos externos
-                            elif(datos['cabecera'][j]['depend'] and 'need_object' in datos['cabecera'][j]):
-                                filtro = {}
-                                filtro[datos['cabecera'][j]['filtro']] = load_file[i,j]
-                                model_dep = apps.get_model(datos['cabecera'][j]['related_app'], datos['cabecera'][j]['related_model'])
-                                model_dep = model_dep.objects.filter(**filtro).get()
-                                if(datos['relation']['padre']['mod'] == datos['cabecera'][j]['related_model']):
-                                    datos['relation']['padre']['instance'] = model_dep
-                                else:
-                                    setattr(modelo, datos['cabecera'][j]['field'], model_dep)
-                                 #Si existe una relación doble
-                                if('ambigous' in datos['cabecera'][j]):
-                                    filtro = {}
-                                    filtro[datos['cabecera'][j]['filtro']] = load_file[i,j]
-                                    model_amb = apps.get_model(datos['cabecera'][j]['amb_app'], datos['cabecera'][j]['amb_model'])
-                                    model_amb = model_amb.objects.filter(**filtro).get()
-                                    setattr(rel_model, datos['cabecera'][j]['field'], model_amb)
-                            # Si no tiene relación de ningun otro tipo
-                            else:
-                                setattr(modelo, datos['cabecera'][j]['field'], load_file[i,j])
-                # Se comprueba quien es el hijo del padre (si el modelo o el relacionado)
-                if(datos['relation']['padre']['child']==mod):
-                    setattr(modelo, datos['relation']['padre']['field'], datos['relation']['padre']['instance'])
-                elif(rel_model):
-                    setattr(rel_model, datos['relation']['padre']['field'], datos['relation']['padre']['instance'])
-                    rel_model.save()
-                #Se guarda el año de registro
-                setattr(modelo, 'anho_registro', anho_registro)
-                #Si existe un relación con un padre, se guarda luego de que se almacene el modelo
-                if(rel_model):
-                    setattr(modelo, datos['relation']['relation_model']['field'], rel_model)
-                modelo.save()
             default_storage.delete(path)
-            return HttpResponse(json.dumps({
-                'result': True, 'message': "El archivo se cargó éxitosamente'"
-            }))
-
-        return HttpResponse(json.dumps({'result': False, 'error': MSG_NOT_UPLOAD_FILE}))
+            
+            if(resultado['validacion']):
+                return HttpResponse(json.dumps({
+                    'result': True, 'message': resultado['message']
+                }))
+            return HttpResponse(json.dumps({'result': False, 'error': resultado['message']}))
+        return HttpResponse(json.dumps({'result': False, 'error': str(_('Faltan Párametros'))}))
+    
     except Exception as e:
         message = e
 

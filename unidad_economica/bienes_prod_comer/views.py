@@ -195,7 +195,6 @@ class ClientesCreate(SuccessMessageMixin,CreateView):
         self.object.unidad_de_medida = form.cleaned_data['unidad_de_medida_cliente']
         self.object.precio_venta_bs = form.cleaned_data['precio_venta_bs']
         self.object.precio_venta_usd = form.cleaned_data['precio_venta_usd']
-        self.object.tipo_cambio = form.cleaned_data['tipo_cambio']
         self.object.anho_registro = anho
         self.object.cliente = cliente
         self.object.produccion = produccion
@@ -232,7 +231,6 @@ def clientes_get_data(request):
             lista.append(str(dic_um.get(fact.unidad_de_medida)))
             lista.append(fact.precio_venta_bs)
             lista.append(fact.precio_venta_usd)
-            lista.append(fact.tipo_cambio)
             datos['data'].append(lista)
         
         return JsonResponse(datos,safe=False)

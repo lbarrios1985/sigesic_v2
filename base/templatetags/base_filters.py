@@ -85,7 +85,7 @@ def menu_left_filter(user, url_path):
         # Si existe al menos una sub unidad económica que es sede y presta servicio
         if sub_unidad.exclude(tipo_sub_unidad='Se'):
             menu_left += opcion % (reverse('bienes_registro_create'), _("5"), _("Bienes Producidos"))
-            menu_left += opcion % (reverse('insumos_proveedores'), _("6"), _("Insumo Proveedor"))
+            menu_left += opcion % (reverse('insumo_create'), _("6"), _("Insumo Proveedor"))
             if(not maquinaria):
                 menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
                 maquinaria = True

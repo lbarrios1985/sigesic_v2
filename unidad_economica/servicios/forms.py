@@ -156,7 +156,10 @@ class ServiciosGeneralForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'servicios','Servicio','subunidad','pk','nombre_servicio','id_cliente_servicio')"
+            'onchange': """
+            actualizar_combo(this.value,'servicios','Servicio','subunidad','pk','nombre_servicio','id_cliente_servicio'),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"servicios","ServicioCliente","#carga_template_clientes")
+            """
         }),required = False,
     )
     
@@ -169,7 +172,7 @@ class ServiciosGeneralForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val()),
-            mostrar_carga($('#id_subunidad_cliente').val(),$('#id_anho_registro option:selected').text(),"servicios","ServicioCliente","#carga_template_clientes")
+            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","ServicioCliente","servicio_id","cliente")
             """
         }), required = False,
     )
@@ -376,7 +379,10 @@ class ServiciosClienteForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'servicios','Servicio','subunidad','pk','nombre_servicio','id_cliente_servicio')"
+            'onchange': """
+            actualizar_combo(this.value,'servicios','Servicio','subunidad','pk','nombre_servicio','id_cliente_servicio'),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"servicios","ServicioCliente","#carga_template_clientes")
+            """
         }),
     )
     
@@ -388,7 +394,9 @@ class ServiciosClienteForm(forms.ModelForm):
             'style': 'width: 250px;', 'disabled':'disabled',
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
-            before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val())"""
+            before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val()),
+            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","ServicioCliente","servicio_id","cliente")
+            """
         }),
     )
     

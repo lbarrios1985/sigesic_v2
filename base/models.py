@@ -319,3 +319,24 @@ class Cliente(models.Model):
     
     ## Establece la relación con el país
     pais = models.ForeignKey(Pais)
+    
+    
+@python_2_unicode_compatible
+class Proveedor(models.Model):
+    """!
+    Clase que gestiona los datos para el registro de los Proveedores en la clase Insumo-Proveedor
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 20-07-2016
+    @version 2.0
+    """
+    
+    ## Nombre del Proveedor
+    nombre = models.CharField(max_length=45)
+    
+    ## Rif del Proveedor
+    rif = models.CharField(max_length=10)
+    
+    ## Establece la relación con el país
+    pais = models.ForeignKey(Pais)
