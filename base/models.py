@@ -319,3 +319,101 @@ class Cliente(models.Model):
     
     ## Establece la relación con el país
     pais = models.ForeignKey(Pais)
+
+@python_2_unicode_compatible
+class CodMercosurCatitulo(models.Model):
+    """!
+    Clase que gestiona los codigos arancelarios MERCOSUR
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-12-2016
+    @version 2.0
+    """
+
+    # Código arancelario mercosur a 2 dígitos
+    codigo= models.CharField(max_length=2, primary_key=True)
+
+    # Descripción
+    descripcion= models.CharField(max_length=600)
+
+@python_2_unicode_compatible
+class CodMercosurSeccion(models.Model):
+    """!
+    Clase que gestiona los codigos arancelarios MERCOSUR
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-12-2016
+    @version 2.0
+    """
+
+    # Código arancelario mercosur a 4 dígitos
+    codigo= models.CharField(max_length=4, primary_key=True)
+
+    # Descripcion
+    descripcion= models.CharField(max_length=600)
+
+    # Establece la relación con el capitulo
+    codmercosurcapitulo = models.ForeignKey(CodMercosurCatitulo)
+
+@python_2_unicode_compatible
+class CodMercosurClase(models.Model):
+    """!
+    Clase que gestiona los codigos arancelarios MERCOSUR
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-12-2016
+    @version 2.0
+    """
+
+    # Código arancelario mercosur a 6 dígitos
+    codigo= models.CharField(max_length=6, primary_key=True)
+
+    # Descripcion
+    descripcion= models.CharField(max_length=600)
+
+    # Establece la relación con la seccion
+    codmercosurseccion = models.ForeignKey(CodMercosurSeccion)
+
+@python_2_unicode_compatible
+class CodMercosurSubClase(models.Model):
+    """!
+    Clase que gestiona los codigos arancelarios MERCOSUR
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-12-2016
+    @version 2.0
+    """
+
+    # Código arancelario mercosur a 8 dígitos
+    codigo= models.CharField(max_length=8, primary_key=True)
+
+    # Descripcion
+    descripcion= models.CharField(max_length=600)
+
+    # Establece la relación con la clase
+    codmercosurclase = models.ForeignKey(CodMercosurClase)
+
+@python_2_unicode_compatible
+class CodMercosurRama(models.Model):
+    """!
+    Clase que gestiona los codigos arancelarios MERCOSUR
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 21-12-2016
+    @version 2.0
+    """
+
+    # Código arancelario mercosur a 10 dígitos
+    codigo= models.CharField(max_length=10, primary_key=True)
+
+    # Descripcion
+    descripcion= models.CharField(max_length=600)
+
+    # Establece la relación con la seccion
+    codmercosursubclase = models.ForeignKey(CodMercosurSubClase)
+
