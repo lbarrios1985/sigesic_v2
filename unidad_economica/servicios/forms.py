@@ -172,7 +172,7 @@ class ServiciosGeneralForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val()),
-            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","ServicioCliente","servicio_id","cliente")
+            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","servicios","ServicioCliente","servicio_id","cliente")
             """
         }), required = False,
     )
@@ -395,7 +395,7 @@ class ServiciosClienteForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/servicios-cliente-data","servicio_id",$(this).val()),
-            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","ServicioCliente","servicio_id","cliente")
+            get_cliente_proveedor(this.value,"servicios","Servicio","pk","cantidad_clientes","#id_cliente_list","servicios","ServicioCliente","servicio_id","cliente")
             """
         }),
     )

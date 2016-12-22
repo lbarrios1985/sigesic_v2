@@ -165,7 +165,7 @@ class InsumoProveedorCreate(SuccessMessageMixin,CreateView):
         pais = Pais.objects.get(pk=form.cleaned_data['pais_origen'])
         
         ## Se instancia en insumo-produccion
-        insumo_produccion = InsumoProduccion.objects.get(insumo_id=form.cleaned_data['insumo'])
+        insumo_produccion = InsumoProduccion.objects.get(insumo_id=form.cleaned_data['insumo'],anho_registro=form.cleaned_data['anho'])
         
         ## Se crea la instancia del año
         anho = AnhoRegistro.objects.get(pk=insumo_produccion.anho_registro_id)

@@ -99,7 +99,6 @@ class Servicio(models.Model):
         ]
 
         datos = []
-        relation = {}
         
         if not rel_id is None:
             ## Agrega los datos para la sub unidad solicitada
@@ -264,7 +263,6 @@ class ServicioCliente(models.Model):
         ]
 
         datos = []
-        relation = {}
 
         if not anho is None and not rel_id is None:
             ## Agrega los datos para el año y sub unidad solicitada

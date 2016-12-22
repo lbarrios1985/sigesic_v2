@@ -162,7 +162,6 @@ class Produccion(models.Model):
         ]
 
         datos = []
-        relation = {}
 
         if not anho is None and not rel_id is None:
             ## Agrega los datos para el año y sub unidad solicitada
@@ -354,7 +353,6 @@ class FacturacionCliente(models.Model):
         ]
 
         datos = []
-        relation = {}
 
         if not anho is None and not rel_id is None:
             ## Agrega los datos para el año y sub unidad solicitada

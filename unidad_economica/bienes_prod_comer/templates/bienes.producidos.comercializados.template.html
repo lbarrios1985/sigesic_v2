@@ -424,21 +424,6 @@
 {% endblock%}
 {% block extra_footer %}
     <script type="text/javascript">
-        $('#id_ubicacion_cliente').change(function(){
-            if($('#id_ubicacion_cliente option:selected').text()=="Venezuela")
-            {
-                $('#id_rif_0').removeAttr('readonly');
-                $('#id_rif_1').removeAttr('readonly');
-                $('#id_rif_2').removeAttr('readonly');
-            }
-            else
-            {
-                $('#id_rif_0').attr('readonly',true);
-                $('#id_rif_1').attr('readonly',true);
-                $('#id_rif_2').attr('readonly',true);
-            }
-        });      
-        
         $(document).ready(function(){
             if($('#id_subunidad').val()!='')
             {
@@ -449,7 +434,7 @@
                 before_init_datatable("clientes_list","{% url 'clientes_data' %}","producto_id",$('#id_cliente_producto').val());
             }
             if ($('#id_anho_registro').val()=='') {
-              $('#id_anho_registro').val($('#id_anho').val()).change()
+              $('#id_anho_registro').val($('#id_anho').val()).change();
             }
             /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
             var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_cliente.auto_id }}', true)";

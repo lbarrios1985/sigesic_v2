@@ -60,6 +60,14 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="row text-center">
+                <div class="col-md-12"><br>
+                    <span style="color: blue;" id="nota_insumo">
+
+                    </span>
+                </div>
+            </div><br>
 
             <div class="row">
                 <div class="col-md-6">
@@ -139,6 +147,10 @@
                 </div>
             </div>
             
+            <div id='carga_template_insumo' style='display: none;'>
+                {% include 'carga.masiva.template.html' with app='insumo_proveedor' mod='InsumoProduccion' %}
+            </div>
+            
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                     <h4>{% trans 'Lista de Insumos Cargados' %}</h4>
@@ -213,6 +225,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6" style="display:none;">{{ form.anho }}</div>
             </div>
             <div class="row text-center">
                 <div class="col-md-12"><br>
@@ -345,6 +358,10 @@
                     </div>
                 </div>
             </div>
+            
+             <div id='carga_template_proveedor' style='display: none;'>
+                {% include 'carga.masiva.template.html' with app='insumo_proveedor' mod='InsumoProveedor' %}
+            </div>
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -381,42 +398,21 @@
 {% endblock%}
 {% block extra_footer %}
     <script type="text/javascript">
-        $('#id_').change(function(){
-            var attr = $(this).val();
-            $.ajax({url:'/ajax/insumo-data',data:{'aplicacion':'insumo-proveedor','model':'ProveedorModel','argument':attr,'value':'numero_proveedor'},type:'get',
-                success:function(data){
-                    data = JSON.parse(data)
-                    $('#id_table_proveedor').html('');
-                    $('#id_table_proveedor').append($('<option>', {value: '',text: 'Seleccione...'}));
-                    for(var i=1;i<=data.model;i++)
-                    {
-                        $('#id_table_proveedor').append($('<option>', {
-                            value: i,
-                            text: 'proveedor'+i
-                        }));
-                    }
-                },
-                error:function(error)
-                {
-                    console.log(error);
-                },
-            });
-        });
-        $('#id_pais_origen').change(function(){
-            if($('#id_pais_origen option:selected').text()=="Venezuela")
-            {
-                $('#id_rif_0').removeAttr('readonly');
-                $('#id_rif_1').removeAttr('readonly');
-                $('#id_rif_2').removeAttr('readonly');
-            }
-            else
-            {
-                $('#id_rif_0').attr('readonly',true);
-                $('#id_rif_1').attr('readonly',true);
-                $('#id_rif_2').attr('readonly',true);
-            }
-        });
         $(document).ready(function(){
+            //Si hay un valor en la subunidad se llena el DataTable
+            if($('#id_subunidad').val()!='')
+            {
+                before_init_datatable("insumo_list","{% url 'insumo_data' %}","subunidad_id",$('#id_subunidad').val());
+            }
+            //Si hay un valor en el servicio se llena el DataTable
+            if($('#id_insumo').val()!='')
+            {
+                before_init_datatable("proveedor_list","{% url 'proveedor_data' %}","insumo_id",$('#id_insumo').val());
+            }
+            //Se cambia el valor del año
+            if ($('#id_anho_registro').val()=='') {
+              $('#id_anho_registro').val($('#id_anho').val()).change();
+            }
             /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
             var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_proveedor.auto_id }}', true)";
             for (i=0; i<=2; i++) {
@@ -425,6 +421,41 @@
             /**     Se válida el rif del usuario    */
             $('#id_rif_2').blur(function(){
                 duplicate_rif("#id_rif","#id_nombre_proveedor");
+            });
+            //Se crea la acción para subir archivos por carga masiva
+            $('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var models = '';
+                var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
+                var nombre = acccion.split(',')[1];
+                var anho = $('#id_anho_registro option:selected').text();
+                nombre = nombre.replace(/\'/g,'');
+                if (nombre=='InsumoProduccion') {
+                    var padre = $('#id_subunidad').val();
+                    models = '?app=insumo_proveedor&mod=InsumoProduccion&anho='+anho+'&father_id='+padre;
+                    var file = $('#carga_masiva-InsumoProduccion')[0];
+                }
+                else if (nombre=='InsumoProveedor') {
+                    var padre = $('#id_subunidad_insumo').val();
+                    var models = '?app=insumo_proveedor&mod=InsumoProveedor&anho='+anho+'&father_id='+padre;
+                    var file = $('#carga_masiva-InsumoProveedor')[0];
+                }
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
             });
         });
     </script>

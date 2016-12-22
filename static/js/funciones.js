@@ -795,25 +795,27 @@ function mostrar_carga(father_id,anho_registro_id,app,model,element_show) {
  * @param field Recibe el campo
  * @param value Recibe el valor
  * @param field_id Recibe el id del campo donde se harán los cambios
+ * @param other_app Recibe la otra aplicacion
  * @param other_model Recibe el modelo para contar
  * @param filter Recibe el filtro del modelo para contar
  * @param name Recibe nombre(cliente/proveedor)
+ * @param nota Recibe el id del div donde colocará la nota
  */
-function get_cliente_proveedor(attr,app,model,field,value,field_id,other_model,filter,name) {
+function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,other_model,filter,name,nota='#nota') {
     if (attr!='') {
         $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':app,'model':model,'argument':attr,
                'field':field,'value':value},type:'get',
             success:function(data){
                 data = JSON.parse(data)
-                var contar = contar_modelo(app,other_model,attr,filter);
+                var contar = contar_modelo(other_app,other_model,attr,filter);
                 if (parseInt(contar)<parseInt(data.model)) {
                     var capital_letter = name.replace(/\b[a-z]/g,function(f){return f.toUpperCase();})
-                    $('#nota').text('');    
+                    $(nota).text('');    
                     $(field_id).val(capital_letter+" # "+(contar+1));
-                    $('#nota').text('Faltan '+(parseInt(data.model)-parseInt(contar))+' '+name+'(s)');
+                    $(nota).text('Faltan '+(parseInt(data.model)-parseInt(contar))+' '+name+'(s)');
                 }
                 else{
-                    $('#nota').text("No debe ingresar más "+name+"s");
+                    $(nota).text("No debe ingresar más "+name+"s");
                 }
             },
             error:function(error)

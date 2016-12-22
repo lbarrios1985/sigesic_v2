@@ -75,6 +75,7 @@ class BienesForm(forms.ModelForm):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
             self.fields['anho_registro'].required = False
             self.initial['anho_registro'] = validacion_prod['anho_registro'].pk
+            print(self.initial['anho_registro'])
             self.initial['anho'] = validacion_prod['anho_registro'].pk
         elif(validacion_serv['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
@@ -87,8 +88,7 @@ class BienesForm(forms.ModelForm):
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
-            'onchange':"""clone_value($(this).val(),"#id_anho"),
-            mostrar_carga($('#id_subunidad').val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")""",
+            'onchange':'clone_value($(this).val(),"#id_anho")',
         }),
     )
     
@@ -206,7 +206,7 @@ class BienesForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
-            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","FacturacionCliente","produccion__producto_id","cliente")
+            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","bienes_prod_comer","FacturacionCliente","produccion__producto_id","cliente")
             """
         }),required = False,
     )
@@ -478,7 +478,7 @@ class ClientesForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, ubicacion_cliente.id),
             before_init_datatable("clientes_list","ajax/clientes-data","producto_id",$(this).val()),
-            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","FacturacionCliente","produccion__producto_id","cliente")
+            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_clientes","#id_cliente_list","bienes_prod_comer","FacturacionCliente","produccion__producto_id","cliente")
             """
         }),
     )

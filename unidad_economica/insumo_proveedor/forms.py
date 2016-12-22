@@ -19,7 +19,7 @@ from django.forms import (
     TextInput, CharField, Select, RadioSelect, Textarea, CheckboxInput, NumberInput, ChoiceField
 )
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
-from unidad_economica.bienes_prod_comer.models import Producto
+from unidad_economica.bienes_prod_comer.models import Producto, Produccion
 from unidad_economica.utils import anho_pendiente, validar_anho
 from .models import *
 from base.fields import RifField
@@ -33,7 +33,7 @@ class InsumoForm(forms.ModelForm):
     """!
     Clase para el formulario insumos proveedores
 
-    @author Hugo Ramirez (hramirez at cenditel.gob.ve)
+    @author Hugo Ramirez (hramirez at cenditel.gob.ve) / Rodrigo Boet (rboet at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 14-09-2016
     @version 2.0.0
@@ -83,13 +83,16 @@ class InsumoForm(forms.ModelForm):
             self.fields['anho_registro'].required = False
             self.initial['anho_registro'] = validacion_serv['anho_registro'].pk
             self.initial['anho'] = validacion_serv['anho_registro'].pk
+            
+        # Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
+        if 'subunidad' in self.data:
+            self.fields['producto'].widget.attrs.pop('disabled')
 
     ## Año registro
     anho_registro =  forms.ChoiceField(
         label=_("Año de Registro"), widget=Select(attrs={
             'class': 'form-control input-md', 'data-toggle': 'tooltip',
             'title': _("Seleccione el Año de Registro"), 'style': 'width: 250px;',
-            'disabled':'disabled'
         }), 
     )
     
@@ -110,7 +113,8 @@ class InsumoForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, producto.id),
             actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto'),
-            before_init_datatable("insumo_list","ajax/insumo-data","subunidad_id",$(this).val())
+            before_init_datatable("insumo_list","ajax/insumo-data","subunidad_id",$(this).val()),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"insumo_proveedor","InsumoProduccion","#carga_template_insumo")
             """
         }),
     )
@@ -120,7 +124,10 @@ class InsumoForm(forms.ModelForm):
         label=_("Nombre del Producto"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Producto"), 'size': '50',
-            'style': 'width: 250px;', 'disabled':'disabled'
+            'style': 'width: 250px;', 'disabled':'disabled',
+            'onchange':"""
+            get_cliente_proveedor(this.value,"bienes_prod_comer","Produccion","producto_id","cantidad_insumos","#","insumo_proveedor","InsumoProduccion","insumo__producto_id","insumo","#nota_insumo")
+            """
         }),
     )
 
@@ -179,7 +186,8 @@ class InsumoForm(forms.ModelForm):
             'style': 'width: 250px;',
             'onchange':"""
             habilitar(this.value, producto_insumo.id),
-            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto_insumo')
+            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto_insumo'),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"insumo_proveedor","InsumoProveedor","#carga_template_proveedor")
             """
         }), required=False
     )
@@ -206,7 +214,7 @@ class InsumoForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, pais_origen.id),
             before_init_datatable("proveedor_list","ajax/clientes-data","insumo_id",$(this).val()),
-            get_cliente_proveedor(this.value,"insumo_proveedor","InsumoProduccion","insumo_id","numero_proveedor","#id_proveedor_list","InsumoProveedor","insumo_produccion__insumo_id","proveedor")
+            get_cliente_proveedor(this.value,"insumo_proveedor","InsumoProduccion","insumo_id","numero_proveedor","#id_proveedor_list","InsumoProveedor","insumo_produccion__insumo_id","proveedore")
             """
         }), required=False
     )
@@ -297,8 +305,27 @@ class InsumoForm(forms.ModelForm):
             'style': 'width: 250px;',
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA, required=False
     )
+    
+    ## Se valida que no se ingresen más insumos de los que indico en la produccion del bien
+    def clean_producto(self):
+        producto = self.cleaned_data['producto']
+        anho = self.cleaned_data['anho']
+        produccion = Produccion.objects.get(producto_id=producto,anho_registro=anho)
+        insumo_produccion = InsumoProduccion.objects.filter(insumo__producto_id=produccion.producto_id).all()
+        if(produccion.cantidad_insumos==len(insumo_produccion)):
+            raise forms.ValidationError(_("No se pueden ingresar más insumos"))
+        return producto
 
-
+    ## Método para validar que se no se registre el mismo insumo (nombre) en el mismo año
+    def clean(self):
+        cleaned_data = super(InsumoForm, self).clean()
+        nombre_insumo = self.cleaned_data['nombre_insumo']
+        anho_registro = self.cleaned_data['anho']
+        subunidad = self.cleaned_data['subunidad']
+        insumo = InsumoProduccion.objects.filter(anho_registro_id=anho_registro,insumo__producto__subunidad_id=subunidad,insumo__nombre_insumo=nombre_insumo)
+        if(insumo):
+            msg =_("Ya registró la producción de ese insumo en el año correspondiente")    
+            self.add_error('nombre_insumo', msg)
 
     class Meta:
         model = Insumo
@@ -310,7 +337,7 @@ class InsumoProveedorForm(forms.ModelForm):
     """!
     Clase para el formulario insumos proveedores
 
-    @author Hugo Ramirez (hramirez at cenditel.gob.ve)
+    @author Hugo Ramirez (hramirez at cenditel.gob.ve) / Rodrigo Boet (rboet at cenditel.gob.ve)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     @date 14-09-2016
     @version 2.0.0
@@ -396,7 +423,8 @@ class InsumoProveedorForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, producto.id),
             actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto'),
-            before_init_datatable("insumo_list","ajax/insumo-data","subunidad_id",$(this).val())
+            before_init_datatable("insumo_list","ajax/insumo-data","subunidad_id",$(this).val()),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"insumo_proveedor","InsumoProduccion","#carga_template_insumo")
             """
         }), required=False
     )
@@ -465,7 +493,8 @@ class InsumoProveedorForm(forms.ModelForm):
             'style': 'width: 250px;',
             'onchange':"""
             habilitar(this.value, producto_insumo.id),
-            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto_insumo')
+            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto_insumo'),
+            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"insumo_proveedor","InsumoProveedor","#carga_template_proveedor")
             """
         }),
     )
@@ -492,7 +521,7 @@ class InsumoProveedorForm(forms.ModelForm):
             'onchange':"""
             habilitar(this.value, pais_origen.id),
             before_init_datatable("proveedor_list","ajax/clientes-data","insumo_id",$(this).val()),
-            get_cliente_proveedor(this.value,"insumo_proveedor","InsumoProduccion","insumo_id","numero_proveedor","#id_proveedor_list","InsumoProduccion","insumo_id","proveedor")
+            get_cliente_proveedor(this.value,"insumo_proveedor","InsumoProduccion","insumo_id","numero_proveedor","#id_proveedor_list","InsumoProveedor","insumo_produccion__insumo_id","proveedore")
             """
         }),
     )
@@ -518,7 +547,7 @@ class InsumoProveedorForm(forms.ModelForm):
     )
 
     ## R.I.F. del proveedor
-    rif = RifField(disabled=True)
+    rif = RifField(disabled=True,required=False)
 
 
     ## Cantidad comprada
@@ -583,6 +612,26 @@ class InsumoProveedorForm(forms.ModelForm):
             'style': 'width: 250px;',
         }), choices = (('','Seleccione...'),)+UNIDAD_MEDIDA,
     )
+    
+    ## Se valida que no se ingresen más proveedores de los que indico en la produccion del insumo
+    def clean_proveedor_list(self):
+        insumo = self.cleaned_data['insumo']
+        anho = self.cleaned_data['anho']
+        proveedor_list = self.cleaned_data['proveedor_list']
+        insumo_produccion = InsumoProduccion.objects.filter(insumo_id=insumo,anho_registro=anho).get()
+        proveedor = InsumoProveedor.objects.filter(insumo_produccion_id=insumo_produccion.pk).all()
+        if(insumo_produccion.numero_proveedor==len(proveedor)):
+            raise forms.ValidationError(_("No se pueden ingresar más proveedores"))
+        return proveedor_list
+  
+    ## Se valida si el pais es venezuela el rif es obligatorio
+    def clean(self):
+        cleaned_data = super(InsumoProveedorForm, self).clean()
+        rif = self.cleaned_data['rif']
+        pais_origen = self.cleaned_data['pais_origen']
+        if((pais_origen == '1') and (rif=='')):
+            msg =_("Este campo es obligatorio")
+            self.add_error('rif', msg)
 
     class Meta:
         model = InsumoProveedor
