@@ -54,9 +54,9 @@ class ProduccionForm(forms.ModelForm):
         lista_producto = [('','Selecione...')]
         for lp in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             lista_producto.append(lp)
-        self.fields['nombre_producto'].choices = lista_producto
+        self.fields['producto'].choices = lista_producto
 
-        """self.fields['nombre_producto'].choices = lista_producto
+        """self.fields['producto'].choices = lista_producto
         #Se carga una lista con todos los clientes.
         #lc: lista_cliente temporal que se usa en el for
         lista_cliente = [('','Selecione...')]
@@ -106,12 +106,12 @@ class ProduccionForm(forms.ModelForm):
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'style': 'width: 250px;', 'disabled':'disabled',
-            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_nombre_producto'),before_init_datatable('produccion_list','ajax/coyuntura-produccion-data','subunidad_id',$(this).val())",
+            'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','producto','id_producto'),before_init_datatable('produccion_list','ajax/coyuntura-produccion-data','subunidad_id',$(this).val())",
         }),
     )
 
     ## Listado de los productos disponibles
-    nombre_producto = forms.ChoiceField(
+    producto = forms.ChoiceField(
         label=_("Seleccione un Producto"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Producto"),
@@ -178,11 +178,11 @@ class ProduccionForm(forms.ModelForm):
             raise forms.ValidationError(_("Este campo es obligatorio."))
         return sub_unidad_economica
 
-    def clean_nombre_producto(self):
-        nombre_producto= self.cleaned_data['nombre_producto']
-        if nombre_producto == '' :
+    def clean_producto(self):
+        producto= self.cleaned_data['producto']
+        if producto == '' :
             raise forms.ValidationError(_("Este campo es obligatorio."))
-        return nombre_producto
+        return producto
     
 
     """## Precio en bolivares
@@ -231,7 +231,7 @@ class ProduccionForm(forms.ModelForm):
 
     class Meta:
         model = Produccion
-        exclude = ['sub_unidad_economica','nombre_producto','periodicidad']
+        exclude = ['sub_unidad_economica','producto','periodicidad']
         #fields = '__all__'
 
 """class CantidadClienteForm(forms.ModelForm):
@@ -252,7 +252,7 @@ class ProduccionForm(forms.ModelForm):
         lista_producto = [('','Selecione...')]
         for lp in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             lista_producto.append(lp)
-        self.fields['nombre_producto'].choices = lista_producto
+        self.fields['producto'].choices = lista_producto
         #Se carga una lista con todos los clientes. lc: lista_cliente temporal que se usa en el for
         lista_cliente = [('','Selecione...')]
         for lc in Cliente.objects.all().values_list('id','nombre'):
@@ -268,7 +268,7 @@ class ProduccionForm(forms.ModelForm):
     )
 
     ## Listado de los productos disponibles
-    nombre_producto = forms.ChoiceField(
+    producto = forms.ChoiceField(
         label=_("Seleccione un Producto"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Producto"),

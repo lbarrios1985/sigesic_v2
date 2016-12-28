@@ -49,10 +49,10 @@ class Produccion(models.Model):
     ## Establece la relación con la sub unidad económica
     sub_unidad_economica= models.ForeignKey(SubUnidadEconomica)
 
-    ## Establece la relación con bienes_prod_comer
-    nombre_producto= models.ForeignKey(Producto, related_name='coyuntura_produccion')
+    ## Establece la relación con el Producto de bienes_prod_comer
+    producto= models.ForeignKey(Producto, related_name='coyuntura_produccion')
 
-    ## Establece la relación con la periocidad
+    ## Establece la relación con la periodicidad
     periodicidad= models.ForeignKey(Periodicidad)
 
 """class CantidadCliente(models.Model):
@@ -73,4 +73,3 @@ class Produccion(models.Model):
 
     ## Establece la relación con salidaproducto
     salida_producto= models.ForeignKey(SalidaProducto)"""
-

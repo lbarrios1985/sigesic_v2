@@ -42,18 +42,7 @@ class ProduccionCreate(SuccessMessageMixin, CreateView):
         @date 22-12-2016
         @param self <b>{object}</b> Objeto que instancia la clase
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
-        @return Retorna el formulario validado
-        
-
-        if form.cleaned_data['mes'] != '' :
-            mes= Mes()
-            mes.descripcion= form.cleaned_data['mes']
-            mes.save()
-
-        if form.cleaned_data['trimestre'] != '' :
-            trimestre= Trimestre()
-            trimestre.descripcion= form.cleaned_data['trimestre']
-            trimestre.save()"""
+        @return Retorna el formulario validado"""
 
         anho= Anho()
         anho.anho= form.cleaned_data['anho']
@@ -62,13 +51,6 @@ class ProduccionCreate(SuccessMessageMixin, CreateView):
         periodicidad= Periodicidad()
         periodicidad.descripcion= form.cleaned_data['periodicidad']
 
-        """if form.cleaned_data['mes'] != '' :
-            periodicidad.mes= form.cleaned_data['mes']
-            periodicidad.trimestre= None
-        elif form.cleaned_data['trimestre'] != '' :
-            periodicidad.mes= None
-            periodicidad.trimestre= form.cleaned_data['trimestre']"""
-
         periodicidad.mes= form.cleaned_data['mes']
         periodicidad.trimestre= form.cleaned_data['trimestre']
 
@@ -76,7 +58,7 @@ class ProduccionCreate(SuccessMessageMixin, CreateView):
         periodicidad.save()
 
         sub_unidad_economica= SubUnidadEconomica.objects.get(pk=form.cleaned_data['sub_unidad_economica'])
-        nombre_producto= Producto.objects.get(pk=form.cleaned_data['nombre_producto'])
+        producto= Producto.objects.get(pk=form.cleaned_data['producto'])
 
         self.object= form.save(commit=False)
         self.object.cantidad_produccion= form.cleaned_data['cantidad_produccion']
@@ -84,7 +66,7 @@ class ProduccionCreate(SuccessMessageMixin, CreateView):
         self.object.numero_clientes= form.cleaned_data['numero_clientes']
         self.object.cantidad_produccion= form.cleaned_data['cantidad_produccion']
         self.object.sub_unidad_economica= sub_unidad_economica
-        self.object.nombre_producto= nombre_producto
+        self.object.producto= producto
         self.object.periodicidad= periodicidad
         self.object.save()
 
@@ -109,16 +91,16 @@ def produccion_get_data(request):
     # Recibe por get el id de subunidad
     subid = request.GET.get('subunidad_id', None)
     if(subid):
-        for prod in Produccion.objects.filter(nombre_producto__subunidad_id=subid,nombre_producto__subunidad__unidad_economica__user_id=request.user.id).all():
+        for prod in Produccion.objects.filter(producto__subunidad_id=subid,producto__subunidad__unidad_economica__user_id=request.user.id).all():
             lista = []
-            lista.append(prod.nombre_producto.nombre_producto)
-            lista.append(prod.nombre_producto.especificacion_tecnica)
-            lista.append(prod.nombre_producto.marca)
+            lista.append(prod.producto.nombre_producto)
+            lista.append(prod.producto.especificacion_tecnica)
+            lista.append(prod.producto.marca)
 
             #en esta línea va el código arancelario MERCOSUR
-            print(prod.nombre_producto.nombre_producto)
-            print(prod.nombre_producto.especificacion_tecnica)
-            print(prod.nombre_producto.marca)
+            print(prod.producto.nombre_producto)
+            print(prod.producto.especificacion_tecnica)
+            print(prod.producto.marca)
             print(prod.cantidad_produccion)
             print(prod.numero_clientes)
 

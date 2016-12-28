@@ -121,17 +121,17 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group {% if form.nombre_producto.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_producto.auto_id }}">
-                                {{ form.nombre_producto.label }}
+                        <div class="form-group {% if form.producto.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.producto.auto_id }}">
+                                {{ form.producto.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.nombre_producto }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.nombre_producto.errors %}
+                                    {{ form.producto }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.producto.errors %}
                                         <p class="bg-warning">
                                             <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.nombre_producto.errors.as_text|cut:'* ' }}
+                                                <i class="fa fa-times-circle-o"></i> {{ form.producto.errors.as_text|cut:'* ' }}
                                             </span>
                                         </p>
                                     {% endif %}
