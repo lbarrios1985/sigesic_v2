@@ -376,7 +376,7 @@ class CodMercosurSeccion(models.Model):
     descripcion= models.CharField(max_length=600)
 
     # Establece la relación con el capitulo
-    codmercosurcapitulo = models.ForeignKey(CodMercosurCatitulo)
+    capitulo = models.ForeignKey(CodMercosurCatitulo)
 
 @python_2_unicode_compatible
 class CodMercosurClase(models.Model):
@@ -396,7 +396,7 @@ class CodMercosurClase(models.Model):
     descripcion= models.CharField(max_length=600)
 
     # Establece la relación con la seccion
-    codmercosurseccion = models.ForeignKey(CodMercosurSeccion)
+    seccion = models.ForeignKey(CodMercosurSeccion)
 
 @python_2_unicode_compatible
 class CodMercosurSubClase(models.Model):
@@ -416,7 +416,7 @@ class CodMercosurSubClase(models.Model):
     descripcion= models.CharField(max_length=600)
 
     # Establece la relación con la clase
-    codmercosurclase = models.ForeignKey(CodMercosurClase)
+    clase = models.ForeignKey(CodMercosurClase)
 
 @python_2_unicode_compatible
 class CodMercosurRama(models.Model):
@@ -436,5 +436,5 @@ class CodMercosurRama(models.Model):
     descripcion= models.CharField(max_length=600)
 
     # Establece la relación con la seccion
-    codmercosursubclase = models.ForeignKey(CodMercosurSubClase)
+    subclase = models.ForeignKey(CodMercosurSubClase)
 

@@ -95,4 +95,7 @@ def menu_left_filter(user, url_path):
             menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
             maquinaria = True
 
+        #Opción para el registro de Coyuntura
+        menu_left += opcion % (reverse('coyuntura_registro_create'), _("8"), _("Coyuntura"))
+
     return mark_safe(menu_left)

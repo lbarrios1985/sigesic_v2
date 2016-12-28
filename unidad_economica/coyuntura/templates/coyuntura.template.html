@@ -1,0 +1,437 @@
+{% extends 'base.template.html' %}
+{% load static from staticfiles %}
+{% load i18n %}
+{% block content_header_title %}{% trans 'Registro' %}{% endblock %}
+{% block content_header_roadmap %}
+    <li><a href="{% url 'coyuntura_registro_create' %}">{% trans 'Coyuntura' %}</a></li>
+    <li class="active">{% block active_link %}{% trans 'Pag. actual' %}{% endblock %}</li>
+{% endblock %}
+{% block contenido %}
+    <div class="box box-primary box-registro-general" style="padding:20px">
+        
+        <div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Coyuntura - Producción'%}</h1>
+        </div>
+        
+        <form action="{% url 'coyuntura_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        {% csrf_token %}
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.periodicidad.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodicidad.auto_id }}">
+                                {{ form.periodicidad.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.periodicidad }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.periodicidad.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.periodicidad.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.mes.errors %}has-error{% endif %}" id="mes" style="display:none;">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.mes.auto_id }}">
+                                {{ form.mes.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.mes }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.mes.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.mes.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.trimestre.errors %}has-error{% endif %}" id="trimestre" style="display:none;">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.trimestre.auto_id }}">
+                                {{ form.trimestre.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.trimestre }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.trimestre.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.trimestre.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.anho.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.anho.auto_id }}">
+                                {{ form.anho.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.anho }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.anho.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.anho.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <!-- muestra dos campos en linea-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.sub_unidad_economica.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.sub_unidad_economica.auto_id }}">
+                                {{ form.sub_unidad_economica.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.sub_unidad_economica }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.sub_unidad_economica.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.sub_unidad_economica.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.nombre_producto.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_producto.auto_id }}">
+                                {{ form.nombre_producto.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nombre_producto }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.nombre_producto.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.nombre_producto.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- muestra dos campos en linea-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.cantidad_produccion.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_produccion.auto_id }}">
+                                {{ form.cantidad_produccion.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.cantidad_produccion }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.produccion.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.cantidad_produccion.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.unidad_medida.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.unidad_medida.auto_id }}">
+                                {{ form.unidad_medida.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.unidad_medida }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.unidad_medida.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.unidad_medida.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- muestra dos campos en linea-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.numero_clientes.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.numero_clientes.auto_id }}">
+                                {{ form.numero_clientes.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.numero_clientes }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.numero_clientes.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.numero_clientes.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4>{% trans 'Lista de Producción Cargados' %}</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">        
+                <table class="table table-striped table-hover display dataTable" id="produccion_list">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Producto' %}</td>
+                            <td>{% trans 'Especificación Técnica' %}</td>
+                            <td>{% trans 'Marca' %}</td>
+                            <!-- <td>{% trans 'Código Arancelario' %}</td> -->
+                            <td>{% trans 'Producción' %}</td>
+                            <td>{% trans 'Unidad de Medida' %}</td>
+                            <td>{% trans '# de Clientes' %}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <hr>
+        <!--div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Cliente'%}</h1>
+        </div>
+
+        <form action="{% url 'coyuntura_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        {% csrf_token %}
+            <div class="box-body">
+                
+                <!-- muestra dos campos en linea
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.precio_bs.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_bs.auto_id }}">
+                                {{ form.precio_bs.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.precio_bs }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.precio_bs.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.precio_bs.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.precio_usd.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.precio_usd.auto_id }}">
+                                {{ form.precio_usd.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.precio_usd }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.precio_usd.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.precio_usd.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- muestra dos campos en linea
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.tipo_cambio_nominal.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio_nominal.auto_id }}">
+                                {{ form.tipo_cambio_nominal.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.tipo_cambio_nominal }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.tipo_cambio_nominal.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.tipo_cambio_nominal.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.cantidad_vendida.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_vendida.auto_id }}">
+                                {{ form.cantidad_vendida.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.cantidad_vendida }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.cantidad_vendida.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.cantidad_vendida.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- muestra dos campos en linea
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente.auto_id }}">
+                                {{ form.cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.cliente.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.cliente.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-6">
+                        <div class="form-group {% if form.cantidad_vendida.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_vendida.auto_id }}">
+                                {{ form.cantidad_vendida.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.cantidad_vendida }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.cantidad_vendida.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.cantidad_vendida.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
+                </div>
+            </div>
+        </form>-->
+
+    </div>
+{% endblock %}
+{% block extra_footer %}
+    <script>
+        //Si periodicidad es Mensual, se oculta el campo del trimestre y se muestra el Mes
+        //Si periodicidad es Trimestral, se oculta el campo del Mes y se muestra el Trimestre
+        function mostrar_ocultar(val)
+        {
+            if(val=="")
+            {
+                document.getElementById("trimestre").style.display= "none";
+                document.getElementById("id_trimestre").required= false;
+                document.getElementById("mes").style.display= "none";
+                document.getElementById("id_mes").required= false;
+                document.getElementById("id_anho").disabled= true;
+                document.getElementById("id_sub_unidad_economica").disabled= true;
+            }
+            else if(val=="M")
+            {
+                document.getElementById("trimestre").style.display= "none";
+                document.getElementById("id_trimestre").required= false;
+                document.getElementById("mes").style.display= "block";
+                document.getElementById("id_mes").required= true;
+            }
+            else if(val=="T")
+            {
+                document.getElementById("trimestre").style.display= "block";
+                document.getElementById("id_trimestre").required= true;
+                document.getElementById("mes").style.display= "none";
+                document.getElementById("id_mes").required= false;
+            }
+        }
+
+        //habilita el campo año dependiendo del valor del campo Mes o Trimestre
+        function habilitar_deshabilitar_anho(val)
+        {
+            if(val=="")
+            {
+                document.getElementById("id_anho").disabled= true;
+            }
+            else if(val!="")
+            {
+                document.getElementById("id_anho").disabled= false;
+            }
+        }
+
+        function habilitar_deshabilitar_sub_unidad_economica(val)
+        {
+            if(val=="")
+            {
+                document.getElementById("id_sub_unidad_economica").disabled= true;
+            }
+            else if(val!="")
+            {
+                document.getElementById("id_sub_unidad_economica").disabled= false;
+            }
+        }
+    </script>
+{% endblock %}

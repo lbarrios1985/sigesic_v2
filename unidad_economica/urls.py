@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^bienes-prod-comer/', include('unidad_economica.bienes_prod_comer.urls')),
     url(r'^insumo-proveedor/', include('unidad_economica.insumo_proveedor.urls')),
     url(r'^servicios/', include('unidad_economica.servicios.urls')),
+    url(r'^coyuntura/', include('unidad_economica.coyuntura.urls')),
 ]
