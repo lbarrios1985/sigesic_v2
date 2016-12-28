@@ -15,12 +15,17 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
-from .views import maquinariaView
+from .views import maquinariaCreate, maquinaria_get_data
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
 urlpatterns = [
-    url(r'^registro/', login_required(maquinariaView.as_view()), name='maquinaria_equipos'),
+    url(r'^registro', login_required(maquinariaCreate.as_view()), name='maquinaria_equipos_create'),
+]
+
+# Urls usadas para ajax
+urlpatterns += [
+    url(r'^ajax/maquinaria-data$', login_required(maquinaria_get_data) ,name="maquinaria_data"),
 ]

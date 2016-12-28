@@ -93,18 +93,18 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.date.errors %}has-error{% endif %}">
-                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.date.auto_id }}">
-                                {{ form.date.label }}
+                        <div class="form-group {% if form.anho_fabricacion.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.anho_fabricacion.auto_id }}">
+                                {{ form.anho_fabricacion.label }}
                             </label>
                             <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline" >
                                     <div class="input-group">
-                                        {{ form.date }}
+                                        {{ form.anho_fabricacion }}
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
-                                {% include 'base.form.errors.html' with form_errors=form.date.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                {% include 'base.form.errors.html' with form_errors=form.anho_fabricacion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
@@ -129,18 +129,18 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <div class="form-group {% if form.date_adquisicion.errors %}has-error{% endif %}">
-                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.date_adquisicion.auto_id }}">
-                                {{ form.date_adquisicion.label }}
+                        <div class="form-group {% if form.anho_adquisicion.errors %}has-error{% endif %}">
+                            <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.anho_adquisicion.auto_id }}">
+                                {{ form.anho_adquisicion.label }}
                             </label>
                             <div class="col-md-7 col-xs-7 col-sm-7">
                                 <div class="form-inline" >
                                     <div class="input-group">
-                                        {{ form.date_adquisicion }}
+                                        {{ form.anho_adquisicion }}
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                     </div>
                                 </div>
-                                {% include 'base.form.errors.html' with form_errors=form.date_adquisicion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                {% include 'base.form.errors.html' with form_errors=form.anho_adquisicion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
@@ -165,18 +165,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!--###################################################################################-->
-
-                <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <label></label>
-                        <a class="btn btn-primary btn-sm pull-right" id="#dtable" onclick="add_field_datatable(['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria'],'#mydtable');">
-                            {% trans 'Agregar Maquinaria' %}
-                        </a>
-                    </div>
-                </div>
-                
+               
                 <div id='carga_template_maquinaria' style='display: none;'>
                     {% include 'carga.masiva.template.html' with app='maquinaria_equipo' mod='maquinariaModel' %}
                 </div>
@@ -189,7 +178,7 @@
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <table class="table table-striped table-hover display dataTable" id="mydtable">
+                        <table class="table table-striped table-hover display dataTable" id="maquinaria_list">
                             <thead>
                                 <tr>
                                     <th>{% trans 'Sub Unidad' %}</th>
@@ -204,38 +193,33 @@
                                 </tr>
                             </thead>
                         </table>
-                        {% if form.nombre_proceso_tb.errors or form.tipo_proceso_tb.errors or form.descripcion_proceso_tb.errors or form.estado_proceso_tb.errors%}
-                            <p class="bg-warning">
-                                <span class="help-block msg-error">
-                                    {% trans 'Debe agregar al menos una Maquinaria o Equipo' %}
-                                </span>
-                            </p>
-                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="box-footer text-right">
-                {% include 'base.form.buttons.html' %}
+                <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Limpiar' %}</button>
+                <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Guardar' %}</button>
                 <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Finalizar' %}</button>
             </div>
         </div>
     </form>
 {%endblock%}
 {% block extra_footer %}
-    <script type="text/javascript">
+    <script type="text/javascript">                   
         $(document).ready(function(){
             remove_field_datatable('#mydtable');
             update_field_datatable('#mydtable','#mymaquinaria',
                 ['#id_nombre_proceso','#id_nombre_maquinaria','#id_pais_origen','#id_descripcion_maquinaria']);
             
+            
             $('.fileinput-upload-button').click(function(event){
                 event.preventDefault();
                 var file = $('#carga_masiva-maquinariaModel')[0];
+                var father = $('#id_nombre_proceso').val();
+                var models = '?app=maquinaria_equipo&mod=maquinariaModel&anho=000&father_id='+father;
                 var fdata = new FormData();
                 fdata.append('file',file.files[0]);
                 fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
-                //var models = '?app=maquinaria_equipo&mod=maquinariaModel&anho=2016&rel_id=1&rel_app=sub_unidad_economica&rel_mod=SubUnidadEconomicaProceso';
-                var models = '?app=maquinaria_equipo&mod=maquinariaModel&anho=2016&father_id=1';
                 $.ajax({
                     url: URL_CARGAR_ARCHIVO_CM+models,
                     data: fdata,
@@ -256,26 +240,12 @@
 
 
      <script type="text/javascript">
-         $(function() {
-             $('.datepicker').datepicker({
-                 //disabledDates: 'date',
-                 viewMode: 2,
-                 daysOfWeekDisabled: [0, 6],
-                 disabledMonth: true,
-                 inline: true,
-                 sideBySide: true,
-                 changeYear: true,
-                 showButtonPanel: true,
-                 dateFormat: 'yyyy',
-                 onClose: function(dateText, inst) {
-                     var year = $('#ui-datepicker-div .ui-datepicker-year :selected').val();
-                     $(this).datepicker('setDate', new Date(year, 1));
-                }
-            });
-        $('.datepicker').focus(function () {
-                $('.ui-datepicker-days').hide();
-                $('.ui-datepicker-month').hide();
-            });
-        });
+        $(".datepicker").datepicker( {
+            format: " yyyy", // Notice the Extra space at the beginning
+            viewMode: "years", 
+            minViewMode: "years"
+        }).on('changeDate', function (ev) {
+            $(this).datepicker('hide');
+       });
      </script>
 {% endblock %}

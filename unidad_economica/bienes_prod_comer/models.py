@@ -192,7 +192,7 @@ class Produccion(models.Model):
         load_file = pyexcel.get_sheet(file_name=path)
         ## Se instancia la subunidad
         subunidad = SubUnidadEconomica.objects.get(pk=rel_id)
-        ## Se intancia el año de registro
+        ## Se instancia el año de registro
         anho_registro = AnhoRegistro.objects.filter(anho=anho).get()
         ## Se define un arreglo para los errores
         error = []
@@ -406,7 +406,7 @@ class FacturacionCliente(models.Model):
         load_file = pyexcel.get_sheet(file_name=path)
         ## Se instancia la subunidad
         subunidad = SubUnidadEconomica.objects.get(pk=rel_id)
-        ## Se intancia el año de registro
+        ## Se instancia el año de registro
         anho_registro = AnhoRegistro.objects.filter(anho=anho).get()
         ## Se define un arreglo para los errores
         error = []

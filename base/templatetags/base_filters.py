@@ -87,12 +87,12 @@ def menu_left_filter(user, url_path):
             menu_left += opcion % (reverse('bienes_registro_create'), _("5"), _("Bienes Producidos"))
             menu_left += opcion % (reverse('insumo_create'), _("6"), _("Insumo Proveedor"))
             if(not maquinaria):
-                menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
+                menu_left += opcion % (reverse('maquinaria_equipos_create'), _("7"), _("Maquinaria y Equipos"))
                 maquinaria = True
             
         # Si existe al menos una sub unidad económica que es sede y presta servicio
         if sub_unidad.filter(sede_servicio=True,tipo_sub_unidad='Se') and not maquinaria:
-            menu_left += opcion % (reverse('maquinaria_equipos'), _("7"), _("Maquinaria y Equipos"))
+            menu_left += opcion % (reverse('maquinaria_equipos_create'), _("7"), _("Maquinaria y Equipos"))
             maquinaria = True
 
         #Opción para el registro de Coyuntura
