@@ -96,6 +96,6 @@ def menu_left_filter(user, url_path):
             maquinaria = True
 
         #Opción para el registro de Coyuntura
-        menu_left += opcion % (reverse('coyuntura_registro_create'), _("8"), _("Coyuntura"))
+        menu_left += opcion % (reverse('coyuntura_registro_create'), _("*"), _("Coyuntura"))
 
     return mark_safe(menu_left)
