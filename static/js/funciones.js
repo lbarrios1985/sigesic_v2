@@ -104,7 +104,7 @@ function listado_directorio(title, template) {
     $(modal).on("shown.bs.modal", function() {
         $(this).find('.dataTable').dataTable({
             "language": {
-                "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                "url": URL_DATATABLE_ESPANOL
             },
             "ajax": {
                 "processing": false,

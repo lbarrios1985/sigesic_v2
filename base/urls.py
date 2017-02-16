@@ -36,4 +36,5 @@ urlpatterns += [
     url(r'^ajax/anho-registro/$', anho_registro, name='anho_registro'),
     url(r'^ajax/cliente-data$', client_data ,name="ajax_cliente_data"),
     url(r'^ajax/count-model$', count_model ,name="ajax_count_model"),
+    url(r'^datatable-espanol$', datatable_json ,name="datatable_espanol"),
 ]

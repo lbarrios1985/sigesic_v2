@@ -108,7 +108,7 @@ $(document).ready(function() {
         /** Inicializa los elementos del dataTable */
         data_table.dataTable({
             "language": {
-                "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                "url": URL_DATATABLE_ESPANOL
             },
             "ordering": true,
             "order": [[0, 'asc']],

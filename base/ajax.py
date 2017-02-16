@@ -24,6 +24,7 @@ from base.classes import Seniat
 from base.functions import verificar_rif
 from .models import AnhoRegistro
 from .constant import MSG_NOT_AJAX, TIPO_PERSONA_LIST
+from sigesic.settings import STATICFILES_DIRS
 from unidad_economica.models import CertificadoRegistro, UnidadEconomica
 
 """!
@@ -327,3 +328,18 @@ def count_model(request):
     search = len(modelo.objects.filter(**a).all())
     
     return HttpResponse(json.dumps({'resultado': True, 'cantidad': search}))
+
+
+def datatable_json(request):
+    """!
+    Función para montar el json en español de los datatable
+
+    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 16-02-2018
+    @param request <b>{object}</b> Objeto que contiene la petición a la función
+    @return Devuelve un json con el resultado de la búsqueda
+    """
+    datos = open(STATICFILES_DIRS[0]+"tools/datatables/language/Spanish.json",'r').read()
+    datos = json.loads(datos)
+    return HttpResponse(json.dumps(datos))
