@@ -45,6 +45,7 @@ def menu_left_filter(user, url_path):
     """
     from unidad_economica.models import UnidadEconomica
     from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
+    from unidad_economica.coyuntura.models import PeriodicidadAdmin
 
     ## Contiene las opciones del menú lateral correspondiente al registro de datos
     menu_left = ''
@@ -96,6 +97,8 @@ def menu_left_filter(user, url_path):
             maquinaria = True
 
         #Opción para el registro de Coyuntura
-        menu_left += opcion % (reverse('coyuntura_registro_create'), _("*"), _("Coyuntura"))
+        #Se habilita cuando hay sub_unidad_economica registradas en la PeriodicidadAdmin
+        if PeriodicidadAdmin.objects.filter(sub_unidad_economica__unidad_economica__user=usuario):
+            menu_left += opcion % (reverse('coyuntura_registro_create'), _("*"), _("Coyuntura"))
 
     return mark_safe(menu_left)

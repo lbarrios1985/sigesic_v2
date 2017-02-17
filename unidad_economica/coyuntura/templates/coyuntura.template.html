@@ -17,7 +17,7 @@
         {% csrf_token %}
             <div class="box-body">
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.periodicidad.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodicidad.auto_id }}">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr> -->
                 <!-- muestra dos campos en linea-->
                 <div class="row">
                     <div class="col-md-6">
@@ -236,15 +236,191 @@
             </div>
         </div>
         <hr>
-        <!--div class="box-header with-border">
-            <h1 class="box-title">{% trans 'Cliente'%}</h1>
+        <div class="box-header with-border">
+            <h1 class="box-title">{% trans 'Coyuntura - Clientes'%}</h1>
         </div>
 
-        <form action="{% url 'coyuntura_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+        <form action="{% url 'clientes_registro_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
             <div class="box-body">
-                
-                <!-- muestra dos campos en linea
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.sub_unidad_economica_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.sub_unidad_economica_cliente.auto_id }}">
+                                {{ form.sub_unidad_economica_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.sub_unidad_economica_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.sub_unidad_economica_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.producto_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.producto_cliente.auto_id }}">
+                                {{ form.producto_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.producto_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.producto_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.periodicidad_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodicidad_cliente.auto_id }}">
+                                {{ form.periodicidad_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.periodicidad_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.periodicidad_cliente.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.periodicidad_cliente.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.mes_cliente.errors %}has-error{% endif %}" id="mes_cliente">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.mes_cliente.auto_id }}">
+                                {{ form.mes_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.mes_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.mes_cliente.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.mes_cliente.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.trimestre_cliente.errors %}has-error{% endif %}" id="trimestre_cliente" >
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.trimestre_cliente.auto_id }}">
+                                {{ form.trimestre_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.trimestre_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.trimestre_cliente.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.trimestre_cliente.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.anho_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.anho_cliente.auto_id }}">
+                                {{ form.anho_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.anho_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.anho_cliente.errors %}
+                                        <p class="bg-warning">
+                                            <span class="help-block msg-error">
+                                                <i class="fa fa-times-circle-o"></i> {{ form.anho_cliente.errors.as_text|cut:'* ' }}
+                                            </span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="row text-center">
+                    <div class="col-md-12"><br>
+                        <span style="color: blue;" id="nota">
+                        </span>
+                    </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
+                                {{ form.cliente_list.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.cliente_list }}
+                                    {% include 'base.form.errors.html' with form_errors=form.cliente_list.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
+                                {{ form.ubicacion_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.ubicacion_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.ubicacion_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.rif.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.rif.auto_id }}">
+                                {{ form.rif.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.rif }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.rif.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.nombre_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nombre_cliente.auto_id }}">
+                                {{ form.nombre_cliente.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nombre_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.nombre_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.precio_bs.errors %}has-error{% endif %}">
@@ -254,13 +430,7 @@
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.precio_bs }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.precio_bs.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.precio_bs.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
+                                    {% include 'base.form.errors.html' with form_errors=form.precio_bs.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                                 </div>
                             </div>
                         </div>
@@ -273,39 +443,14 @@
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.precio_usd }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.precio_usd.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.precio_usd.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
+                                    {% include 'base.form.errors.html' with form_errors=form.precio_usd.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- muestra dos campos en linea
+
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group {% if form.tipo_cambio_nominal.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_cambio_nominal.auto_id }}">
-                                {{ form.tipo_cambio_nominal.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.tipo_cambio_nominal }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.tipo_cambio_nominal.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.tipo_cambio_nominal.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-md-6">
                         <div class="form-group {% if form.cantidad_vendida.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_vendida.auto_id }}">
@@ -314,54 +459,20 @@
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
                                     {{ form.cantidad_vendida }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.cantidad_vendida.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.cantidad_vendida.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
+                                    {% include 'base.form.errors.html' with form_errors=form.cantidad_vendida.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- muestra dos campos en linea
-                <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.cliente.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente.auto_id }}">
-                                {{ form.cliente.label }}
+                        <div class="form-group {% if form.unidad_medida_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.unidad_medida_cliente.auto_id }}">
+                                {{ form.unidad_medida_cliente.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.cliente.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.cliente.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<div class="col-md-6">
-                        <div class="form-group {% if form.cantidad_vendida.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cantidad_vendida.auto_id }}">
-                                {{ form.cantidad_vendida.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.cantidad_vendida }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.cantidad_vendida.errors %}
-                                        <p class="bg-warning">
-                                            <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.cantidad_vendida.errors.as_text|cut:'* ' }}
-                                            </span>
-                                        </p>
-                                    {% endif %}
+                                    {{ form.unidad_medida_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.unidad_medida_cliente.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                                 </div>
                             </div>
                         </div>
@@ -369,12 +480,38 @@
                 </div>
 
             </div>
+
             <div class="box-footer">
                 <div class="pull-right">
                     <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
                 </div>
             </div>
-        </form>-->
+        </form>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4>{% trans 'Lista de Clientes Cargados' %}</h4>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">        
+                <table class="table table-striped table-hover display dataTable" id="clientes_list">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Producto' %}</td>
+                            <td>{% trans 'Nombre del Cliente' %}</td>
+                            <td>{% trans 'Ubicación' %}</td>
+                            <td>{% trans 'RIF' %}</td>
+                            <td>{% trans 'Cantidades Vendidas' %}</td>
+                            <td>{% trans 'Unidad de Medida' %}</td>
+                            <td>{% trans 'Precio de Venta(Bs)' %}</td>
+                            <td>{% trans 'Precio de Venta(USD)' %}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
 
     </div>
 {% endblock %}
@@ -433,5 +570,63 @@
                 document.getElementById("id_sub_unidad_economica").disabled= false;
             }
         }
+
+        $(document).ready(function(){
+            if($('#id_sub_unidad_economica').val()!='')
+            {
+                before_init_datatable("produccion_list","{% url 'coyuntura_produccion_data' %}","subunidad_id",$('#id_sub_unidad_economica').val());
+            }
+            if($('#id_producto_cliente').val()!='')
+            {
+                before_init_datatable("clientes_list","{% url 'coyuntura_clientes_data' %}","producto_id",$('#id_producto_cliente').val());
+            }
+            /*if ($('#id_anho_registro').val()=='') {
+              $('#id_anho_registro').val($('#id_anho').val()).change();
+            }*/
+            /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
+            var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_cliente.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif.auto_id }}_"+i).attr("onchange", onchange);
+            }
+            /**     Se válida el rif del usuario    */
+            $('#id_rif_2').blur(function(){
+                duplicate_rif("#id_rif","#id_nombre_cliente");
+                });
+            //Se crea la acción para subir archivos por carga masiva
+            /*$('.fileinput-upload-button').click(function(event){
+                event.preventDefault();
+                var models = '';
+                var acccion = $(this).parent().parent().parent().parent().parent().find('button').attr('onclick');
+                var nombre = acccion.split(',')[1];
+                var anho = $('#id_anho_registro option:selected').text();
+                nombre = nombre.replace(/\'/g,'');
+                if (nombre=='Produccion') {
+                    var padre = $('#id_subunidad').val();
+                    models = '?app=bienes_prod_comer&mod=Produccion&anho='+anho+'&father_id='+padre;
+                    var file = $('#carga_masiva-Produccion')[0];
+                }
+                else if (nombre=='FacturacionCliente') {
+                    var padre = $('#id_subunidad_cliente').val();
+                    var models = '?app=bienes_prod_comer&mod=FacturacionCliente&anho='+anho+'&father_id='+padre;
+                    var file = $('#carga_masiva-FacturacionCliente')[0];
+                }
+                var fdata = new FormData();
+                fdata.append('file',file.files[0]);
+                fdata.append('csrfmiddlewaretoken','{{ csrf_token }}');
+                $.ajax({
+                    url: URL_CARGAR_ARCHIVO_CM+models,
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });*/
+        });
     </script>
 {% endblock %}
