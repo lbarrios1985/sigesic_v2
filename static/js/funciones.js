@@ -3,7 +3,7 @@
  * @param password Cadena de carácteres con la contraseña indicada por el usuario
  */
 function passwordStrength(password) {
-    var desc = new Array();
+    var desc = [];
     desc[0] = MSG_PASSWD_MUY_DEBIL;
     desc[1] = MSG_PASSWD_DEBIL;
     desc[2] = MSG_PASSWD_REGULAR;
@@ -716,7 +716,7 @@ function contar_modelo(aplicacion,modelo,argumento,campo) {
         {
             console.log(error);
             datos = error;
-        },
+        }
     });
     return datos;
 }
@@ -810,10 +810,10 @@ function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,oth
         $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':app,'model':model,'argument':attr,
                'field':field,'value':value},type:'get',
             success:function(data){
-                data = JSON.parse(data)
+                data = JSON.parse(data);
                 var contar = contar_modelo(other_app,other_model,attr,filter);
                 if (parseInt(contar)<parseInt(data.model)) {
-                    var capital_letter = name.replace(/\b[a-z]/g,function(f){return f.toUpperCase();})
+                    var capital_letter = name.replace(/\b[a-z]/g,function(f){return f.toUpperCase();});
                     $(nota).text('');    
                     $(field_id).val(capital_letter+" # "+(contar+1));
                     $(nota).text('Faltan '+(parseInt(data.model)-parseInt(contar))+' '+name+'(s)');
@@ -825,7 +825,7 @@ function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,oth
             error:function(error)
             {
                 console.log(error);
-            },
+            }
         });
     }
 }
