@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from settings import ADMINS
+from sigesic.sigesic.settings import ADMINS
 
 import pyexcel
 import logging
@@ -27,7 +27,7 @@ __docstring__ = "DoxyGen"
 
 
 class ProcesarDatos():
-	"""!
+    """!
     Clase que gestiona los datos a cargar en el sistema mediante la opción de carga masiva
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
@@ -63,12 +63,13 @@ class ProcesarDatos():
         ## Obtiene los registros en el archivo de carga masiva proporcionado por el usuario en un arreglo, en caso de un archivo csv la longitud de cada arreglo es de 1 elemento
         datos = pyexcel.get_sheet(file_name=archivo)
 
-        for dat in datos:
+        """for dat in datos:
             if dat.__len__() == 0:
                 # Es un archivo csv
             else:
                 # Esta en otro formato ods, xls, xlsx, etc
+        """
 
-    	pass
+        pass
 
-	#def validar_string()
+    #  def validar_string()
