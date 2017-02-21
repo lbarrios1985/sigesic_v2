@@ -736,7 +736,9 @@ function clone_value(valor,campo) {
  * @param id_rif Recibe el id del rif que se desea comprobar
  * @param id_text Recibe el id del campo de texto (si se desea) que se limpiará
  */
-function duplicate_rif(id_rif,id_text='') {
+function duplicate_rif(id_rif,id_text) {
+    //noinspection JSDuplicatedDeclaration
+    var id_text = (typeof (id_text) != 'undefined') ? id_text : '';
     var rif_text = '';
     for (i=0; i<=2; i++) {
         rif_text+= $(id_rif+"_"+i).val();
@@ -801,7 +803,9 @@ function mostrar_carga(father_id,anho_registro_id,app,model,element_show) {
  * @param name Recibe nombre(cliente/proveedor)
  * @param nota Recibe el id del div donde colocará la nota
  */
-function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,other_model,filter,name,nota='#nota') {
+function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,other_model,filter,name,nota) {
+    //noinspection JSDuplicatedDeclaration
+    var nota = (typeof (nota) != 'undefined') ? nota : '#nota';
     if (attr!='') {
         $.ajax({url:'/ajax/cliente-data',data:{'aplicacion':app,'model':model,'argument':attr,
                'field':field,'value':value},type:'get',
