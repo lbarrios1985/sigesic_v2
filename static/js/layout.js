@@ -64,7 +64,7 @@ $(document).ready(function() {
     /** Convierte un campo CheckBox en Switch */
     if (seleccion_si_no.length) {
         seleccion_si_no.bootstrapSwitch({
-            onText: 'SI', offText: 'NO', offColor: 'danger'
+            onText: 'SI', offText: 'NO', offColor: 'danger', size: 'mini'
         });
         seleccion_si_no.on('switchChange.bootstrapSwitch', function (event, state) {
             $(this).prop( "checked", state );
