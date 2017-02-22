@@ -34,7 +34,6 @@ __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
 
-
 logger = logging.getLogger("carga_masiva")
 
 
@@ -61,7 +60,7 @@ def descargar_archivo(request):
 
         ## Año para el que se esta solicitando el registro de datos
         anho = request.GET.get('anho', None)
-        
+
         ## Id correspondiente al padre
         rel_id = request.GET.get('rel_id', None)
 
@@ -70,27 +69,26 @@ def descargar_archivo(request):
             workbook = xlwt.Workbook()
             sheet = workbook.add_sheet("Datos")
             instance = modelo()
-            datos = instance.carga_masiva_init(anho,rel_id)
+            datos = instance.carga_masiva_init(anho, rel_id)
             font_bold = xlwt.easyxf('font: bold 1')
 
             i = 0
             for cabecera in datos['cabecera']:
                 sheet.write(0, i, datos['cabecera'][i]['title'], font_bold)
                 sheet.col(i).width = 256 * (len(datos['cabecera'][i]['title']) + 1)
-                i+=1
-                
-            #Se obtiene la cantidad de datos
-            cantidad = len(datos['datos'])
-            #Si existen datos se crean las filas requeridas
-            if cantidad > 0:
-                for i in range(1,cantidad+1):
-                    row = len(datos['cabecera'])
-                    for j in range(0,row):
-                        sheet.write(i, j, datos['datos'][i-1][j])
-                        
+                i += 1
 
-            nombre = rel_id+"_"+datos['output']
-            
+            # Se obtiene la cantidad de datos
+            cantidad = len(datos['datos'])
+            # Si existen datos se crean las filas requeridas
+            if cantidad > 0:
+                for i in range(1, cantidad + 1):
+                    row = len(datos['cabecera'])
+                    for j in range(0, row):
+                        sheet.write(i, j, datos['datos'][i - 1][j])
+
+            nombre = rel_id + "_" + datos['output']
+
             archivo = "%s/%s.xls" % (settings.CARGA_MASIVA_FILES, nombre)
 
             workbook.save(archivo)
@@ -103,6 +101,7 @@ def descargar_archivo(request):
     except Exception as e:
         message = e
     return HttpResponse(json.dumps({'result': False, 'error': str(message)}))
+
 
 @login_required
 def descargar_archivo_apoyo(request):
@@ -147,19 +146,19 @@ def retornar_archivo(request):
     @return Devuelve un HttpResponse con el JSON correspondiente al archivo de apoyo a descargar
     """
     try:
-        #if not request.is_ajax():
+        # if not request.is_ajax():
         #    return HttpResponse(json.dumps({'result': False, 'message': str(MSG_NOT_AJAX)}))
-        
+
         filename = request.GET.get('nombre', None)
-        if(filename):
-            open_file = settings.CARGA_MASIVA_FILES+filename
-            #response = HttpResponse()
+        if (filename):
+            open_file = settings.CARGA_MASIVA_FILES + filename
+            # response = HttpResponse()
             response = HttpResponse(content_type='application/ms-excel')
             response['Content-Disposition'] = 'attachment; filename=%s' % filename
             response['X-Sendfile'] = open_file
             return response
         return HttpResponse(False)
-    
+
     except Exception as e:
         message = e
 
@@ -190,10 +189,10 @@ def cargar_datos(request):
 
         ## Año para el que se esta solicitando el registro de datos
         anho = request.GET.get('anho', None)
-        
+
         ## Modelo padre
         father_id = request.GET.get('father_id', None)
-        
+
         ## Archivo que se va a cargar
         archivo = request.FILES['file']
 
@@ -201,19 +200,19 @@ def cargar_datos(request):
             instance = apps.get_model(app, mod)
             modelo = instance()
             datos = modelo.carga_masiva_init(anho=anho, rel_id=father_id)
-            ruta = 'carga_masiva/files/'+str(archivo)
+            ruta = settings.CARGA_MASIVA_FILES + str(archivo)
             path = default_storage.save(ruta, ContentFile(archivo.read()))
-            resultado = modelo.carga_masiva_load(path,anho,father_id)
+            resultado = modelo.carga_masiva_load(path, anho, father_id)
 
             default_storage.delete(path)
-            
-            if(resultado['validacion']):
+
+            if (resultado['validacion']):
                 return HttpResponse(json.dumps({
                     'result': True, 'message': resultado['message']
                 }))
             return HttpResponse(json.dumps({'result': False, 'error': resultado['message']}))
         return HttpResponse(json.dumps({'result': False, 'error': str(_('Faltan Párametros'))}))
-    
+
     except Exception as e:
         message = e
 

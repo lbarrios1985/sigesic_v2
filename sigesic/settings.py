@@ -144,7 +144,7 @@ COYUNTURA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/coyuntura/templat
 ## Directorio en donde se encuentran los templates de carga masiva
 CARGA_MASIVA = os.path.join(BASE_DIR, "carga_masiva/templates")
 
-CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "carga_masiva/files")
+CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "static/cm")
 
 
 
