@@ -22,7 +22,7 @@ from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from unidad_economica.models import UnidadEconomica
 from base.fields import RifField
 from base.widgets import RifWidget
-from base.constant import UNIDAD_MEDIDA, TIPO_PERIODICIDAD, LISTA_MES, LISTA_TRIMESTRE
+from base.constant import UNIDAD_MEDIDA
 from unidad_economica.bienes_prod_comer.models import Producto
 from base.models import Cliente, AnhoRegistro, CaevClase, Estado
 from base.functions import cargar_actividad, cargar_pais
@@ -33,8 +33,6 @@ __revision__ = ""
 __docstring__ = "DoxyGen"
 
 LISTA_ANHO = (
-    ('2014',_('2014')),
-    ('2015',_('2015')),
     ('2016',_('2016')),
 )
 
@@ -318,11 +316,11 @@ class ProduccionForm(forms.ModelForm):
         self.fields['producto_cliente'].choices= lista_produccion
 
     ## esto es para periodicidad en la parte del usuario
-    """## Establece el tipo de periodicidad
-    periodicidad =  forms.ChoiceField(
-        label=_("Periodicidad"), widget=Select(attrs={
+    ## Establece el tipo de periodicidad
+    periodo =  forms.ChoiceField(
+        label=_("Periodo"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
-            'data-toggle': 'tooltip','title': _("Seleccione la Periodicidad"),
+            'data-toggle': 'tooltip','title': _("Seleccione el periodo"),
             'style': 'width: 150px;', 'onchange': 'mostrar_ocultar(this.value);',
         }), choices = (('','Seleccione...'),)+TIPO_PERIODICIDAD,
     )
@@ -352,14 +350,14 @@ class ProduccionForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione un Año"),
             'style': 'width: 150px;', 'disabled':'disabled', 'onchange': 'habilitar_deshabilitar_sub_unidad_economica(this.value);',
         }), choices = (('','Seleccione...'),)+LISTA_ANHO,
-    )"""
+    )
 
     ## Listado de las subunidades disponibles
     sub_unidad_economica = forms.ChoiceField(
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione la Sub-Unidad"),
-            'style': 'width: 250px;', 'disabled':'disabled',
+            'style': 'width: 250px;', 'disabled':'true',
             'onchange': "actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_producto'),before_init_datatable('produccion_list','ajax/coyuntura-produccion-data','subunidad_id',$(this).val())",
         }),
     )
@@ -406,7 +404,7 @@ class ProduccionForm(forms.ModelForm):
 
     ## esto es para periodicidad en la parte del usuario
     ## Establece el tipo de periodicidad para clientes
-    """periodicidad_cliente =  forms.ChoiceField(
+    """periodo_cliente =  forms.ChoiceField(
         label=_("Periodicidad"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'disabled':'disabled',
             'data-toggle': 'tooltip','title': _("Indique la Periodicidad"),
@@ -446,7 +444,7 @@ class ProduccionForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione la Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'coyuntura','Produccion','producto','producto_id','producto','id_producto_cliente')",
+            'onchange': "actualizar_combo(this.value,'coyuntura','Produccion','sub_unidad_economica_id','producto_id','producto','id_producto_cliente')",
         }), required = False,
     )
 
@@ -533,22 +531,18 @@ class ProduccionForm(forms.ModelForm):
     )
 
     def clean_periodicidad(self):
-        periodicidad= self.cleaned_data['periodicidad']
-        if periodicidad == '' :
+        periodo= self.cleaned_data['periodo']
+        if periodo == '' :
             raise forms.ValidationError(_("Este campo es obligatorio."))
-        return periodicidad
+        return periodo
 
     def clean(self):
         cleaned_data = super(ProduccionForm, self).clean()
         mes= self.cleaned_data['mes']
         trimestre= self.cleaned_data['trimestre']
 
-        if mes != '' and trimestre != '' :
+        if mes == '' and trimestre == '' :
             msg = "Debe seleccionar Mes o Trimestre, no ambos."
-            self.add_error('mes', msg)
-            self.add_error('trimestre', msg)
-        else:
-            msg = "Mes y Trimestre No pueden estar vacios, seleccione uno."
             self.add_error('mes', msg)
             self.add_error('trimestre', msg)
 
@@ -620,10 +614,10 @@ class ClientesForm(forms.ModelForm):
     ## esto es para periodicidad en la parte del usuario
     ## Campos de Coyuntura-Produccion
     ## Establece el tipo de periodicidad
-    """periodicidad =  forms.ChoiceField(
-        label=_("Periodicidad"), widget=Select(attrs={
+    periodo =  forms.ChoiceField(
+        label=_("Periodo"), widget=Select(attrs={
             'class': 'form-control input-md',
-            'data-toggle': 'tooltip','title': _("Seleccione la Periodicidad"),
+            'data-toggle': 'tooltip','title': _("Seleccione el Periodo"),
             'style': 'width: 150px;', 'onchange': 'mostrar_ocultar(this.value);',
         }), choices = (('','Seleccione...'),)+TIPO_PERIODICIDAD, required= False,
     )
@@ -653,7 +647,7 @@ class ClientesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione un Año"),
             'style': 'width: 150px;', 'disabled':'disabled', 'onchange': 'habilitar_deshabilitar_sub_unidad_economica(this.value);',
         }), choices = (('','Seleccione...'),)+LISTA_ANHO, required= False,
-    )"""
+    )
 
     ## Listado de las subunidades disponibles
     sub_unidad_economica = forms.ChoiceField(
@@ -705,7 +699,7 @@ class ClientesForm(forms.ModelForm):
 
     ## esto es para periodicidad en la parte del usuario
     ## Establece el tipo de periodicidad para clientes
-    """periodicidad_cliente =  forms.ChoiceField(
+    """periodo_cliente =  forms.ChoiceField(
         label=_("Periodicidad"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'disabled':'disabled', 'required': 'required',
             'data-toggle': 'tooltip','title': _("Indique la Periodicidad"),
@@ -745,7 +739,7 @@ class ClientesForm(forms.ModelForm):
         label=_("Sub-Unidad"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required', 'style': 'width: 250px;',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
-            'onchange': "actualizar_combo(this.value,'coyuntura','Produccion','producto','producto_id','producto','id_producto_cliente')",
+            'onchange': "actualizar_combo(this.value,'coyuntura','Produccion','sub_unidad_economica_id','producto_id','producto','id_producto_cliente')",
         }),
     )
 
