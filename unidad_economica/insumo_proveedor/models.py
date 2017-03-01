@@ -401,7 +401,7 @@ class InsumoProveedor(models.Model):
                             item.proveedor.pais.nombre, item.proveedor.nombre, item.proveedor.rif, item.precio_compra_bs,
                             item.precio_compra_usd, item.cantidad_comprada, item.unidad_de_medida
                         ])
-                    for item in range(prod.cantidad_insumos-len(ins)):
+                    for item in range(prod.cantidad_insumos-len(prove)):
                         datos.append([
                             '', prod.insumo.producto.nombre_producto, prod.insumo.nombre_insumo ,'', '', '', '',
                             '', '', ''
