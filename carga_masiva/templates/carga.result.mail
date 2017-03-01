@@ -1,0 +1,20 @@
+Gracias por su paciencia,
+
+El presente correo tiene como finalidad suministrarle información sobre el estatus en la carga de datos de {{modulo}}
+realizada en fecha {{fecha_carga}} por la Unidad Económica {{rif}} - {{nombre_ue}}.
+
+A continuación se indica el resultado en la solicitud de registro de datos de carga masiva.
+
+{{error_messages|safe|default:"No se encontraron errores. ¡Los datos se registraron correctamente!"}}
+
+Este correo fue enviado por el registro de datos de carga masiva del SIGESIC.
+
+Si usted cree que este correo es spam o no fue utilizado en el registro de usuarios del SIGESIC bajo su consentimiento,
+haga caso omiso del mismo y eliminelo inmediatamente.
+
+Recomendamos agregar el correo {{emailapp|safe}} a su lista de contacto para futuros correos enviados por el sistema y
+para que su proveedor de correo no lo archive como spam.
+
+Administrador del Sistema
+{{ administrador|safe }}
+{{ admin_email|safe }}
