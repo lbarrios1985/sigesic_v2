@@ -44,6 +44,15 @@ class Servicio(models.Model):
     
     ## Establece la relación con la sub unidad económica
     subunidad = models.ForeignKey(SubUnidadEconomica)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False},
+        {'field': 'nombre_servicio', 'title': str(_("Nombre del Servicio")), 'max_length': 45, 'null': False},
+        {'field': 'tipo_servicio', 'title': str(_("Tipo de Servicio")), 'max_length': 45, 'null': False},
+        {'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False},
+        {'field': 'cantidad_clientes', 'title': str(_("Cantidad de Clientes")), 'max_length': 5, 'null': True}
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -64,40 +73,6 @@ class Servicio(models.Model):
             },
         """
         
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-            },
-            {
-                'field': 'nombre_servicio',
-                'title': str(_("Nombre del Servicio")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'tipo_servicio',
-                'title': str(_("Tipo de Servicio")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'caev',
-                'title': str(_("Código")),
-                'max_length': 5,
-                'null': False,
-            },
-            {
-                'field': 'cantidad_clientes',
-                'title': str(_("Cantidad de Clientes")),
-                'max_length': 5,
-                'null': True,
-            },
-        ]
-
         datos = []
         
         if not rel_id is None:
@@ -108,7 +83,7 @@ class Servicio(models.Model):
                     serv.cantidad_clientes
                 ])
 
-        return {'cabecera': fields, 'datos': datos, 'output': 'servicios'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'servicios'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!
@@ -181,6 +156,22 @@ class ServicioCliente(models.Model):
     
     ## Establece la relación con la producción
     servicio = models.ForeignKey(Servicio)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False},
+        {'field': 'servicio', 'title': str(_("Nombre del Servicio")), 'max_length': 45, 'null': False},
+        {'field': 'pais', 'title': str(_("Ubicación")), 'max_length': 45, 'null': False},
+        {'field': 'nombre', 'title': str(_("Nombre del Cliente")), 'max_length': 45, 'null': False},
+        {'field': 'rif', 'title': str(_("R.I.F.")), 'max_length': 10, 'null': True},
+        {'field': 'precio', 'title': str(_("Precio")), 'max_length': 3, 'decimal_places': 5, 'null': False},
+        {'field': 'tipo_moneda', 'title': str(_("Tipo de Moneda")), 'max_length': 3, 'null': False},
+        {
+            'field': 'monto_facturado', 'title': str(_("Monto Facturado")), 'max_length': 20, 'decimal_places': 5,
+            'null': False
+        },
+        {'field': 'servicio_prestado', 'title': str(_("# Servicios Prestados")), 'max_length': 20, 'null': False},
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -201,66 +192,6 @@ class ServicioCliente(models.Model):
                 'type': 'string'
             },
         """
-
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-            },
-            {
-                'field': 'servicio',
-                'title': str(_("Nombre del Servicio")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'pais',
-                'title': str(_("Ubicación")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'nombre',
-                'title': str(_("Nombre del Cliente")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'rif',
-                'title': str(_("Rif")),
-                'max_length': 10,
-                'null': True,
-            },
-            {
-                'field': 'precio',
-                'title': str(_("Precio")),
-                'max_length': 3,
-                'decimal_places':5,
-                'null': False,
-            },
-            {
-                'field': 'tipo_moneda',
-                'title': str(_("Tipo de Moneda")),
-                'max_length': 3,
-                'null': False,
-            },
-            {
-                'field': 'monto_facturado',
-                'title': str(_("Monto Facturado")),
-                'max_length': 20,
-                'decimal_places':5,
-                'null': False,
-            },
-            {
-                'field': 'servicio_prestado',
-                'title': str(_("# Servicios Prestados")),
-                'max_length': 20,
-                'null': False,
-            },
-        ]
 
         datos = []
 
@@ -296,7 +227,7 @@ class ServicioCliente(models.Model):
                             '', serv.nombre_servicio, '' ,'', '', '', '','',''
                         ])
                         
-        return {'cabecera': fields, 'datos': datos, 'output': 'servicios_cliente'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'servicios_cliente'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!

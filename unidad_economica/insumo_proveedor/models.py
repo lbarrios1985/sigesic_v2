@@ -67,6 +67,30 @@ class InsumoProduccion(models.Model):
     
     ## Año de registro del insumo
     anho_registro = models.ForeignKey(AnhoRegistro)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False, 'type': 'string'},
+        {
+            'field': 'producto', 'title': str(_("Nombre del Producto")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {
+            'field': 'nombre_insumo', 'title': str(_("Nombre del Insumo")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {
+            'field': 'especificacion_tecnica', 'title': str(_("Especificación Técnica")), 'max_length': 45,
+            'null': False, 'type': 'string'
+        },
+        {'field': 'marca', 'title': str(_("Marca")), 'max_length': 45, 'null': False, 'type': 'string'},
+        # {'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string'},
+        {'field': 'relacion', 'title': str(_("Insumo-Proveedor")), 'max_length': 3, 'null': True, 'type': 'integer'},
+        {
+            'field': 'numero_proveedor', 'title': str(_("# Proveedores")), 'max_length': 3, 'null': False,
+            'type': 'integer'
+        },
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -87,66 +111,6 @@ class InsumoProduccion(models.Model):
                 'type': 'string'
             },
         """
-
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'producto',
-                'title': str(_("Nombre del Producto")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'nombre_insumo',
-                'title': str(_("Nombre del Insumo")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'especificacion_tecnica',
-                'title': str(_("Especificación Técnica")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'marca',
-                'title': str(_("Marca")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            #{
-            #    'field': 'caev',
-            #    'title': str(_("Código")),
-            #    'max_length': 5,
-            #    'null': False,
-            #    'type': 'string'
-            #},
-            {
-                'field': 'relacion',
-                'title': str(_("Insumo-Proveedor")),
-                'max_length': 3,
-                'null': True,
-                'type': 'integer'
-            },
-            {
-                'field': 'numero_proveedor',
-                'title': str(_("# Proveedores")),
-                'max_length': 3,
-                'null': False,
-                'type': 'integer'
-            },
-        ]
 
         datos = []
 
@@ -182,7 +146,7 @@ class InsumoProduccion(models.Model):
                             '', prod.producto.nombre_producto, '' ,'', '', '', ''
                         ])
 
-        return {'cabecera': fields, 'datos': datos, 'output': 'insumo'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'insumo'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!
@@ -273,6 +237,41 @@ class InsumoProveedor(models.Model):
     
     ## Unidad de medida del producto
     unidad_de_medida = models.CharField(max_length=2,choices=UNIDAD_MEDIDA)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False, 'type': 'string'},
+        {
+            'field': 'producto', 'title': str(_("Nombre del Producto")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {
+            'field': 'nombre_insumo', 'title': str(_("Nombre del Insumo")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {'field': 'pais', 'title': str(_("Ubicación")), 'max_length': 45, 'null': False, 'type': 'string'},
+        {
+            'field': 'nombre_proveedor', 'title': str(_("Nombre del Proveedor")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {'field': 'rif', 'title': str(_("R.I.F.")), 'max_length': 10, 'null': True, 'type': 'string'},
+        {
+            'field': 'precio_compra_bs', 'title': str(_("Precio de Compra (Bs)")), 'max_length': 20,
+            'decimal_places': 5, 'null': False, 'type': 'decimal'
+        },
+        {
+            'field': 'precio_compra_usd', 'title': str(_("Precio de Compra (Usd)")), 'max_length': 20,
+            'decimal_places': 5, 'null': False, 'type': 'decimal'
+        },
+        {
+            'field': 'cantidad_comprada', 'title': str(_("Cantidad Comprada")), 'max_length': 3, 'null': False,
+            'type': 'integer'
+        },
+        {
+            'field': 'unidad_de_medida', 'title': str(_("Unidad de Medida")), 'max_length': 2, 'null': False,
+            'type': 'string'
+        }
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -293,82 +292,6 @@ class InsumoProveedor(models.Model):
                 'type': 'string'
             },
         """
-
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'producto',
-                'title': str(_("Nombre del Producto")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'nombre_insumo',
-                'title': str(_("Nombre del Insumo")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'pais',
-                'title': str(_("Ubicación")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'nombre_proveedor',
-                'title': str(_("Nombre del Proveedor")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'rif',
-                'title': str(_("Rif")),
-                'max_length': 10,
-                'null': True,
-                'type': 'string'
-            },
-            {
-                'field': 'precio_compra_bs',
-                'title': str(_("Precio de Compra (Bs)")),
-                'max_length': 20,
-                'decimal_places':5,
-                'null': False,
-                'type': 'decimal'
-            },
-            {
-                'field': 'precio_compra_usd',
-                'title': str(_("Precio de Compra (Usd)")),
-                'max_length': 20,
-                'decimal_places':5,
-                'null': False,
-                'type': 'decimal'
-            },
-            {
-                'field': 'cantidad_comprada',
-                'title': str(_("Cantidad Comprada")),
-                'max_length': 3,
-                'null': False,
-                'type': 'integer'
-            },
-            {
-                'field': 'unidad_de_medida',
-                'title': str(_("Unidad de Medida")),
-                'max_length': 2,
-                'null': False,
-                'type': 'string'
-            }
-        ]
 
         datos = []
 
@@ -408,7 +331,7 @@ class InsumoProveedor(models.Model):
                             '', '', ''
                         ])
 
-        return {'cabecera': fields, 'datos': datos, 'output': 'proveedor'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'proveedor'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!

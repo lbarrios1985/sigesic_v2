@@ -49,6 +49,18 @@ class maquinariaModel(models.Model):
 
     estado_actual = models.CharField(max_length=2,choices=ESTADO_ACTUAL_MAQUINARIA)
 
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False},
+        {'field': 'nombre_maquinaria', 'title': str(_("Nombre de la Maquinaria")), 'max_length': 100, 'null': False},
+        {'field': 'descripcion_maquinaria', 'title': str(_("Descripción")), 'max_length': 200, 'null': False},
+        {'field': 'pais_origen', 'title': str(_("País de Fabricación")), 'max_length': 100, 'null': False},
+        {'field': 'anho_fabricacion', 'title': str(_("Año de Fabricación")), 'max_length': 4, 'null': False},
+        {'field': 'anho_adquisicion', 'title': str(_("Año de Adquisición")), 'max_length': 4, 'null': True},
+        {'field': 'vida_util', 'title': str(_("Vida util")), 'max_length': 2, 'null': False},
+        {'field': 'estado_actual', 'title': str(_("Estado Actual")), 'max_length': 2, 'null': False}
+    ]
+
     def __str__(self):
         return self.nombre_maquinaria
 
@@ -72,58 +84,6 @@ class maquinariaModel(models.Model):
             },
         """
 
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-            },
-            {
-                'field': 'nombre_maquinaria',
-                'title': str(_("Nombre de la Maquinaria")),
-                'max_length': 100,
-                'null': False,
-            },
-            {
-                'field': 'descripcion_maquinaria',
-                'title': str(_("Descripción")),
-                'max_length': 200,
-                'null': False,
-            },
-            {
-                'field': 'pais_origen',
-                'title': str(_("País de Fabricación")),
-                'max_length': 100,
-                'null': False,
-            },
-            {
-                'field': 'anho_fabricacion',
-                'title': str(_("Año de Fabricación")),
-                'max_length': 4,
-                'null': False,
-            },
-            {
-                'field': 'anho_adquisicion',
-                'title': str(_("Año de Adquisición")),
-                'max_length': 4,
-                'null': True,
-            },
-            {
-                'field': 'vida_util',
-                'title': str(_("Vida util")),
-                'max_length': 2,
-                'null': False,
-            },
-            {
-                'field': 'estado_actual',
-                'title': str(_("Estado Actual")),
-                'max_length': 2,
-                'null': False,
-            }
-        ]
-
         datos = []
         relation = {}
         
@@ -135,7 +95,7 @@ class maquinariaModel(models.Model):
                     maq.pk, maq.nombre_maquinaria, maq.descripcion_maquinaria, maq.pais_origen.nombre, maq.anho_fabricacion,
                     maq.anho_adquisicion, maq.vida_util, maq.estado_actual
                 ])
-        return {'cabecera': fields, 'datos': datos, 'output': 'maquinaria_equipo'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'maquinaria_equipo'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!

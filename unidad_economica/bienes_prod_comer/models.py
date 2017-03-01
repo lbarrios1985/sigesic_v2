@@ -73,6 +73,31 @@ class Produccion(models.Model):
     
     ## Establece la relación con el producto
     producto = models.ForeignKey(Producto)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False, 'type': 'string'},
+        {
+            'field': 'nombre_producto', 'title': str(_("Nombre del Producto")), 'max_length': 45, 'null': False,
+            'type': 'string'
+        },
+        {
+            'field': 'especificacion_tecnica', 'title': str(_("Especificación Técnica")), 'max_length': 45,
+            'null': False, 'type': 'string'
+        },
+        {'field': 'marca', 'title': str(_("Marca")), 'max_length': 45, 'null': False, 'type': 'string'},
+        {'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string'},
+        {'field': 'cantidad_clientes', 'title': str(_("Clientes")), 'max_length': 3, 'null': True, 'type': 'integer'},
+        {'field': 'cantidad_insumos', 'title': str(_("Insumos")), 'max_length': 3, 'null': False, 'type': 'integer'},
+        {
+            'field': 'cantidad_produccion', 'title': str(_("Producción")), 'max_length': 3, 'null': False,
+            'type': 'integer'
+        },
+        {
+            'field': 'unidad_de_medida', 'title': str(_("Unidad de Medida")), 'max_length': 2, 'null': False,
+            'type': 'string'
+        }
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -94,73 +119,6 @@ class Produccion(models.Model):
             },
         """
 
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'nombre_producto',
-                'title': str(_("Nombre del Producto")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'especificacion_tecnica',
-                'title': str(_("Especificación Técnica")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'marca',
-                'title': str(_("Marca")),
-                'max_length': 45,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'caev',
-                'title': str(_("Código")),
-                'max_length': 5,
-                'null': False,
-                'type': 'string'
-            },
-            {
-                'field': 'cantidad_clientes',
-                'title': str(_("Clientes")),
-                'max_length': 3,
-                'null': True,
-                'type': 'integer'
-            },
-            {
-                'field': 'cantidad_insumos',
-                'title': str(_("Insumos")),
-                'max_length': 3,
-                'null': False,
-                'type': 'integer'
-            },
-            {
-                'field': 'cantidad_produccion',
-                'title': str(_("Producción")),
-                'max_length': 3,
-                'null': False,
-                'type': 'integer'
-            },
-            {
-                'field': 'unidad_de_medida',
-                'title': str(_("Unidad de Medida")),
-                'max_length': 2,
-                'null': False,
-                'type': 'string'
-            }
-        ]
-
         datos = []
 
         if not anho is None and not rel_id is None:
@@ -173,7 +131,7 @@ class Produccion(models.Model):
                     prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_produccion, prod.unidad_de_medida
                 ])
 
-        return {'cabecera': fields, 'datos': datos, 'output': 'bienes_prod_comer_produccion'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'bienes_prod_comer_produccion'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!
@@ -271,6 +229,25 @@ class FacturacionCliente(models.Model):
     
     ## Establece la relación con la producción
     produccion = models.ForeignKey(Produccion)
+
+    ## Define los campos y validaciones necesarias para el archivo de carga masiva
+    cm_fields = [
+        {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False},
+        {'field': 'produccion', 'title': str(_("Nombre del Producto")), 'max_length': 45, 'null': False},
+        {'field': 'pais', 'title': str(_("País")), 'max_length': 45, 'null': False},
+        {'field': 'nombre', 'title': str(_("Nombre del Cliente")), 'max_length': 45, 'null': False},
+        {'field': 'rif', 'title': str(_("R.I.F.")), 'max_length': 5, 'null': True},
+        {'field': 'cantidad_vendida', 'title': str(_("Unidades Vendidas")), 'max_length': 3, 'null': False},
+        {'field': 'unidad_de_medida', 'title': str(_("Unidad de Medida")), 'max_length': 2, 'null': False},
+        {
+            'field': 'precio_venta_bs', 'title': str(_("Precio de Venta(Bs)")), 'max_length': 20, 'decimal_places': 5,
+            'null': False
+        },
+        {
+            'field': 'precio_venta_usd', 'title': str(_("Precio de Venta(Usd)")), 'max_length': 20, 'decimal_places': 5,
+            'null': True
+        },
+    ]
     
     def carga_masiva_init(self, anho=None, rel_id=None):
         """!
@@ -291,66 +268,6 @@ class FacturacionCliente(models.Model):
                 'type': 'string'
             },
         """
-
-        ## Define los campos y validaciones necesarias para el archivo de carga masiva
-        fields = [
-            {
-                'field': 'id',
-                'title': str(_("Etiqueta")),
-                'max_length': 0,
-                'null': False,
-            },
-            {
-                'field': 'produccion',
-                'title': str(_("Nombre del Producto")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'pais',
-                'title': str(_("País")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'nombre',
-                'title': str(_("Nombre del Cliente")),
-                'max_length': 45,
-                'null': False,
-            },
-            {
-                'field': 'rif',
-                'title': str(_("Rif")),
-                'max_length': 5,
-                'null': True,
-            },
-            {
-                'field': 'cantidad_vendida',
-                'title': str(_("Unidades Vendidas")),
-                'max_length': 3,
-                'null': False,
-            },
-            {
-                'field': 'unidad_de_medida',
-                'title': str(_("Unidad de Medida")),
-                'max_length': 2,
-                'null': False,
-            },
-            {
-                'field': 'precio_venta_bs',
-                'title': str(_("Precio de Venta(Bs)")),
-                'max_length': 20,
-                'decimal_places':5,
-                'null': False,
-            },
-            {
-                'field': 'precio_venta_usd',
-                'title': str(_("Precio de Venta(Usd)")),
-                'max_length': 20,
-                'decimal_places':5,
-                'null': True,
-            },
-        ]
 
         datos = []
 
@@ -387,7 +304,7 @@ class FacturacionCliente(models.Model):
                             '', prod.producto.nombre_producto, '' ,'', '', '', '','',''
                         ])
                         
-        return {'cabecera': fields, 'datos': datos, 'output': 'bienes_prod_comer_cliente'}
+        return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'bienes_prod_comer_cliente'}
     
     def carga_masiva_load(self,path=None, anho=None, rel_id=None):
         """!

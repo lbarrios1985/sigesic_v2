@@ -30,6 +30,8 @@ import pyexcel
 import csv
 import xlwt
 
+from base.functions import enviar_correo
+
 __licence__ = "GNU Public License v2"
 __revision__ = ""
 __docstring__ = "DoxyGen"
@@ -210,7 +212,19 @@ def cargar_datos(request):
                 return HttpResponse(json.dumps({
                     'result': True, 'message': resultado['message']
                 }))
-            return HttpResponse(json.dumps({'result': False, 'error': resultado['message']}))
+
+            ## En caso de errores al procesar el archivo se envían los correspondientes mensajes por correo
+            msg = str(_(
+                'Se han encontrado errores en el archivo a procesar. Verifique los siguientes errores e intente '
+                'nuevamente:'
+            ))
+            if isinstance(resultado['message'], list):
+                for message in resultado['message']:
+                    msg += "\n- %s" % message
+            else:
+                msg = resultado['message']
+            #enviar_correo()
+            return HttpResponse(json.dumps({'result': False, 'error': msg}))
         return HttpResponse(json.dumps({'result': False, 'error': str(_('Faltan Párametros'))}))
 
     except Exception as e:
