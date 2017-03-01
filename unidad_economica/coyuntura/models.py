@@ -17,9 +17,41 @@ from django.db import models
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from unidad_economica.bienes_prod_comer.models import Producto
 from base.models import Cliente
-from base.constant import UNIDAD_MEDIDA, TIPO_PERIODICIDAD, LISTA_MES, LISTA_TRIMESTRE
+from base.constant import UNIDAD_MEDIDA
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
+
+## Tipo de Periodicidad
+TIPO_PERIODICIDAD = (
+    #('S',_('Semanal')),
+    ('M',_('Mensual')),
+    ('T',_('Trimestral')),
+)
+
+## Lista de Meses
+LISTA_MES = (
+    ('EN',_('Enero')),
+    ('FE',_('Febrero')),
+    ('MA',_('Marzo')),
+    ('AB',_('Abril')),
+    #('MY',_('Mayo')),
+    #('JN',_('Junio')),
+    #('JL',_('Julio')),
+    #('AG',_('Agosto')),
+    #('SE',_('Septiembre')),
+    #('OC',_('Octubre')),
+    #('NO',_('Noviembre')),
+    #('DI',_('Diciembre')),
+)
+
+## Lista de Trimestres
+LISTA_TRIMESTRE = (
+    ('T1',_('Trimestre 1')),
+    ('T2',_('Trimestre 2')),
+    ('T3',_('Trimestre 3')),
+    ('T4',_('Trimestre 4')),
+)
+
 
 SEMANAL = (
     (None,_('')),
@@ -155,7 +187,7 @@ class PeriodicidadAdmin(models.Model):
 #Periodicidad para la parte del usuario
 class Periodicidad(models.Model):
     ## Establece la periodicidad (semanal, mensual, trimestral)
-    descripcion= models.CharField(max_length=1, choices=TIPO_PERIODICIDAD)
+    periodo= models.CharField(max_length=1, choices=TIPO_PERIODICIDAD)
 
     ## Establece algún mes del año
     mes= models.CharField(max_length=2, choices=LISTA_MES, null=True)

@@ -44,18 +44,13 @@ class ProduccionCreate(SuccessMessageMixin, CreateView):
         @param form <b>{object}</b> Objeto que contiene el formulario de registro
         @return Retorna el formulario validado"""
 
-        #revisar el anho xq se cambio el modelo de periodicidad del usuario
-        anho= Anho()
-        anho.anho= form.cleaned_data['anho']
-        anho.save()
-
         periodicidad= Periodicidad()
-        periodicidad.descripcion= form.cleaned_data['periodicidad']
+        periodicidad.periodo= form.cleaned_data['periodo']
 
         periodicidad.mes= form.cleaned_data['mes']
         periodicidad.trimestre= form.cleaned_data['trimestre']
 
-        periodicidad.anho= anho
+        periodicidad.anho= form.cleaned_data['anho']
         periodicidad.save()
 
         sub_unidad_economica= SubUnidadEconomica.objects.get(pk=form.cleaned_data['sub_unidad_economica'])
@@ -164,15 +159,13 @@ class ClientesCreate(SuccessMessageMixin, CreateView):
             cliente.nombre = form.cleaned_data['nombre_cliente']
             cliente.pais = pais
             cliente.save()
-        
-        #anho = AnhoRegistro.objects.filter(anho=produccion.anho_registro.anho).get()
+
         ## Se crea y se guarda el modelo de facturacion del cliente
         self.object = form.save(commit=False)
         self.object.cantidad_vendida = form.cleaned_data['cantidad_vendida']
         self.object.unidad_medida = form.cleaned_data['unidad_medida_cliente']
         self.object.precio_bs = form.cleaned_data['precio_bs']
         self.object.precio_usd = form.cleaned_data['precio_usd']
-        #self.object.anho_registro = anho
         self.object.cliente = cliente
         self.object.produccion = produccion
         self.object.save()

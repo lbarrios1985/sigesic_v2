@@ -17,19 +17,19 @@
         {% csrf_token %}
             <div class="box-body">
 
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.periodicidad.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodicidad.auto_id }}">
-                                {{ form.periodicidad.label }}
+                        <div class="form-group {% if form.periodo.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodo.auto_id }}">
+                                {{ form.periodo.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.periodicidad }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.periodicidad.errors %}
+                                    {{ form.periodo }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.periodo.errors %}
                                         <p class="bg-warning">
                                             <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.periodicidad.errors.as_text|cut:'* ' }}
+                                                <i class="fa fa-times-circle-o"></i> {{ form.periodo.errors.as_text|cut:'* ' }}
                                             </span>
                                         </p>
                                     {% endif %}
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <hr> -->
+                <hr> 
                 <!-- muestra dos campos en linea-->
                 <div class="row">
                     <div class="col-md-6">
@@ -276,17 +276,17 @@
 
                 <!--<div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.periodicidad_cliente.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodicidad_cliente.auto_id }}">
-                                {{ form.periodicidad_cliente.label }}
+                        <div class="form-group {% if form.periodo_cliente.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.periodo_cliente.auto_id }}">
+                                {{ form.periodo_cliente.label }}
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">
-                                    {{ form.periodicidad_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
-                                    {% if form.periodicidad_cliente.errors %}
+                                    {{ form.periodo_cliente }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% if form.periodo_cliente.errors %}
                                         <p class="bg-warning">
                                             <span class="help-block msg-error">
-                                                <i class="fa fa-times-circle-o"></i> {{ form.periodicidad_cliente.errors.as_text|cut:'* ' }}
+                                                <i class="fa fa-times-circle-o"></i> {{ form.periodo_cliente.errors.as_text|cut:'* ' }}
                                             </span>
                                         </p>
                                     {% endif %}
@@ -364,7 +364,8 @@
                 </div><br>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <!-- se oculto este campo porque en el servidor no funciona -->
+                    <!--<div class="col-md-6">
                         <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
                                 {{ form.cliente_list.label }}
@@ -376,7 +377,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="col-md-6">
                         <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
