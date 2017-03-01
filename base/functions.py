@@ -83,7 +83,7 @@ def verificar_rif(nrorif):
     return False
 
 
-def enviar_correo(email, template, subject, vars = None):
+def enviar_correo(email, template, subject, vars = None, att='', att_c='', att_t=''):
     """!
     Función que envía correos electrónicos
 
@@ -94,6 +94,9 @@ def enviar_correo(email, template, subject, vars = None):
     @param template <b>{string}</b> Nombre de la plantilla de correo electrónico a utilizar.
     @param subject  <b>{string}</b> Texto del asunto que contendrá el correo electrónico.
     @param vars     <b>{object}</b> Diccionario de variables que serán pasadas a la plantilla de correo. El valor por defecto es Ninguno.
+    @param att      <b>{string}</b> Nombre del archivo que se adjunta al correo (opcional).
+    @param att_c    <b>{string}</b> Contenido del archivo que se adjunta al mensaje (opcional).
+    @param att_t    <b>{string}</b> tipo de archivo que se adjunta al mensaje (opcional).
     @return Devuelve verdadero si el correo fue enviado, en caso contrario, devuelve falso
     """
     if not vars:
@@ -103,7 +106,19 @@ def enviar_correo(email, template, subject, vars = None):
         ## Obtiene la plantilla de correo a implementar
         t = get_template(template)
         c = Context(vars)
-        send_mail(subject, t.render(c), settings.EMAIL_FROM, [email], fail_silently=False)
+
+        ## Verifica si el parametro de correo es un arreglo o una cadena de texto.
+        destinatario = email if isinstance(email, list) else email.split(",")
+
+        ## Asigna los datos del correo a ser enviado
+        correo = send_mail(subject, t.render(c), settings.EMAIL_FROM, destinatario)
+
+        if att:
+            ## Si se ha indicado el parametro (att), se adjunta el correspondiente archivo al correo
+            correo.attach(att, att_c, att_t)
+
+        ## Realiza el envio del correo electronico a la(s) dirección(es) indicada(s)
+        correo.send(fail_silently=False)
         logger.info("Correo enviado a %s usando la plantilla %s" % (email, template))
         return True
     except smtplib.SMTPException as e:
