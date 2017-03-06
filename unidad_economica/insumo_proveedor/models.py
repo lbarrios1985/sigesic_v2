@@ -65,6 +65,9 @@ class InsumoProduccion(models.Model):
     ## Relacion Insumo-Proveedor
     relacion = models.IntegerField()
     
+    ## País de origen del insumo
+    pais_origen = models.ForeignKey(Pais)
+    
     ## Año de registro del insumo
     anho_registro = models.ForeignKey(AnhoRegistro)
 
@@ -131,7 +134,7 @@ class InsumoProduccion(models.Model):
                     for item in ins:
                         datos.append([
                             '', item.insumo.producto.nombre_producto, item.insumo.nombre_insumo, item.especificacion_tecnica,
-                            item.marca, item.relacion, item.numero_proveedor
+                            item.marca, item.relacion, item.pais_origen, item.numero_proveedor
                         ])
                 ## Si la cantidad de registros es distinta a lo que se marcó inicialmente
                 ## se llena con los registros que existan, y se llena con campos vacios lo faltante
@@ -139,7 +142,7 @@ class InsumoProduccion(models.Model):
                     for item in ins:
                         datos.append([
                             '', item.insumo.producto.nombre_producto, item.insumo.nombre_insumo, item.especificacion_tecnica,
-                            item.marca, item.relacion, item.numero_proveedor
+                            item.marca, item.relacion, item.pais_origen, item.numero_proveedor
                         ])
                     for item in range(prod.cantidad_insumos-len(ins)):
                         datos.append([

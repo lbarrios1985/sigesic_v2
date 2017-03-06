@@ -42,6 +42,7 @@ class InsumoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(InsumoForm, self).__init__(*args, **kwargs)
+        self.fields['pais_insumo'].choices = cargar_pais()
         self.fields['pais_origen'].choices = cargar_pais()
         ## Se carga el año pendiente
         self.fields['anho_registro'].choices = anho_pendiente(self.user.username)
@@ -161,11 +162,20 @@ class InsumoForm(forms.ModelForm):
 
     ## Relacion insumo-proveedor
     relacion = forms.IntegerField(
-        label=_("Relacion insumo-proveedor"), widget=NumberInput(attrs={
+        label=_("Relacion insumo-producto"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: o; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique la relacion insumo-proveedor"), 'size': '50',
+            'data-toggle': 'tooltip', 'title': _("Indique la relacion insumo-producto"), 'size': '50',
             'style': 'width: 250px;',
         })
+    )
+    
+    ## Origen del insumo
+    pais_insumo = ChoiceField(
+        label=_("Lugar de Fabricación: "), widget=Select(attrs={
+            'class': 'form-control input-md', 'required':'required',
+            'data-toggle': 'tooltip','title': _("Seleccione el lugar de fabricación del insumo"), 'size': '50',
+            'style': 'width: 250px;'
+        }),
     )
 
 
@@ -228,7 +238,7 @@ class InsumoForm(forms.ModelForm):
         }), required = False
     )
     
-    ## Origen del insumo
+    ## Origen del proveedor
     pais_origen = ChoiceField(
         label=_("País de origen: "), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
@@ -346,6 +356,7 @@ class InsumoProveedorForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(InsumoProveedorForm, self).__init__(*args, **kwargs)
+        self.fields['pais_insumo'].choices = cargar_pais()
         self.fields['pais_origen'].choices = cargar_pais()
         ## Se carga el año pendiente
         self.fields['anho_registro'].choices = anho_pendiente(self.user.username)
@@ -468,10 +479,19 @@ class InsumoProveedorForm(forms.ModelForm):
 
     ## Relacion insumo-proveedor
     relacion = forms.IntegerField(
-        label=_("Relacion insumo-proveedor"), widget=NumberInput(attrs={
+        label=_("Relacion insumo-producto"), widget=NumberInput(attrs={
             'class': 'form-control input-md', 'style': 'min-width: o; width: auto; display: inline;',
-            'data-toggle': 'tooltip', 'title': _("Indique la relacion insumo-proveedor"), 'size': '50',
+            'data-toggle': 'tooltip', 'title': _("Indique la relacion insumo-producto"), 'size': '50',
             'style': 'width: 250px;',
+        }),required=False
+    )
+    
+        ## Origen del insumo
+    pais_insumo = ChoiceField(
+        label=_("Lugar de Fabricación: "), widget=Select(attrs={
+            'class': 'form-control input-md','data-toggle': 'tooltip',
+            'title': _("Seleccione el lugar de fabricación del insumo"), 'size': '50',
+            'style': 'width: 250px;'
         }),required=False
     )
 
@@ -535,7 +555,7 @@ class InsumoProveedorForm(forms.ModelForm):
         }),
     )
     
-    ## Origen del insumo
+    ## Origen del proveedor
     pais_origen = ChoiceField(
         label=_("País de origen: "), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
