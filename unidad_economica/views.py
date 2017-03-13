@@ -51,7 +51,21 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
     template_name = "unidad.economica.registro.html"
     success_url = reverse_lazy('informacion_mercantil')
     success_message = CREATE_MESSAGE
+
+    def get_form_kwargs(self):
+        """!
+        Metodo que permite guardar el username en los kwargs
     
+        @author William Páez (wpaez at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 06-03-2017
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna el kwargs con el username
+        """
+        kwargs = super(UnidadEconomicaCreate, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
     def get_initial(self):
         """!
         Método usado para extraer los datos del usuario logeado en el sistema
@@ -71,12 +85,53 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         datos_iniciales['nombre_ue'] = datos_rif.nombre
         datos_iniciales['razon_social'] = datos_rif.nombre
 
+        #carga la direccion fiscal de la unidad_economica
+        if UnidadEconomicaDirectorio.objects.filter(unidad_economica__rif=rif):
+            value = UnidadEconomicaDirectorio.objects.filter(unidad_economica__rif=rif).get()
+            datos_iniciales['tipo_vialidad'] = value.directorio.tipo_vialidad
+            datos_iniciales['nombre_vialidad'] = value.directorio.nombre_vialidad
+            datos_iniciales['tipo_edificacion'] = value.directorio.tipo_edificacion
+            datos_iniciales['descripcion_edificacion'] = value.directorio.descripcion_edificacion
+            datos_iniciales['tipo_subedificacion'] = value.directorio.tipo_subedificacion
+            datos_iniciales['descripcion_subedificacion'] = value.directorio.descripcion_subedificacion
+            datos_iniciales['tipo_zonificacion'] = value.directorio.tipo_zonificacion
+            datos_iniciales['nombre_zona'] = value.directorio.nombre_zona
+            datos_iniciales['parroquia'] = value.directorio.parroquia
+            datos_iniciales['municipio'] = value.directorio.parroquia.municipio
+            datos_iniciales['estado'] = value.directorio.parroquia.municipio.estado
+            datos_iniciales['coordenada'] = value.directorio.coordenadas.split(",")
+
+        #carga la actividad economica principal
+        if ActividadCaev.objects.filter(unidad_economica_rif__rif=rif, principal=True):
+            value = ActividadCaev.objects.filter(unidad_economica_rif__rif=rif, principal=True).get()
+            datos_iniciales['actividad'] = value.caev.clase
+
+        #carga los datos correspondientes a la unidad_economica
+        if UnidadEconomica.objects.filter(rif=rif):
+            value = UnidadEconomica.objects.filter(rif=rif).get()
+            datos_iniciales['exportador'] = value.exportador
+            datos_iniciales['orga_comunal'] = value.orga_comunal
+            datos_iniciales['tipo_comunal'] = value.tipo_comunal
+            datos_iniciales['situr'] = value.situr
+            datos_iniciales['casa_matriz_franquicia'] = value.casa_matriz_franquicia
+            datos_iniciales['nro_franquicia'] = value.nro_franquicia
+            datos_iniciales['franquiciado'] = value.franquiciado
+
+        #cargar los campos del modelo franquicia en el formulario unidad_economica
+        if Franquicia.objects.filter(unidad_economica_rif__rif=rif):
+            value = Franquicia.objects.filter(unidad_economica_rif__rif=rif).get()
+            datos_iniciales['pais_franquicia'] = value.pais_franquicia.id
+            datos_iniciales['rif_casa_matriz'] = value.rif_casa_matriz
+            datos_iniciales['nombre_franquicia'] = value.nombre_franquicia
+
+        #print(datos_iniciales)
+
         return datos_iniciales
 
     def get_context_data(self, **kwargs):
-        buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"</i></a>'
-        buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"</i></a>'
-        if 'actvidad2_tb' in self.request.POST:
+        if 'actividad2_tb' in self.request.POST:
+            buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>'
+            buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>'
             dictionary = dict(self.request.POST.lists())
             table = []
             for i in range(len(dictionary['actividad2_tb'])):
@@ -88,6 +143,20 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
                 table.append(my_list)
             kwargs['first_table'] = table
         kwargs['object_list'] = ActividadCaev.objects.all()
+
+        #rutina para poder cargar las actividades que ya tiene la unidad_economica registradas
+        if ActividadCaev.objects.filter(unidad_economica_rif__rif=self.request.user.username, principal=False):
+            buttons = '<a class="update_item" style="cursor: pointer"><i class="glyphicon glyphicon-pencil"></i></a>'
+            buttons += '<a class="remove_item" style="cursor: pointer"><i class="glyphicon glyphicon-remove"></i></a>'
+            table = []
+            for value in ActividadCaev.objects.filter(unidad_economica_rif__rif=self.request.user.username, principal=False).all():
+                my_list = [
+                    value.caev.descripcion+'<input type="text" id="id_actividad2_tb" value="'+
+                    value.caev.descripcion+'" name="actividad2_tb" hidden="true">',
+                    buttons
+                ]
+                table.append(my_list)
+            kwargs['first_table'] = table
         return super(UnidadEconomicaCreate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):

@@ -49,6 +49,30 @@ class UnidadEconomicaForm(DirectorioForm):
         user = kwargs.pop('user')
         super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
 
+        self.fields['actividad'].choices = cargar_actividad()
+        self.fields['actividad2'].choices = cargar_actividad()
+
+        # Si se ha indicado que es una organizacion comunal, se habilitan los atributos tipo_comunal y situr
+        if 'orga_comunal' in self.data:
+            self.fields['tipo_comunal'].widget.attrs.pop('disabled')
+            self.fields['situr'].widget.attrs.pop('readonly')
+
+        self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
+
+        if 'casa_matriz_franquicia' in self.data:
+            self.fields['nro_franquicia'].widget.attrs.pop('readonly')
+            #self.fields['franquiciado'].widget.attrs.pop('readonly')
+
+        if 'franquiciado' in self.data:
+            self.fields['pais_franquicia'].widget.attrs.pop('disabled')
+            if 'pais_franquicia' in self.data and self.data['pais_franquicia']:
+                self.fields['rif_casa_matriz'].disabled=False
+            else:
+                self.fields['nombre_franquicia'].widget.attrs.pop('readonly')
+
+
+        self.fields['pais_franquicia'].choices = cargar_pais()
+
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
     rif.widget = RifWidgetReadOnly()
@@ -71,6 +95,17 @@ class UnidadEconomicaForm(DirectorioForm):
             attrs={
                 'class': 'form-control input-sm', 'readonly': 'readonly',
                 'title': _("Razón Social"), 'size': '50',
+            }
+        )
+    )
+
+    ## La unidad Económica es exportador (si o no)
+    exportador = ChoiceField(
+        label=_("¿Es Exportador?"),
+        choices=((True,''), (False,'')),
+        widget=CheckboxInput(attrs={
+                'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Es una organización comunal?"), 'value': 'S',
             }
         )
     )
@@ -145,11 +180,11 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = ChoiceField(
-        label=_("¿Es la casa matríz de una Franquicia?"),
+        label=_("¿Es la casa matríz?"),
         choices=((True,''), (False,'')),
         widget=CheckboxInput(attrs={
                 'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("¿Es la casa matríz de una Franquicia?"),
+                'title': _("¿Es la casa matríz?"),
                 'onchange': "habilitar($(this).is(':checked'), nro_franquicia.id)",
             }
         )
@@ -158,23 +193,22 @@ class UnidadEconomicaForm(DirectorioForm):
     ## Número de Franquicias asociadas a la Unidad Económica
     nro_franquicia = CharField(
         label=_("Número de Franquicias:"),
-        initial=0,
         widget=NumberInput(
             attrs={
                 'class': 'form-control input-sm', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'data-mask': '000',
-                'readonly': 'readonly'
+                'title': _("Número de Franquicias de la Unidad Económica"), 'size': '3', 'min':'1', 'step':'1',
+                'readonly': 'readonly',
             }
-        ), required=False
+        ), required=False,
     )
 
     ## Franquiciado
     franquiciado = ChoiceField(
-        label=_("¿Forma parte de una Franquicia?"),
+        label=_("¿Es una Franquicia?"),
         choices=((True,''), (False,'')),
         widget=CheckboxInput(attrs={
                 'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("¿Forma parte de una Franquicia?"),
+                'title': _("¿Es una Franquicia?"),
                 'onchange': "habilitar($(this).is(':checked'), pais_franquicia.id), habilitar($(this).is(':checked'), nombre_franquicia.id)",
             }
         )
@@ -188,9 +222,9 @@ class UnidadEconomicaForm(DirectorioForm):
                 'class': 'form-control', 'data-toggle': 'tooltip',
                 'title': _("Seleccione el país de origen de la franquicia"), 'disabled': 'disabled',
                 'onchange': """habilitar(this.value, rif_casa_matriz_0.id),
-                habilitar(this.value, rif_casa_matriz_1.id), habilitar(this.value, rif_casa_matriz_2.id), deshabilitar(this.value, nombre_franquicia.id)"""
+                habilitar(this.value, rif_casa_matriz_1.id), habilitar(this.value, rif_casa_matriz_2.id), deshabilitar(this.value, nombre_franquicia.id, rif_casa_matriz_0.id, rif_casa_matriz_1.id, rif_casa_matriz_2.id)"""
             }
-        ), required=False
+        ), required=False,
     )
 
     ## Nombre de la Franquicia
@@ -206,32 +240,6 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## RIF Franquicia
     rif_casa_matriz = RifField(disabled=True, required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(UnidadEconomicaForm, self).__init__(*args, **kwargs)
-
-        self.fields['actividad'].choices = cargar_actividad()
-        self.fields['actividad2'].choices = cargar_actividad()
-
-        # Si se ha indicado que es una organizacion comunal, se habilitan los atributos tipo_comunal y situr
-        if 'orga_comunal' in self.data:
-            self.fields['tipo_comunal'].widget.attrs.pop('disabled')
-            self.fields['situr'].widget.attrs.pop('readonly')
-
-        self.fields['tipo_comunal'].choices = cargar_tipo_comunal()
-
-        if 'franquiciado' in self.data:
-            self.fields['pais_franquicia'].widget.attrs.pop('disabled')
-            if 'pais_franquicia' in self.data and self.data['pais_franquicia']:
-                self.fields['rif_casa_matriz'].disabled=False
-            else:
-                self.fields['nombre_franquicia'].widget.attrs.pop('readonly')
-
-        if 'casa_matriz_franquicia' in self.data:
-            self.fields['nro_franquicia'].widget.attrs.pop('readonly')
-
-
-        self.fields['pais_franquicia'].choices = cargar_pais()
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
@@ -255,7 +263,6 @@ class UnidadEconomicaForm(DirectorioForm):
 
         if orga_comunal == 'True' and not situr:
             raise forms.ValidationError(_("Indique el código SITUR de la organización comunal"))
-
         return situr
 
     def clean_pais_franquicia(self):
@@ -288,6 +295,13 @@ class UnidadEconomicaForm(DirectorioForm):
         if(UnidadEconomica.objects.filter(rif=rif)):
             raise forms.ValidationError(_("Este RIF ya se encuentra registrado"))
         return rif
+
+    def clean(self):
+        casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
+        franquiciado = self.cleaned_data.get('franquiciado')
+        if casa_matriz_franquicia == 'False':
+            msg = "Debe tener una Casa Matriz para poder tener Franquicia."
+            self.add_error('franquiciado', msg)
 
     class Meta(object):
         model = UnidadEconomica
