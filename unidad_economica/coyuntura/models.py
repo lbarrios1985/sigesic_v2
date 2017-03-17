@@ -19,11 +19,14 @@ from unidad_economica.bienes_prod_comer.models import Producto
 from base.models import Cliente
 from base.constant import UNIDAD_MEDIDA
 from django.utils.translation import ugettext_lazy as _
-# Create your models here.
+
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 ## Tipo de Periodicidad
 TIPO_PERIODICIDAD = (
-    #('S',_('Semanal')),
+    ('S',_('Semanal')),
     ('M',_('Mensual')),
     ('T',_('Trimestral')),
 )
@@ -34,14 +37,14 @@ LISTA_MES = (
     ('FE',_('Febrero')),
     ('MA',_('Marzo')),
     ('AB',_('Abril')),
-    #('MY',_('Mayo')),
-    #('JN',_('Junio')),
-    #('JL',_('Julio')),
-    #('AG',_('Agosto')),
-    #('SE',_('Septiembre')),
-    #('OC',_('Octubre')),
-    #('NO',_('Noviembre')),
-    #('DI',_('Diciembre')),
+    ('MY',_('Mayo')),
+    ('JN',_('Junio')),
+    ('JL',_('Julio')),
+    ('AG',_('Agosto')),
+    ('SE',_('Septiembre')),
+    ('OC',_('Octubre')),
+    ('NO',_('Noviembre')),
+    ('DI',_('Diciembre')),
 )
 
 ## Lista de Trimestres
@@ -52,20 +55,25 @@ LISTA_TRIMESTRE = (
     ('T4',_('Trimestre 4')),
 )
 
-
+## Valor semanal (se necesitaba asi para que funcionara) se requiere cambios a futuro
 SEMANAL = (
     (None,_('')),
     ('S',_('Semanal')),
 )
+
+## Valor mensual (se necesitaba asi para que funcionara) se requiere cambios a futuro
 MENSUAL = (
     (None,_('')),
     ('M',_('Mensual')),
 )
+
+## Valor trimestral (se necesitaba asi para que funcionara) se requiere cambios a futuro
 TRIMESTRAL = (
     (None,_('')),
     ('T',_('Trimestral')),
 )
 
+## Valor del mes de enero, se hizo lo mismo con todos los meses. Requiere cambios a futuro
 ENERO = (
     (None,_('')),
     ('EN',_('Enero')),
@@ -115,6 +123,7 @@ DICIEMBRE = (
     ('DI',_('Diciembre')),
 )
 
+## Valor del trimestre 1, se hizo lo mismo con todos los trimestres. Requiere cambios a futuro
 TRIMESTRE_1 = (
     (None,_('')),
     ('T1',_('Trimestre 1')),
@@ -132,10 +141,16 @@ TRIMESTRE_4 = (
     ('T4',_('Trimestre 4')),
 )
 
-#Modelo de periodicidad para el admin
-
-#Modelo para guardar los meses de la PeriodicidadAdmin
 class MesAdmin(models.Model):
+    """!
+    Clase que gestiona los meses de la periodicidad en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     enero= models.CharField(max_length=2, choices=ENERO, null=True)
     febrero= models.CharField(max_length=2, choices=FEBRERO, null=True)
     marzo= models.CharField(max_length=2, choices=MARZO, null=True)
@@ -152,8 +167,16 @@ class MesAdmin(models.Model):
         return '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s' % (self.enero,self.febrero,self.marzo,self.abril,self.mayo,self.junio,self.julio,
         self.agosto,self.septiembre,self.octubre,self.noviembre,self.diciembre)
 
-#Modelo para guardar los trimestres de la PeriodicidadAdmin
 class TrimestreAdmin(models.Model):
+    """!
+    Clase que gestiona los trimestres de l periodicidad en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     trimestre_1= models.CharField(max_length=2, choices=TRIMESTRE_1, null=True)
     trimestre_2= models.CharField(max_length=2, choices=TRIMESTRE_2, null=True)
     trimestre_3= models.CharField(max_length=2, choices=TRIMESTRE_3, null=True)
@@ -161,15 +184,31 @@ class TrimestreAdmin(models.Model):
     def __str__(self):
         return '%s,%s,%s,%s' % (self.trimestre_1,self.trimestre_2,self.trimestre_3,self.trimestre_4)
 
-#Modelo para guardar los años de la PeriodicidadAdmin
 class AnhoAdmin(models.Model):
+    """!
+    Clase que gestiona los años de la periodicidad en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
     anho= models.IntegerField()
     def __str__(self):
         return str(self.anho)
 
 #Modelo para llevar el control de periodicidad en la parte del administrador
 class PeriodicidadAdmin(models.Model):
-    ## Establece el tipo de periodicidad (semana, mensual, trimestral)
+    """!
+    Clase que gestiona la periodicidad en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
+    ## Establece el tipo de periodicidad (semanal, mensual, trimestral)
     periodo= models.CharField(max_length=1, choices=TIPO_PERIODICIDAD)
 
     ## Establece la relacion con MesAdmin
@@ -181,11 +220,19 @@ class PeriodicidadAdmin(models.Model):
     ## Establece la relación con AnhoAdmin
     anho= models.ForeignKey(AnhoAdmin)
 
-    ## Sub Unidad Economica que tendra la periodicidad
+    ## Establece la relación con SubUnidadEconomica
     sub_unidad_economica= models.ForeignKey(SubUnidadEconomica)
 
-#Periodicidad para la parte del usuario
 class Periodicidad(models.Model):
+    """!
+    Clase que gestiona la periodicidad en la parte del usuario
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     ## Establece la periodicidad (semanal, mensual, trimestral)
     periodo= models.CharField(max_length=1, choices=TIPO_PERIODICIDAD)
 
@@ -199,7 +246,16 @@ class Periodicidad(models.Model):
     anho= models.IntegerField()
 
 class Produccion(models.Model):
-    ##cantidad producida
+    """!
+    Clase que gestiona los datos para el registro de la producción en coyuntura
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
+    ## cantidad producida
     cantidad_produccion= models.FloatField()
 
     ## Establece la unidad de medida
@@ -218,6 +274,15 @@ class Produccion(models.Model):
     periodicidad= models.ForeignKey(Periodicidad)
 
 class Clientes(models.Model):
+    """!
+    Clase que gestiona los datos para el registro de clientes en coyuntura
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     ## cantidad de productos vendidos
     cantidad_vendida= models.FloatField()
 

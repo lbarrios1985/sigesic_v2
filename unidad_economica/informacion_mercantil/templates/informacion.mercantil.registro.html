@@ -46,7 +46,8 @@
                 <div class="row separador-vertical">
                     <div class="col-md-12 text-blue">
                         <h5>{% trans "Nota: El capital está expresado en Bolívares Fuertes (Bs.F.)."%}</h5>
-                        <h5>{% trans "Utilizar puntos (.) como separador de miles y coma (,) para decimales"%}</h5>
+                        <h5>{% trans "Utilizar puntos (.) como separador de miles y coma (,) para decimales."%}</h5>
+                        <h5>{% trans "Para los decimales se contemplan 2 dígitos (0,00)." %}</h5>
                     </div>
                 </div>
 
@@ -113,8 +114,8 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group {% if form.publico_nacional.errors %}has-error{% endif %}">
-                            <label class="col-md-7">{{form.publico_nacional.label}}</label>
-                            <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                            <label class="col-md-6">{{form.publico_nacional.label}}</label>
+                            <div class="col-md-6" >
                                 <div class="input-group">
                                     {{ form.publico_nacional }}
                                     <div class="input-group-addon">%</div>
@@ -125,8 +126,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.publico_extranjero.errors %}has-error{% endif %}">
-                            <label class="col-md-7"> {{form.publico_extranjero.label}}</label>
-                            <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                            <label class="col-md-6"> {{form.publico_extranjero.label}}</label>
+                            <div class="col-md-6" >
                                 <div class="input-group">
                                     {{ form.publico_extranjero }}
                                     <div class="input-group-addon">%</div>
@@ -137,8 +138,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.privado_nacional.errors %}has-error{% endif %}">
-                            <label class="col-md-7">{{form.privado_nacional.label}}</label>
-                            <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                            <label class="col-md-6">{{form.privado_nacional.label}}</label>
+                            <div class="col-md-6" >
                                 <div class="input-group">
                                     {{ form.privado_nacional }}
                                     <div class="input-group-addon">%</div>
@@ -149,8 +150,8 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group {% if form.privado_extranjero.errors %}has-error{% endif %}">
-                            <label class="col-md-7">{{form.privado_extranjero.label}}</label>
-                            <div class="col-md-4" onchange="porcentaje_capital_suscrito('.porcentaje');">
+                            <label class="col-md-6">{{form.privado_extranjero.label}}</label>
+                            <div class="col-md-6" >
                                 <div class="input-group">
                                     {{ form.privado_extranjero }}
                                     <div class="input-group-addon">%</div>
@@ -186,12 +187,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label"
-                                for="{{ form.nombre.auto_id }}">
-                            {{ form.nombre.label }}
+                                for="{{ form.razon_social_accionista.auto_id }}">
+                            {{ form.razon_social_accionista.label }}
                             </label>
                             <div class="col-md-8 col-xs-8 col-sm-8">
                                 <div class="form-inline">
-                                    {{ form.nombre }}
+                                    {{ form.razon_social_accionista }}
                                 </div>
                             </div>
                         </div>
@@ -213,7 +214,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group" >
+                        <div class="form-group {% if form.procentaje.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label" for="{{ form.porcentaje.auto_id }}">
                             {{ form.porcentaje.label }}
                             </label>
@@ -228,14 +229,17 @@
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
+                            <div class="col-sm-8 col-sm-offset-4">
+                                {% include 'base.form.errors.html' with form_errors=form.porcentaje.errors %}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="pull-right">
                     <button type="button" class="btn btn-primary btn-sm" id="#dtable"
-                            onclick="add_field_datatable(['#id_rif_accionista','#id_nombre', '#id_pais_origen',
-                            '#id_porcentaje'],'#mydtable');"
+                            onclick="add_field_datatable(['#id_rif_accionista','#id_razon_social_accionista', '#id_pais_origen',
+                            '#id_porcentaje'],'#mydtable');porcent()"
                             data-toggle="tooltip" title="{% trans 'Presione el botón para agregar un accionista' %}">
                         {% trans 'Agregar Accionista' %}
                     </button>
@@ -260,9 +264,20 @@
                                     <td>{% trans 'Opciones' %}</td>
                                 </tr>
                             </thead>
+                            <!--<tbody>
+                            {% if first_table %}
+                                    {% for value in first_table %}
+                                        <tr>
+                                        {% for item in value %}
+                                            <td>{{item | safe }}</td>
+                                        {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>-->
                         </table>
 
-                    {% if form.rif_accionista_tb.errors or form.nombre_tb.errors or form.pais_origen_tb.errors or form.porcentaje_tb.errors %}
+                    {% if form.rif_accionista_tb.errors or form.razon_social_accionista_tb.errors or form.pais_origen_tb.errors or form.porcentaje_tb.errors %}
                         <p class="bg-warning">
                             <span class="help-block msg-error">
                                 <i class="fa fa-times-circle-o"></i>
@@ -279,53 +294,34 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group {% if form.cedula_representante.errors %}has-error{% endif %}">
+                        <div class="form-group {% if form.rif_representante.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label"
-                                   for="{{ form.cedula_representante.auto_id }}">
-                                {{ form.cedula_representante.label }}
+                                   for="{{ form.rif_representante.auto_id }}">
+                                {{ form.rif_representante.label }}
                             </label>
-                            <div class="col-md-4 col-xs-4 col-sm-4 form-inline">
-                                {{ form.cedula_representante }}
+                            <div class="col-md-5 col-xs-5 col-sm-5 form-inline">
+                                {{ form.rif_representante }}
                             </div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido"></i>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4">
-                                {% include 'base.form.errors.html' with form_errors=form.cedula_representante.errors %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 ">
-                        <div class="form-group {% if form.nombre_representante.errors %}has-error{% endif %}">
-                            <label class="col-md-4 col-xs-4 col-sm-4 control-label"
-                                   for="{{ form.nombre_representante.auto_id }}">
-                            {{ form.nombre_representante.label }}
-                            </label>
-                            <div class="col-md-7 col-xs-7 col-sm-7">{{ form.nombre_representante }}</div>
-                            <div class="col-md-1 col-xs-1 col-sm-1">
-                                <i class="ion ion-ios-medical item-requerido-nomargin"></i>
-                            </div>
-                            <div class="col-sm-8 col-sm-offset-4">
-                                {% include 'base.form.errors.html' with form_errors=form.nombre_representante.errors %}
+                                {% include 'base.form.errors.html' with form_errors=form.rif_representante.errors %}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 ">
-                        <div class="form-group {% if form.apellido_representante.errors %}has-error{% endif %}">
+                        <div class="form-group {% if form.razon_social_representante.errors %}has-error{% endif %}">
                             <label class="col-md-4 col-xs-4 col-sm-4 control-label"
-                                   for="{{ form.apellido_representante.auto_id }}">
-                            {{ form.apellido_representante.label }}
+                                   for="{{ form.razon_social_representante.auto_id }}">
+                            {{ form.razon_social_representante.label }}
                             </label>
-
-                            <div class="col-md-7 col-xs-7 col-sm-7">{{ form.apellido_representante }}</div>
+                            <div class="col-md-7 col-xs-7 col-sm-7">{{ form.razon_social_representante }}</div>
                             <div class="col-md-1 col-xs-1 col-sm-1">
                                 <i class="ion ion-ios-medical item-requerido-nomargin"></i>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4">
-                                {% include 'base.form.errors.html' with form_errors=form.apellido_representante.errors %}
+                                {% include 'base.form.errors.html' with form_errors=form.razon_social_representante.errors %}
                             </div>
                         </div>
                     </div>
@@ -388,6 +384,7 @@
                         </div>
                     </div>
                 </div>
+                {{ form.porcentaje_total }}
             </div>
             <div class="box-footer text-right">
                 {% include 'base.form.buttons.html' %}
@@ -399,15 +396,20 @@
     <script type="text/javascript">
         $(document).ready(function() {
             /** Funcion a ser agregada en el evento onchange del rif para la verificacion de los datos en el SENIAT */
-            var onchange = "validar_rif_seniat('{{ form.rif_accionista_orig.auto_id }}', '{{ form.nombre.auto_id }}', true)";
+            var onchange = "validar_rif_seniat('{{ form.rif_accionista_orig.auto_id }}', '{{ form.razon_social_accionista.auto_id }}', true)";
             for (i=0; i<=2; i++) {
                 $("#{{ form.rif_accionista_orig.auto_id }}_"+i).attr("onchange", onchange);
+            }
+
+            var onchange = "validar_rif_seniat('{{ form.rif_representante.auto_id }}', '{{ form.razon_social_representante.auto_id }}', true)";
+            for (i=0; i<=2; i++) {
+                $("#{{ form.rif_representante.auto_id }}_"+i).attr("onchange", onchange);
             }
             });
 
             remove_field_datatable('#mydtable','.remove_item');
             update_field_datatable('#mydtable','#composicion-accionaria',
-                ['#id_rif_accionista_orig', '#id_nombre','#id_pais_origen', '#id_porcentaje']);
+                ['#id_rif_accionista_orig', '#id_razon_social_accionista','#id_pais_origen', '#id_porcentaje']);
 
             var rif_0 = $('#id_rif_0').val();
             var rif_1 = $('#id_rif_1').val();
@@ -455,17 +457,101 @@
 
         $('#id_publico_nacional').on('keyup', function() {
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
         });
         $('#id_publico_extranjero').on('keyup', function() {
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
         });
         $('#id_privado_nacional').on('keyup', function() {
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
         });
         $('#id_privado_extranjero').on('keyup', function() {
             $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
         });
 
+        $('#id_porcentaje').on('keyup', function() {
+            $(this).val((this.value + '').replace(/[^\d,(\d{2})]/g, ''));
+            $(this).val(separador_miles.call($(this).val().split('.').join(''),'.',','));
+        });
 
+        /**
+        * @brief Si val1 es igual a "Otro" val2 se habilita
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        * @param val1 es el id del select independiente
+        * @param val2 es el id del select dependiente
+        */
+        function habilitar_cargo(val1, val2)
+        {
+            var elemento = $("#"+val2);
+            if( val1 == "Otro" )
+            {
+                elemento.removeAttr('disabled');
+                elemento.attr('required', 'required')
+            }
+            else
+            {
+                elemento.attr('disabled', 'disabled');
+                elemento.removeAttr('required');
+                elemento.val("");
+            }
+        }
+
+        /**
+        * @brief Realiza la suma del porcentaje de cada accionista que está en la tabla y verifica que ninguo tenga 100%
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
+        function porcent()
+        {
+            //var porcentaje= $('#id_porcentaje').val().replace(',','.');
+            //$('#id_porcentaje_total').val(+$('#id_porcentaje_total').val() + +porcentaje);
+            //alert(porcentaje);
+
+            var t = $("#mydtable").DataTable();
+            var temp;
+            var suma=0;
+            $("#mydtable tbody tr").each(function (index) {
+                $(this).children("td").each(function (index2) {
+                    if(index2==3)
+                    {
+                        temp= parseFloat($(this).text().replace(',','.'));
+                        //suma+= parseFloat($(this).text().replace(',','.'));
+                    }
+                })
+                if(temp == 100)
+                {
+                    t.row($(this)).remove().draw();
+                    var modal = bootbox.dialog({
+                        title: MSG_TITLE_ALERT,
+                        message: "El accionista no puede tener 100%. No se ingresará a la tabla.",
+                        buttons: {
+                            success: {
+                                label: BTN_ACEPTAR,
+                                className: "btn btn-primary btn-sm",
+                            },
+                        },
+                    });
+                    modal.show();
+                }
+                else
+                {
+                    suma+= temp;
+                }
+            })
+
+            $('#id_porcentaje_total').val(suma);
+            $('#id_rif_accionista_orig_1').val("");
+            $('#id_rif_accionista_orig_2').val("");
+            $('#id_pais_origen').val(0);
+            //alert($('#id_porcentaje_total').val());
+        }
     </script>
 {% endblock %}

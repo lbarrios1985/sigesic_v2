@@ -5,13 +5,14 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 """
 ## @namespace unidad_economica.coyuntura.forms
 #
-# Clases, atributos y métodos para los formularios
+# Clases, atributos y métodos para los formularios de coyuntura
 # @author William Páez (wpaez at cenditel.gob.ve)
 # @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres 
 # (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
 # @date 22-09-2016
 # @version 2.0
+
 from django import forms
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -38,6 +39,14 @@ LISTA_ANHO = (
 
 @python_2_unicode_compatible
 class MesAdminForm(forms.ModelForm):
+    """!
+    Clase que muestra el formulario de ingreso del mes en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
 
     def __init__(self, *args, **kwargs):
         super(MesAdminForm, self).__init__(*args, **kwargs)
@@ -116,6 +125,14 @@ class MesAdminForm(forms.ModelForm):
 
 @python_2_unicode_compatible
 class TrimestreAdminForm(forms.ModelForm):
+    """!
+    Clase que muestra el formulario de ingreso del trimestre en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
 
     def __init__(self, *args, **kwargs):
         super(TrimestreAdminForm, self).__init__(*args, **kwargs)
@@ -146,6 +163,14 @@ class TrimestreAdminForm(forms.ModelForm):
 
 @python_2_unicode_compatible
 class PeriodicidadAdminForm(forms.ModelForm):
+    """!
+    Clase que muestra el formulario de ingreso de la periodicidad en la parte del administrador
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
 
     def __init__(self, *args, **kwargs):
         super(PeriodicidadAdminForm, self).__init__(*args, **kwargs)
@@ -261,7 +286,7 @@ class PeriodicidadAdminForm(forms.ModelForm):
         ue= self.cleaned_data['ue']
         estado= self.cleaned_data['estado']
 
-        #agregué valor s al principio del select porque si esta '' la variable sale que no existe KeyError
+        ## agregué valor s al principio del select porque si esta '' la variable sale que no existe KeyError
         if periodo == 's':
             msg = "Este campo es obligatorio."
             self.add_error('periodo', msg)
@@ -287,29 +312,37 @@ class PeriodicidadAdminForm(forms.ModelForm):
 
 @python_2_unicode_compatible
 class ProduccionForm(forms.ModelForm):
+    """!
+    Clase que muestra el formulario de inicio de producción
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(ProduccionForm, self).__init__(*args, **kwargs)
         self.fields['ubicacion_cliente'].choices = cargar_pais()
 
-        #Se carga una lista con todas las subunidades relacionadas al usuario
-        #ls: lista de subunidades temporal que se usa en el for
+        ## Se carga una lista con todas las subunidades relacionadas al usuario
+        ## ls: lista de subunidades temporal que se usa en el for
         lista_subunidad = [('','Selecione...')]
         for ls in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
             lista_subunidad.append(ls)
         self.fields['sub_unidad_economica'].choices = lista_subunidad
         self.fields['sub_unidad_economica_cliente'].choices = lista_subunidad
 
-        #Se carga una lista con todos los productos relacionados a una subunidad
-        #lp: lista_producto temporal que se usa en el for
+        ## Se carga una lista con todos los productos relacionados a una subunidad
+        ## lp: lista_producto temporal que se usa en el for
         lista_producto = [('','Selecione...')]
         for lp in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             lista_producto.append(lp)
         self.fields['producto'].choices = lista_producto
 
-        ##Se carga una lista con todos los productos relacionados a la produccion
-        ##se va creando la tupla lprod[(id de la Produccion),(con la clave foranea del producto se busca el nombre correspondiente)]
+        ## Se carga una lista con todos los productos relacionados a la produccion
+        ## se va creando la tupla lprod[(id de la Produccion),(con la clave foranea del producto se busca el nombre correspondiente)]
         lista_produccion= [('','Selecione...')]
         for lprod in Produccion.objects.values_list('id','producto'):
             lista_produccion.append([(lprod[0]),(Producto.objects.filter(pk=lprod[1]).get().nombre_producto)])
@@ -575,35 +608,43 @@ class ProduccionForm(forms.ModelForm):
 
 @python_2_unicode_compatible
 class ClientesForm(forms.ModelForm):
+    """!
+    Clase que muestra el formulario de inicio de clientes
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(ClientesForm, self).__init__(*args, **kwargs)
         self.fields['ubicacion_cliente'].choices = cargar_pais()
 
-        #Se carga una lista con todas las subunidades relacionadas al usuario
-        #ls: lista_subunidad temporal que se usa en el for
+        ## Se carga una lista con todas las subunidades relacionadas al usuario
+        ## ls: lista_subunidad temporal que se usa en el for
         lista_subunidad = [('','Selecione...')]
         for ls in SubUnidadEconomica.objects.filter(unidad_economica__user__username=user.username).exclude(tipo_sub_unidad="Se").values_list('id','nombre_sub'):
             lista_subunidad.append(ls)
         self.fields['sub_unidad_economica'].choices = lista_subunidad
         self.fields['sub_unidad_economica_cliente'].choices = lista_subunidad
 
-        #Se carga una lista con todos los productos relacionados a una subunidad
-        #lp: lista_producto temporal que se usa en el for
+        ## Se carga una lista con todos los productos relacionados a una subunidad
+        ## lp: lista_producto temporal que se usa en el for
         lista_producto = [('','Selecione...')]
         for lp in Producto.objects.filter(subunidad__unidad_economica__user__username=user.username).values_list('id','nombre_producto'):
             lista_producto.append(lp)
         self.fields['producto'].choices = lista_producto
 
-        ##Se carga una lista con todos los productos relacionados a la produccion
-        ##se va creando la tupla lprod[(id de la Produccion),(con la clave foranea del producto se busca el nombre correspondiente)]
+        ## Se carga una lista con todos los productos relacionados a la produccion
+        ## se va creando la tupla lprod[(id de la Produccion),(con la clave foranea del producto se busca el nombre correspondiente)]
         lista_produccion= [('','Selecione...')]
         for lprod in Produccion.objects.values_list('id','producto'):
             lista_produccion.append([(lprod[0]),(Producto.objects.filter(pk=lprod[1]).get().nombre_producto)])
         self.fields['producto_cliente'].choices= lista_produccion
 
-        # Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
+        ## Si se ha seleccionado una subunidad_cliente se elimina el atributo disabled
         if 'sub_unidad_economica_cliente' in self.data:
             self.fields['producto_cliente'].widget.attrs.pop('disabled')
             self.fields['ubicacion_cliente'].widget.attrs.pop('disabled')

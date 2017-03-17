@@ -17,6 +17,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core import validators
 from unidad_economica.models import UnidadEconomica
+from base.models import Pais
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -33,20 +34,14 @@ class Capital(models.Model):
     @version 2.0.0
     """
 
-    ## Establece el rif de la unidad economica
-    rif_ue = models.ForeignKey(UnidadEconomica)
-
-    #naturaleza_juridica = models.CharField(max_length=45)
+    ## Establece la naturaleza jurídica de la Unidad Económica
+    naturaleza_juridica = models.CharField(max_length=45)
 
     ##Establece el capital solicitado: capital suscrito
-    capital_suscrito = models.CharField(
-        max_length=30,
-    )
+    capital_suscrito = models.FloatField()
 
     ## Establece el tipo de capital solicitado: capital pagado
-    capital_pagado = models.CharField(
-        max_length=30,
-    )
+    capital_pagado = models.FloatField()
 
     ## Establece la distribución porcentual del capital suscrito: público nacional
     publico_nacional = models.FloatField()
@@ -57,8 +52,11 @@ class Capital(models.Model):
     ## Establece la distribución porcentual del capital suscrito: privado nacional
     privado_nacional = models.FloatField()
 
-    ## Establece la distribución porcentual del capital suscrito: provado extranjero
+    ## Establece la distribución porcentual del capital suscrito: privado extranjero
     privado_extranjero = models.FloatField()
+
+    ## Establece la ralacion con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
 
 @python_2_unicode_compatible
 class Accionista(models.Model):
@@ -72,27 +70,26 @@ class Accionista(models.Model):
     @version 2.0.0
     """
 
-    rif_ue = models.ForeignKey(UnidadEconomica)
-
     ## Establece el rif del accionista
     rif_accionista = models.CharField(
         max_length=10
     )
 
     ## Establece el nombre del accionista
-    nombre = models.CharField(
+    razon_social_accionista = models.CharField(
         max_length=45, help_text=_("Nombre del Accionista")
-    )
-
-    ## Establece el pais de origen del accionista
-    pais_origen = models.CharField(
-        max_length=45
     )
 
     ## Establece el porcentaje de acciones que posee el accionista
     porcentaje = models.FloatField(
         help_text=_("Porcentaje de accciones que posee el acionista")
     )
+
+    ## Establece el pais de origen del accionista
+    pais_origen = models.ForeignKey(Pais)
+
+    ## Establece la ralacion con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
 
 @python_2_unicode_compatible
 class RepresentanteLegal(models.Model):
@@ -106,35 +103,18 @@ class RepresentanteLegal(models.Model):
     @version 2.0.0
     """
 
-    ## relación de RIF Unidad Económica
-    rif_ue = models.ForeignKey(UnidadEconomica)
+    ## Rif del representante legal
+    rif_representante = models.CharField(max_length=10)
 
-    ## Cédula de Identidad del representante legal
-    cedula_representante = models.CharField(
-        max_length=15, help_text=_("Cédula de Identidad del usuario"),
-        validators=[
-            validators.RegexValidator(
-                r'^[\d]{7,15}+$',
-                _("Introduzca un número de cédula válido. Solo se permiten números y una longitud de 7 u 8 carácteres.")
-            ),
-        ]
-    )
-
-    ## Nombre del representante legal
-    nombre_representante = models.CharField(
-        max_length=45, help_text=("Nombre del Representante Legal")
-    )
-
-    ## Apellido del representante legal
-    apellido_representante = models.CharField(
-        max_length=45, help_text=("Apellido del Representante Legal")
+    ## razón social del representante legal
+    razon_social_representante = models.CharField(
+        max_length=255, help_text=("Razón Social")
     )
 
     ## Correo electrónico del representante legal
     correo_electronico = models.CharField(
         max_length=45, help_text=("correo@dssddsd.com")
     )
-
 
     ## Número telefónico del representante legal
     telefono = models.CharField(
@@ -151,6 +131,8 @@ class RepresentanteLegal(models.Model):
     cargo = models.CharField(max_length=45)
 
     ## Cargo que se introduce en un campo de texto del representante legal dentro de la Unidad Económica
-    cargo_otros = models.CharField(max_length=45)
+    cargo_otros = models.CharField(max_length=45, null=True)
 
+    ## Establece la ralacion con la Unidad Económica
+    unidad_economica = models.ForeignKey(UnidadEconomica)
 
