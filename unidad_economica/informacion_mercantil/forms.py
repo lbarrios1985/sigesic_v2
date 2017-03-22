@@ -80,6 +80,7 @@ class InformacionMercantilForm(ModelForm):
         label=_("Público Nacional: "), max_length=6,
         widget=TextInput(attrs={
             'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0', 'required':'required',
+            'value': '0',
         })
     )
 
@@ -89,6 +90,7 @@ class InformacionMercantilForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0', 'required':'required',
+                'value': '0',
             }
         )
     )
@@ -99,6 +101,7 @@ class InformacionMercantilForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0', 'required':'required',
+                'value': '0',
             }
         )
     )
@@ -109,6 +112,7 @@ class InformacionMercantilForm(ModelForm):
         widget=TextInput(
             attrs={
                 'class': 'form-control input-sm porcentaje', 'data-toggle': 'tooltip', 'size': '4', 'placeholder': '0', 'required':'required',
+                'value': '0',
             }
         )
     )
@@ -365,7 +369,6 @@ class InformacionMercantilForm(ModelForm):
 
     def clean_rif(self):
         rif= self.cleaned_data['rif']
-        print('Entra aquí')
         if Capital.objects.filter(unidad_economica__rif=rif) and RepresentanteLegal.objects.filter(unidad_economica__rif=rif) :
             raise forms.ValidationError(_("Los datos ya se encuentran registrados"))
         return rif

@@ -243,9 +243,9 @@ class UnidadEconomicaForm(DirectorioForm):
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
-        nro_franquicia = self.cleaned_data.get('nro_franquicia')
+        nro_franquicia = int(self.cleaned_data.get('nro_franquicia'))
 
-        if(casa_matriz_franquicia=='True' and (nro_franquicia == '' or nro_franquicia == '0')):
+        if(casa_matriz_franquicia=='True' and nro_franquicia <= 0):
             raise forms.ValidationError(_("Indique el número de franquicias"))
         return nro_franquicia
         
