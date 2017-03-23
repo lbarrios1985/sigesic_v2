@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-md-1">
                         <a id="#dtable" onclick="agregar_actividad()" style="cursor: pointer">
-                        <i id="plus" class="ionicon ion-plus-circled btn-icon hidden" data-original-title="Agregar actividad económica secundaria"></i></a>
+                        <i id="plus" class="btn btn-primary btn-sm hidden" data-original-title="Agregar actividad económica secundaria">Agregar</i></a>
                     </div>
                 </div>
 
@@ -115,6 +115,21 @@
                     </div>
                 </div>
                 <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.exportador.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.exportador.auto_id }}">
+                                {{ form.exportador.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.exportador }}<i class="ion ion-ios-medical item-requerido"></i>
+                                </div>
+                                {% include 'base.form.errors.html' with form_errors=form.exportador.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.orga_comunal.errors %}has-error{% endif %}">
@@ -161,6 +176,34 @@
 
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="form-group {% if form.casa_matriz.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.casa_matriz_franquicia.auto_id }}">
+                                {{ form.casa_matriz_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.casa_matriz_franquicia }}<i class="ion ion-ios-medical item-requerido"></i>
+                                </div>
+                                {% include 'base.form.errors.html' with form_errors=form.casa_matriz.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.nro_franquicia.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_franquicia.auto_id }}">
+                                {{ form.nro_franquicia.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.nro_franquicia }}
+                                </div>
+                                {% include 'base.form.errors.html' with form_errors=form.nro_franquicia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="form-group {% if form.franquiciado.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.franquiciado.auto_id }}">
                                 {{ form.franquiciado.label }}
@@ -187,7 +230,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.rif_casa_matriz.errors %}has-error{% endif %}">
@@ -216,35 +258,7 @@
                         </div>
                     </div>
                 </div>
-            
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group {% if form.casa_matriz.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.casa_matriz_franquicia.auto_id }}">
-                                {{ form.casa_matriz_franquicia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.casa_matriz_franquicia }}<i class="ion ion-ios-medical item-requerido"></i>
-                                </div>
-                                {% include 'base.form.errors.html' with form_errors=form.casa_matriz.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group {% if form.nro_franquicia.errors %}has-error{% endif %}">
-                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.nro_franquicia.auto_id }}">
-                                {{ form.nro_franquicia.label }}
-                            </label>
-                            <div class="col-md-9 col-xs-9 col-sm-9">
-                                <div class="form-inline">
-                                    {{ form.nro_franquicia }}
-                                </div>
-                                {% include 'base.form.errors.html' with form_errors=form.nro_franquicia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="box-footer text-right">
                 {% include 'base.form.buttons.html' %}

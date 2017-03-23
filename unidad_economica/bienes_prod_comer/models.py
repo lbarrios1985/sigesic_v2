@@ -45,6 +45,9 @@ class Producto(models.Model):
     
     ## Establece la relación con la sub unidad económica
     subunidad = models.ForeignKey(SubUnidadEconomica)
+
+    def __str__(self):
+        return self.nombre_producto
    
 class Produccion(models.Model):
     """!

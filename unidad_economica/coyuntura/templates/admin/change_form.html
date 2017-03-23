@@ -87,6 +87,13 @@
             });
         })(django.jQuery);
 
+        /**
+        * @brief Verifica de que la periodicidad sea mensual o trimestral. No ambas.
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
         function funcion_periodo(val)
         {
             if(val=="M")
@@ -109,6 +116,13 @@
             }
         }
 
+        /**
+        * @brief Verifica el tipo de consulta por uno de los 3 filtros: código caev, unidad económica, estado
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
         function funcion_tipo_consulta(val)
         {
             if(val=="caev")

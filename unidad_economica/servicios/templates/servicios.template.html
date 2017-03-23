@@ -16,6 +16,17 @@
         <form action="{% url 'servicio_general_create' %}" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
         {% csrf_token %}
         <div class="box-body">
+            <div class="row separador-vertical">
+                <div class="col-md-12 text-blue"><br>
+                        <b>{% trans 'Nota:' %}</b>
+                        {% trans 'Tiene dos modalidades para hacer el registro: Por Formulario o Por Carga Masiva' %}
+                        {% trans ' (debe seleccionar primero una sub-unidad económica)' %}
+                </div>
+            </div><br>
+            
+            <div class="row container">
+                <h4><i class="ion-ios-compose"></i> Formulario</h4>
+            </div>
             
             <div class="row">
                 <div class="col-md-6">
@@ -93,7 +104,8 @@
         </div>
         <div class="box-footer">
             <div class="pull-right">
-                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
+                <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
+                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar Servicio' %}</button>
             </div>
         </div>
         </form>
@@ -132,8 +144,7 @@
         
         <div class="box-body">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-offset-4">
                     <div class="form-group {% if form.anho_registro.errors %}has-error{% endif %}">
                         <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.subunidad.auto_id }}">
                             {{ form.anho_registro.label }}
@@ -148,6 +159,10 @@
                     </div>
                 </div>
                 <div class="col-md-3" style="display:none;">{{ form.anho }}</div>
+            </div>
+            
+            <div class="row container">
+                <h4><i class="ion-ios-compose"></i> Formulario</h4>
             </div>
             
             <div class="row">
@@ -303,6 +318,13 @@
                 </div>
             </div>
             
+            <div class="box-footer">
+                <div class="pull-right">
+                    <button type="reset" class="btn btn-primary btn-sm">{% trans 'Limpiar' %}</button>
+                    <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar Cliente' %}</button>
+                </div>
+            </div>
+            
         <div id='carga_template_clientes' style='display: none;'>
             {% include 'carga.masiva.template.html' with app='servicios' mod='ServicioCliente' %}
         </div>
@@ -332,11 +354,6 @@
             </div>
         </div>
             
-        </div>
-        <div class="box-footer">
-            <div class="pull-right">
-                <button type="submit" class="btn btn-primary btn-sm">{% trans 'Guardar' %}</button>
-            </div>
         </div>
     </form>
     </div>

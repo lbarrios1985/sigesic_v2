@@ -1,3 +1,18 @@
+"""
+Sistema Integral de Gestión para las Industrias y el Comercio (SIGESIC)
+
+Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
+"""
+## @package unidadeconomica.coyuntura.views
+#
+# Clases, atributos, métodos y/o funciones a implementar para las vistas del módulo coyuntura
+# @author William Páez (wpaez at cenditel.gob.ve)
+# @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres
+# (CENDITEL) nodo Mérida - Venezuela</a>
+# @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+# @date 09-01-2017
+# @version 2.0
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.generic import CreateView
@@ -10,9 +25,20 @@ from .models import Periodicidad, Produccion, Clientes
 from base.models import Cliente, Pais
 from base.constant import CREATE_MESSAGE, UNIDAD_MEDIDA
 
-# Create your views here.
+__licence__ = "GNU Public License v2"
+__revision__ = ""
+__docstring__ = "DoxyGen"
 
 class ProduccionCreate(SuccessMessageMixin, CreateView):
+    """!
+    Clase que registra la producción
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     model= Produccion
     form_class = ProduccionForm
     template_name = "coyuntura.template.html"
@@ -76,15 +102,15 @@ def produccion_get_data(request):
     """!
     Metodo que extrae los datos de los bienes relacionados con la subunidad y la muestra en una url ajax como json
 
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @author William Páez (wpaez at cenditel.gob.ve)
     @copyright GNU/GPLv2
-    @date 22-12-2016
+    @date 09-01-2017
     @param request <b>{object}</b> Recibe la peticion
     @return Retorna el json con las subunidades que consiguió
     """
     datos = {'data':[]}
     dic_um = dict(UNIDAD_MEDIDA)
-    # Recibe por get el id de subunidad
+    ## Recibe por get el id de subunidad
     subid = request.GET.get('subunidad_id', None)
     if(subid):
         for prod in Produccion.objects.filter(producto__subunidad_id=subid,producto__subunidad__unidad_economica__user_id=request.user.id).all():
@@ -93,7 +119,7 @@ def produccion_get_data(request):
             lista.append(prod.producto.especificacion_tecnica)
             lista.append(prod.producto.marca)
 
-            #en esta línea va el código arancelario MERCOSUR
+            ## en esta línea va el código arancelario MERCOSUR
 
             lista.append(prod.cantidad_produccion)
             lista.append(str(dic_um.get(prod.unidad_medida)))
@@ -104,6 +130,15 @@ def produccion_get_data(request):
     return JsonResponse("No se envío el id de la subunidad",safe=False)
 
 class ClientesCreate(SuccessMessageMixin, CreateView):
+    """!
+    Clase que registra los clientes
+
+    @author wpaez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 09-01-2017
+    @version 2.0
+    """
+
     model= Clientes
     form_class = ClientesForm
     template_name = "coyuntura.template.html"
@@ -149,7 +184,7 @@ class ClientesCreate(SuccessMessageMixin, CreateView):
                 ## Se crea y se guarda el modelo de cliente
                 cliente = Cliente()
                 cliente.nombre = form.cleaned_data['nombre_cliente']
-                #Si es venezuela se toma en cuenta el rif
+                ## Si es venezuela se toma en cuenta el rif
                 if(pais.pk==1):
                     cliente.rif = form.cleaned_data['rif']
                 cliente.pais = pais
@@ -179,15 +214,15 @@ def clientes_get_data(request):
     """!
     Metodo que extrae los datos de los clientes relacionados con el producto y la muestra en una url ajax como json
 
-    @author Rodrigo Boet (rboet at cenditel.gob.ve)
+    @author William Páez (wpaez at cenditel.gob.ve)
     @copyright GNU/GPLv2
-    @date 05-10-2016
+    @date 09-01-2017
     @param request <b>{object}</b> Recibe la peticion
     @return Retorna el json con las subunidades que consiguió
     """
     datos = {'data':[]}
     dic_um = dict(UNIDAD_MEDIDA)
-    # Recibe por get el id del producto
+    ## Recibe por get el id del producto
     prodid = request.GET.get('producto_id', None)
     if(prodid):
         for clientes in Clientes.objects.filter(produccion__producto_id=prodid).all():

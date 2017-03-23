@@ -48,6 +48,9 @@ class UnidadEconomica(models.Model):
     ## Razón Social
     razon_social = models.CharField(max_length=255)
 
+    ## La unidad Económica es exportador (si o no)
+    exportador= models.BooleanField(default=False)
+
     ## Número de Seguro Social
     ivss = models.CharField(max_length=20)
 

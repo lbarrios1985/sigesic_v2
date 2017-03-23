@@ -9,6 +9,8 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @author William Páez (wpaez at cenditel.gob.ve)
 # @author <a href='​http://www.cenditel.gob.ve'>Centro Nacional de Desarrollo e Investigación en Tecnologías Libres (CENDITEL) nodo Mérida - Venezuela</a>
 # @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+# @date 22-09-2016
+# @version 2.0
 
 from __future__ import unicode_literals
 from django.contrib import admin
@@ -43,8 +45,22 @@ class PeriodicidadAdministrador(admin.ModelAdmin):
     @date 18-01-2017
     @version 2.0.0
     """
-    #metodo para guardar de forma personalizada en el modelo
+
     def save_model(self, request, obj, form, change):
+        """!
+        Método para guardar de forma personalizada en el modelo
+    
+        @author William Páez (wpaez at cenditel.gob.ve)
+        @copyright GNU/GPLv2
+        @date 18-01-2017
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto con los datos
+        @param obj <b>{object}</b> Objeto donde se guardan los datos
+        @param form <b>{object}</b> Objeto que contiene el formulario de registro
+        @param change <b>{object}</b>
+        @return No retorna nada
+        """
+
         # custom stuff here
         obj = form.save(commit=False)
         obj.periodo= form.cleaned_data['periodo']

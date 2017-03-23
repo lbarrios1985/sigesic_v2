@@ -72,6 +72,9 @@ class InsumoCreate(SuccessMessageMixin,CreateView):
         ## Se crea la instancia del año
         anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
         
+        ## Se instancia el país
+        pais = Pais.objects.get(pk=form.cleaned_data['pais_insumo'])
+        
         ## Se crea y se guarda el modelo de insumo
        
         self.object = form.save(commit=False)
@@ -84,6 +87,7 @@ class InsumoCreate(SuccessMessageMixin,CreateView):
         produccion.especificacion_tecnica = form.cleaned_data['especificacion_tecnica']
         produccion.marca = form.cleaned_data['marca']
         produccion.relacion = form.cleaned_data['relacion']
+        produccion.pais_origen = pais
         produccion.numero_proveedor = form.cleaned_data['numero_proveedor']
         produccion.anho_registro = anho
         produccion.insumo = self.object

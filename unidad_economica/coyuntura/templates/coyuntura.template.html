@@ -364,8 +364,7 @@
                 </div><br>
 
                 <div class="row">
-                    <!-- se oculto este campo porque en el servidor no funciona -->
-                    <!--<div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group {% if form.cliente_list.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.cliente_list.auto_id }}">
                                 {{ form.cliente_list.label }}
@@ -377,7 +376,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group {% if form.ubicacion_cliente.errors %}has-error{% endif %}">
                             <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ubicacion_cliente.auto_id }}">
@@ -518,8 +517,13 @@
 {% endblock %}
 {% block extra_footer %}
     <script>
-        //Si periodicidad es Mensual, se oculta el campo del trimestre y se muestra el Mes
-        //Si periodicidad es Trimestral, se oculta el campo del Mes y se muestra el Trimestre
+        /**
+        * @brief Verifica de que la periodicidad sea mensual o trimestral. No ambas.
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
         function mostrar_ocultar(val)
         {
             if(val=="")
@@ -547,7 +551,13 @@
             }
         }
 
-        //habilita el campo año dependiendo del valor del campo Mes o Trimestre
+        /**
+        * @brief Habilita el campo año dependiendo del valor del campo Mes o Trimestre
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
         function habilitar_deshabilitar_anho(val)
         {
             if(val=="")
@@ -560,6 +570,13 @@
             }
         }
 
+        /**
+        * @brief Habilita el campo sub_unidad_economica depdendiendo del valor del año
+        *
+        * @author William Páez (wpaez at cenditel.gob.ve)
+        * @copyright GNU/GPLv2
+        * @date 15-03-2017
+        */
         function habilitar_deshabilitar_sub_unidad_economica(val)
         {
             if(val=="")
