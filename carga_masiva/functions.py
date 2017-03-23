@@ -41,5 +41,22 @@ def comprobar_datos(app, mod, file, anho=None):
     instance = apps.get_model(app, mod)
     modelo = instance()
 
+    for m in modelo.cm_fields:
+        ## Obtiene el attributo del campo en el modelo
+        if 'app' in m and 'mod' in m:
+            ## Instancia del modelo relacionado
+            rel_instance = apps.get_model(m['app'], m['mod'])
+            ## Objeto del modelo instanciado
+            rel_modelo = rel_instance()
+            campo = rel_modelo._meta.get_field(m['field'])
+        else:
+            campo = modelo._meta.get_field(m['field'])
+
+        ## Tipo de dato del campo
+        data_type = campo.get_internal_type()
+        data_null = campo.null
+        data_blank = campo.blank
+
+
     # Verificar el campo id, si contiene datos realizar la validación, en caso contrario no realizar o incorporar otro método de validación
     return True

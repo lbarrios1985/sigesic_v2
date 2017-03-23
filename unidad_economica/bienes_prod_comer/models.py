@@ -79,14 +79,20 @@ class Produccion(models.Model):
         {'field': 'id', 'title': str(_("Etiqueta")), 'max_length': 0, 'null': False, 'type': 'string'},
         {
             'field': 'nombre_producto', 'title': str(_("Nombre del Producto")), 'max_length': 45, 'null': False,
-            'type': 'string'
+            'type': 'string', 'app': 'bienes_prod_comer', 'mod': 'Producto'
         },
         {
             'field': 'especificacion_tecnica', 'title': str(_("Especificación Técnica")), 'max_length': 45,
-            'null': False, 'type': 'string'
+            'null': False, 'type': 'string', 'app': 'bienes_prod_comer', 'mod': 'Producto'
         },
-        {'field': 'marca', 'title': str(_("Marca")), 'max_length': 45, 'null': False, 'type': 'string'},
-        {'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string'},
+        {
+            'field': 'marca', 'title': str(_("Marca")), 'max_length': 45, 'null': False, 'type': 'string',
+            'app': 'bienes_prod_comer', 'mod': 'Producto'
+        },
+        {
+            'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string',
+            'app': 'base', 'mod': 'CaevClase'
+        },
         {'field': 'cantidad_clientes', 'title': str(_("Clientes")), 'max_length': 3, 'null': True, 'type': 'integer'},
         {'field': 'cantidad_insumos', 'title': str(_("Insumos")), 'max_length': 3, 'null': False, 'type': 'integer'},
         {
