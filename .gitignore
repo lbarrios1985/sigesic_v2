@@ -13,3 +13,7 @@ fixtures
 *.log
 *~
 carga_masiva/files/
+static/cm/*.xls
+static/cm/*.xlsx
+static/cm/*.csv
+static/cm/*.json
