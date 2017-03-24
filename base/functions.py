@@ -23,7 +23,7 @@ from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
-from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro
+from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro, CodAranSubSubPartida
 
 logger = logging.getLogger('base')
 
@@ -163,6 +163,26 @@ def cargar_actividad():
     try:
         for act in CaevClase.objects.all():
             lista += (act.clase, act.descripcion),
+    except Exception as e:
+        pass
+
+    return lista
+
+def cargar_codigo_arancelario():
+    """!
+    Función que permite cargar los datos de los códigos Arancelarios en una tupla
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 23-03-2017
+    @return Devuelve una tupla con los códigos Arancelarios registrados
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for act in CodAranSubSubPartida.objects.all():
+            lista += (act.codigo, act.codigo + ' - ' + act.descripcion),
     except Exception as e:
         pass
 

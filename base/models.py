@@ -342,99 +342,98 @@ class Proveedor(models.Model):
     pais = models.ForeignKey(Pais)
 
 @python_2_unicode_compatible
-class CodMercosurCatitulo(models.Model):
+class CodAranSeccion(models.Model):
     """!
-    Clase que gestiona los codigos arancelarios MERCOSUR
+    Clase que gestiona los datos del Código Arancelario Sección. Tiene de 1 a 5 caracteres en números romanos
 
     @author William Páez (wpaez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 21-12-2016
+    @date 22-03-2017
     @version 2.0
     """
 
-    # Código arancelario mercosur a 2 dígitos
+    ## Establece el código de la Sección
+    codigo= models.CharField(max_length=5, primary_key=True)
+
+    ## Establece la descripción de la Sección
+    descripcion= models.CharField(max_length=1000)
+
+@python_2_unicode_compatible
+class CodAranCapitulo(models.Model):
+    """!
+    Clase que gestiona los datos del Código Arancelario Capítulo. Tiene 2 caracteres
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 22-03-2017
+    @version 2.0
+    """
+
+    ## Establece el código del Capítulo
     codigo= models.CharField(max_length=2, primary_key=True)
 
-    # Descripción
-    descripcion= models.CharField(max_length=600)
+    ## Establece la descripción del Capítulo
+    descripcion= models.CharField(max_length=1000)
+
+    ## Establece la relación con la Sección
+    seccion= models.ForeignKey(CodAranSeccion)
 
 @python_2_unicode_compatible
-class CodMercosurSeccion(models.Model):
+class CodAranPartida(models.Model):
     """!
-    Clase que gestiona los codigos arancelarios MERCOSUR
+    Clase que gestiona los datos del Código Arancelario Partida. Tiene 5 caracteres
 
     @author William Páez (wpaez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 21-12-2016
+    @date 22-03-2017
     @version 2.0
     """
 
-    # Código arancelario mercosur a 4 dígitos
-    codigo= models.CharField(max_length=4, primary_key=True)
+    ## Establece el código de la Partida
+    codigo= models.CharField(max_length=5, primary_key=True)
 
-    # Descripcion
-    descripcion= models.CharField(max_length=600)
+    ## Establece la descripción de la Partida
+    descripcion= models.CharField(max_length=1000)
 
-    # Establece la relación con el capitulo
-    capitulo = models.ForeignKey(CodMercosurCatitulo)
+    ## Establece la relación con el Capítulo
+    capitulo= models.ForeignKey(CodAranCapitulo)
 
 @python_2_unicode_compatible
-class CodMercosurClase(models.Model):
+class CodAranSubPartida(models.Model):
     """!
-    Clase que gestiona los codigos arancelarios MERCOSUR
+    Clase que gestiona los datos del Código Arancelario Sub Partida. Tiene 10 caracteres
 
     @author William Páez (wpaez at cenditel.gob.ve)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 21-12-2016
+    @date 22-03-2017
     @version 2.0
     """
 
-    # Código arancelario mercosur a 6 dígitos
-    codigo= models.CharField(max_length=6, primary_key=True)
-
-    # Descripcion
-    descripcion= models.CharField(max_length=600)
-
-    # Establece la relación con la seccion
-    seccion = models.ForeignKey(CodMercosurSeccion)
-
-@python_2_unicode_compatible
-class CodMercosurSubClase(models.Model):
-    """!
-    Clase que gestiona los codigos arancelarios MERCOSUR
-
-    @author William Páez (wpaez at cenditel.gob.ve)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 21-12-2016
-    @version 2.0
-    """
-
-    # Código arancelario mercosur a 8 dígitos
-    codigo= models.CharField(max_length=8, primary_key=True)
-
-    # Descripcion
-    descripcion= models.CharField(max_length=600)
-
-    # Establece la relación con la clase
-    clase = models.ForeignKey(CodMercosurClase)
-
-@python_2_unicode_compatible
-class CodMercosurRama(models.Model):
-    """!
-    Clase que gestiona los codigos arancelarios MERCOSUR
-
-    @author William Páez (wpaez at cenditel.gob.ve)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 21-12-2016
-    @version 2.0
-    """
-
-    # Código arancelario mercosur a 10 dígitos
+    ## Establece el código de la Sub Partida
     codigo= models.CharField(max_length=10, primary_key=True)
 
-    # Descripcion
-    descripcion= models.CharField(max_length=600)
+    ## Establece el código de la Sub Partida
+    descripcion= models.CharField(max_length=1050)
 
-    # Establece la relación con la seccion
-    subclase = models.ForeignKey(CodMercosurSubClase)
+    ## Establece la relación con la Partida
+    partida= models.ForeignKey(CodAranPartida)
+
+class CodAranSubSubPartida(models.Model):
+    """!
+    Clase que gestiona los datos del Código Arancelario Sub Sub Partida. Tiene 13 caracteres
+
+    @author William Páez (wpaez at cenditel.gob.ve)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 22-03-2017
+    @version 2.0
+    """
+
+    ## Establece el código de la Sub Sub Partida
+    codigo= models.CharField(max_length=13, primary_key=True)
+
+    ## Establece la descripción de la Sub Sub Partida
+    descripcion= models.CharField(max_length=1050)
+
+    ## Establece la relación con la Sub Partida
+    subpartida= models.ForeignKey(CodAranSubPartida)
 

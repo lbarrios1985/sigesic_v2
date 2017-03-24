@@ -162,14 +162,14 @@
             
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group {% if form.caev.errors %}has-error{% endif %}">
-                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.caev.auto_id }}">
-                            {{ form.caev.label }}
+                    <div class="form-group {% if form.codaran_subsubpartida.errors %}has-error{% endif %}">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.codaran_subsubpartida.auto_id }}">
+                            {{ form.codaran_subsubpartida.label }}
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">
-                                {{ form.caev }}<i class="ion ion-ios-medical item-requerido"></i>
-                                {% include 'base.form.errors.html' with form_errors=form.caev.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                {{ form.codaran_subsubpartida }}<i class="ion ion-ios-medical item-requerido"></i>
+                                {% include 'base.form.errors.html' with form_errors=form.codaran_subsubpartida.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                             <td>{% trans 'Producto' %}</td>
                             <td>{% trans 'Especificación Técnica' %}</td>
                             <td>{% trans 'Marca' %}</td>
-                            <td>{% trans 'Código CAEV' %}</td>
+                            <td>{% trans 'Código Arancelario' %}</td>
                             <td>{% trans '# de Clientes' %}</td>
                             <td>{% trans '# de Insumos' %}</td>
                             <td>{% trans 'Unidades Producidas' %}</td>

@@ -21,7 +21,7 @@ from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.fields import RifField
 from base.widgets import RifWidget
 from base.constant import UNIDAD_MEDIDA
-from base.functions import cargar_actividad, cargar_pais
+from base.functions import cargar_pais, cargar_codigo_arancelario
 from unidad_economica.utils import anho_pendiente, validar_anho
 from .models import *
 
@@ -46,7 +46,7 @@ class BienesForm(forms.ModelForm):
         user = kwargs.pop('user')
         # now kwargs doesn't contain 'place_user', so we can safely pass it to the base class method
         super(BienesForm, self).__init__(*args, **kwargs)
-        self.fields['caev'].choices = cargar_actividad()
+        self.fields['codaran_subsubpartida'].choices = cargar_codigo_arancelario()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         self.fields['anho_registro'].choices = anho_pendiente(user.username)
         self.fields['anho'].choices = self.fields['anho_registro'].choices
@@ -174,13 +174,13 @@ class BienesForm(forms.ModelForm):
         }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA,
     )
     
-    ## Listado del código caev
-    caev = forms.ChoiceField(
-        label=_("Código CAEV"),
+    ## Listado del código arancelario
+    codaran_subsubpartida = forms.ChoiceField(
+        label=_("Código Arancelario"),
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el código Caev"), 'required':'required',
+                'title': _("Seleccione el código Arancelario"), 'required':'required',
             }
         ),
     )
@@ -291,7 +291,7 @@ class BienesForm(forms.ModelForm):
    
     class Meta:
         model = Producto
-        exclude = ['subunidad','caev']
+        exclude = ['subunidad','codaran_subsubpartida']
     
 
 @python_2_unicode_compatible
@@ -309,7 +309,7 @@ class ClientesForm(forms.ModelForm):
         user = kwargs.pop('user')
         # now kwargs doesn't contain 'place_user', so we can safely pass it to the base class method
         super(ClientesForm, self).__init__(*args, **kwargs)
-        self.fields['caev'].choices = cargar_actividad()
+        self.fields['codaran_subsubpartida'].choices = cargar_codigo_arancelario()
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         #Se cargar el año de registro
         self.fields['anho_registro'].choices = anho_pendiente(user.username)
@@ -446,13 +446,13 @@ class ClientesForm(forms.ModelForm):
         }), choices = (('',_('Seleccione...')),)+UNIDAD_MEDIDA, required = False,
     )
     
-    ## Listado del código caev
-    caev = forms.ChoiceField(
-        label=_("Código CAEV"),
+    ## Listado del código Arancelario
+    codaran_subsubpartida = forms.ChoiceField(
+        label=_("Código Arancelario"),
         widget=Select(
             attrs={
                 'class': 'form-control', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("Seleccione el código Caev"),
+                'title': _("Seleccione el código Arancelario"),
             }
         ), required = False,
     )

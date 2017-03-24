@@ -20,7 +20,7 @@ from django.core.urlresolvers import reverse_lazy
 from .models import Producto, Produccion, FacturacionCliente
 from .forms import BienesForm, ClientesForm
 from base.constant import CREATE_MESSAGE, UNIDAD_MEDIDA
-from base.models import CaevClase, Pais, AnhoRegistro, Cliente
+from base.models import Pais, AnhoRegistro, Cliente, CodAranSubSubPartida
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
     
 class BienesCreate(SuccessMessageMixin, CreateView):
@@ -64,7 +64,7 @@ class BienesCreate(SuccessMessageMixin, CreateView):
         @return Retorna el formulario validado
         """
         subunidad = SubUnidadEconomica.objects.get(pk=form.cleaned_data['subunidad'])
-        caev = CaevClase.objects.get(pk=form.cleaned_data['caev'])
+        codaran_subsubpartida = CodAranSubSubPartida.objects.get(pk=form.cleaned_data['codaran_subsubpartida'])
         
         ## Se crea y se guarda el modelo de producto
         self.object = form.save(commit=False)
@@ -72,7 +72,7 @@ class BienesCreate(SuccessMessageMixin, CreateView):
         self.object.especificacion_tecnica = form.cleaned_data['especificacion_tecnica']
         self.object.marca = form.cleaned_data['marca']
         self.object.subunidad = subunidad
-        self.object.caev = caev
+        self.object.codaran_subsubpartida = codaran_subsubpartida
         self.object.save()
         anho = AnhoRegistro.objects.get(pk=form.cleaned_data['anho'])
         ## Se crea y se guarda el modelo de produccion
@@ -112,7 +112,7 @@ def produccion_get_data(request):
             lista.append(prod.producto.nombre_producto)
             lista.append(prod.producto.especificacion_tecnica)
             lista.append(prod.producto.marca)
-            lista.append(prod.producto.caev.descripcion)
+            lista.append(prod.producto.codaran_subsubpartida.descripcion)
             lista.append(prod.cantidad_clientes)
             lista.append(prod.cantidad_insumos)
             lista.append(prod.cantidad_produccion)

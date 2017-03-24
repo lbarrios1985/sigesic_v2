@@ -47,7 +47,14 @@ class ServiciosGeneralForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(ServiciosGeneralForm, self).__init__(*args, **kwargs)
         # Se carga el codigo caev, paises y años
-        self.fields['caev'].choices = cargar_actividad()
+        # Carga el caev desde C3311	en adelante (solo para servicios)
+        c = 1
+        lista_caev = [('','Seleccione...')]
+        for lcaev in CaevClase.objects.values_list('clase','descripcion'):
+            if c >= 184:
+                lista_caev.append(lcaev)
+            c= c+1
+        self.fields['caev'].choices = lista_caev
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         self.fields['anho_registro'].choices = anho_pendiente(user.username)
         self.fields['anho'].choices = self.fields['anho_registro'].choices
@@ -263,7 +270,14 @@ class ServiciosClienteForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(ServiciosClienteForm, self).__init__(*args, **kwargs)
         # Se carga el codigo caev, paises y años
-        self.fields['caev'].choices = cargar_actividad()
+        # Carga el caev desde C3311	en adelante (solo para servicios)
+        c = 1
+        lista_caev = [('','Seleccione...')]
+        for lcaev in CaevClase.objects.values_list('clase','descripcion'):
+            if c >= 184:
+                lista_caev.append(lcaev)
+            c= c+1
+        self.fields['caev'].choices = lista_caev
         self.fields['ubicacion_cliente'].choices = cargar_pais()
         # Se carga el año de registro
         self.fields['anho_registro'].choices = anho_pendiente(user.username)

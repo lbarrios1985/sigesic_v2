@@ -17,7 +17,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
-from base.models import CaevClase, Pais, AnhoRegistro, Cliente
+from base.models import Pais, AnhoRegistro, Cliente, CodAranSubSubPartida
 from base.constant import UNIDAD_MEDIDA
 import pyexcel
 
@@ -40,8 +40,8 @@ class Producto(models.Model):
     ## Especificación Técnica del Producto
     especificacion_tecnica = models.CharField(max_length=45)
     
-    ## Establece la relación con el código CAEV
-    caev = models.ForeignKey(CaevClase)
+    ## Establece la relación con el código arancelario
+    codaran_subsubpartida = models.ForeignKey(CodAranSubSubPartida)
     
     ## Establece la relación con la sub unidad económica
     subunidad = models.ForeignKey(SubUnidadEconomica)
@@ -93,8 +93,8 @@ class Produccion(models.Model):
             'app': 'bienes_prod_comer', 'mod': 'Producto'
         },
         {
-            'field': 'caev', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string',
-            'app': 'base', 'mod': 'CaevClase'
+            'field': 'codaran_subsubpartida', 'title': str(_("Código")), 'max_length': 5, 'null': False, 'type': 'string',
+            'app': 'base', 'mod': 'CodAranSubSubPartida'
         },
         {'field': 'cantidad_clientes', 'title': str(_("Clientes")), 'max_length': 3, 'null': True, 'type': 'integer'},
         {'field': 'cantidad_insumos', 'title': str(_("Insumos")), 'max_length': 3, 'null': False, 'type': 'integer'},
@@ -137,7 +137,7 @@ class Produccion(models.Model):
                 codigo = str(prod.producto_id)+" "+str(prod.pk)
                 datos.append([
                     codigo, prod.producto.nombre_producto, prod.producto.especificacion_tecnica, prod.producto.marca,
-                    prod.producto.caev.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_produccion, prod.unidad_de_medida
+                    prod.producto.codaran_subsubpartida.pk,prod.cantidad_clientes, prod.cantidad_insumos, prod.cantidad_produccion, prod.unidad_de_medida
                 ])
 
         return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'bienes_prod_comer_produccion'}
@@ -175,8 +175,8 @@ class Produccion(models.Model):
                 producto.nombre_producto = load_file[i,1]
                 producto.especificacion_tecnica = load_file[i,2]
                 producto.marca = load_file[i,3]
-                caev = CaevClase.objects.get(pk=load_file[i,4])
-                producto.caev = caev
+                codaran_subsubpartida = CodAranSubSubPartida.objects.get(pk=load_file[i,4])
+                producto.codaran_subsubpartida = codaran_subsubpartida
                 producto.subunidad = subunidad
                 ## Se prueba si el modelo es válido
                 try:
