@@ -42,7 +42,10 @@ NATURALEZA_JURIDICA = [
     ("S.A", _("Sociedad Anónima")),
     ("C.A", _("Compañía Anónima")),
     ("S.R.L.", _("Sociedad de Responsabilidad Limitada")),
-    ("Co", _("Cooperativa"))
+    ("Co", _("Cooperativa")),
+    ("F.P.", _("Firma Personal")),
+    ("F.P.A.B.", _("Firma Personal Asociada a la Banca")),
+    ("S.A.C.A.", _("Sociedad Anónima de Capital Autorizado")),
 ]
 
 ##Cargo del Representante Legal
