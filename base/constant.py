@@ -110,7 +110,6 @@ PREFIJO_DIRECTORIO_DOS_CHOICES = (
     ('GA', _("Galpón")),
     ('QT', _("Quinta")),
     ('CA', _("Casa")),
-    ('LC', _("Local")),
     ('CC', _("Centro Comercial")),
 )
 
@@ -125,7 +124,8 @@ PREFIJO_DIRECTORIO_TRES_CHOICES = (
 PREFIJO_DIRECTORIO_CUATRO_CHOICES = (
     ('UB', _("Urbanización")),
     ('SC', _("Sector")),
-    ('ZN', _("Zona")),
+    ('ZR', _("Zona Residencial")),
+    ('ZI', _("Zona Industrial")),
 )
 
 ## Tipos de Sub-Unidad Económica

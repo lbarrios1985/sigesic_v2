@@ -67,22 +67,32 @@ class UnidadEconomica(models.Model):
     casa_matriz_franquicia = models.BooleanField(default=False)
 
     ## Número de Franquicias asociadas a la Unidad Económica
-    nro_franquicia = models.CharField(
-        max_length=4,
-        default=0, 
-        validators=[
-            validators.RegexValidator(
-                r'^[\d]+$',
-                _("Valor inválido. Solo se permiten números")
-            ),
-        ]
-    )
+    nro_franquicia = models.IntegerField()
   
     ## Forma parte de una franquicia
     franquiciado = models.BooleanField(default=False)
 
     ## Código SITUR de la organización comunal
     situr = models.CharField(max_length=45)
+
+    ## Página web de la Unidad Económica
+    pagina_web = models.CharField(max_length=50)
+
+    ## Teléfono de contacto de la Unidad Económica
+    telefono = models.CharField(
+        max_length=20, help_text=_("Número telefónico de contacto con la Unidad Económica"),
+        validators=[
+            validators.RegexValidator(
+                r'^[\d+-]+$',
+                _("Número telefónico inválido. Solo se permiten números, y los signos + o -")
+            ),
+        ]
+    )
+
+    ## Correo electrónico de la Unidad Económica
+    correo = models.CharField(
+        max_length=50, help_text=("correo@dssddsd.com")
+    )
 
     ## Relación entre la Unidad Económica y el usuario
     user = models.ForeignKey(User)

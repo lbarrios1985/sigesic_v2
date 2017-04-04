@@ -99,7 +99,8 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
             datos_iniciales['parroquia'] = value.directorio.parroquia
             datos_iniciales['municipio'] = value.directorio.parroquia.municipio
             datos_iniciales['estado'] = value.directorio.parroquia.municipio.estado
-            datos_iniciales['coordenada'] = value.directorio.coordenadas.split(",")
+            if value.directorio.coordenadas != None:
+                datos_iniciales['coordenada'] = value.directorio.coordenadas.split(",")
 
         #carga la actividad economica principal
         if ActividadCaev.objects.filter(unidad_economica_rif__rif=rif, principal=True):
@@ -109,6 +110,9 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         #carga los datos correspondientes a la unidad_economica
         if UnidadEconomica.objects.filter(rif=rif):
             value = UnidadEconomica.objects.filter(rif=rif).get()
+            datos_iniciales['pagina_web'] = value.pagina_web
+            datos_iniciales['telefono'] = value.telefono
+            datos_iniciales['correo'] = value.correo
             datos_iniciales['exportador'] = value.exportador
             datos_iniciales['orga_comunal'] = value.orga_comunal
             datos_iniciales['tipo_comunal'] = value.tipo_comunal
@@ -196,6 +200,9 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         self.object.rif = form.cleaned_data['rif']
         self.object.nombre_ue = form.cleaned_data['nombre_ue']
         self.object.razon_social = form.cleaned_data['razon_social']
+        self.object.pagina_web= form.cleaned_data['pagina_web']
+        self.object.telefono= form.cleaned_data['telefono']
+        self.object.correo= form.cleaned_data['correo']
         if form.cleaned_data['orga_comunal'] == 'True':
             self.object.orga_comunal = form.cleaned_data['orga_comunal']
             tipo_comunal = TipoComunal.objects.get(pk=self.request.POST['tipo_comunal'])
@@ -203,7 +210,11 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
             self.object.situr = form.cleaned_data['situr']
         if form.cleaned_data['casa_matriz_franquicia'] == 'True':
             self.object.casa_matriz_franquicia = form.cleaned_data['casa_matriz_franquicia']
-        self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
+            self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
+        else:
+            self.object.nro_franquicia = 0
+
+        #self.object.nro_franquicia = form.cleaned_data['nro_franquicia']
         if form.cleaned_data['franquiciado'] == 'True':
             self.object.franquiciado = form.cleaned_data['franquiciado']
         self.object.user = self.request.user

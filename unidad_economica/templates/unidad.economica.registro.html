@@ -10,9 +10,9 @@
         {% csrf_token %}
         <div class="box box-primary box-registro-general">
             <div class="box-header with-border">
-                <h3 class="box-title">
+                <h4 class="box-title">
                     <i class="glyphicon glyphicon-edit"></i>&#160;{% trans 'Identificación' %}
-                </h3>
+                </h4>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -50,6 +50,49 @@
                             </label>
                             <div class="col-md-9 col-xs-9 col-sm-9">
                                 <div class="form-inline">{{ form.nombre_ue }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.pagina_web.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.pagina_web.auto_id }}">
+                                {{ form.pagina_web.label }} 
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.pagina_web }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.pagina_web.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.telefono.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.telefono.auto_id }}">
+                                {{ form.telefono.label }} 
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.telefono.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.correo.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.correo.auto_id }}">
+                                {{ form.correo.label }} 
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.correo }}<i class="ion ion-ios-medical item-requerido"></i>
+                                    {% include 'base.form.errors.html' with form_errors=form.correo.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                                </div>
                             </div>
                         </div>
                     </div>

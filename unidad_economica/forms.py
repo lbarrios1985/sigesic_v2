@@ -14,7 +14,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 from __future__ import unicode_literals
 from django import forms
 from django.forms import (
-    CharField, ChoiceField, IntegerField, Select, TextInput, CheckboxInput, NumberInput)
+    CharField, ChoiceField, IntegerField, Select, TextInput, CheckboxInput, NumberInput, EmailInput, EmailField)
 from django.forms import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 
@@ -61,7 +61,7 @@ class UnidadEconomicaForm(DirectorioForm):
 
         if 'casa_matriz_franquicia' in self.data:
             self.fields['nro_franquicia'].widget.attrs.pop('readonly')
-            #self.fields['franquiciado'].widget.attrs.pop('readonly')
+            #self.fields['franquiciado'].widget.attrs.pop('deactivate')
 
         if 'franquiciado' in self.data:
             self.fields['pais_franquicia'].widget.attrs.pop('disabled')
@@ -238,12 +238,53 @@ class UnidadEconomicaForm(DirectorioForm):
         ), required=False
     )
 
+    ## Página web de la Unidad Económica
+    pagina_web = CharField(
+        label=_("Página Web:"),
+        widget=TextInput(
+            attrs={
+                'class': 'form-control', 'data-toggle': 'tooltip',
+                'title': _("Página Web de la Unidad Económica"), 'size': '50',
+            }
+        )
+    )
+
+    ## Teléfono de contacto de la Unidad Económica
+    telefono = CharField(
+        label=_("Teléfono:"),
+        max_length=20,
+        widget=TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'placeholder': '(058)-000-0000000',
+                'data-rule-required': 'true', 'data-toggle': 'tooltip', 'size': '15',
+                'title': _("Indique el número telefónico de contacto con la Unidad Económica"), 'data-mask': '(000)-000-0000000'
+            }
+        ),
+        help_text=_("(país)-área-número")
+    )
+
+    ## Correo electrónico de la Unidad Económica
+    correo = EmailField(
+        label=_("Correo Electrónico:"),
+        max_length=50,
+        widget=EmailInput(
+            attrs={
+                'class': 'form-control input-sm email-mask', 'placeholder': _("Correo de contacto"),
+                'data-toggle': 'tooltip', 'size': '50', 'data-rule-required': 'true',
+                'title': _("Indique el correo electrónico de contacto con la Unidad Económica. "
+                           "No se permiten correos de hotmail")
+            }
+        )
+    )
+
     ## RIF Franquicia
     rif_casa_matriz = RifField(disabled=True, required=False)
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
-        nro_franquicia = int(self.cleaned_data.get('nro_franquicia'))
+        nro_franquicia = self.cleaned_data.get('nro_franquicia')
+        if nro_franquicia != '':
+            nro_franquicia = int(self.cleaned_data.get('nro_franquicia'))
 
         if(casa_matriz_franquicia=='True' and nro_franquicia <= 0):
             raise forms.ValidationError(_("Indique el número de franquicias"))
@@ -295,13 +336,6 @@ class UnidadEconomicaForm(DirectorioForm):
         if(UnidadEconomica.objects.filter(rif=rif)):
             raise forms.ValidationError(_("Este RIF ya se encuentra registrado"))
         return rif
-
-    def clean(self):
-        casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
-        franquiciado = self.cleaned_data.get('franquiciado')
-        if casa_matriz_franquicia == 'False':
-            msg = "Debe tener una Casa Matriz para poder tener Franquicia."
-            self.add_error('franquiciado', msg)
 
     class Meta(object):
         model = UnidadEconomica

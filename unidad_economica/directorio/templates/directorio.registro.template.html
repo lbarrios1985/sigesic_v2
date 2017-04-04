@@ -1,7 +1,9 @@
 {% load i18n %}
 <div class="row">
     <div class="col-xs-6 col-md-6 col-sm-6">
-        <h4>{% trans 'Dirección Fiscal' %}</h4>
+        <h4>
+            <i class="glyphicon glyphicon-road"></i>&#160;{% trans 'Dirección Fiscal' %}
+        </h4>
         <hr>
     </div>
     <div class="col-xs-6 col-md-6 col-sm-6 text-right">
@@ -166,9 +168,9 @@
                 {% include 'base.form.errors.html' with form_errors=form.coordenada.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
             </div>
             <div class="col-xs-1 col-sm-1 col-md-1">
-                <i class="ionicon ion-plus-circled btn-icon" data-toggle="tooltip"
+                <i class="btn btn-primary btn-sm" data-toggle="tooltip"
                        title="{% trans 'Presione el botón para seleccionar su ubicación' %}"
-                       onclick="seleccionar_coordenadas('{% trans 'Seleccionar Coordenadas' %}',$('#sel-coordenada').html())"></i>
+                       onclick="seleccionar_coordenadas('{% trans 'Seleccionar Coordenadas' %}',$('#sel-coordenada').html())">Agregar</i>
             </div>
         </div>
     </div>
