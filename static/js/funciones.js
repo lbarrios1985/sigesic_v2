@@ -381,15 +381,24 @@ function habilitar(opcion, campo) {
  * @param opcion Respuesta del usuario según la pregunta
  * @param campo Campo a deshabilitar
  */
-function deshabilitar(opcion, campo) {
+function deshabilitar(opcion, campo, rif_0, rif_1, rif_2) {
     var elemento = $("#"+campo);
+    var elemento_0 = $("#"+rif_0);
+    var elemento_1 = $("#"+rif_1);
+    var elemento_2 = $("#"+rif_2);
 
-    if (opcion == "1") {
+    if (opcion == 1) {
         elemento.attr('readonly', 'readonly');
         elemento.val("");
     }
     else {
         elemento.removeAttr('readonly');
+        elemento_0.attr('disabled', 'disabled');
+        elemento_1.attr('disabled', 'disabled');
+        elemento_2.attr('disabled', 'disabled');
+        elemento_0.val("");
+        elemento_1.val("");
+        elemento_2.val("");
     }
 }
 
