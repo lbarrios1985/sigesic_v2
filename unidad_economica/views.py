@@ -22,7 +22,7 @@ from django.shortcuts import render
 from base.constant import CREATE_MESSAGE, UPDATE_MESSAGE
 from base.classes import Seniat
 from base.models import (
-    CaevClase, Estado, Municipio, Parroquia, TipoComunal, Pais
+    CaevRama, Estado, Municipio, Parroquia, TipoComunal, Pais
     )
 
 from unidad_economica.directorio.models import Directorio
@@ -105,7 +105,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         #carga la actividad economica principal
         if ActividadCaev.objects.filter(unidad_economica_rif__rif=rif, principal=True):
             value = ActividadCaev.objects.filter(unidad_economica_rif__rif=rif, principal=True).get()
-            datos_iniciales['actividad'] = value.caev.clase
+            datos_iniciales['actividad'] = value.caev.rama
 
         #carga los datos correspondientes a la unidad_economica
         if UnidadEconomica.objects.filter(rif=rif):
@@ -240,7 +240,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
             franquicia.save()
 
         ## Obtiene los datos seleccionados en CAEV
-        caev = CaevClase.objects.get(pk=self.request.POST['actividad'])
+        caev = CaevRama.objects.get(pk=self.request.POST['actividad'])
 
         ## Almacena en la tabla ActividadCaev
         actividad_caev = ActividadCaev()
@@ -253,7 +253,7 @@ class UnidadEconomicaCreate(SuccessMessageMixin, CreateView):
         if 'actividad2_tb' in dictionary.keys():
             for i in dictionary['actividad2_tb']:
                 ## Obtiene los datos seleccionados en Caev
-                caev = CaevClase.objects.get(pk=i)
+                caev = CaevRama.objects.get(pk=i)
 
                 ## Almacena en la tabla ActividadCaev
                 actividad_caev = ActividadCaev()

@@ -100,7 +100,9 @@
 
                 {% include 'directorio.registro.template.html' %}
 
-                <h4>{% trans 'Actividad Económica' %}</h4>
+                <h4>
+                    <i class="glyphicon glyphicon-wrench"></i>&#160;{% trans 'Actividad Económica' %}
+                </h4>
                 <hr />
 
                 <div class="row">
@@ -109,7 +111,7 @@
                             <label class="col-md-3 control-label" for="{{ form.actividad.auto_id }}">
                                 {{ form.actividad.label }}
                             </label>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 {{ form.actividad }}
                                 {% include 'base.form.errors.html' with form_errors=form.actividad.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
@@ -122,12 +124,18 @@
                     <label class="col-md-3 control-label" for="{{ form.actividad2.auto_id }}">
                         {{ form.actividad2.label }}
                     </label>
-                    <div class="col-md-8" onchange="mostrar('#id_actividad2','#plus');">
+                    <div class="col-md-6" onchange="mostrar('#id_actividad2','#plus');">
                         {{ form.actividad2 }}
                     </div>
                     <div class="col-md-1">
                         <a id="#dtable" onclick="agregar_actividad()" style="cursor: pointer">
-                        <i id="plus" class="btn btn-primary btn-sm hidden" data-original-title="Agregar actividad económica secundaria">Agregar</i></a>
+                            <i id="plus" class="btn btn-primary btn-sm hidden" data-toggle="tooltip" title="Agregar actividad económica secundaria">Agregar</i>
+                        </a>
+                    </div>
+                    <div class="col-md-1">
+                        <a style="cursor:pointer">
+                            <i id="glosario_caev" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Glosario CAEV">Glosario</i>
+                        </a>
                     </div>
                 </div>
 
@@ -157,7 +165,42 @@
                         {% include 'base.form.errors.html' with form_errors=form.actividad2_tb.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' custom_message_error=custom_msg_error_actividad2 %}
                     </div>
                 </div>
+                <h4>
+                    <i class="glyphicon glyphicon-cog"></i>&#160;{% trans 'Características de la Unidad Económica' %}
+                </h4>
                 <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.ente_gubernamental.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.ente_gubernamental.auto_id }}">
+                                {{ form.ente_gubernamental.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.ente_gubernamental }}<i class="ion ion-ios-medical item-requerido"></i>
+                                </div>
+                                {% include 'base.form.errors.html' with form_errors=form.ente_gubernamental.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group {% if form.tipo_ente_gubernamental.errors %}has-error{% endif %}">
+                            <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.tipo_ente_gubernamental.auto_id }}">
+                                {{ form.tipo_ente_gubernamental.label }}
+                            </label>
+                            <div class="col-md-9 col-xs-9 col-sm-9">
+                                <div class="form-inline">
+                                    {{ form.tipo_ente_gubernamental }}
+                                    <a style="cursor:pointer">
+                                        <i id="glosario_ente_gubernamental" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Glosario Ente Gubernamental">Glosario</i>
+                                    </a>
+                                </div>
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_ente_gubernamental.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group {% if form.exportador.errors %}has-error{% endif %}">

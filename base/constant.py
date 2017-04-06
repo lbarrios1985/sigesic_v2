@@ -254,3 +254,14 @@ TIPO_SERVICIO = (
     ("SC",_("Servicios Sociales y Comunales")),
     ("OT",_("Otros")),
 )
+
+ENTE_GUBERNAMENTAL = (
+    ("MI",_("Ministerios")),
+    ("EN",_("Entes de la Descentralización Funcional")),
+    ("IA",_("Institutos autónomos")),
+    ("GO",_("Gobernaciones")),
+    ("AL",_("Alcaldías")),
+    ("FE",_("Fundaciones del Estado")),
+    ("EE",_("Empresas del Estado")),
+    ("EM",_("Empresas Matrices")),
+)

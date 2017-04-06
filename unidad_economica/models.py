@@ -19,8 +19,8 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT
-from base.models import CaevClase, TipoComunal, AnhoRegistro, Pais
+from base.constant import TURNO, ESTATUS_NOTIFICACION, ESTATUS_NOTIFICACION_DEFAULT, ENTE_GUBERNAMENTAL
+from base.models import CaevRama, TipoComunal, AnhoRegistro, Pais
 from .directorio.models import Directorio
 
 __licence__ = "GNU Public License v2"
@@ -48,7 +48,13 @@ class UnidadEconomica(models.Model):
     ## Razón Social
     razon_social = models.CharField(max_length=255)
 
-    ## La unidad Económica es exportador (si o no)
+    ## La Unidad Económica es un Ente Gubernamental (si o no)
+    ente_gubernamental = models.BooleanField(default=False)
+
+    ## Que tipo de Ente gubernamental es la Unidad Económica
+    tipo_ente_gubernamental= models.CharField(max_length=2, choices=ENTE_GUBERNAMENTAL)
+
+    ## La Unidad Económica es exportador (si o no)
     exportador= models.BooleanField(default=False)
 
     ## Número de Seguro Social
@@ -131,7 +137,7 @@ class ActividadCaev(models.Model):
     @version 2.0
     """
     ## Establece la relación con el código CAEV
-    caev = models.ForeignKey(CaevClase)
+    caev = models.ForeignKey(CaevRama)
 
     ## Actividad principal de la Unidad Económica
     principal = models.BooleanField(default=True)
