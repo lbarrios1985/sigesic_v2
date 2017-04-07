@@ -84,6 +84,7 @@ class maquinariaCreate(SuccessMessageMixin,CreateView):
         self.object.anho_adquisicion = form.cleaned_data['anho_adquisicion']
         self.object.vida_util = form.cleaned_data['vida_util']
         self.object.estado_actual = form.cleaned_data['estado_actual']
+        self.object.uso_energia = form.cleaned_data['uso_energia']
         self.object.proceso_sub_unidad = proceso_sub_unidad
         self.object.save()
 

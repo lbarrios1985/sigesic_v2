@@ -17,7 +17,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from base.models import Pais
 from base.functions import cargar_pais
-from base.constant import ESTADO_ACTUAL_MAQUINARIA
+from base.constant import ESTADO_ACTUAL_MAQUINARIA, USO_ENERGIA
 from .models import maquinariaModel
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica, SubUnidadEconomicaProceso
 
@@ -92,7 +92,7 @@ class MaquinariaForm(forms.ModelForm):
     )
     ## País de origen de la maquinaria o el equipo
     pais_origen = forms.ChoiceField(
-        label=_("País de Origen"),
+        label=_("País de Fabricación"),
         widget=forms.Select(
             attrs={
                 'class': 'form-control', 'data-toggle': 'tooltip',
@@ -151,6 +151,17 @@ class MaquinariaForm(forms.ModelForm):
                 'title':_("Seleccione el año de Adquisicion de la Maquinaria o Equipo"),
             }
         )
+    )
+    
+    ## País de origen de la maquinaria o el equipo
+    uso_energia = forms.ChoiceField(
+        label=_("Uso de Energía"),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control', 'data-toggle': 'tooltip',
+                'title': _("Seleccione tipo de energía")
+            }
+        ), choices = (('',_('Seleccione...')),)+USO_ENERGIA,
     )
 
     class Meta:

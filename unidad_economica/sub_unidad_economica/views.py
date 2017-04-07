@@ -21,7 +21,7 @@ from .models import (
     SubUnidadEconomica,SubUnidadEconomicaDirectorio, SubUnidadEconomicaCapacidad, SubUnidadEconomicaProceso,
     SubUnidadEconomicaActividad
     )
-from base.models import Parroquia, CaevClase
+from base.models import Parroquia, CaevRama
 from .forms import SubUnidadEconomicaForm
 from unidad_economica.directorio.models import Directorio
 from unidad_economica.models import UnidadEconomica
@@ -181,7 +181,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             if('actividad_caev_tb' in dictionary):
                 self.agregar_actividad(dictionary,self.object)
             
-            caev = CaevClase.objects.get(pk=form.cleaned_data['actividad_caev_primaria'])
+            caev = CaevRama.objects.get(pk=form.cleaned_data['actividad_caev_primaria'])
             ## Se crea y se guarda en el modelo del capacidad de la sub-unidad
             capacidad = SubUnidadEconomicaCapacidad()
             capacidad.caev = caev
@@ -256,7 +256,7 @@ class SubUnidadEconomicaCreate(SuccessMessageMixin,CreateView):
             ## Se crea y se guarda en el modelo del proceso de la sub-unidad
             actividad_economica = SubUnidadEconomicaActividad()
             actividad_economica.sub_unidad_economica = model
-            caev = CaevClase.objects.get(pk=dictionary['actividad_caev_tb'][i])
+            caev = CaevRama.objects.get(pk=dictionary['actividad_caev_tb'][i])
             actividad_economica.caev = caev
             actividad_economica.save()
             

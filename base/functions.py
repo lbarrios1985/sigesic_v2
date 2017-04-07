@@ -22,8 +22,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
-
-from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro, CodAranSubSubPartida
+from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro, CodAranSubSubPartida, CaevRama
 
 logger = logging.getLogger('base')
 
@@ -163,8 +162,8 @@ def cargar_actividad():
     lista = ('', _('Seleccione...')),
 
     try:
-        for act in CaevClase.objects.all():
-            lista += (act.clase, act.descripcion),
+        for act in CaevRama.objects.all():
+            lista += (act.rama, act.descripcion),
     except Exception as e:
         pass
 

@@ -20,7 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from base.constant import (
     PREFIJO_DIRECTORIO_UNO_CHOICES, PREFIJO_DIRECTORIO_DOS_CHOICES, PREFIJO_DIRECTORIO_TRES_CHOICES,
-    PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION
+    PREFIJO_DIRECTORIO_CUATRO_CHOICES, SELECCION, ENTE_GUBERNAMENTAL
 )
 from base.fields import RifField
 from base.models import Pais
@@ -52,6 +52,9 @@ class UnidadEconomicaForm(DirectorioForm):
         self.fields['actividad'].choices = cargar_actividad()
         self.fields['actividad2'].choices = cargar_actividad()
 
+        if 'ente_gubernamental' in self.data:
+            self.fields['tipo_ente_gubernamental'].widget.attrs.pop('disabled')
+
         # Si se ha indicado que es una organizacion comunal, se habilitan los atributos tipo_comunal y situr
         if 'orga_comunal' in self.data:
             self.fields['tipo_comunal'].widget.attrs.pop('disabled')
@@ -69,7 +72,6 @@ class UnidadEconomicaForm(DirectorioForm):
                 self.fields['rif_casa_matriz'].disabled=False
             else:
                 self.fields['nombre_franquicia'].widget.attrs.pop('readonly')
-
 
         self.fields['pais_franquicia'].choices = cargar_pais()
 
@@ -97,6 +99,25 @@ class UnidadEconomicaForm(DirectorioForm):
                 'title': _("Razón Social"), 'size': '50',
             }
         )
+    )
+
+    ## La unidad Económica es exportador (si o no)
+    ente_gubernamental = ChoiceField(
+        label=_("¿Es un Ente Gubernamental?"),
+        choices=((True,''), (False,'')),
+        widget=CheckboxInput(attrs={
+                'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
+                'title': _("¿Es un Ente Gubernamental?"), 'onchange': "habilitar($(this).is(':checked'), tipo_ente_gubernamental.id)",
+            }
+        )
+    )
+
+    ## Establece el Ente Gubernamental de la Unidad Económica
+    tipo_ente_gubernamental =  forms.ChoiceField(
+        label=_("Ente Gubernamental"), widget=Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': _("Seleccione el Ente Gubernamental"), 'disabled': 'disabled',
+        }), required= False, choices = (('','Seleccione...'),)+ENTE_GUBERNAMENTAL,
     )
 
     ## La unidad Económica es exportador (si o no)
@@ -180,12 +201,12 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## Casa Matriz de alguna Franquicia
     casa_matriz_franquicia = ChoiceField(
-        label=_("¿Es la casa matríz?"),
+        label=_("¿Es la casa matriz de una franquicia?"),
         choices=((True,''), (False,'')),
         widget=CheckboxInput(attrs={
                 'class': 'seleccion_si_no', 'data-rule-required': 'true', 'data-toggle': 'tooltip',
-                'title': _("¿Es la casa matríz?"),
-                'onchange': "habilitar($(this).is(':checked'), nro_franquicia.id)",
+                'title': _("¿Es la casa matriz de una franquicia?"),
+                'onchange': "habilitar($(this).is(':checked'), nro_franquicia.id), $('#id_nro_franquicia').attr('required', 'required')",
             }
         )
     )
@@ -279,6 +300,13 @@ class UnidadEconomicaForm(DirectorioForm):
 
     ## RIF Franquicia
     rif_casa_matriz = RifField(disabled=True, required=False)
+
+    def clean_tipo_ente_gubernamental(self):
+        tipo_ente_gubernamental = self.cleaned_data['tipo_ente_gubernamental']
+        ente_gubernamental = self.cleaned_data['ente_gubernamental']
+        if ente_gubernamental=='True' and not tipo_ente_gubernamental:
+            raise forms.ValidationError(_("Seleccione un Ente Gubernamental"))
+        return tipo_ente_gubernamental
 
     def clean_nro_franquicia(self):
         casa_matriz_franquicia = self.cleaned_data.get('casa_matriz_franquicia')
