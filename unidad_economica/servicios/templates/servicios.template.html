@@ -413,7 +413,12 @@
                     processData: false,
                     type: 'POST',
                     success: function(data){
-                        console.log(data);
+                        if (data.result) {
+                            bootbox.alert(data.message);
+                        }
+                        else {
+                            bootbox.alert("Sus datos están siendo procesados, será notificado por correo electrónico sobre el estatus del registro.")
+                        }
                     },
                     error: function(error){
                         console.log(error);

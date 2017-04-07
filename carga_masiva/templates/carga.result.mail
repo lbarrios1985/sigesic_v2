@@ -5,7 +5,9 @@ realizada en fecha {{fecha_carga}} por la Unidad Económica {{rif}} - {{nombre_u
 
 A continuación se indica el resultado en la solicitud de registro de datos de carga masiva.
 
+{% autoescape on %}
 {{error_messages|safe|default:"No se encontraron errores. ¡Los datos se registraron correctamente!"}}
+{% endautoescape %}
 
 Este correo fue enviado por el registro de datos de carga masiva del SIGESIC.
 

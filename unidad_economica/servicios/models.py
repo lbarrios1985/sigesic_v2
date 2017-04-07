@@ -13,11 +13,13 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/
 # @date 05-08-2016
 # @version 2.0
 from django.db import models
+from django.core import signing
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 from unidad_economica.sub_unidad_economica.models import SubUnidadEconomica
 from base.models import CaevClase, Pais, AnhoRegistro, Cliente
-from base.constant import MONEDAS, TIPO_SERVICIO
+from base.constant import MONEDAS, TIPO_SERVICIO, COLUMNS_CM
+
 import pyexcel
 
 class Servicio(models.Model):
@@ -78,10 +80,8 @@ class Servicio(models.Model):
         if not rel_id is None:
             ## Agrega los datos para la sub unidad solicitada
             for serv in Servicio.objects.filter(subunidad__id=rel_id):
-                datos.append([
-                    '', serv.nombre_servicio, serv.tipo_servicio, serv.caev.clase,
-                    serv.cantidad_clientes
-                ])
+                id = signing.dumps(serv.pk)
+                datos.append([id, serv.nombre_servicio, serv.tipo_servicio, serv.caev.clase, serv.cantidad_clientes])
 
         return {'cabecera': self.cm_fields, 'datos': datos, 'output': 'servicios'}
     
@@ -104,26 +104,105 @@ class Servicio(models.Model):
         subunidad = SubUnidadEconomica.objects.get(pk=rel_id)
         ## Se define un arreglo para los errores
         error = []
+
+        if len(load_file.row_range()) == 1:
+            error.append(str(_("El archivo seleccionado esta vacio")))
+        elif not [] == []:
+            cabezera = [c['field'] for c in self.cm_fields]
+            error.append(
+                str(_("Verifique las cabeceras del archivo y la informacion a suministrar, "
+                      "deben estar en el siguiente orden: %s" % str(cabezera)))
+            )
+        elif error:
+            return {'validacion': False, 'message': error}
+
+
+        valid = self.__validar_cm(load_file)
+
+        if not valid['result']:
+            return {'validacion': False, 'message': valid['errors']}
+
         for i in range(1,len(load_file.row_range())):
+
             ## Se intancia el caev
-            caev = CaevClase.objects.get(pk=load_file[i,3])
-            ## Se crea el servicio
-            servicio = Servicio()
-            servicio.nombre_servicio = load_file[i,1]
-            servicio.tipo_servicio = load_file[i,2]
-            servicio.caev = caev
-            servicio.cantidad_clientes = load_file[i,4]
-            servicio.subunidad = subunidad
+            caev = CaevClase.objects.get(clase=load_file[i,3])
+
             try:
-                servicio.full_clean()
-                servicio.save()
+                ## Se crea el registro para el servicio o se actualizan los datos en caso de existir
+                Servicio.objects.update_or_create(pk=signing.loads(load_file[i, 0]), defaults={
+                    'nombre_servicio': load_file[i, 1], 'tipo_servicio': load_file[i, 2],
+                    'caev': caev, 'cantidad_clientes': load_file[i, 4], 'subunidad': subunidad
+                })
             except ValidationError as e:
                 error.append((i,e.message_dict))
+            except Exception as e:
+                error.append({i: e})
+
         ## Si no se registraron errores devuelve el mensaje de los errores
         if(len(error)==0):
             return {'validacion':True,'message':str(_("Se realizó la carga con éxito"))}
         ## En caso contrario retorna los errores
-        return {'validacion':False,'message':error} 
+        return {'validacion':False,'message':error}
+
+    def __validar_cm(self, archivo):
+
+        errors = []
+        validacion = {'result': True, 'errors': errors, 'cells': []}
+
+        # Verifica que la cantidad de columnas sea la correcta
+        if archivo.to_array()[0].__len__() != self.cm_fields.__len__():
+            errors.append(str(_("El número de columnas no corresponde a los datos esperados")))
+        if archivo.row[0] != [f['title'] for f in self.cm_fields]:
+            errors.append(str(_("Las cabeceras del archivo no corresponde con las esperadas")))
+
+        for i in range(1, len(archivo.row_range())):
+            ## Evalúa si el código CAEV indicado en el archivo se encuentra registrado en el sistema
+            try:
+                CaevClase.objects.get(clase=archivo[i,3])
+            except CaevClase.DoesNotExist:
+                if archivo[i,3]:
+                    errors.append("El campo %s contiene un Código Caev no válido" % (str(COLUMNS_CM[3]) + str(i+1)))
+
+            for j in range(0, self.cm_fields.__len__()):
+                ## Captura el campo del archivo a procesar. Ej. A1, A2, B1, B2, etc...
+                campo_archivo = str(COLUMNS_CM[j]) + str(i+1)
+                ## Captura el campo del modelo para sus respectivas validaciones
+                campo_tabla = self._meta.get_field(self.cm_fields[j]['field'])
+
+                ## Condición que evalúa si el campo permite valores vacios o nulos
+                if (not campo_tabla.blank or not campo_tabla.null) and not archivo[i, j]:
+                    errors.append("El campo %s no debe estar vacio" % campo_archivo)
+
+                ## Condición que evalúa si el campo permite los valores indicados en el archivo
+                if archivo[i, j] and campo_tabla.choices and not archivo[i, j] in [c[0] for c in campo_tabla.choices]:
+                    errors.append("El campo %s contiene valores no permitidos. Los datos validos son: %s sin comillas" % (
+                        campo_archivo, str([c[0] for c in campo_tabla.choices])
+                    ))
+
+                ## Condición que evalúa la longitud máxima permitida por el campo
+                if campo_tabla.max_length and archivo[i, j].__len__() > campo_tabla.max_length:
+                    errors.append(
+                        "El campo %s debe contener máximo %s carácteres" % (
+                            campo_archivo, self.cm_fields[j]['max_length']
+                        )
+                    )
+
+                ## Condición que evalúa la restricción de campo único en la tabla
+                if archivo[i, j] and campo_tabla.unique and self.objects.filter(**{self.cm_fields[j]['field']: archivo[i, j]}):
+                    errors.append("El campo %s contiene un valor ya registrado en el sistema" % campo_archivo)
+                try:
+                    ## Condición que evalúa si los datos suministrados corresponden a un campo de tipo Integer
+                    if campo_tabla.get_internal_type == 'IntegerField' and not archivo[i, j].isdigit():
+                        errors.append("El campo %s debe ser un número entero" % campo_archivo)
+                except Exception as e:
+                    pass
+
+        ## Si se enontraron errores la validación retorna falso con sus respectivos mensajes
+        if errors:
+            validacion['result'] = False
+            validacion['errors'] = errors
+
+        return validacion
     
         
 class ServicioCliente(models.Model):

@@ -142,7 +142,7 @@ SERVICIOS_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/servicios/templat
 COYUNTURA_TEMPLATES = os.path.join(BASE_DIR, "unidad_economica/coyuntura/templates")
 
 ## Directorio en donde se encuentran los templates de carga masiva
-CARGA_MASIVA = os.path.join(BASE_DIR, "carga_masiva/templates")
+CARGA_MASIVA_TEMPLATES = os.path.join(BASE_DIR, "carga_masiva/templates")
 
 CARGA_MASIVA_FILES = os.path.join(BASE_DIR, "static/cm")
 
@@ -154,7 +154,8 @@ TEMPLATES = [
         'DIRS': [
             ROOT_TEMPLATES, BASE_TEMPLATES, USERS_TEMPLATES, UNIDAD_ECONOMICA_TEMPLATES,
             INFORMACION_MERCANTIL_TEMPLATES, SUB_UNIDAD_ECONOMICA_TEMPLATES, MAQUINARIA_EQUIPO_TEMPLATES,
-            BIENES_PROD_COMER_TEMPLATES, INSUMOS_PROVEEDORES_TEMPLATES, SERVICIOS_TEMPLATES, COYUNTURA_TEMPLATES, CARGA_MASIVA,
+            BIENES_PROD_COMER_TEMPLATES, INSUMOS_PROVEEDORES_TEMPLATES, SERVICIOS_TEMPLATES, COYUNTURA_TEMPLATES,
+            CARGA_MASIVA_TEMPLATES,
         ],
         'APP_DIRS': True,
         'OPTIONS': {

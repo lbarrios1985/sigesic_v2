@@ -144,6 +144,9 @@ APP_NAME = "SIGESIC"
 ## Asunto del mensaje de bienvenida
 EMAIL_SUBJECT_REGISTRO = "Bienvenido a %s" % APP_NAME
 
+## Asunto en el procesamiento de archivos de carga masiva
+EMAIL_SUBJECT_CM_RESULT = "Resultado en registro de datos de %s"
+
 admin_email = ''
 if settings.ADMINS:
     ## Contiene el correo electrónico del administrador del sistema
@@ -186,6 +189,9 @@ MSG_NOT_DOWNLOAD_FILE = _("No ha proporcionado los datos para la descarga del ar
 
 ## Mensaje de error al cargar archivos
 MSG_NOT_UPLOAD_FILE = _("No ha proporcionado los datos para cargar la información. Verifique!!!")
+
+## Mensaje que indica si existen errores en la carga de datos
+MSG_SAVE_DATA_CM = _("Se encontraron errores al procesar el archivo, será notificado por correo electrónico con los detalles.")
 
 ## Determina el nivel mínimo de validación para la fortaleza de la contraseña. Los valores permitidos son del 0 al 5
 FORTALEZA_CONTRASENHA = 3
@@ -254,3 +260,10 @@ TIPO_SERVICIO = (
     ("SC",_("Servicios Sociales y Comunales")),
     ("OT",_("Otros")),
 )
+
+# 26 Letras
+## Columnas de archivos de carga masiva.
+COLUMNS_CM = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W",
+    "X", "Y", "Z"
+]

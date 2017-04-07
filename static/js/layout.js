@@ -134,7 +134,7 @@ $(document).ready(function() {
             mainClass: "input-group-sm",
             browseClass: 'btn btn-primary btn-sm btn_accion',
             browseIcon: '<i class="ion-ios-cloud-upload"></i>&nbsp;',
-            browseLabel: 'Cargar Archivo',
+            browseLabel: 'Cargar Archivo'
         });
     }
 });

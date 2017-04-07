@@ -18,7 +18,7 @@ import smtplib
 from datetime import datetime
 
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
@@ -111,14 +111,16 @@ def enviar_correo(email, template, subject, vars = None, att='', att_c='', att_t
         destinatario = email if isinstance(email, list) else email.split(",")
 
         ## Asigna los datos del correo a ser enviado
-        correo = send_mail(subject, t.render(c), settings.EMAIL_FROM, destinatario)
+        #correo = EmailMessage(subject, t.render(c), settings.EMAIL_FROM, destinatario)
 
+        correo = send_mail(subject, t.render(c), settings.EMAIL_FROM, destinatario)
+        """
         if att:
             ## Si se ha indicado el parametro (att), se adjunta el correspondiente archivo al correo
             correo.attach(att, att_c, att_t)
-
+        """
         ## Realiza el envio del correo electronico a la(s) dirección(es) indicada(s)
-        correo.send(fail_silently=False)
+        #correo.send(fail_silently=False)
         logger.info("Correo enviado a %s usando la plantilla %s" % (email, template))
         return True
     except smtplib.SMTPException as e:

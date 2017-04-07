@@ -13,6 +13,7 @@ Copyleft (@) 2016 CENDITEL nodo Mérida - https://sigesic.cenditel.gob.ve/trac/w
 from __future__ import unicode_literals, absolute_import
 
 from django.http import HttpResponse
+from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
@@ -20,9 +21,10 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.apps import apps
 from django.conf import settings
+from datetime import datetime
 from base.models import AnhoRegistro
 
-from base.constant import MSG_NOT_AJAX, MSG_NOT_DOWNLOAD_FILE, MSG_NOT_UPLOAD_FILE
+from base.constant import MSG_NOT_AJAX, MSG_NOT_DOWNLOAD_FILE, MSG_NOT_UPLOAD_FILE, EMAIL_SUBJECT_CM_RESULT
 
 import logging
 import json
@@ -198,13 +200,17 @@ def cargar_datos(request):
         ## Archivo que se va a cargar
         archivo = request.FILES['file']
 
-        if app and mod and anho and archivo and father_id:
+        if app and mod and archivo and father_id:
             instance = apps.get_model(app, mod)
             modelo = instance()
-            datos = modelo.carga_masiva_init(anho=anho, rel_id=father_id)
-            ruta = settings.CARGA_MASIVA_FILES + str(archivo)
+            ruta = settings.CARGA_MASIVA_FILES + "/" + str(archivo)
             path = default_storage.save(ruta, ContentFile(archivo.read()))
-            resultado = modelo.carga_masiva_load(path, anho, father_id)
+
+            ## Evalua si se ha indicado un año de registro
+            if anho and anho.rfind('Seleccione') < 0:
+                resultado = modelo.carga_masiva_load(path, anho, father_id)
+            else:
+                resultado = modelo.carga_masiva_load(path=path, rel_id=father_id)
 
             default_storage.delete(path)
 
@@ -219,11 +225,41 @@ def cargar_datos(request):
                 'nuevamente:'
             ))
             if isinstance(resultado['message'], list):
+                msg += "<br><ul>"
                 for message in resultado['message']:
-                    msg += "\n- %s" % message
+                    msg += "<li>%s</li>" % message
+                msg += "</ul>"
+                format_html(msg)
             else:
                 msg = resultado['message']
-            #enviar_correo()
+
+            administrador, admin_email = '', ''
+            if settings.ADMINS:
+                administrador = settings.ADMINS[0][0]
+                admin_email = settings.ADMINS[0][1]
+
+            enviado = enviar_correo(
+                request.user.email, 'carga.result.mail', EMAIL_SUBJECT_CM_RESULT % str(app), {
+                    'modulo': instance._meta.verbose_name.title(), 'fecha_carga': datetime.now(),
+                    'rif': str(request.user.username),
+                    'nombre_ue': str(request.user.unidadeconomica_set.values()[0]['nombre_ue']),
+                    'error_messages': msg, 'emailapp': settings.EMAIL_FROM, 'administrador': administrador,
+                    'admin_email': admin_email
+                }
+            )
+
+            if not enviado:
+                logger.warning(
+                    str(_("Ocurrió un inconveniente al enviar el correo de sobre el resultado de registro de datos en "
+                          "carga masiva de %s al usuario [%s]") % str(request.username))
+                )
+                return HttpResponse(json.dumps(
+                    {
+                        'result': False,
+                        'error': str(_("No se pudo enviar el correo de estatus del registro, intente más tarde..."))
+                    })
+                )
+
             return HttpResponse(json.dumps({'result': False, 'error': msg}))
         return HttpResponse(json.dumps({'result': False, 'error': str(_('Faltan Párametros'))}))
 
