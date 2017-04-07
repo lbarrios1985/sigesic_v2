@@ -248,23 +248,3 @@ def cargar_anho():
         pass
 
     return lista
-
-def cargar_actividad_rama():
-    """!
-    Función que permite cargar los datos de las actividades CAEV en una tupla
-
-    @author Rodrigo Boet (rvargas at cenditel.gob.ve)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    @date 06-04-2017
-    @return Devuelve una tupla con las actividades CAEV registradas
-    """
-
-    lista = ('', _('Seleccione...')),
-
-    try:
-        for act in CaevRama.objects.all():
-            lista += (act.rama, act.descripcion),
-    except Exception as e:
-        pass
-
-    return lista

@@ -27,7 +27,7 @@ from .models import SubUnidadEconomica
 from base.constant import TIPO_SUB_UNIDAD, TIPO_TENENCIA, ESTADO_PROCESO, TIPO_PROCESO, SERVICIOS_PUBLICOS
 from base.fields import RifField
 from base.models import *
-from base.functions import cargar_actividad_rama
+from base.functions import cargar_actividad
 from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
@@ -50,9 +50,9 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     def __init__(self, *args, **kwargs):
         super(SubUnidadEconomicaForm, self).__init__(*args, **kwargs)
 
-        self.fields['actividad_caev_primaria'].choices = cargar_actividad_rama()
-        self.fields['actividad_caev'].choices = cargar_actividad_rama()
-        self.fields['actividad_caev_tb'].choices = cargar_actividad_rama()
+        self.fields['actividad_caev_primaria'].choices = cargar_actividad()
+        self.fields['actividad_caev'].choices = cargar_actividad()
+        self.fields['actividad_caev_tb'].choices = cargar_actividad()
         
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
