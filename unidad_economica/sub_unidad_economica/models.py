@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from unidad_economica.models import UnidadEconomica
 from unidad_economica.directorio.models import Directorio
-from base.models import CaevClase
+from base.models import CaevRama
 
 __licence__ = "GNU Public License v2"
 __revision__ = ""
@@ -59,6 +59,9 @@ class SubUnidadEconomica(models.Model):
         
     ## Cantidad de empleados
     cantidad_empleados = models.IntegerField()
+    
+    ## Servicios Públicos
+    servicios_publicos = models.CharField(max_length=100)
 
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  models.BooleanField(default=False)
@@ -80,7 +83,7 @@ class SubUnidadEconomicaCapacidad(models.Model):
     @version 2.0.0
     """        
     ## Establece la relación con el código CAEV
-    caev = models.ForeignKey(CaevClase)
+    caev = models.ForeignKey(CaevRama)
     
     ## Capacidad instalada mensual (campo de texto)
     capacidad_instalada_texto = models.DecimalField(max_digits=20,decimal_places=5,)
@@ -149,4 +152,4 @@ class SubUnidadEconomicaActividad(models.Model):
     sub_unidad_economica = models.ForeignKey(SubUnidadEconomica)
     
     ## Establece la relación con el código CAEV
-    caev = models.ForeignKey(CaevClase)
+    caev = models.ForeignKey(CaevRama)

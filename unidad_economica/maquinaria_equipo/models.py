@@ -46,6 +46,8 @@ class maquinariaModel(models.Model):
     anho_adquisicion = models.IntegerField()
 
     vida_util = models.IntegerField()
+    
+    uso_energia = models.CharField(max_length=2)
 
     estado_actual = models.CharField(max_length=2,choices=ESTADO_ACTUAL_MAQUINARIA)
 
@@ -58,7 +60,8 @@ class maquinariaModel(models.Model):
         {'field': 'anho_fabricacion', 'title': str(_("Año de Fabricación")), 'max_length': 4, 'null': False},
         {'field': 'anho_adquisicion', 'title': str(_("Año de Adquisición")), 'max_length': 4, 'null': True},
         {'field': 'vida_util', 'title': str(_("Vida util")), 'max_length': 2, 'null': False},
-        {'field': 'estado_actual', 'title': str(_("Estado Actual")), 'max_length': 2, 'null': False}
+        {'field': 'estado_actual', 'title': str(_("Estado Actual")), 'max_length': 2, 'null': False},
+        {'field': 'uso_energia', 'title': str(_("Uso de Energpia")), 'max_length': 100, 'null': False}
     ]
 
     def __str__(self):

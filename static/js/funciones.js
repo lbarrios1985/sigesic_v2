@@ -838,3 +838,19 @@ function get_cliente_proveedor(attr,app,model,field,value,field_id,other_app,oth
         });
     }
 }
+
+/**
+ * @brief Función para permitir sólo números
+ * @param elem Recibe el elemento como tal
+ */
+function only_numbers(elem) {
+    $(elem).val($(elem).val().replace(/[^0-9]/g,''));
+}
+
+/**
+ * @brief Función para permitir sólo números y una coma
+ * @param elem Recibe el elemento como tal
+ */
+function only_numbers_comma(elem) {
+    $(elem).val($(elem).val().replace(/[^0-9\,]/g,'').replace(/(,.*?),(.*,)?/, "$1"));
+}

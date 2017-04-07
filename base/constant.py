@@ -130,9 +130,9 @@ PREFIJO_DIRECTORIO_CUATRO_CHOICES = (
 
 ## Tipos de Sub-Unidad Económica
 TIPO_SUB_UNIDAD = (
-    ('Se', _("Sede Administrativa")),
+    ('Se', _("Administrativo")),
     ('Pl', _("Planta Productiva")),
-    ('Su', _("Sucursal")),
+    ('Su', _("Comercializadora")),
 )
 
 ## PERIODO DE VERIFICACION DE LA CADUCIDAD DE LA CONTRASEÑA EN DIAS
@@ -255,6 +255,34 @@ TIPO_SERVICIO = (
     ("OT",_("Otros")),
 )
 
+
+## Servicios Públicos
+SERVICIOS_PUBLICOS = (
+    ("AC",_("Acueductos")),
+    ("PS",_("Pozo Séptico")),
+    ("GA",_("Gas")),
+    ("RC",_("Red de Cloacas")),
+    ("DR",_("Drenajes")),
+    ("CL",_("Colector")),
+    ("PT",_("Planta de Tratamiento")),
+    ("TE",_("Telefonía")),
+    ("AB",_("Aceras y Brocales")),
+    ("AS",_("Aseo")),
+    ("AL",_("Alumbrado")),
+    ("TR",_("Transporte")),
+)
+
+## Uso de Energía
+USO_ENERGIA =(
+    ("NI",_("Ninguna")),
+    ("EL",_("Eléctrica")),
+    ("GS",_("Gasolina")),
+    ("GL",_("Gasoil")),
+    ("DI",_("Diesel")),
+    ("GN",_("Gas Natural")),
+    ("SB",_("Sistemas Bifuel")),
+)
+
 ENTE_GUBERNAMENTAL = (
     ("MI",_("Ministerios")),
     ("EN",_("Entes de la Descentralización Funcional")),
@@ -265,3 +293,4 @@ ENTE_GUBERNAMENTAL = (
     ("EE",_("Empresas del Estado")),
     ("EM",_("Empresas Matrices")),
 )
+

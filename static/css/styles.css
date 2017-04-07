@@ -279,3 +279,16 @@ optgroup, option, select, span.input-group-btn, .select2-container--default .sel
 .vertical-align {
     vertical-align: middle !important;
 }
+
+.radio-inline input[type=checkbox] {
+   height: 10px !important;
+}
+
+.blue-table thead{
+   background-color: #3c8dbc;
+   color:white;
+}
+
+.blue-table tbody{
+   text-align: center;
+}

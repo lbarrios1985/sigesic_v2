@@ -51,13 +51,7 @@
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.nombre_sub }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                            {% if form.nombre_sub.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.nombre_sub.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.nombre_sub.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                     </div>
                 </div>
@@ -68,13 +62,7 @@
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.telefono }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                            {% if form.telefono.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.telefono.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.telefono.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                     </div>
                 </div>
@@ -86,9 +74,7 @@
 
             </div>
            
-            <div class="box-header with-border">
-                <h3 class="box-title">{% trans 'Actividad Física de la Sub-Unidad' %}</h3>
-            </div>
+            <h4 class="box-title"><i class="glyphicon glyphicon-home"></i> {% trans 'Características Generales' %}</h4>
             <br>
              <div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -98,13 +84,7 @@
                         </label>
                         <div class="col-md-9 col-xs-9 col-sm-9">
                             <div class="form-inline">{{ form.tipo_tenencia }}<i class="ion ion-ios-medical item-requerido"></i></div>
-                            {% if form.tipo_tenencia.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.tipo_tenencia.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.tipo_tenencia.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                     </div>
                 </div>
@@ -118,13 +98,7 @@
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
                             {{ form.m2_construccion }}
-                            {% if form.m2_construccion.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_construccion.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.m2_construccion.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
@@ -136,13 +110,7 @@
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
                             {{ form.m2_terreno }}
-                            {% if form.m2_terreno.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.m2_terreno.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.m2_terreno.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
@@ -157,13 +125,7 @@
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
                             {{ form.autonomia_electrica }}
-                            {% if form.autonomia_electrica.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.autonomia_electrica.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.autonomia_electrica.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
@@ -175,13 +137,7 @@
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
                             {{ form.consumo_electrico }}
-                            {% if form.consumo_electrico.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.consumo_electrico.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.consumo_electrico.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
@@ -196,20 +152,25 @@
                         </label>
                         <div class="col-md-4 col-xs-4 col-sm-4">
                             {{ form.cantidad_empleados }}
-                            {% if form.cantidad_empleados.errors %}
-                                <p class="bg-warning">
-                                    <span class="help-block msg-error">
-                                        <i class="fa fa-times-circle-o"></i> {{ form.cantidad_empleados.errors.as_text|cut:'* ' }}
-                                    </span>
-                                </p>
-                            {% endif %}
+                            {% include 'base.form.errors.html' with form_errors=form.cantidad_empleados.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                         <div class="col-sm-1"><i class="ion ion-ios-medical item-requerido"></i></div>
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="form-group {% if form.servicios_publicos.errors %}has-error{% endif %} has-feedback">
+                        <label class="col-md-3 col-xs-3 col-sm-3 control-label" for="{{ form.servicios_publicos.auto_id }}">
+                            {{ form.servicios_publicos.label }}
+                        </label>
+                        <div class="col-md-8 col-xs-8 col-sm-8 radio-inline">
+                            {{ form.servicios_publicos }}
+                            {% include 'base.form.errors.html' with form_errors=form.servicios_publicos.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
+                        </div>
+                    </div>
+                </div>
             </div>
                
-            <h4 class="box-title">{% trans 'Actividad Económica de la Sub Unidad'%}</h4>
+            <h4 class="box-title"><i class="glyphicon glyphicon-cog"></i> {% trans 'Actividad Económica de la Sub Unidad'%}</h4>
             <hr>
             <div id="planta">
                 <div class="row">
@@ -220,13 +181,7 @@
                             </label>
                             <div class="col-md-4 col-xs-4 col-sm-4">
                                 {{ form.tipo_proceso }}
-                                {% if form.tipo_proceso.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.tipo_proceso.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.tipo_proceso.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -237,13 +192,7 @@
                             </label>
                             <div class="col-md-10 col-xs-10 col-sm-10">
                                 {{ form.nombre_proceso }}
-                                {% if form.nombre_proceso.errors %}
-                                    <p class="bg-warning">
-                                        <span class="help-block msg-error">
-                                            <i class="fa fa-times-circle-o"></i> {{ form.nombre_proceso.errors.as_text|cut:'* ' }}
-                                        </span>
-                                    </p>
-                                {% endif %}
+                                {% include 'base.form.errors.html' with form_errors=form.nombre_proceso.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                             </div>
                         </div>
                     </div>
@@ -275,10 +224,10 @@
                     
                 <div class="row form-group {% if form.nombre_proceso_tb.errors %}has-error{% endif %}">
                     <div class="col-md-2 col-sm-2 col-xs-2">     
-                        <label>{% trans 'Agregar Proceso' %}</label>
-                        <a id="#dtable" onclick="add_field_datatable(['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso'],'#mydtable');"
-                        style="cursor: pointer">
-                        <i class="glyphicon glyphicon-plus"></i></a>
+                        <a type="button" id="#dtable" class="btn btn-primary btn-sm"
+                        onclick="add_field_datatable(['#id_tipo_proceso','#id_nombre_proceso','#id_descripcion_proceso','#id_estado_proceso'],'#mydtable');">
+                            {% trans 'Agregar' %}
+                        </a>
                         <i class="ion ion-ios-medical item-requerido"></i>
                     </div>
                 </div>
@@ -289,16 +238,16 @@
                     </div>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">        
-                        <table class="table table-striped table-hover display dataTable" id="mydtable">
+                <div class="row box-body table-responsive">
+                    <div class="col-md-12 col-sm-12 col-xs-12">        
+                        <table class="table table-striped table-hover table-bordered blue-table display dataTable" id="mydtable">
                             <thead>
                                 <tr>
-                                    <td>Tipo de Proceso</td>
-                                    <td>Nombre del Proceso</td>
-                                    <td>Descripción del Proceso</td>
-                                    <td>Estado del Proceso</td>
-                                    <td>Opciones</td>
+                                    <th>{% trans 'Tipo de Proceso' %}</th>
+                                    <th>{% trans 'Nombre del Proceso' %}</th>
+                                    <th>{% trans 'Descripción del Proceso' %}</th>
+                                    <th>{% trans 'Estado del Proceso' %}</th>
+                                    <th>{% trans 'Opciones' %}</th>
                                 </tr>
                             </thead>
                             {% if first_table %}
@@ -355,19 +304,20 @@
                 
                 <div class="row form-group {% if form.actividad_caev_tb.errors %}has-error{% endif %}">
                     <div class="col-md-2 col-sm-2 col-xs-2">     
-                        <label>{% trans 'Agregar Actividad' %}</label>
-                        <a id="#dtable" onclick="add_field_datatable(['#id_actividad_caev'],'#caevtable');" style="cursor: pointer">
-                        <i class="glyphicon glyphicon-plus"></i></a>
+                        <a type="button" id="#dtable" class="btn btn-primary btn-sm"
+                        onclick="add_field_datatable(['#id_actividad_caev'],'#caevtable');">
+                            {% trans 'Agregar' %}
+                        </a>
                     </div>
                 </div>
                 
-                <div class="row">
+                <div class="row box-body table-responsive">
                     <div class="col-md-12 col-sm-12 col-xs-12">        
-                        <table class="table table-striped table-hover display dataTable" id="caevtable">
+                        <table class="table table-striped table-hover table-bordered blue-table display dataTable" id="caevtable">
                             <thead>
                                 <tr>
-                                    <td>Actividad</td>
-                                    <td>Opciones</td>
+                                    <th>{% trans 'Actividad' %}</th>
+                                    <th>{% trans 'Opciones' %}</th>
                                 </tr>
                             </thead>
                             {% if second_table %}
@@ -400,6 +350,7 @@
                     <div class="col-md-8 col-sm-8 col-xs-8">
                         <div class="form-group {% if form.capacidad_instalada_medida.errors %}has-error{% endif %}">
                             <div class="form-inline">{{ form.capacidad_instalada_medida }}<i class="ion ion-ios-medical item-requerido"></i></div>
+                            {% include 'base.form.errors.html' with form_errors=form.capacidad_instalada_medida.errors col_title_error='col-sm-2' col_msg_error='col-sm-10' %}
                         </div>
                     </div>
                 </div>
@@ -436,20 +387,19 @@
             </div>
         </div>
         
-        <div class="row">
+        <div class="row box-body table-responsive">
             <div class="col-md-12 col-sm-12 col-xs-12">        
-                <table class="table table-striped table-hover display dataTable" id="subunidadtable">
+                <table class="table table-striped table-hover table-bordered blue-table display dataTable" id="subunidadtable">
                     <thead>
                         <tr>
-                            <td>Nombre</td>
-                            <td>Teléfono</td>
-                            <td>Tipo Tenencia</td>
-                            <td>Tipo de Subunidad</td>
-                            <td>Número de Empleados</td>
-                            <td>¿Presta Servicio?</td>
+                            <th>{% trans 'Nombre' %}</th>
+                            <th>{% trans 'Teléfono' %}</td>
+                            <th>{% trans 'Tipo Tenencia' %}</th>
+                            <th>{% trans 'Sub Unidad' %}</th>
+                            <th>{% trans 'Número de Empleados' %}</th>
+                            <th>{% trans '¿Presta Servicio?' %}</th>
                         </tr>
                     </thead>
-                    
                 </table>
             </div>
         </div>

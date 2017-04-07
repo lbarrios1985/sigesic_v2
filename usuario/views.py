@@ -346,7 +346,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             admin_email = settings.ADMINS[0][1]
 
         ## Indica si el correo electrónico fue enviado
-        enviado = enviar_correo(self.object.email, 'usuario.bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
+        """enviado = enviar_correo(self.object.email, 'usuario.bienvenida.mail', EMAIL_SUBJECT_REGISTRO, {
             'link': link, 'emailapp': settings.EMAIL_FROM, 'administrador': administrador, 'admin_email': admin_email
         })
 
@@ -354,7 +354,7 @@ class RegistroCreate(SuccessMessageMixin, CreateView):
             logger.warning(
                 str(_("Ocurrió un inconveniente al enviar el correo de registro al usuario [%s]")
                     % self.object.username)
-            )
+            )"""
 
         return super(RegistroCreate, self).form_valid(form)
 

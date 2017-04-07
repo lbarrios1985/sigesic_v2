@@ -22,8 +22,7 @@ from django.core.mail import send_mail
 from django.template import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
-
-from .models import CaevRama, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro, CodAranSubSubPartida
+from .models import CaevClase, TipoComunal, Pais, Estado, Municipio, Parroquia, AnhoRegistro, CodAranSubSubPartida, CaevRama
 
 logger = logging.getLogger('base')
 
@@ -245,6 +244,26 @@ def cargar_anho():
     try:
         for anho in AnhoRegistro.objects.all():
             lista += (anho.id, anho.anho),
+    except Exception as e:
+        pass
+
+    return lista
+
+def cargar_actividad_rama():
+    """!
+    Función que permite cargar los datos de las actividades CAEV en una tupla
+
+    @author Rodrigo Boet (rvargas at cenditel.gob.ve)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @date 06-04-2017
+    @return Devuelve una tupla con las actividades CAEV registradas
+    """
+
+    lista = ('', _('Seleccione...')),
+
+    try:
+        for act in CaevRama.objects.all():
+            lista += (act.rama, act.descripcion),
     except Exception as e:
         pass
 

@@ -18,13 +18,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import (
     TextInput, Select, Textarea, CheckboxInput, NumberInput
 )
+from django.core.validators import (
+    MaxValueValidator, MinValueValidator
+                                    )
 from base.forms import TelefonoForm
 from unidad_economica.directorio.forms import DirectorioForm
 from .models import SubUnidadEconomica
-from base.constant import TIPO_SUB_UNIDAD, TIPO_TENENCIA, ESTADO_PROCESO, TIPO_PROCESO
+from base.constant import TIPO_SUB_UNIDAD, TIPO_TENENCIA, ESTADO_PROCESO, TIPO_PROCESO, SERVICIOS_PUBLICOS
 from base.fields import RifField
 from base.models import *
-from base.functions import cargar_actividad
+from base.functions import cargar_actividad_rama
 from base.widgets import RifWidgetReadOnly
 
 __licence__ = "GNU Public License v2"
@@ -47,9 +50,9 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     def __init__(self, *args, **kwargs):
         super(SubUnidadEconomicaForm, self).__init__(*args, **kwargs)
 
-        self.fields['actividad_caev_primaria'].choices = cargar_actividad()
-        self.fields['actividad_caev'].choices = cargar_actividad()
-        self.fields['actividad_caev_tb'].choices = cargar_actividad()
+        self.fields['actividad_caev_primaria'].choices = cargar_actividad_rama()
+        self.fields['actividad_caev'].choices = cargar_actividad_rama()
+        self.fields['actividad_caev_tb'].choices = cargar_actividad_rama()
         
     ## R.I.F. de la Unidad Económica que identifica al usuario en el sistema
     rif = RifField()
@@ -71,47 +74,50 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Metros cuadrados de la construcción
     m2_construccion = forms.DecimalField(
-        label=_("Metros Cuadrados de la Construcción"), widget=NumberInput(attrs={
+        label=_("Metros Cuadrados de la Construcción"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique lo metros cuadrados de la construcción"), 'size': '25',
-            'step':'0.01',
-        }), max_digits=20, decimal_places=5
+            'onkeyup':'only_numbers_comma(this)',
+        }), max_digits=20, decimal_places=5,
     )
 
     ## Metros cuadrados del terreno
     m2_terreno = forms.DecimalField(
-        label=_("Metros Cuadrados de Terreno"), widget=NumberInput(attrs={
+        label=_("Metros Cuadrados de Terreno"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique lo metros cuadrados del terreno"), 'size': '25',
-            'step':'0.01'
-        }), max_digits=20, decimal_places=5
+            'onkeyup':'only_numbers_comma(this)',
+        }), max_digits=20, decimal_places=5, validators = [MinValueValidator(1)]
     )
 
     ## Autonomía Eléctrica en porcentaje
     autonomia_electrica = forms.DecimalField(
-        label=_("Porcentaje de Autonomía Eléctrica"), widget=NumberInput(attrs={
+        label=_("Autonomía Eléctrica (%)"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique la autonomía eléctrica en porcentaje"), 'size': '25',
-            'step':'0.01'
-        }), max_digits=20, decimal_places=5
+            'onkeyup':'only_numbers(this)',
+        }), max_digits=20, decimal_places=5, validators = [MaxValueValidator(100),MinValueValidator(0)]
     )
 
     ## Consumo eléctrico promedio en el mes
     consumo_electrico = forms.DecimalField(
-        label=_("Consumo Eléctrico Anual"), widget=NumberInput(attrs={
+        label=_("Consumo Eléctrico Anual"), widget=TextInput(attrs={
             'class': 'form-control input-md', 'data-rule-required': 'true', 'required':'required',
-            'data-toggle': 'tooltip', 'title': _("Indique el consumo promedio anual en Kw/h"), 'size': '25',
-            'step':'0.01'
-        }), max_digits=20, decimal_places=5
+            'data-toggle': 'tooltip', 'title': _("Indique el consumo promedio anual en Kw"), 'size': '25',
+            'onkeyup':'only_numbers(this)',
+        }), max_digits=20, decimal_places=5,validators = [MinValueValidator(0)]
     )
 
     cantidad_empleados = forms.IntegerField(
-        label=_("Número de trabajadores"), widget=NumberInput(attrs={
+        label=_("Número de trabajadores"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true', 'required':'required',
             'data-toggle': 'tooltip', 'title': _("Indique el número de trabajadores"), 'size': '25',
-            'min':'1', 'step': '1'
-        })
+            'onkeyup':'only_numbers(this)',
+        }), validators = [MinValueValidator(1)]
     )
+    
+    servicios_publicos = forms.MultipleChoiceField(label = ('¿Cuenta con los siguientes Servicios Públicos?'),choices = SERVICIOS_PUBLICOS,
+        widget=forms.CheckboxSelectMultiple(),required=False)
 
     ## Pregunta si la unidad económica presta un servicio
     sede_servicio =  forms.ChoiceField(
@@ -122,7 +128,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Tipo de Sub Unidad Económica
     tipo_sub_unidad = forms.ChoiceField(
-        label=_("Tipo"),
+        label=_("Uso"),
         widget=Select(attrs={'class': 'form-control input-md', 'required':'required'}),
         choices = (('',_('Seleccione...')),) + (TIPO_SUB_UNIDAD)
     )
@@ -186,10 +192,10 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Capacidad instalada mensual (campo de texto)
     capacidad_instalada_texto = forms.DecimalField(
-        label=_("Capacidad Instalada Mensual"), widget=TextInput(attrs={
+        label=_("Capacidad Instalada"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
-            'data-toggle': 'tooltip', 'title': _("Indique la capacidad instalada"), 'size': '25', 'type':'number',
-            'step':'0.01',
+            'data-toggle': 'tooltip', 'title': _("Indique la capacidad instalada"), 'size': '25',
+            'onkeyup':'only_numbers_comma(this)',
         }), max_digits=20, decimal_places=5, required=False
     )
     
@@ -201,10 +207,10 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
 
     ## Capacidad instalada mensual (campo de texto)
     capacidad_utilizada = forms.DecimalField(
-        label=_("Capacidad Utilizada Mensual"), widget=TextInput(attrs={
+        label=_("Capacidad Utilizada (%)"), widget=TextInput(attrs={
             'class': 'form-control input-md','data-rule-required': 'true',
             'data-toggle': 'tooltip', 'title': _("Indique la capacidad utilizada en porcentaje"), 'size': '25',
-            'type':'number', 'step':'0.01',
+            'onkeyup':'only_numbers(this)',
         }), max_digits=20, decimal_places=5, required=False
     )
 
@@ -248,7 +254,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         tipo = self.cleaned_data['tipo_sub_unidad']
         capacidad_instalada_texto = self.cleaned_data['capacidad_instalada_texto']
 
-        if (tipo == 'Pl' or tipo == "Su") and capacidad_instalada_texto=='':
+        if (tipo == 'Pl' or tipo == "Su") and not capacidad_instalada_texto:
             raise forms.ValidationError(_("Este campo es obligatorio"))
 
         return capacidad_instalada_texto
@@ -256,7 +262,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
     def clean_capacidad_instalada_medida(self):
         tipo = self.cleaned_data['tipo_sub_unidad']
         capacidad_instalada_medida = self.cleaned_data['capacidad_instalada_medida']
-
+        
         if (tipo == 'Pl' or tipo == "Su") and capacidad_instalada_medida=='':
             raise forms.ValidationError(_("Este campo es obligatorio"))
 
@@ -266,7 +272,7 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
         tipo = self.cleaned_data['tipo_sub_unidad']
         capacidad_utilizada = self.cleaned_data['capacidad_utilizada']
 
-        if (tipo == 'Pl' or tipo == "Su") and capacidad_utilizada=='':
+        if (tipo == 'Pl' or tipo == "Su") and not capacidad_utilizada:
             raise forms.ValidationError(_("Este campo es obligatorio"))
 
         return capacidad_utilizada
@@ -315,6 +321,32 @@ class SubUnidadEconomicaForm(DirectorioForm, TelefonoForm):
             raise forms.ValidationError(_("Este campo es obligatorio"))
 
         return actividad_caev_primaria
+    
+    def clean_m2_construccion(self):
+        construccion = self.cleaned_data['m2_construccion']
+        if construccion < 1:
+            raise forms.ValidationError(_("Asegúrese de que este valor es mayor o igual a 1."))
+
+        return construccion
+    
+    def clean_m2_terreno(self):
+        terreno = self.cleaned_data['m2_terreno']
+        construccion = self.cleaned_data['m2_construccion']
+
+        if terreno < construccion:
+            raise forms.ValidationError(_("Los metros del terreno no pueden ser menores que la construcción"))
+
+        return terreno
+    
+    def clean_capacidad_utilizada(self):
+        capacidad = self.cleaned_data['capacidad_utilizada']
+        tipo = self.cleaned_data['tipo_sub_unidad']
+        if (tipo == 'Pl' or tipo == "Su"):
+            if capacidad < 0:
+                raise forms.ValidationError(_("Asegúrese de que este valor es mayor o igual a 0."))
+            elif capacidad > 100:
+                raise forms.ValidationError(_("Asegúrese de que este valor es menor o igual a 100."))
+        return capacidad
     
     class Meta:
         model = SubUnidadEconomica
