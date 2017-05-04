@@ -262,7 +262,7 @@ EMAIL_PORT = 25
 EMAIL_FROM = 'sigesic@cenditel.gob.ve'
 
 ## Registro de vitácoras de errores (logs)
-LOGS_PATH = '/var/log/sigesic'
+LOGS_PATH = '/home/cenditel/Proyectos/sigesic_v2/log/sigesic'
 
 ## Configuración de los niveles de vitácoras (logs) a registrar
 LOGGING = dict(version=1, disable_existing_loggers=True, formatters={

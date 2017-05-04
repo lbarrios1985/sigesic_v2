@@ -75,7 +75,6 @@ class BienesForm(forms.ModelForm):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
             self.fields['anho_registro'].required = False
             self.initial['anho_registro'] = validacion_prod['anho_registro'].pk
-            print(self.initial['anho_registro'])
             self.initial['anho'] = validacion_prod['anho_registro'].pk
         elif(validacion_serv['validacion']):
             self.fields['anho_registro'].widget.attrs = {'disabled':'disabled'}
@@ -102,13 +101,14 @@ class BienesForm(forms.ModelForm):
     
     ## Listado de las subunidades disponibles
     subunidad =  forms.ChoiceField(
-        label=_("Tipo de Sub-Unidad"), widget=Select(attrs={
+        label=_("Sub-unidad Económica"), widget=Select(attrs={
             'class': 'form-control input-md', 'required':'required',
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"), 'style': 'width: 250px;',
-            'onchange':"""before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val()),
-            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")
+            'onchange': """
+            actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto'),
+            mostrar_carga_producto_cliente(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion","#oculto_producto")
             """
-        }),
+            }),
     )
 
     ## Nombre del producto
@@ -192,7 +192,7 @@ class BienesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'onchange': """
             actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto'),
-            mostrar_carga(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            mostrar_carga_producto_cliente(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes","#oculto_cliente")
             """
         }),required = False,
     )

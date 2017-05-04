@@ -214,6 +214,7 @@ UNIDAD_MEDIDA = (
     ('MT',_('Metros')),
     ('M2',_('Metros Cuadrados')),
     ('UV',_('Unidad de Venta al Detal')),
+    ('UN',_('Unidad'))
 )
 
 ## Monedas

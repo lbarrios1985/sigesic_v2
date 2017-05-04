@@ -417,8 +417,7 @@ function add_field_datatable(campos, table_id){
         var text = $(value).val();
         
         var form = "<input type='text' id="+value.replace('#','') + "_tb value='" + text + "' " + 
-                   "name=" + value.replace('#id_','') + "_tb hidden='true' >";
-        
+                   "name=" + value.replace('#id_','') + "_tb hidden='true' >";        
         if (text.trim()=='') {
             bool = false
         }
@@ -797,6 +796,64 @@ function mostrar_carga(father_id,anho_registro_id,app,model,element_show) {
     }
     
 }
+
+/**
+ * @brief Función para mostrar el formulario de carga masiva y modificar el boton de descargar archivo
+ * @param father_id Contiene el id del padre
+ * @param anho_registro_id contiene el id del año de registro
+ * @param app Contiene el nombre de la aplicación
+ * @param model Contiene el nombre del modelo
+ * @param element_show Contiene el nombre del contenedor que se mostrará
+ */
+function mostrar_carga_producto_cliente(father_id,anho_registro_id,app,model,element_show,oculto_producto) {
+    var element = $(element_show);
+    console.log(element);
+    var producto=$(oculto_producto);
+    console.log(producto);
+    $(document).ready(function()
+    {
+        $("input[name=carga]").on('change',function () {
+            if (model=="Produccion"){
+            var opc=$(this).val();
+            if (father_id!='' && anho_registro_id!='' && opc=="Carga_Masiva"){
+                $('#descargar_archivo-'+model).attr("onclick","cm_descargar_archivo('"+app+"','"+model+"','"+anho_registro_id+"','"+father_id+"')");
+                element.show();
+                producto.hide();
+            }
+            else if (father_id!='' && anho_registro_id!='' && opc=="Carga_Formulario"){
+                producto.show();
+                element.hide();
+            }
+            else{
+                producto.hide();
+                element.hide();
+            }
+        }
+        });
+
+        $("input[name=carga1]").on('change',function () {
+            if (model=="FacturacionCliente"){
+            var opc=$(this).val();
+            if (father_id!='' && anho_registro_id!='' && opc=="Carga_Masiva"){
+                $('#descargar_archivo-'+model).attr("onclick","cm_descargar_archivo('"+app+"','"+model+"','"+anho_registro_id+"','"+father_id+"')");
+                element.show();
+                producto.hide();
+            }
+            else if (father_id!='' && anho_registro_id!='' && opc=="Carga_Formulario"){
+                producto.show();
+                element.hide();
+            }
+            else{
+                producto.hide();
+                element.hide();
+            }
+
+        }
+        });
+
+    });
+}
+
 
 /**
  * @brief Función para traerse el número de clientes/proveedores faltantes por llenar

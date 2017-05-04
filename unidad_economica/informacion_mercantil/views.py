@@ -1,4 +1,3 @@
-
 """
 Sistema Integral de Gestión para las Industrias y el Comercio (SIGESIC)
 
