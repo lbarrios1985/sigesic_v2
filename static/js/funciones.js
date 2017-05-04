@@ -807,9 +807,8 @@ function mostrar_carga(father_id,anho_registro_id,app,model,element_show) {
  */
 function mostrar_carga_producto_cliente(father_id,anho_registro_id,app,model,element_show,oculto_producto) {
     var element = $(element_show);
-    console.log(element);
     var producto=$(oculto_producto);
-    console.log(producto);
+    console.log(element);
     $(document).ready(function()
     {
         $("input[name=carga]").on('change',function () {

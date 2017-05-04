@@ -436,6 +436,10 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="box-footer text-right">
+                    <a type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" href="{% url 'insumo_create' %}">{% trans 'Siguiente' %}</a>
+                </div>
             </div>
         </form>
     </div>
@@ -445,16 +449,22 @@
 {% block extra_footer %}
     <script type="text/javascript">
 
-
-        $(document).ready(function(){
+        $('#id_subunidad').on('change', function(){
             if($('#id_subunidad').val()!='')
             {
                 before_init_datatable("bienes_list","{% url 'produccion_data' %}","subunidad_id",$('#id_subunidad').val());
             }
+        });
+
+        $('#id_cliente_producto').on('change', function(){
             if($('#id_cliente_producto').val()!='')
             {
-                before_init_datatable("clientes_list","{% url 'clientes_data' %}","producto_id",$('#id_cliente_producto').val());
+                before_init_datatable("clientes_list","{% url 'clientes_data' %}","cliente_producto_id",$('#id_cliente_producto').val());
             }
+        });
+
+        $(document).ready(function(){
+
             /** Función a ser agregada en el evento onchange del rif para la verificación de los datos en el SENIAT */
             var onchange = "validar_rif_seniat('{{ form.rif.auto_id }}', '{{ form.nombre_cliente.auto_id }}', true)";
             for (i=0; i<=2; i++) {

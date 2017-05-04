@@ -378,7 +378,7 @@ class ClientesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'onchange':"""
             before_init_datatable("bienes_list","ajax/produccion-data","subunidad_id",$(this).val()),
-            mostrar_carga($(this).val(),$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion")
+            mostrar_carga_producto_cliente(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","Produccion","#carga_template_produccion","#oculto_producto")
             """
         }), required = False,
     )
@@ -464,7 +464,7 @@ class ClientesForm(forms.ModelForm):
             'data-toggle': 'tooltip','title': _("Seleccione el Tipo de Sub-Unidad"),
             'onchange': """
             actualizar_combo(this.value,'bienes_prod_comer','Producto','subunidad','pk','nombre_producto','id_cliente_producto'),
-            mostrar_carga(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes")
+            mostrar_carga_producto_cliente(this.value,$('#id_anho_registro option:selected').text(),"bienes_prod_comer","FacturacionCliente","#carga_template_clientes","#oculto_cliente")
             """
         }),
     )
