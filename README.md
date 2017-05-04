@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Documentación
 ===
 
@@ -127,3 +128,7 @@ para lo cual deberemos acceder a un navegador web y escribir dicha dirección UR
 Para acceder a la documentación del sistema, en donde se especifican las clases, funciones, atributos y métodos 
 utilizados en la aplicación, debe abrir el archivo index.html ubicado en static/docs/sistema
 
+=======
+# sigesic_v2
+SIGESIC
+>>>>>>> 452bb7bb042baa8e1b7ad7f470c22773ac6c76f7
